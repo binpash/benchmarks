@@ -17,30 +17,28 @@ convert_to_seconds() {
     local seconds_before="${seconds%%$delimiter_dec*}"
     local seconds_dec="${seconds#*$delimiter_dec}"
 
-    echo "$minutes" "$seconds_before" "$seconds_dec"
-
     local total_sec=$((minutes * 60000 + seconds_before * 1000 + seconds_dec))
     echo "$total_sec"
 }
 
 cut1=$(awk '{print $3}' "$file1")
 cut2=$(awk '{print $3}' "$file2")
+cutname=$(awk '{print $1}' "$file1")
 
-paste <(echo "$cut1") <(echo "$cut2") > "./temp/joint_cut.txt"
+paste <(echo "$cutname") <(echo "$cut1") <(echo "$cut2") > "./temp/joint_cut.txt"
 
-while read -r num1_og num2_og; do
+while read -r num1 num2 num3; do
 
-    num1=$(convert_to_seconds "$num1_og")
-    num2=$(convert_to_seconds "$num2_og")
+    first=$(convert_to_seconds "$num2")
+    second=$(convert_to_seconds "$num3")
 
-    #TODO, COMPARE WITH SOME CRITERION? 
+    diff=$((first - second))
+    if [ "$diff" -lt 0 ];then
+        diff=$((-diff))
+    fi
 
-    if [[ "$num1" > "$num2" ]]; then
-        echo "$num1_og is greater than $num2_og"
-    elif [[ "$num1" < "$num2" ]]; then
-        echo "$num1_og is less than $num2_og"
-    else
-        echo "$num1_og is equal to $num2_og"
+    if [[ $diff -gt $((first * 2 / 100)) ]];then #does not work for very small times :(
+        echo "$num1" "Deviation in excecution times! Make sure everything runs smoothly."
     fi
 
 done < "./temp/joint_cut.txt"

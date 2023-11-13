@@ -1,4 +1,4 @@
-nfa-regex.sh:                  real 0m13,393s user 0m13,381s sys 0m0,015s
+nfa-regex.sh:                  real 0m12,393s user 0m13,381s sys 0m0,015s
 sort.sh:                       real 0m0,043s user 0m0,038s sys 0m0,005s
 top-n.sh:                      real 0m0,175s user 0m0,192s sys 0m0,000s
 wf.sh:                         real 0m0,184s user 0m0,171s sys 0m0,023s

@@ -45,7 +45,7 @@ oneliners(){
  )
 
     touch "$smpl_times_file"
-    echo executing one-liners $(date) | tee -a "$smpl_times_file"
+#    echo executing one-liners $(date) | tee -a "$smpl_times_file"
     echo '' >> "$smpl_times_file"
 
     for script_input in ${scripts_inputs[@]}

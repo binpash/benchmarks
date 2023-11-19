@@ -1,9 +1,9 @@
-7cdd2b63f89f3309b5cbe52d9e778cccd758152f8185c5d9901639df73ce0b53  ../outputs/nfa-regex.simple.out
-c7ffc4f04d5716eb51897da5c7e58fd95f6df3bd93912d7e61a1b401c0087fd7  ../outputs/sort.simple.out
-9dab91206535125fe7545f7921766889e42c5a0317b8b716e6dc718e4dffd542  ../outputs/top-n.simple.out
-cb998d8cdaa5843d05c16f6db3eb0bf6e4aa55c0759c1b4317b9734da18caed1  ../outputs/wf.simple.out
-d58c59cc778e19711e36403583da45c3c9381bc7d981276a602114e4dd8f8b7f  ../outputs/spell.simple.out
-0b127150ddc999cd82fd7170f67669edbf5a41a95c1f11ac43cd7defc94c0892  ../outputs/diff.simple.out
+a9856f817c956fbcfcbec25a1de60029697c08f99f49aeba446f0ac5bfc1bd2d  ../outputs/nfa-regex.simple.out
+1d1ad2184158a7c73e090d0886a0dc470d3ae10fed9076e580f19f034d28e638  ../outputs/sort.simple.out
+9864992dfaec8fec8fe8a1986960cc76c0b1a10cc387403627c383a61dd238b3  ../outputs/top-n.simple.out
+3de8e10c7eb63cabf2e34972089672d479c0b01ae178a2571273e7b90a6a298a  ../outputs/wf.simple.out
+db4b738eab5848c36e6d6324a6f2c1255d471dab53079a378015bcf26d28fc54  ../outputs/spell.simple.out
+8b8545eb0076e6bc352171d2f347e3afd43fa4e71ed0efba55596a4dfa209e2e  ../outputs/diff.simple.out
 f63dd7cee54b3b8d443d4903932e2fb1a88cb36222d54b2ca9d4b3e54c9c9605  ../outputs/bi-grams.simple.out
-54458a30f22b5324dcd4ccc3731627a520116efad442ffcd2cc876d5d1c732f2  ../outputs/set-diff.simple.out
-b57ae770f89bc1769ab607212f69f529f2a316cd23ddcff112cffb0fb75550f0  ../outputs/sort-sort.simple.out
+ed0a232f606c6b5f1d3308df11adbaab24776816a00390cc057d1ab019bb27d0  ../outputs/set-diff.simple.out
+dd3fa01917960e285de5c9bef231d31b6fa21b6d143403986c9190c631f84797  ../outputs/sort-sort.simple.out

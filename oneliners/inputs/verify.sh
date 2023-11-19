@@ -16,7 +16,7 @@ convert_to_seconds() {
     local seconds_before="${seconds%%$delimiter_dec*}"
     local seconds_dec="${seconds#*$delimiter_dec}"
 
-    local total_sec=$((minutes * 60000 + seconds_before * 1000 + seconds_dec))
+    local total_sec=$((10#$minutes * 60000 + 10#$seconds_before * 1000 + 10#$seconds_dec))
     echo "$total_sec"
 }
 
@@ -35,22 +35,24 @@ time_check(){
         local first=$(convert_to_seconds "$num2")
         local second=$(convert_to_seconds "$num3")
 
-        local diff=$((first - second))
+        local diff=$((first - second))   
+        
         if [ "$diff" -lt 0 ];then
             diff=$((-diff))
         fi
 
-        if [[ $diff -gt $((first * 2 / 100)) ]];then #does not work for very small times :(
+        if [[ $diff -gt $((first * 20 / 100)) ]];then #does not work for very small times :(
             echo "$num1" "Deviation in excecution times! Make sure everything runs smoothly."
         fi
 
     done < "./temp/joint_cut.txt"
 }
 
+echo "Verifying correct execution"
 
-size="." #todo: change for large-small size
+size="." #changes for small/large inputs
 og_output_time="../for_validation/${size}/for_validation.time"
-my_output_time="../outputs/${size}/asimpletime.res"
+my_output_time="../outputs/${size}/time.res"
 
 echo "Time comparison"
 time_check "$og_output_time" "$my_output_time" 

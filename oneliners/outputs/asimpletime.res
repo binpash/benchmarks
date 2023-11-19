@@ -1,9 +1,0 @@
-nfa-regex.sh:                  real 0m12,393s user 0m13,381s sys 0m0,015s
-sort.sh:                       real 0m0,043s user 0m0,038s sys 0m0,005s
-top-n.sh:                      real 0m0,175s user 0m0,192s sys 0m0,000s
-wf.sh:                         real 0m0,184s user 0m0,171s sys 0m0,023s
-spell.sh:                      real 0m0,201s user 0m0,217s sys 0m0,054s
-diff.sh:                       real 0m0,074s user 0m0,104s sys 0m0,011s
-bi-grams.sh:                   real 0m0,268s user 0m0,293s sys 0m0,020s
-set-diff.sh:                   real 0m0,057s user 0m0,060s sys 0m0,004s
-sort-sort.sh:                  real 0m0,062s user 0m0,053s sys 0m0,014s

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Find all 2-grams in a piece of text
 
-IN=${IN:-$PASH_TOP/evaluation/benchmarks/oneliners/input/1G.txt}
+IN=${IN:-./input_txt/100M.txt}
 
 . ../bi-gram.aux.sh
 

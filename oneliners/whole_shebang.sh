@@ -3,11 +3,11 @@
 echo "Start"
 echo " || "
 cd inputs
-source ./inputs.sh
+source ./inputs.sh 
 echo " || "
-source ./run.sh --small
+source ./run.sh
 echo " || "
-source ./verify.sh --small
+source ./verify.sh
 echo " || "
 source ./cleanup.sh
 cd ..

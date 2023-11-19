@@ -1,5 +1,6 @@
-
 #!/bin/bash    
+#This is just for testing. DON'T LOOK
+
 size='.'
 file1="../for_validation/${size}/for_validation.time"
 file2="../outputs/${size}/asimpletime.res"

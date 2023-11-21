@@ -1,5 +1,5 @@
 ## Max-Temp
-> Downloads and processes temperature data
+> Downloads and processes large temperature data set
 
 ## Running Max-Temp
 

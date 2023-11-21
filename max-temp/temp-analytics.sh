@@ -1,11 +1,15 @@
 #!/bin/bash
+#https://www1.ncdc.noaa.gov/pub/data/noaa/ seems to be working yay!
+#!/bin/bash
 
 FROM=${FROM:-2015}
 TO=${TO:-2015}
-IN=${IN:-'http://ndr.md/data/noaa/'}
+IN=${IN:-'https://www1.ncdc.noaa.gov/pub/data/noaa/'}
 fetch=${fetch:-"curl -s"}
 
-data_file=temperatures.txt
+data_dir=../data
+outputs_dir=../outputs
+data_file=${data_dir}/temperatures.txt
 
 ## Downloading and extracting
 seq $FROM $TO |
@@ -22,18 +26,18 @@ seq $FROM $TO |
 
 ## Processing
 cat "${data_file}" |
-  cut -c 89-92 |
+  cut -c 88-92 |
   grep -v 999 |
   sort -rn |
-  head -n1 > max.txt
+  head -n1 > ${outputs_dir}/max.txt
 
 cat "${data_file}" |
-  cut -c 89-92 |
+  cut -c 88-92 |
   grep -v 999 |
   sort -n |
-  head -n1 > min.txt
+  head -n1 > ${outputs_dir}/min.txt
 
 cat "${data_file}" |
-  cut -c 89-92 |
+  cut -c 88-92 |
   grep -v 999 |
-  awk "{ total += \$1; count++ } END { print total/count }" > average.txt 
+  awk "{ total += \$1; count++ } END { print total/count }" > ${outputs_dir}/average.txt 

@@ -1,6 +1,6 @@
 ## Benchmark Suite
 
-> _It's a suite that has benchmarks in it. For now, only oneliners is set up_
+> _It's a suite that has benchmarks in it. For now, oneliners & max-temp are set up_
 
 ## Running Benchmarks
 

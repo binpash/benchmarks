@@ -1,5 +1,6 @@
 #!/bin/bash
 #https://www1.ncdc.noaa.gov/pub/data/noaa/ works!
+## KK: not exactly. It returns a different format!
 IN=${IN:-'https://atlas-group.cs.brown.edu/data/noaa/ '}
 
 sed "s;^;$IN;" |

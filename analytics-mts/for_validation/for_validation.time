@@ -1,0 +1,4 @@
+../1.sh:             real 1m54,678s user 1m59,409s sys 0m5,392s
+../2.sh:             real 1m56,377s user 2m0,940s sys 0m5,611s
+../3.sh:             real 2m33,364s user 2m39,866s sys 0m5,845s
+../4.sh:             real 0m40,914s user 0m49,056s sys 0m4,892s

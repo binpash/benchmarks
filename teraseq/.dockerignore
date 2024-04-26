@@ -1,0 +1,15 @@
+5TERA/
+5TERA-short/
+5TERA3/
+5TERA3-merge/
+TERA3/
+Akron5Seq/
+mouse_SIRV/
+dRNASeq/
+RiboSeq/
+RNASeq/
+
+.dockerignore
+Dockerfile
+
+README.md

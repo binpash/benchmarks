@@ -7,12 +7,6 @@ IN=$PASH_TOP/evaluation/benchmarks/dependency_untangling/input/
 OUT=$PASH_TOP/evaluation/benchmarks/dependency_untangling/output/
 IN_NAME=$PASH_TOP/evaluation/benchmarks/dependency_untangling/input/100G.txt
 
-if [ "$1" == "-c" ]; then
-    rm -rf ${IN}/packages
-    rm -rf ${OUT}
-    exit 
-fi
-
 setup_dataset() {
   # download the packages for the package building
   if [ ! -f ${IN}/packages ]; then

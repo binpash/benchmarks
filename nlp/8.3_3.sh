@@ -2,13 +2,13 @@
 # tag: compare_exodus_genesis.sh
 # set -e
 
-IN=${IN:-$PASH_TOP/evaluation/benchmarks/nlp/input/pg/}
-INPUT2=${INPUT2:-$PASH_TOP/evaluation/benchmarks/nlp/input/exodus}
-OUT=${OUT:-$PASH_TOP/evaluation/benchmarks/nlp/output/8.3_3/}
-ENTRIES=${ENTRIES:-1060}
-mkdir -p $OUT
+IN=${IN:-$PWD/pg}
+OUT=${OUT:-$PWD/output/8_3_3/}
+ENTRIES=${ENTRIES:-10}
+mkdir -p "$OUT"
 
 run_tests() {
+    INPUT2=${INPUT2:-$PWD/exodus}
     cat $IN/$input | tr -sc '[A-Z][a-z]' '[\012*]' | sort -u > ${OUT}/${input}1.types
     tr -sc '[A-Z][a-z]' '[\012*]' < ${INPUT2} | sort -u > ${OUT}/${input}2.types
     sort $OUT/${input}1.types ${OUT}/${input}2.types ${OUT}/${input}2.types | uniq -c | head 
@@ -21,4 +21,3 @@ do
 done
 
 echo 'done';
-rm -rf "${OUT}"

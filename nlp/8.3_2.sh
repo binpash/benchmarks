@@ -2,9 +2,9 @@
 # tag: find_anagrams.sh
 # set -e
 
-IN=${IN:-$PASH_TOP/evaluation/benchmarks/nlp/input/pg/}
-OUT=${OUT:-$PASH_TOP/evaluation/benchmarks/nlp/output/8.3_2/}
-ENTRIES=${ENTRIES:-1060}
+IN=${IN:-$PWD/pg}
+OUT=${OUT:-$PWD/output/8_3_2/}
+ENTRIES=${ENTRIES:-10}
 mkdir -p "$OUT"
 
 run_tests() {
@@ -21,4 +21,3 @@ do
 done
 
 echo 'done';
-rm -rf "${OUT}"

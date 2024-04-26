@@ -2,9 +2,9 @@
 # tag: trigram_rec
 # set -e
 
-IN=${IN:-$PASH_TOP/evaluation/benchmarks/nlp/input/pg/}
-OUT=${OUT:-$PASH_TOP/evaluation/benchmarks/nlp/output/6_1/}
-ENTRIES=${ENTRIES:-1060}
+IN=${IN:-$PWD/pg}
+OUT=${OUT:-$PWD/output/6_1/}
+ENTRIES=${ENTRIES:-10}
 mkdir -p "$OUT"
 
 trigrams() {
@@ -19,9 +19,8 @@ export -f trigrams
 
 for input in $(ls ${IN} | head -n ${ENTRIES})
 do
-    cat $IN"/"$input | grep 'the land of' | trigrams $IN/${input} | sort -nr | sed 5q > ${OUT}/${input}.out0
-    cat $IN"/"$input | grep 'And he said' | trigrams $IN/${input} | sort -nr | sed 5q > ${OUT}/${input}.out1
+    cat $IN"/"$input | grep 'the land of' | trigrams ${input} | sort -nr | sed 5q > ${OUT}/${input}.out0
+    cat $IN"/"$input | grep 'And he said' | trigrams ${input} | sort -nr | sed 5q > ${OUT}/${input}.out1
 done
 
 echo 'done';
-rm -rf "${OUT}"

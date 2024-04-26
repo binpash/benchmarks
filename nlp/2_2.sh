@@ -2,9 +2,9 @@
 # tag: count_vowel_seq
 # set -e 
 
-IN=${IN:-$PASH_TOP/evaluation/benchmarks/nlp/input/pg/}
-OUT=${OUT:-$PASH_TOP/evaluation/benchmarks/nlp/output/2_2/}
-ENTRIES=${ENTRIES:-1060}
+IN=${IN:-$PWD/pg/}
+OUT=${OUT:-$PWD/output/2_2/}
+ENTRIES=${ENTRIES:-10}
 mkdir -p "$OUT"
 
 for input in $(ls ${IN} | head -n ${ENTRIES})
@@ -13,4 +13,3 @@ do
 done
 
 echo 'done';
-rm -rf "${OUT}"

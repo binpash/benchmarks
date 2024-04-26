@@ -2,9 +2,9 @@
 # tag: sort_words_by_num_of_syllables
 # set -e
 
-IN=${IN:-$PASH_TOP/evaluation/benchmarks/nlp/input/pg/}
-OUT=${OUT:-$PASH_TOP/evaluation/benchmarks/nlp/output/8.1/}
-ENTRIES=${ENTRIES:-1060}
+IN=${IN:-$PWD/pg}
+OUT=${OUT:-$PWD/output/8_1/}
+ENTRIES=${ENTRIES:-10}
 mkdir -p "$OUT"
 
 run_tests() {
@@ -19,4 +19,3 @@ do
 done
 
 echo 'done';
-rm -rf "${OUT}"

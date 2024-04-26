@@ -1,6 +1,6 @@
 NLP 
 
-> Does common natural language processing on book texts.
+> Natural-language processing out of UNIX and Linux utilities
 
 ## Downloading Inputs
 

@@ -1,5 +1,9 @@
-IN=$PASH_TOP/evaluation/benchmarks/mediaconv/input/
-OUT=$PASH_TOP/evaluation/benchmarks/mediaconv/output/
+#!/bin/bash
+
+cd $(dirname $0)
+
+IN=${IN:./}
+OUT=${OUT:./}
 
 rm -rf ${IN}/jpg
 rm -rf ${IN}/log_data

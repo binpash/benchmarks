@@ -1,4 +1,4 @@
-IN=$PASH_TOP/evaluation/benchmarks/mediaconv/input/
+IN=./input/
 mkdir -p ${IN}/deps/
 # install dependencies
 pkgs='ffmpeg unrtf imagemagick libarchive-tools libncurses5-dev libncursesw5-dev zstd liblzma-dev libbz2-dev zip unzip nodejs tcpdump'

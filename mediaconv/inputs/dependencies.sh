@@ -27,6 +27,7 @@ fi
 
 if ! dpkg -s "makedeb-makepkg" >/dev/null 2>&1 ; then
     cd ${IN}/deps/
+    # TODO pac-n4 machine is down
     wget http://pac-n4.csail.mit.edu:81/pash_data/makedeb.deb
     sudo dpkg -i makedeb.deb
     echo 'Makedeb installed'

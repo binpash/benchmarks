@@ -1,6 +1,8 @@
 #!/bin/sh
 
 CFLAGS="-DLINUXV=54114 -DGLIBCV=231 -DHASIPv6 -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DHAS_STRFTIME -DLSOF_VSTR=\"5.4.114\" -O -Wno-format-truncation"
+export CPATH_TEMP=$CPATH
+export CPATH="$(pwd)/include:$(pwd)/lib/dialects/linux:$(pwd)/lib:/usr/include/tirpc:$(pwd)/src"
 
 # Build lib/liblsof.a
 cd lsof
@@ -31,3 +33,4 @@ sed '/VN/s/.ds VN \(.*\)/#define LSOF_VERSION "\1"/' < version >> version.h
 
 # Now build the lsof executable
 cc $CFLAGS -o lsof *.c -L./lib -lnsl -ltirpc
+export CPATH=$CPATH_TEMP

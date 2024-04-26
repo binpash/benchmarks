@@ -3,9 +3,9 @@
 # exit when any command fails
 #set -e
 
-IN=$PASH_TOP/evaluation/benchmarks/dependency_untangling/input/
-OUT=$PASH_TOP/evaluation/benchmarks/dependency_untangling/output/
-IN_NAME=$PASH_TOP/evaluation/benchmarks/dependency_untangling/input/100G.txt
+IN=$PASH_TOP/evaluation/benchmarks/mediaconv/input/
+OUT=$PASH_TOP/evaluation/benchmarks/mediaconv/output/
+IN_NAME=$PASH_TOP/evaluation/benchmarks/mediaconv/input/100G.txt
 
 # TODO The pac-n4.csail.mit.edu server is down, can't get inputs
 if [ "$1" == "--small" ]; then

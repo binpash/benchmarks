@@ -1,5 +1,5 @@
-IN=$PASH_TOP/evaluation/benchmarks/dependency_untangling/input/
-OUT=$PASH_TOP/evaluation/benchmarks/dependency_untangling/output/
+IN=$PASH_TOP/evaluation/benchmarks/mediaconv/input/
+OUT=$PASH_TOP/evaluation/benchmarks/mediaconv/output/
 
 rm -rf ${IN}/jpg
 rm -rf ${IN}/log_data

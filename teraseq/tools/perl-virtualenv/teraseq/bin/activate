@@ -1,0 +1,8 @@
+eval $(/usr/bin/perl -Mlocal::lib="/root/TERA-Seq_manuscript/tools/perl-virtualenv/teraseq")
+
+export _PV_OLD_PS1="$PS1"
+export PS1="(`basename /root/TERA-Seq_manuscript/tools/perl-virtualenv/teraseq`)$PS1"
+
+deactivate() {
+	. /root/TERA-Seq_manuscript/tools/perl-virtualenv/teraseq/bin/deactivate
+}

@@ -1,11 +1,5 @@
 #!/bin/bash
 
-set -e # dliu
-
-cd /root/TERA-Seq_manuscript/samples # dliu
-
-source ../PARAMS.sh
-
 samples=(
     "hsa.dRNASeq.HeLa.polyA.REL5.1"
     "hsa.dRNASeq.HeLa.polyA.PNK.REL5.1"
@@ -14,7 +8,7 @@ samples=(
 echo ">>> MAKE DIRECTORY STRUCTURE <<<"
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$i
     echo " Working for" $i
 
     mkdir -p $sdir/logfiles || true # dliu
@@ -25,7 +19,7 @@ done
 echo ">>> CHECK FASTQ <<<"
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$i
     echo " Working for" $i
 
     if [ -f "$sdir/fastq/reads.1.fastq.gz" ]; then

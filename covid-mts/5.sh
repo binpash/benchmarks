@@ -14,4 +14,4 @@ END {
        printf("\t%s", hours[d b]);
      printf("\n");
    }
-}' > out
+}'

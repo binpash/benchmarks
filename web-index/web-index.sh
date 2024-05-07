@@ -1,8 +1,8 @@
 #!/bin/bash
-
-IN=${IN:-$PASH_TOP/evaluation/benchmarks/web-index/input/5.txt}
-WEB_INDEX_DIR=${WEB_INDEX_DIR:-$PASH_TOP/evaluation/benchmarks/web-index/input}
-WIKI=${WIKI:-$PASH_TOP/evaluation/benchmarks/web-index/input/}
+PASH_TOP=${PASH_TOP:-$(git rev-parse --show-toplevel)}
+IN=${IN:-$PASH_TOP/web-index/inputs/index.txt}
+WEB_INDEX_DIR=${WEB_INDEX_DIR:-$PASH_TOP/web-index/inputs}
+WIKI=${WIKI:-$PASH_TOP/web-index/}
 
 mkfifo {1,2,3}grams
 
@@ -143,6 +143,5 @@ cat 3grams |
     trigrams_aux |
     sort |
     uniq -c |
-    sort -rn # > 3-grams.txt
+    sort -rn > 3-grams.txt
 
-rm {1,2,3}grams

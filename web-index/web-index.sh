@@ -1,7 +1,7 @@
 #!/bin/bash
 PASH_TOP=${PASH_TOP:-$(git rev-parse --show-toplevel)}
 IN=${IN:-$PASH_TOP/web-index/input/index.txt}
-WEB_INDEX_DIR=${WEB_INDEX_DIR:-$PASH_TOP/web-index/inputs}
+WEB_INDEX_DIR=${WEB_INDEX_DIR:-$PASH_TOP/web-index/input}
 WIKI=${WIKI:-$PASH_TOP/web-index/}
 
 mkfifo {1,2,3}grams
@@ -115,13 +115,13 @@ extract_text()
 
 export -f extract_text
 
-cat $IN |
+head $IN |
   sed "s#^#$WIKI#" |
   extract_text |
   tr -cs A-Za-z '\n' |
   tr A-Z a-z |
-  grep -vwFf $WEB_INDEX_DIR/stopwords.txt |
-  $WEB_INDEX_DIR/stem-words.js |
+  grep -vwFf $WIKI/stopwords.txt |
+  $WIKI/stem-words.js |
   tee 3grams 2grams 1grams > /dev/null &
 
 cat 1grams |
@@ -145,3 +145,4 @@ cat 3grams |
     uniq -c |
     sort -rn > 3-grams.txt
 
+# rm -f {1,2,3}grams {1,2,3}-grams.txt s2 s3

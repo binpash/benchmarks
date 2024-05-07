@@ -2,7 +2,7 @@
 PASH_TOP=${PASH_TOP:-$(git rev-parse --show-toplevel)}
 WIKI=${WIKI:-$PASH_TOP/web-index}
 
-head $WIKI/inputs/index.txt |
+head $WIKI/input/index.txt |
 sed "s#^#$WIKI#" |
 iconv -c -t ascii//TRANSLIT |
 pandoc +RTS -K64m -RTS --from html --to plain --quiet |

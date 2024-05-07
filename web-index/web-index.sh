@@ -1,6 +1,6 @@
 #!/bin/bash
 PASH_TOP=${PASH_TOP:-$(git rev-parse --show-toplevel)}
-IN=${IN:-$PASH_TOP/web-index/inputs/index.txt}
+IN=${IN:-$PASH_TOP/web-index/input/index.txt}
 WEB_INDEX_DIR=${WEB_INDEX_DIR:-$PASH_TOP/web-index/inputs}
 WIKI=${WIKI:-$PASH_TOP/web-index/}
 

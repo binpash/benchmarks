@@ -15,8 +15,8 @@ if ! dpkg -s pandoc > /dev/null 2>&1 ; then
 fi
 
 if ! dpkg -s nodejs > /dev/null 2>&1 ; then
-    # node version 10+ does not need external npm
-    curl -fsSL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    # node version 18+ does not need external npm
+    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
     sudo apt-get install -y nodejs
 fi
 

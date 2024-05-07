@@ -5,17 +5,18 @@
 wiki_archive="https://dumps.wikimedia.org/other/static_html_dumps/current/en/wikipedia-en-html.tar.7z"
 BENCH_TOP=${BENCH_TOP:-$(git rev-parse --show-toplevel)}
 
-. "$BENCH_TOP/scripts/utils.sh"
+# . "$BENCH_TOP/scripts/utils.sh"
+sudo apt-get install unzip
 
-[ "$1" = "-c" ] && rm-files en/ *.7z *.tar  500.txt 1000.txt full small
+[ "$1" = "-c" ] && rm -rf en/ *.7z *.tar  500.txt 1000.txt full small
 
 setup_dataset() {
   rm -rf ../1-grams.txt ../2-grams.txt 
   
   ## Downloading the dataset needs to happen for both small and large
   if [[ ! -d ./en ]]; then
-    wget $wiki_archive || eexit "cannot fetch wikipedia"
-    7za x wikipedia-en-html.tar.7z
+    # wget $wiki_archive || eexit "cannot fetch wikipedia"
+    # 7za x wikipedia-en-html.tar.7z
     tar -xvf wikipedia-en-html.tar
     wget http://ndr.md/data/wikipedia/index.txt # || eexit "cannot fetch wiki indices"
     # It is actually OK if we don't have this index since we download the 500/1000 below

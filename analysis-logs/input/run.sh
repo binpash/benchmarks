@@ -12,8 +12,6 @@ mkdir -p $results_dir
 
 export INPUT=${inputs_dir}/access.log
 script="${eval_dir}/nginx.sh"
-echo $(basename "$script")
-echo "$results_dir/$(basename "$script").out"
 
-echo "Executing nginx.sh"
+echo "Executing $(basename "$script")"
 $shell "$script" > "$results_dir/$(basename "$script").out"

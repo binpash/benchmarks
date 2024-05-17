@@ -1,0 +1,7 @@
+eval $(/usr/bin/perl -Mlocal::lib="--deactivate-all,/root/TERA-Seq_manuscript/tools/perl-virtualenv/teraseq")
+
+if [ -n "$_PV_OLD_PS1" ]; then
+    export PS1="$_PV_OLD_PS1"
+    unset _PV_OLD_PS1
+    unset deactivate
+fi

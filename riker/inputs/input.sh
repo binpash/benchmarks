@@ -9,12 +9,13 @@ git checkout 005e014e1abdadb2493d8b3ce87b37a2c0a2351d
 cd ..
 wget https://www.lua.org/ftp/lua-5.4.3.tar.gz
 tar xzf lua-5.4.3.tar.gz && mv lua-5.4.3 lua
+rm -f lua-5.4.3.tar.gz
 
 git clone https://github.com/memcached/memcached.git
 cd memcached
 git checkout c472369fed5981ba8c004d426cee62d5165c47ca
 ./autogen.sh
-./configure --disable-dependency-tracking
+./configure
 
 cd ..
 git clone https://github.com/redis/redis

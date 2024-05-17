@@ -1,7 +1,7 @@
 #!/bin/bash
 # encrypt all files in a directory 
-IN=${IN:-$PASH_TOP/evaluation/benchmarks/dependency_untangling/input/pcap_data}
-OUT=${OUT:-$PASH_TOP/evaluation/benchmarks/dependency_untangling/input/output/encrypt}
+IN=${IN:-inputs/pcap_data}
+OUT=${OUT:-outputs/encrypt}
 LOGS=${OUT}/logs
 mkdir -p ${LOGS}
 run_tests() {
@@ -10,7 +10,7 @@ run_tests() {
 
 export -f run_tests
 pkg_count=0
-
+echo $IN
 for item in ${IN}/*;
 do
     pkg_count=$((pkg_count + 1));

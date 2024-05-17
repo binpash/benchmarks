@@ -1,11 +1,8 @@
-#/bin/bash
+#!/bin/bash
 
 cd ..
 benchmarks="lsof lua memcached redis sqlite vim xz"
-tests="test"
 
-for benchmark in $tests; do
-    source $benchmark"_venv/bin/activate"
+for benchmark in $benchmarks; do
     ./$benchmark"_build.sh"
-    deactivate
 done

@@ -10,3 +10,4 @@ tr -cs A-Za-z '\n' |
 tr A-Z a-z |
 grep -vwFf $WIKI/stopwords.txt |
 $WIKI/stem-words.js
+

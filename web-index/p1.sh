@@ -15,3 +15,4 @@ export -f page_per_line
 # xargs:
 # add `-t` for debugging
 cat $WIKI/input/index.txt | xargs -0 -d '\n' -n 1 bash -c 'page_per_line "$@"'
+

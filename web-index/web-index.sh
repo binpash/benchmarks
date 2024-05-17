@@ -143,6 +143,7 @@ cat 3grams |
     trigrams_aux |
     sort |
     uniq -c |
-    sort -rn > 3-grams.txt
+    sort -rn > 3-grams.txt &
 
 # rm -f {1,2,3}grams {1,2,3}-grams.txt s2 s3
+

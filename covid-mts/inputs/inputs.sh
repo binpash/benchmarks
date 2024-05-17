@@ -18,7 +18,8 @@ setup_dataset() {
     echo "Downloading and decompressing small-size dataset..."
     # TODO: Not implemented; link is broken
     # curl -sf 'http://pac-n4.csail.mit.edu:81/pash_data/small/in_small.csv' > "$inputs_dir/in_small.csv"
-  else [[ ! -f "$inputs_dir/in.csv" && "$1" == "--full" ]]
+  elif [[ ! -f "$inputs_dir/in.csv" ]]
+  then
     echo "Downloading and decompressing full-size dataset..."
     curl -sf 'https://www.balab.aueb.gr/~dds/oasa-2021-01-08.bz2' | bzip2 -d > "$inputs_dir/in.csv"
   fi

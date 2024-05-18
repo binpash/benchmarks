@@ -1,6 +1,7 @@
 #!/bin/bash
-PROXY=$([ "$(hostname)" == "deathstar" ] && echo "gamma.ndr.md" || echo "localhost")
-WIKI="$HOME/wikipedia/"
+PASH_TOP=${PASH_TOP:-$(git rev-parse --show-toplevel)}
+WIKI=${WIKI:-$PASH_TOP/web-index}
+
 export WIKI
 # Squash all HTML for each URL into a single line, streaming fashion
 # It also prefixes with the URL
@@ -13,4 +14,5 @@ export -f page_per_line
 
 # xargs:
 # add `-t` for debugging
-cat $WIKI/index_h_100.txt | xargs -0 -d '\n' -n 1 bash -c 'page_per_line "$@"'
+cat $WIKI/input/index.txt | xargs -0 -d '\n' -n 1 bash -c 'page_per_line "$@"'
+

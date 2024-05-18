@@ -1,6 +1,10 @@
-DIR=$PASH_TOP/evaluation/scripts/input/
+#!/bin/bash
+
+REPO_TOP=$(git rev-parse --show-toplevel)
+DIR=$REPO_TOP/analysis-pcap/input
 mkdir -p $DIR
 cd $DIR
+
 if [[ ! -f 201011271400.dump.gz ]]
 then
     # too slow

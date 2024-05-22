@@ -1,9 +1,0 @@
-a9856f817c956fbcfcbec25a1de60029697c08f99f49aeba446f0ac5bfc1bd2d  ../outputs/nfa-regex.simple.out
-1d1ad2184158a7c73e090d0886a0dc470d3ae10fed9076e580f19f034d28e638  ../outputs/sort.simple.out
-9864992dfaec8fec8fe8a1986960cc76c0b1a10cc387403627c383a61dd238b3  ../outputs/top-n.simple.out
-3de8e10c7eb63cabf2e34972089672d479c0b01ae178a2571273e7b90a6a298a  ../outputs/wf.simple.out
-db4b738eab5848c36e6d6324a6f2c1255d471dab53079a378015bcf26d28fc54  ../outputs/spell.simple.out
-8b8545eb0076e6bc352171d2f347e3afd43fa4e71ed0efba55596a4dfa209e2e  ../outputs/diff.simple.out
-f63dd7cee54b3b8d443d4903932e2fb1a88cb36222d54b2ca9d4b3e54c9c9605  ../outputs/bi-grams.simple.out
-ed0a232f606c6b5f1d3308df11adbaab24776816a00390cc057d1ab019bb27d0  ../outputs/set-diff.simple.out
-dd3fa01917960e285de5c9bef231d31b6fa21b6d143403986c9190c631f84797  ../outputs/sort-sort.simple.out

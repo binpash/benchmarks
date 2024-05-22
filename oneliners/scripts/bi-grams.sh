@@ -1,15 +1,12 @@
 #!/bin/bash
 # Find all 2-grams in a piece of text
 
-IN=${IN:-./input_txt/100M.txt}
+. ./scripts/bi-gram.aux.sh
 
-. ../bi-gram.aux.sh
-
-cat $IN |
-  tr -cs A-Za-z '\n' |
+cat $1 |
+  tr -c 'A-Za-z' '[\n*]' | 
+  grep -v "^\s*$" |
   tr A-Z a-z |
   bigrams_aux |
   sort |
   uniq
-
-

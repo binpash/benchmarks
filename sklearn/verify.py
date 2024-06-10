@@ -8,9 +8,9 @@ import numpy as np
 
 max_iter = 100
 
-dataset = datasets.fetch_covtype(data_home="inputs", download_if_missing=False)
+dataset = datasets.fetch_rcv1(data_home="inputs")
 
-X_train, X_test, y_train, y_test = train_test_split(dataset.data, dataset.target, 
+X_train, X_test, y_train, y_test = train_test_split(dataset.data, np.argmax(dataset.target.toarray()), 
                                                     test_size=0.2, 
                                                     random_state=0)
 

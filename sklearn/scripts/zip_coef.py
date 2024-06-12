@@ -7,7 +7,7 @@ fold_coefs_ = []
 with open(sys.argv[1], 'r+b') as file1:
     model = pickle.load(file1)
 
-    for i in range(1, 8):
+    for i in range(1, int(sys.argv[2]) + 1):
         with open(f'./tmp/result_{i}.obj', 'r+b') as file2:
             fold_coefs_.append(pickle.load(file2))
 

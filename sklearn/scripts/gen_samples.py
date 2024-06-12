@@ -3,7 +3,7 @@ from sklearn import datasets
 import pickle
 import numpy as np
 
-raw_data = datasets.fetch_covtype(data_home="inputs", download_if_missing=False)
+raw_data = datasets.fetch_rcv1(data_home="inputs", download_if_missing=False)
     
 data = train_test_split(raw_data.data, 
                         np.argmax(raw_data.target.toarray()), 

@@ -67,16 +67,3 @@ d=0
 
 file-enc "bash"
 file-enc "pash"        "--width 8 --r_split --parallel_pipelines --profile_driven -d $d"
-
-# cd "$(realpath $(dirname "$0"))"
-# mkdir -p $out_dir
-
-# script="${eval_dir}/compress_files.sh"
-# echo "Executing $(basename "$script")"
-# scriptname=$(basename "script")
-# time_file="$out_dir/$scriptname.time"
-# time "$shell" "$script" "$in_dir" "$out_dir/compress" > "$out_dir/$(basename "$script").out" 2> $time_file
-
-# script="${eval_dir}/dependencies.sh"
-# echo "Executing $(basename "$script")"
-# "$shell" "$script" > "$out_dir/$(basename "$script").out"

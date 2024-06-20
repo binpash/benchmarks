@@ -1,6 +1,7 @@
 from sklearn.linear_model import _logistic
 import pickle
 import sys
+import os
 
 file_args = []
 for file_name in sys.argv[1:8]:
@@ -62,5 +63,5 @@ fold_coefs_ = _logistic.Parallel(n_jobs=model.n_jobs, verbose=model.verbose, pre
     for class_, warm_start_coef_ in zip(classes, warm_start_coef)
 )
 
-with open('./tmp/fold_coef.obj', 'w+b') as file:
+with open(f'{os.environ.get("TMP","./tmp")}/fold_coef.obj', 'w+b') as file:
     pickle.dump(fold_coefs_, file)

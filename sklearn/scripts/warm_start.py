@@ -1,4 +1,5 @@
 import sys
+import os
 import numpy as np
 import pickle
 
@@ -17,11 +18,11 @@ if warm_start_coef is not None and model.fit_intercept:
     )
 
 if multi_class == "multinomial":
-    with open('./tmp/classes.obj', 'wb') as file:
+    with open(f'{os.environ.get("TMP","./tmp")}/classes.obj', 'wb') as file:
         pickle.dump([None], file)
     warm_start_coef = [warm_start_coef]
 if warm_start_coef is None:
     warm_start_coef = [None] * n_classes
 
-with open('./tmp/warm_start_coef.obj', 'w+b') as file:
+with open(f'{os.environ.get("TMP","./tmp")}/warm_start_coef.obj', 'w+b') as file:
     pickle.dump(warm_start_coef, file)

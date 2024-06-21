@@ -1,6 +1,7 @@
 from sklearn.linear_model import _logistic
 import pickle
 import sys
+import os
 
 file_args = []
 for file_name in sys.argv[1:7]:
@@ -33,5 +34,5 @@ result = _logistic._logistic_regression_path(
     sample_weight=None,
 )
 
-with open(f'./tmp/result_{class_}.obj', 'wb') as file:
+with open(f'{os.environ.get("TMP","./tmp")}/result_{class_}.obj', 'wb') as file:
     pickle.dump(result, file)

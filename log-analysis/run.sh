@@ -70,9 +70,6 @@ log-analysis() {
 
         if [[ "$1" == "bash" ]]; then
             (time $script_file $input_dir $output_dir > $output_file) 2> $time_file
-        else
-            params="$2"
-            (time $PASH_TOP/pa.sh $params --log_file $log_file $script_file $input_dir $output_dir > $output_file) 2> $time_file
         fi
 
         # Generate SHA-256 hash and delete output file
@@ -89,4 +86,3 @@ log-analysis() {
 d=0
 
 log-analysis "bash"
-log-analysis "pash"        "--width 8 --r_split -d $d --parallel_pipelines --profile_driven"

@@ -43,9 +43,6 @@ file-enc() {
         # output_file contains "done" when run successfully. The real outputs are under output_dir/
         if [[ "$1" == "bash" ]]; then
             (time bash $script_file $input_dir $output_dir > $output_file ) 2> $time_file
-        else
-            params="$2"
-            (time $PASH_TOP/pa.sh $params --log_file $log_file $script_file $input_dir $output_dir > $output_file) 2> $time_file
         fi
 
         rm -rf "$output_dir"
@@ -57,4 +54,3 @@ file-enc() {
 d=0
 
 file-enc "bash"
-file-enc "pash"        "--width 8 --r_split --parallel_pipelines --profile_driven -d $d"

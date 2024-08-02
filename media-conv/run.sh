@@ -92,9 +92,6 @@ media-conv() {
 
         if [[ "$1" == "bash" ]]; then
             (time $script_file $input_dir $output_dir > $output_file) 2> $time_file
-        else
-            params="$2"
-            (time $PASH_TOP/pa.sh $params --log_file $log_file $script_file $input_dir $output_dir > $output_file) 2> $time_file
         fi
 
         # Generate hash files for each converted file in output_dir
@@ -113,6 +110,4 @@ media-conv() {
 d=0
 
 media-conv "bash"
-media-conv "pash"        "--width 8 --r_split -d $d --parallel_pipelines --profile_driven"
-
 

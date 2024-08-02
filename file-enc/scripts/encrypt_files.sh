@@ -1,20 +1,20 @@
 #!/bin/bash
 # encrypt all files in a directory 
-IN=$1
-OUT=$2
-LOGS=${OUT}/logs
-mkdir -p ${LOGS}
-run_tests() {
-    openssl enc -aes-256-cbc -pbkdf2 -iter 20000 -in $1 -out $OUT/$(basename $1).enc -k 'key'
-}
+mkdir -p $2
 
-export -f run_tests
-pkg_count=0
-echo $IN
-for item in ${IN}/*;
+pure_func() {
+    openssl enc -aes-256-cbc -pbkdf2 -iter 20000 -k 'key'
+}
+export -f pure_func
+
+# item=$1
+# output_name=$(basename $item).enc
+# hdfs dfs -cat -ignoreCrc $item | pure_func > $2/$output_name
+
+for item in $(ls ${1});
 do
-    pkg_count=$((pkg_count + 1));
-    run_tests $item > ${LOGS}/${pkg_count}.log
+    output_name=$(basename $item).enc
+    cat $item | pure_func > $2/$output_name
 done
 
 echo 'done';

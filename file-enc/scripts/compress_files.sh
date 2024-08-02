@@ -1,21 +1,11 @@
 #!/bin/bash
 # compress all files in a directory
-IN=$1
-OUT=$2
-LOGS=${OUT}/logs
-mkdir -p $LOGS
-run_tests() {
-    name=$(basename $1).zip
-    zip -r ${OUT}/$name $1
-}
+mkdir -p $2
 
-export -f run_tests
-
-pkg_count=0
-for item in ${IN}/*;
+for item in $(ls $1);
 do
-    pkg_count=$((pkg_count + 1));
-    run_tests $item > "${LOGS}"/"$pkg_count.log"
+    output_name=$(basename $item).zip
+    cat $item | gzip -c > $2/$output_name
 done
 
 echo 'done';

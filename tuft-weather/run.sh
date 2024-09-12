@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
 input="input"
+city="Athens"
 
 # Remove missing values, sort by date and combine month and day into one column
 cat "$input" \
+    | grep "$city" \
     | grep -v "\-99" \
-    | sort -n \
-    | awk '{ printf "%02d-%02d %s %s\n", $1, $2, $3, $4 }' > formatted.txt
+    | awk '{ printf "%02d-%02d %s %s\n", $1, $2, $3, $4 }' \
+    | sort -n > formatted.txt
 
 input="formatted.txt"
 
@@ -24,9 +26,14 @@ cat "$input" \
     }' \
     | sort -n > max_min.txt
 
+mkdir -p "plots/$city"
+
+START_YEAR=$(cat "$input" | head -n 1 | cut -d' ' -f 2)
+END_YEAR=$(cat "$input" | tail -n 1 | cut -d' ' -f 2)
+
 # For each year, get temperature per day and plot
-for year in $(seq 1995 2013); do
+for year in $(seq $START_YEAR $END_YEAR); do
     join -1 1 -2 1 -o "0 1.2 1.3 2.2" -e "NA" max_min.txt <(grep "$year" "$input" | cut -d' ' -f 1,3) \
     | grep -v "NA" \
-    | ./scripts/plot.py "$year" > "$year.png"
+    | ./scripts/plot.py "$year" "$city" > "plots/$city/$year.png"
 done

@@ -9,6 +9,7 @@ import sys
 # Read data from stdin
 data = sys.stdin
 year = sys.argv[1]
+city = sys.argv[2]
 
 # Transform data from string to datetime and float
 to_dt = lambda x: datetime.datetime.strptime(f"{year}-{x}", "%Y-%m-%d")
@@ -31,7 +32,7 @@ plt.figure(figsize=(10, 5))
 # Labels and titles
 plt.xlabel(f"Days in {year}")
 plt.ylabel("Temperature (°F)")
-plt.title(f"Temperature Records for {year}")
+plt.title(f"{city} Temperature Records for {year}")
 
 # Save the plot so far
 plt.savefig(f"{year}_onlyaxes.png")

@@ -3,8 +3,15 @@
 import datetime
 import io
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import numpy as np
 import sys
+
+cntr = 0
+def save_sofar(plt, filename):
+    global cntr
+    plt.savefig(f"plots/tmp/{cntr}_{filename}.png")
+    cntr += 1
 
 # Read data from stdin
 data = sys.stdin
@@ -14,8 +21,17 @@ city = sys.argv[2]
 # Transform data from string to datetime and float
 to_dt = lambda x: datetime.datetime.strptime(f"{year}-{x}", "%Y-%m-%d")
 data = [ line.strip().replace("\r", "") for line in data ]
-data = [ (to_dt(date), float(_min), float(_max), float(temp)) for date, _min, _max, temp in [ line.split() for line in data if line ] ]
-data = { key: [ x for x in values ] for key, values in zip(["date", "min", "max", "temp"], zip(*data)) }
+data = [ (to_dt(date),
+          float(_min),
+          float(_max),
+          float(normal_range_low),
+          float(normal_range_high),
+          float(temp),
+          float(record_min),
+          float(record_max)
+          ) for date, _min, _max, normal_range_low, normal_range_high, temp, record_min, record_max in [ line.split() for line in data if line ] ]
+data = { key: [ x for x in values ] for key, values in \
+        zip(["date", "min", "max", "normal_min", "normal_max", "temp", "record_min", "record_max"], zip(*data)) }
 
 # List of dates
 dates = data["date"]
@@ -25,35 +41,67 @@ historic_max = data["max"]
 historic_min = data["min"]
 # Temperature for the year
 temps = data["temp"]
+# Normal range
+normal_min = data["normal_min"]
+normal_max = data["normal_max"]
+# Historic max and min
+record_max = data["record_max"]
+record_min = data["record_min"]
 
 # Plotting
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(25, 5))
 
 # Labels and titles
-plt.xlabel(f"Days in {year}")
-plt.ylabel("Temperature (°F)")
 plt.title(f"{city} Temperature Records for {year}")
+# Convert dates to months for x-axis
+months = mdates.MonthLocator()  # every month
+months_fmt = mdates.DateFormatter('%B')
 
-# Save the plot so far
-plt.savefig(f"{year}_onlyaxes.png")
+# Format the x-axis to show months
+plt.gca().xaxis.set_major_locator(months)
+plt.gca().xaxis.set_major_formatter(months_fmt)
+plt.xlim([dates[0], dates[-1]])  # Start at the first date and end at the last date
+plt.ylim(0, 100)
+
+# Remove the top, left, and right spines (axes)
+plt.gca().spines['top'].set_visible(False)
+plt.gca().spines['right'].set_visible(False)
+plt.gca().spines['left'].set_visible(False)
+
+# Keep y-ticks visible but hide the y-axis spine
+plt.gca().tick_params(axis='y', which='both', length=0)  # Keep y-ticks visible
+plt.gca().yaxis.set_visible(True)  # Ensure y-ticks remain visible
+
+save_sofar(plt, f"{year}_init")
+
+normal_c = "black"
+# Plot the normal temperature range. This should be a line going from the minimum to the maximum temperature
+for i in range(len(dates)):
+    plt.plot([dates[i], dates[i]], [normal_min[i], normal_max[i]], color=normal_c, alpha=0.6)
+plt.plot([], [], color=normal_c, alpha=0.7, label="Normal Range")
+
+save_sofar(plt, f"{year}_normal_range")
 
 # Plot the mimimum and maximum temperature range
-plt.fill_between(dates, historic_min, historic_max, color="tan", alpha=0.3, label='Normal range')
+for i in range(len(dates)):
+    plt.plot([dates[i], dates[i]], [historic_min[i], historic_max[i]], color="tan", alpha=0.6)
+plt.plot([], [], color="tan", alpha=0.6, label="Historical Min-Max Range")
 
-# Save the plot so far
-plt.savefig(f"{year}_range.png")
+save_sofar(plt, f"{year}_minmax_range")
 
 # Plot given year's temperature
 plt.plot(dates, temps, color="black", label=f"{year} temperature")
 
-# Save the plot so far
-plt.savefig(f"{year}_temperature.png")
+save_sofar(plt, f"{year}_temp")
+
+# Draw the historic min and max as scatter points
+plt.scatter(dates, record_max, color="red", alpha=0.6, label="Historic Max")
+plt.scatter(dates, record_min, color="blue", alpha=0.6, label="Historic Min")
+
+save_sofar(plt, f"{year}_record")
 
 # Legend
-plt.legend(loc="upper right")
-
-# Show the plot
-plt.grid(True)
+plt.legend(loc='upper left', bbox_to_anchor=(1, 0.8))
 
 # Save the plot so far
 plt.savefig(f"{year}_final.png")

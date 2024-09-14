@@ -49,13 +49,21 @@ record_max = data["record_max"]
 record_min = data["record_min"]
 
 # Plotting
-plt.figure(figsize=(25, 5))
+plt.figure(figsize=(15, 5))
 
 # Labels and titles
 plt.title(f"{city} Temperature Records for {year}")
 # Convert dates to months for x-axis
 months = mdates.MonthLocator()  # every month
 months_fmt = mdates.DateFormatter('%B')
+midpoints = [(mdates.date2num(dates[i]) + mdates.date2num(dates[i+1])) / 2 
+             for i in range(len(dates) - 1) if dates[i].month != dates[i+1].month]
+midpoints.append((mdates.date2num(dates[-1]) + mdates.date2num(dates[-2])) / 2)
+# Generate corresponding month names
+month_names = [dates[i].strftime('%B') for i in range(len(dates) - 1) if dates[i].month != dates[i+1].month]
+month_names.append(dates[-1].strftime('%B'))
+plt.xticks(midpoints, month_names)
+
 
 # Format the x-axis to show months
 plt.gca().xaxis.set_major_locator(months)
@@ -101,12 +109,14 @@ plt.scatter(dates, record_min, color="blue", alpha=0.6, label="Historic Min")
 save_sofar(plt, f"{year}_record")
 
 # Legend
-plt.legend(loc='upper left', bbox_to_anchor=(1, 0.8))
+plt.legend(loc='upper left')
+# Adjust layout to avoid cutting off the legend
+plt.subplots_adjust(right=0.8)  # Increase space on the right for the legend
 
 # Save the plot so far
 plt.savefig(f"{year}_final.png")
 
 buf = io.BytesIO()
-plt.savefig(buf, format='png')
+plt.savefig(buf, format='png', bbox_inches='tight')
 plt.close()
 sys.stdout.buffer.write(buf.getvalue())

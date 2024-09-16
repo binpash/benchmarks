@@ -10,7 +10,8 @@ import sys
 cntr = 0
 def save_sofar(plt, filename):
     global cntr
-    plt.savefig(f"plots/tmp/{cntr}_{filename}.png")
+    plt.legend(loc='upper left')
+    plt.savefig(f"plots/tmp/{cntr}_{filename}.png", bbox_inches='tight')
     cntr += 1
 
 # Read data from stdin
@@ -82,12 +83,12 @@ plt.gca().yaxis.set_visible(True)  # Ensure y-ticks remain visible
 
 save_sofar(plt, f"{year}_init")
 
-normal_c = "black"
+
 # Plot the normal temperature range. This should be a line going from the minimum to the maximum temperature
 for i in range(len(dates)):
-    plt.plot([dates[i], dates[i]], [normal_min[i], normal_max[i]], color=normal_c, alpha=0.6)
-plt.plot([], [], color=normal_c, alpha=0.7, label="Normal Range")
+    plt.plot([dates[i], dates[i]], [normal_min[i], normal_max[i]], color="black", alpha=0.6)
 
+plt.plot([], [], color="black", alpha=0.7, label="Normal Range")
 save_sofar(plt, f"{year}_normal_range")
 
 # Plot the mimimum and maximum temperature range
@@ -98,23 +99,21 @@ plt.plot([], [], color="tan", alpha=0.6, label="Historical Min-Max Range")
 save_sofar(plt, f"{year}_minmax_range")
 
 # Plot given year's temperature
-plt.plot(dates, temps, color="black", label=f"{year} temperature")
+plt.plot(dates, temps, color="black")
+plt.plot([], [], color="black", label=f"{year} temperature")
+
 
 save_sofar(plt, f"{year}_temp")
 
 # Draw the historic min and max as scatter points
-plt.scatter(dates, record_max, color="red", alpha=0.6, label="Historic Max")
-plt.scatter(dates, record_min, color="blue", alpha=0.6, label="Historic Min")
+plt.scatter(dates, record_max, color="red", alpha=0.6)
+plt.scatter(dates, record_min, color="blue", alpha=0.6)
+plt.scatter([], [], color="red", alpha=0.6, label="Historic Max")
+plt.scatter([], [], color="blue", alpha=0.6, label="Historic Min")
 
 save_sofar(plt, f"{year}_record")
 
-# Legend
-plt.legend(loc='upper left')
-# Adjust layout to avoid cutting off the legend
-plt.subplots_adjust(right=0.8)  # Increase space on the right for the legend
-
-# Save the plot so far
-plt.savefig(f"{year}_final.png")
+save_sofar(plt, f"{year}_final")
 
 buf = io.BytesIO()
 plt.savefig(buf, format='png', bbox_inches='tight')

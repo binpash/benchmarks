@@ -15,9 +15,9 @@ else
 fi
 
 names_scripts=(
-    "1syllable_words;6_4"
-    "2syllable_words;6_5"
-    "4letter_words;6_2"
+    "syllable_words_1;6_4"
+    "syllable_words_2;6_5"
+    "letter_words;6_2"
     "bigrams_appear_twice;8.2_2"
     "bigrams;4_3"
     "compare_exodus_genesis;8.3_3"

@@ -46,8 +46,14 @@ oneliners() {
 
     echo executing oneliners $1 $(date) | tee -a $mode_res_file $all_res_file
 
+    total_scripts=${#scripts_inputs[@]}
+    current_script=0
+
     for script_input in ${scripts_inputs[@]}
     do
+        current_script=$((current_script + 1))
+        echo "Executing script $current_script of $total_scripts..."
+
         IFS=";" read -r -a parsed <<< "${script_input}"
         script_file="./scripts/${parsed[0]}.sh"
         input_file="./inputs/${parsed[1]}.txt"

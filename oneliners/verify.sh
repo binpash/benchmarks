@@ -17,9 +17,16 @@ if [[ "$@" == *"--generate"* ]]; then
     # Directory to iterate over
     directory="outputs/bash"
 
+    # get total number of files
+    total_files=$(ls "$directory"/*.out | wc -l)
+    current_file=0
+
     # Loop through all .out files in the directory
     for file in "$directory"/*.out
     do
+        current_file=$((current_file + 1))
+        echo "Processing file $current_file of $total_files..."
+
         # Extract the filename without the directory path and extension
         filename=$(basename "$file" .out)
 
@@ -42,9 +49,16 @@ do
 
     echo "Verifying folder: $folder"
 
+    # total number of files
+    total_files=$(ls "$folder"/*.out | wc -l)
+    current_file=0
+
     # Loop through all .out files in the current directory
     for file in "$folder"/*.out
     do
+        current_file=$((current_file + 1))
+        echo "Processing file $current_file of $total_files..."
+
         # Extract the filename without the directory path and extension
         filename=$(basename "$file" .out)
 

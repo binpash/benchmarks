@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import random
+from tqdm import tqdm
 
 # Function to generate a random IP address
 def generate_ip():
@@ -21,7 +22,7 @@ def main():
     random.seed(42)
     n = sys.argv[1]
     n = int(n)
-    for _ in range(n):
+    for _ in tqdm(range(n)):
         print(generate_data())
 
 if __name__ == "__main__":

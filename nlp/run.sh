@@ -40,8 +40,6 @@ vowel_sequencies_gr_1K
 words_no_vowels"
 
 mkdir -p "outputs"
-res_file="./outputs/nlp.res"
-touch "$res_file"
 
 echo "Executing nlp $(date)"
 

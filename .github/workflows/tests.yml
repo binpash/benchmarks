@@ -27,3 +27,10 @@ jobs:
 
       - name: Run Benchmark for ${{ matrix.benchmark }}
         run: ./main.sh ${{ matrix.benchmark }} --small
+
+      - name: Upload .out and .err files
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.benchmark }}-logs
+          path: ${{ matrix.benchmark }}/${{ matrix.benchmark }}.*
+          if-no-files-found: error

@@ -2,10 +2,8 @@
 # compress all files in a directory
 mkdir -p $2
 
-for item in $(ls $1);
+for item in $1/*.pcapng;
 do
-    output_name=$(basename $item).zip
-    cat $item | gzip -c > $2/$output_name
+    output_name="$2/$(basename $item).zip"
+    cat $item | gzip --no-name -c > $output_name
 done
-
-echo 'done';

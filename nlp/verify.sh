@@ -41,8 +41,6 @@ fi
 # Loop through all directories in the parent directory
 for folder in "outputs"/*
 do
-    echo "Verifying folder: $folder"
-
     # Loop through all .out files in the current directory
     find "$folder" -mindepth 2 -type f -name '*.out' | while read -r file;
     do
@@ -50,18 +48,14 @@ do
         filename=$(basename "$file" .out)
         dirname=$(basename "$(dirname "$file")") # is the script_name
 
-        if [ ! -f "$folder/$dirname/$filename.hash" ]; then
-            # Generate SHA-256 hash
-            hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
-
-            # Save the hash to a file
-            echo "$hash" > "$folder/$dirname/$filename.hash"
-        fi
+        # Generate SHA-256 hash
+        shasum -a 256 "$file" | awk '{ print $1 }' > "$folder/$dirname/$filename.hash"
 
         # Compare the hash with the hash in the hashes directory
-        diff "$hash_folder/$dirname/$filename.hash" "$folder/$dirname/$filename.hash"
+        diff "$hash_folder/$dirname/$filename.hash" "$folder/$dirname/$filename.hash" > /dev/null
+        match="$?"
 
-        # Print the filename and hash
-        echo "File: $dirname/$filename | SHA-256 Hash: $(cat "$folder/$dirname/$filename.hash")"
+        # Print the filename and match
+        echo "$dirname/$filename $match"
     done
 done

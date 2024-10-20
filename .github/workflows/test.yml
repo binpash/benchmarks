@@ -1,0 +1,29 @@
+name: Run benchmarks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  run-benchmark:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        benchmark: [nlp]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt update && sudo apt install -y --no-install-recommends \
+            curl wget unzip
+
+      - name: Set execute permissions for main.sh
+        run: chmod +x main.sh
+
+      - name: Run Benchmark for ${{ matrix.benchmark }}
+        run: ./main.sh ${{ matrix.benchmark }} --small

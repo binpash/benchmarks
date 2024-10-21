@@ -15,7 +15,7 @@ fi
 
 if [[ "$@" == *"--generate"* ]]; then
     # Directory to iterate over
-    directory="outputs/bash"
+    directory="outputs"
 
     # Loop through all .out files in the directory
     for file in "$directory"/*.out
@@ -30,36 +30,25 @@ if [[ "$@" == *"--generate"* ]]; then
         echo "$hash" > "$hash_folder/$filename.hash"
 
         # Print the filename and hash
-        echo "File: $hash_folder/$filename.hash | SHA-256 Hash: $hash"
+        echo "$hash_folder/$filename.hash $hash"
     done
+
+    exit 0
 fi
 
 # Loop through all directories in the parent directory
-for folder in "outputs"/*/
+for file in "outputs"/*.out
 do
-    # Remove trailing slash
-    folder=${folder%/}
+    # Extract the filename without the directory path and extension
+    filename=$(basename "$file" .out)
 
-    echo "Verifying folder: $folder"
+    # Generate SHA-256 hash
+    shasum -a 256 "$file" | awk '{ print $1 }' > "$file.hash"
 
-    # Loop through all .out files in the current directory
-    for file in "$folder"/*.out
-    do
-        # Extract the filename without the directory path and extension
-        filename=$(basename "$file" .out)
+    # Compare the hash with the hash in the hashes directory
+    diff "$hash_folder/$filename.hash" "$file.hash" > /dev/null
+    match="$?"
 
-        if [ ! -f "$folder/$filename.hash" ]; then
-            # Generate SHA-256 hash
-            hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
-
-            # Save the hash to a file
-            echo "$hash" > "$folder/$filename.hash"
-        fi
-
-        # Compare the hash with the hash in the hashes directory
-        diff "$hash_folder/$filename.hash" "$folder/$filename.hash"
-
-        # Print the filename and hash
-        echo "File: $folder/$filename | SHA-256 Hash: $(cat "$folder/$filename.hash")"
-    done
+    # Print the filename and hash
+    echo "outputs/$filename.out $match"
 done

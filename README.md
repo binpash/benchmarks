@@ -5,6 +5,7 @@
 ## Docker
 
 ```sh
+# Build the container
 $ docker build -t bensh .
 
 # Run the container

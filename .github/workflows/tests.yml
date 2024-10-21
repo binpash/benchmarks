@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        benchmark: [nlp]
+        benchmark: [nlp, file-enc]
 
     steps:
       - name: Checkout code

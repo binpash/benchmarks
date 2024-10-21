@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd "$(realpath $(dirname "$0"))"
+REPO_TOP=$(git rev-parse --show-toplevel)
+results_dir="${REPO_TOP}/log-analysis/results"
 
-rm -rf ./inputs
-rm -rf ./outputs
+rm -rf $results_dir

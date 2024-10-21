@@ -28,11 +28,7 @@ pure_func() {
 }
 export -f pure_func
 
-for log in $(ls $1); do
-    #bash -c 'run_tests $0 $1' $f $f #> /dev/null
-    #run_tests $f > /dev/null
+for log in $1/*; do
     logname=$2/$(basename $log)
     cat $log | pure_func > $logname
 done
-
-echo 'done';

@@ -7,6 +7,8 @@ results_dir="${eval_dir}/results"
 scripts_dir="${eval_dir}/scripts"
 mkdir -p $results_dir
 
+echo executing file-enc $(date)
+
 input_pcaps="$input_dir/pcaps"
 suffix=".full"
 if [[ "$1" == "--small" ]]; then

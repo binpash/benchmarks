@@ -1,5 +1,7 @@
 #!/bin/bash
 
-cd "$(realpath $(dirname "$0"))"
-rm -rf ./inputs
-rm -rf ./outputs
+REPO_TOP=$(git rev-parse --show-toplevel)
+results_dir="${REPO_TOP}/media-conv/results"
+
+rm -rf $results_dir
+

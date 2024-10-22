@@ -17,6 +17,10 @@ if [[ "$@" == *"--small"* ]]; then
     suffix=".small"
 fi
 
-$scripts_dir/nginx.sh $nginx_input $results_dir/nginx$suffix 
-$scripts_dir/pcaps.sh $pcaps_input $results_dir/pcaps$suffix 
+echo "nginx"
+time $scripts_dir/nginx.sh $nginx_input $results_dir/nginx$suffix 
+echo $?
 
+echo "pcaps"
+time $scripts_dir/pcaps.sh $pcaps_input $results_dir/pcaps$suffix 
+echo $?

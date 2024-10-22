@@ -16,11 +16,8 @@ pure_func() {
 }
 export -f pure_func
 
-
-for item in $(ls $1);
+for item in $1/*;
 do
     logname=$2/$(basename $item).log;
     cat $item | pure_func > $logname
 done
-
-echo 'done';

@@ -19,19 +19,23 @@ if [[ "$@" == *"--small"* ]]; then
 fi
 
 if [[ "$@" == *"--generate"* ]]; then
-    bench=img_convert$suffix
-    md5sum $results_dir/$bench/* > "$hashes_dir/$bench.md5sum"
-
     bench=to_mp3$suffix
     hash_audio_dir "$results_dir/$bench" > "$hashes_dir/$bench.md5sum"
+
+    cd $results_dir
+    bench=img_convert$suffix
+    md5sum $bench/* > "$hashes_dir/$bench.md5sum"
+
     exit 0
 fi
 
 
+bench=to_mp3$suffix
+hash_audio_dir "$results_dir/$bench" | diff -q "$hashes_dir/$bench.md5sum" -
+echo $bench $?
+
+cd $results_dir
 bench=img_convert$suffix
 md5sum --check --quiet --status $hashes_dir/$bench.md5sum
 echo $bench $?
 
-bench=to_mp3$suffix
-hash_audio_dir "$results_dir/$bench" | diff -q "$hashes_dir/$bench.md5sum" -
-echo $bench $?

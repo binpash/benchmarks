@@ -1,51 +1,27 @@
 #!/bin/bash
 
-# Exit immediately if a command exits with a non-zero status
-# set -e
+REPO_TOP=$(git rev-parse --show-toplevel)
+eval_dir="${REPO_TOP}/media-conv"
+results_dir="${eval_dir}/results"
+hashes_dir="${eval_dir}/hashes"
 
-cd "$(realpath $(dirname "$0"))"
-
-mkdir -p hashes/small
-
+suffix=".full"
 if [[ "$@" == *"--small"* ]]; then
-    hash_folder="hashes/small"
-else
-    hash_folder="hashes"
+    suffix=".small"
 fi
+
+cd $results_dir # md5sum computes paths relative to cd
 
 if [[ "$@" == *"--generate"* ]]; then
-    # Directory to iterate over
-    directory="outputs/bash"
-
-
-    # Loop through all .out files in the directory and subdirectories
-    find "$directory" -type f -name "*.hash" | while read -r file;
-    do
-        echo $file
-        # Copy the file to the hash folder
-        cp "$file" "$hash_folder"
-    done
+    md5sum img_convert$suffix/* > $hashes_dir/img_convert$suffix.md5sum
+    md5sum to_mp3$suffix/* > $hashes_dir/to_mp3$suffix.md5sum
+    exit 0
 fi
 
-# Loop through all directories in the parent directory
-for folder in "outputs"/*/
-do
-    # Remove trailing slash
-    folder=${folder%/}
+bench=img_convert$suffix
+md5sum --check --quiet --status $hashes_dir/$bench.md5sum
+echo $bench $?
 
-    echo "Verifying folder: $folder"
-
-    # Loop through all .hash files in the current directory and subdirectories
-    find "$folder" -type f -name "*.hash" | while read -r file;
-    do
-        # Extract the filename without the directory path and extension
-        filename=$(basename $file)
-
-        # Compare the hash with the hash in the hashes directory
-        if ! diff "$hash_folder/$filename" "$file";
-        then
-            # Print the filename and hash if they don't match
-            echo "File: $file hash diff failed comparing to $hash_folder/$filename"
-        fi
-    done
-done
+bench=to_mp3$suffix
+md5sum --check --quiet --status $hashes_dir/$bench.md5sum
+echo $bench $?

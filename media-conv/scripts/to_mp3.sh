@@ -1,7 +1,7 @@
 #!/bin/bash
 # tag: wav-to-mp3
-# IN=${IN:-/media-conv/wav}
-# OUT=${OUT:-$DISH_TOP/evaluation/media-conv/outputs/mp3}
+# inputs: $1=absolute source directory path with .wav's, $2=destination directory for output wavs
+
 mkdir -p $2
 
 pure_func(){
@@ -9,11 +9,8 @@ pure_func(){
 }
 export -f pure_func
 
-for item in $(ls $1);
+for i in $1/*;
 do
-    pkg_count=$((pkg_count + 1));
-    out="$2/$(basename $item).mp3"
-    cat $item | pure_func > $out
+    out="$2/$(basename $i).mp3"
+    cat $i | pure_func > $out
 done
-
-echo 'done';

@@ -7,9 +7,15 @@ results_dir="${eval_dir}/results"
 scripts_dir="${eval_dir}/scripts"
 input_dir="${eval_dir}/input"
 
-mkdir -p $results_dir
+suffix=.full
+if [[ "$@" == *"--small"* ]]; then
+    suffix=.small
+fi
 
-export input_file="${input_dir}/temperatures.txt"
-export results_dir
+
+export input_file="${input_dir}/temperatures$suffix.txt"
+export statistics_dir="$results_dir/statistics$suffix"
+
+mkdir -p "$statistics_dir"
 
 ${scripts_dir}/temp-analytics.sh

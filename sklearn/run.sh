@@ -1,8 +1,11 @@
 #!/bin/bash
 
 PYTHON="python3"
-DIR=$PWD
-SCRIPTS=$DIR/scripts
+OUT=${OUT:-$PWD/result}
+TMP=${TMP:-$PWD/tmp}
+#export tmp to env
+export TMP
+SCRIPTS=${SCRIPTS:-$PWD/scripts}
 
 # Ideally, we'll move on to piping rather than writing to a file
 MODEL=$TMP/model.obj

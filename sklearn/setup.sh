@@ -2,7 +2,7 @@
 
 export PASH_SPEC_TOP=${PASH_SPEC_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
 
-benchmark_dir="$PASH_SPEC_TOP/report/benchmarks/sklearn"
+benchmark_dir="sklearn"
 
 cd "$(realpath $(dirname "$0"))"
 mkdir -p "$PASH_SPEC_TOP/report/resources/sklearn"

@@ -20,7 +20,7 @@ control_model = LogisticRegression(max_iter=max_iter,
 control_model.fit(X_train, y_train)
 control_score = control_model.score(X_test, y_test)
 
-with open('result/trained_model.obj', 'rb') as file:
+with open('tmp/trained_model.obj', 'rb') as file:
     experiment_model = pickle.load(file)
 experiment_score = experiment_model.score(X_test, y_test)
 

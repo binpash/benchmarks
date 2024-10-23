@@ -32,5 +32,6 @@ with open(model_file, 'rb') as file:
     else:
         model.intercept_ = np.zeros(n_classes)
 
-with open(destination, 'wb') as file:
+filepath = os.path.join(tmp, 'trained_model.obj')
+with open(filepath, 'wb') as file:
     pickle.dump(model, file)

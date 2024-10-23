@@ -1,8 +1,8 @@
 import warnings
 import sys
-import os
 import pickle
 import numpy as np
+import os
 
 with open(sys.argv[1], 'rb') as file:
     model = pickle.load(file)
@@ -34,6 +34,8 @@ else:
     C_ = model.C
     penalty = model.penalty
 
-with open(f'{os.environ.get("TMP","./tmp")}/C_.obj', 'w+b') as file:
+tmp = os.environ.get('TMP')
+filepath = os.path.join(tmp, 'C_.obj')
+with open(filepath, 'w+b') as file:
     pickle.dump(C_, file)
 print(penalty)

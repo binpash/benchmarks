@@ -1,9 +1,11 @@
-import os
 import sys
 import pickle
 import numpy as np
+import os
 
-with open(f'{os.environ.get("TMP","./tmp")}/fold_coef.obj', 'rb') as file:
+tmp = os.environ.get('TMP')
+filepath = os.path.join(tmp, 'fold_coef.obj')
+with open(filepath, 'rb') as file:
     fold_coefs_ = pickle.load(file)
 
 model_file, X_file, multi_class, n_classes, destination = sys.argv[1:6]
@@ -30,5 +32,6 @@ with open(model_file, 'rb') as file:
     else:
         model.intercept_ = np.zeros(n_classes)
 
-with open(destination, 'wb') as file:
+filepath = os.path.join(tmp, 'trained_model.obj')
+with open(filepath, 'wb') as file:
     pickle.dump(model, file)

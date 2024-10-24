@@ -1,22 +1,19 @@
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn import datasets
 import pickle
-import pandas as pd
-import numpy as np
 import os
 
-X, y = datasets.fetch_kddcup99(data_home="inputs", percent10=False, return_X_y=True, as_frame=True, download_if_missing=True)
-X = pd.DataFrame(X).drop(columns=["protocol_type", "service", "flag"]).astype(float)
-X[X.columns] = MinMaxScaler().fit_transform(X[X.columns])
-X = X.to_numpy()
-y = LabelEncoder().fit_transform(y).astype(np.int32)
 
-data = train_test_split(X, 
-                        y,
+raw_data = datasets.fetch_covtype(data_home="inputs", download_if_missing=False)
+    
+data = train_test_split(raw_data.data, 
+                        raw_data.target, 
                         test_size=0.2, 
                         random_state=0)
 filenames = ['X_train', 'X_test', 'y_train', 'y_test']
+tmp = os.environ.get('TMP')
+filepath = os.path.join(tmp, 'model.obj')
 for datum, name in zip(data, filenames):
-    with open(f'{os.environ.get("TMP","./tmp")}/{name}.obj', 'w+b') as file:
+    filepath = os.path.join(tmp, f'{name}.obj')
+    with open(filepath, 'w+b') as file:
         pickle.dump(datum, file)

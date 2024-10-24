@@ -7,7 +7,7 @@ cd inputs
 input_files=("1M.txt" "1G.txt" "3G.txt" "all_cmds.txt" "all_cmdsx100.txt" "dict.txt")
 
 if [ ! -f ./1M.txt ]; then
-    wget https://atlas-group.cs.brown.edu/data/dummy/1M.txt
+    wget --no-check-certificate https://atlas-group.cs.brown.edu/data/dummy/1M.txt
     # TODO: Add newline to the original file
     echo >> 1M.txt
 fi
@@ -27,7 +27,7 @@ if [ ! -f ./3G.txt ]; then
 fi
 
 if [ ! -f ./dict.txt ]; then
-    wget -O - https://atlas-group.cs.brown.edu/data/dummy/dict.txt | sort > dict.txt
+    wget -O - https://atlas-group.cs.brown.edu/data/dummy/dict.txt --no-check-certificate | sort > dict.txt
 fi
 
 if [ ! -f ./all_cmds.txt ]; then

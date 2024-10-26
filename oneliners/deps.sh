@@ -2,6 +2,6 @@
 
 sudo apt update
 sudo apt install -y \
-wget \
-bsdmainutils \
-file
+    wget \
+    bsdmainutils \
+    file

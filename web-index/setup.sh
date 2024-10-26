@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-
+set -e
 # 7zip
-pkgs='p7zip-full curl wget nodejs npm' 
+pkgs='p7zip-full curl wget nodejs unzip' 
 if ! dpkg -s $pkgs >/dev/null 2>&1 ; then
   sudo apt-get install $pkgs -y
   echo 'Packages Installed'
 fi
 
 if ! dpkg -s pandoc > /dev/null 2>&1 ; then
-  # since pandoc v.2.2.1 does not support arm64, we use v.3.5
-  wget https://github.com/jgm/pandoc/releases/download/3.5/pandoc-3.5-1-$(dpkg --print-architecture).deb
-  sudo dpkg -i ./pandoc-3.5-1-$(dpkg --print-architecture).deb
-  rm ./pandoc-3.5-1-$(dpkg --print-architecture).deb
+  # pandoc v.2.2.1
+  wget https://github.com/jgm/pandoc/releases/download/2.2.1/pandoc-2.2.1-1-$(dpkg --print-architecture).deb
+  sudo dpkg -i ./pandoc-2.2.1-1-$(dpkg --print-architecture).deb
+  rm ./pandoc-2.2.1-1-$(dpkg --print-architecture).deb 
 fi
 
 if ! dpkg -s nodejs > /dev/null 2>&1 ; then

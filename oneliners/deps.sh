@@ -1,2 +1,4 @@
-apt update
-apt install -y bsdmainutils file
+#!/bin/bash
+
+sudo apt update
+sudo apt install -y bsdmainutils file

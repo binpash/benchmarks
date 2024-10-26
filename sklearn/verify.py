@@ -8,9 +8,9 @@ import numpy as np
 
 max_iter = 100
 
-dataset = datasets.fetch_rcv1(data_home="inputs")
+dataset = datasets.fetch_covtype(data_home="inputs", download_if_missing=False)
 
-X_train, X_test, y_train, y_test = train_test_split(dataset.data, np.argmax(dataset.target.toarray()), 
+X_train, X_test, y_train, y_test = train_test_split(dataset.data, dataset.target, 
                                                     test_size=0.2, 
                                                     random_state=0)
 
@@ -20,7 +20,7 @@ control_model = LogisticRegression(max_iter=max_iter,
 control_model.fit(X_train, y_train)
 control_score = control_model.score(X_test, y_test)
 
-with open('result/trained_model.obj', 'rb') as file:
+with open('tmp/trained_model.obj', 'rb') as file:
     experiment_model = pickle.load(file)
 experiment_score = experiment_model.score(X_test, y_test)
 

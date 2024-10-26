@@ -1,7 +1,7 @@
 #!/bin/bash
 # tag: resize image 
-# IN=${JPG:-/media-conv/jpg}
-# OUT=${OUT:-$DISH_TOP/evaluation/media-conv/outputs/jpg}
+# inputs: $1=absolute source directory path with images, $2=destination directory for output images
+
 mkdir -p $2
 
 pure_func () {
@@ -9,10 +9,8 @@ pure_func () {
 }
 export -f pure_func
 
-for i in $(ls $1/*.jpg); 
+for i in $1/*;
 do 
-    out=$2/$(basename -- $i)
-    cat $i | pure_func > $out; 
+    out="$2/$(basename -- $i)"
+    cat $i | pure_func > $out
 done
-
-echo 'done';

@@ -34,5 +34,7 @@ result = _logistic._logistic_regression_path(
     sample_weight=None,
 )
 
-with open(f'{os.environ.get("TMP","./tmp")}/result_{class_}.obj', 'wb') as file:
+tmp = os.environ.get('TMP')
+filepath = os.path.join(tmp, f'result_{class_}.obj')
+with open(filepath, 'w+b') as file:
     pickle.dump(result, file)

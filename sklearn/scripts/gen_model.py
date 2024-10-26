@@ -6,5 +6,8 @@ import os
 reg = LogisticRegression(max_iter=int(sys.argv[1]), 
                          solver='newton-cholesky', 
                          multi_class='ovr')
-with open(f'{os.environ.get("TMP","./tmp")}/model.obj', 'w+b') as file:
+
+tmp = os.environ.get('TMP')
+filepath = os.path.join(tmp, 'model.obj')
+with open(filepath, 'w+b') as file:
     pickle.dump(reg, file)

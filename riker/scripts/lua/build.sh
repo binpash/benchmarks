@@ -13,3 +13,4 @@ gcc $CFLAGS -c -o lua.o lua.c
 gcc -std=gnu99 -o lua   lua.o liblua.a -lm -Wl,-E -ldl
 gcc $CFLAGS -c -o luac.o luac.c
 gcc -std=gnu99 -o luac   luac.o liblua.a -lm -Wl,-E -ldl
+

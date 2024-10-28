@@ -20,6 +20,6 @@ if ! dpkg -s nodejs > /dev/null 2>&1 ; then
     sudo apt-get install -y nodejs
 fi
 
-if [ ! -d node_modules ]; then
-    npm install
-fi
+npm install
+# Install the npm packages
+npm install natural

@@ -9,13 +9,13 @@ from subprocess import run
 import glob
 
 parser = argparse.ArgumentParser(description="Run benchmark")
-parser = argparse.ArgumentParser(description="Run benchmark")
 parser.add_argument('--window', default=5, type=int, help='window size to run hs with')
 parser.add_argument('--target', choices=['hs-only', 'sh-only', 'both'],
+                    default='sh-only',
                     help='to run with sh or hs')
 parser.add_argument('--log', choices=['enable', 'disable'], default="enable",
                     help='whether to enable logging for hs')
-parser.add_argument('--input', type=str, help='input file for hs', choices=['small', 'medium', 'full'], default='full')
+parser.add_argument('--input', type=str, help='input file for hs', choices=['small', 'medium', 'full'], default='small')
 
 env = os.environ.copy()
 SCRIPT_NAME = "run.sh"
@@ -23,7 +23,7 @@ SCRIPT_NAME = "run.sh"
 def do_sh_run(test_base: Path, output_base: Path, env: dict):
     before = time.time()
     print(f'Running {test_base / SCRIPT_NAME}')
-    result = run(['/bin/sh', test_base / SCRIPT_NAME], stdout=PIPE, env=env)
+    result = run(['/bin/bash', test_base / SCRIPT_NAME], stdout=PIPE, env=env)
     duration = time.time() - before
     
     with open(output_base / "sh_time", 'w') as f:
@@ -53,24 +53,24 @@ def do_cleanup():
 if __name__ == '__main__':
     args = parser.parse_args()
     test_base = Path(__file__).parent.resolve()
-    hs_base = test_base.parent.parent.parent.parent
+    hs_base = test_base.parent
     print(test_base)
     print(hs_base)
     
     #######################
     # SPECIFY ENV VARS HERE
     if args.input == 'small':
-        env['INPUT_FILE'] = hs_base / 'report' / 'resources' / 'web-index' / 'index_small.txt'
+        env['INPUT_FILE'] = hs_base / 'index_small.txt'
     elif args.input == 'full':
-        env['INPUT_FILE'] = hs_base / 'report' / 'resources' / 'web-index' / 'index.txt'
-    env['WEB_INDEX_DIR'] = hs_base / 'report' / 'benchmarks' / 'web-index'
-    env['SCRIPT_DIR'] = hs_base / 'report' / 'benchmarks' / 'web-index' / 'web-index'
-    env['WIKI'] = hs_base / 'report' / 'resources' / 'web-index' / 'articles'
+        env['INPUT_FILE'] = hs_base / 'index.txt'
+    env['WEB_INDEX_DIR'] = hs_base
+    env['SCRIPT_DIR'] = hs_base / 'web-index'
+    env['WIKI'] = hs_base / 'articles'
     #######################
 
     bench_base = test_base.parent
     local_name = os.sep.join(test_base.parts[-1:])
-    output_base = hs_base / "report" / "output" / local_name
+    output_base = hs_base / "output" / local_name
     run_hs = False
     run_sh = False
     if args.target in ["hs-only", "both"]:

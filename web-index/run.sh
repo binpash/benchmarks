@@ -4,4 +4,4 @@ cd "$(dirname "$0")"
 
 ./generate_index.sh articles
 
-./web-index/run --target sh-only
+./web-index/run

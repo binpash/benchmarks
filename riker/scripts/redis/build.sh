@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# Move to the src directory
-cd /root/redis/src
-
 # Regenerate the release.h file
 GIT_SHA1=`(git show-ref --head --hash=8 2> /dev/null || echo 00000000) | head -n1`
 GIT_DIRTY=`git diff --no-ext-diff 2> /dev/null | wc -l`

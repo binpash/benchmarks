@@ -23,7 +23,7 @@ SCRIPT_NAME = "run.sh"
 def do_sh_run(test_base: Path, output_base: Path, env: dict):
     before = time.time()
     print(f'Running {test_base / SCRIPT_NAME}')
-    result = run(['/bin/bash', test_base / SCRIPT_NAME], stdout=PIPE, env=env)
+    result = run(['/bin/sh', test_base / SCRIPT_NAME], stdout=PIPE, env=env)
     duration = time.time() - before
     
     with open(output_base / "sh_time", 'w') as f:

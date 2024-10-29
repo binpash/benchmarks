@@ -4,7 +4,7 @@ REPO_TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${REPO_TOP}/riker"
 scripts_dir="${eval_dir}/scripts"
 
-tz="Europe/London"
+tz="America/New_York"
 sudo echo "$tz" > /etc/timezone 
 sudo rm /etc/localtime
 sudo ln -s "/usr/share/zoneinfo/$tz" /etc/localtime

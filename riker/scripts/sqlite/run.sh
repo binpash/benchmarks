@@ -8,4 +8,3 @@ scripts_dir="${eval_dir}/scripts"
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 (cd "$input_dir/sqlite/dev" && $BENCHMARK_SHELL "$scripts_dir/sqlite/build.sh")
 
-

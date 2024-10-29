@@ -6,6 +6,5 @@ input_dir="${eval_dir}/input/scripts"
 scripts_dir="${eval_dir}/scripts"
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
-(cd "$input_dir/lua/dev" && $BENCHMARK_SHELL "$scripts_dir/lua/build.sh")
-
+(cd "$input_dir/lua/lua-5.4.3/src" && $BENCHMARK_SHELL "$scripts_dir/lua/build.sh")
 

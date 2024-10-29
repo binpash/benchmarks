@@ -61,3 +61,5 @@ do
         echo "File: $folder/$filename | SHA-256 Hash: $(cat "$folder/$filename.hash")"
     done
 done
+
+echo $?

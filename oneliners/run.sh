@@ -15,7 +15,6 @@ if [[ "$@" == *"--small"* ]]; then
         "bi-grams;1M"
         "set-diff;1M"
         "sort-sort;1M"
-        "shortest-scripts;all_cmds"
     )
 else
     scripts_inputs=(
@@ -28,7 +27,6 @@ else
         "bi-grams;3G"
         "set-diff;3G"
         "sort-sort;3G"
-        "shortest-scripts;all_cmdsx100"
     )
 fi
 

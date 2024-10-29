@@ -1,6 +1,5 @@
 #!/bin/bash
 REPO_TOP=$(git rev-parse --show-toplevel)
-echo "REPO_TOP: ${REPO_TOP}"
 eval_dir="${REPO_TOP}/web-index"
 hashes_dir="${eval_dir}/hashes"
 
@@ -27,7 +26,6 @@ fi
 
 # verify hashes for all *grams.txt files
 for file in $(find ${eval_dir} -name "*grams.txt"); do
-    echo "Verifying hash for ${file}"
     hash=$(sha256sum ${file} | cut -d ' ' -f 1)
     expected_hash=$(cat "${hashes_dir}/$(basename ${file})${suffix}.hash")
     if [[ "${hash}" != "${expected_hash}" ]]; then
@@ -36,6 +34,5 @@ for file in $(find ${eval_dir} -name "*grams.txt"); do
         echo "Actual: ${hash}"
         exit 1
     fi
-    echo "Hash verified for ${file}"
 done
-echo "web-index $?"
+echo $?

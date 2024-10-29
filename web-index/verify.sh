@@ -14,10 +14,10 @@ if [[ "$@" == *"--small"* ]]; then
 fi
 
 if [[ "$@" == *"--generate"* ]]; then
-    # generate hashes and store in hashses directory for all *grams.txt files
+    # generate hashes and store in hashes directory for all *grams.txt files
     for file in $(find ${eval_dir} -name "*grams.txt"); do
         echo "Generating hash for ${file}"
-        hash=$(sha256sum ${file} | cut -d ' ' -f 1)
+        hash=$(md5sum ${file} | cut -d ' ' -f 1)
         echo "Hash: ${hash}"
         echo "${hash}" > "${hashes_dir}/$(basename ${file})${suffix}.hash"
     done
@@ -26,7 +26,7 @@ fi
 
 # verify hashes for all *grams.txt files
 for file in $(find ${eval_dir} -name "*grams.txt"); do
-    hash=$(sha256sum ${file} | cut -d ' ' -f 1)
+    hash=$(md5sum ${file} | cut -d ' ' -f 1)
     expected_hash=$(cat "${hashes_dir}/$(basename ${file})${suffix}.hash")
     if [[ "${hash}" != "${expected_hash}" ]]; then
         echo "Hash mismatch for ${file}"

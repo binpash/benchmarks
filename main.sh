@@ -8,6 +8,9 @@ correct() { [ "$(cat $BENCHMARK.hash | cut -d' ' -f 2 | grep -c 1)" -eq 0 ]; }
 
 main()
 {
+    export BENCHMARK="$1"
+    shift
+
     cd "$(dirname "$0")/$BENCHMARK" || exit 1
 
     # Download dependencies
@@ -33,8 +36,5 @@ main()
 
     cd - || exit 1
 }
-
-export BENCHMARK="$1"
-shift
 
 main $@

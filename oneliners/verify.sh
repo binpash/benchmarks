@@ -30,12 +30,12 @@ if [[ "$@" == *"--generate"* ]]; then
         echo "$hash" > "$hash_folder/$filename.hash"
 
         # Print the filename and hash
-        echo "File: $hash_folder/$filename.hash | SHA-256 Hash: $hash"
+        echo "$hash_folder/$filename.hash $hash"
     done
 fi
 
 # Loop through all directories in the parent directory
-for folder in "outputs"/*/
+for folder in "outputs"/
 do
     # Remove trailing slash
     folder=${folder%/}
@@ -56,10 +56,9 @@ do
             echo "$hash" > "$folder/$filename.hash"
         fi
 
-        diff "$hash_folder/$filename.hash" "$folder/$filename.hash"
+        diff "$hash_folder/$filename.hash" "$folder/$filename.hash" > /dev/null
+        match="$?"
         # Print the filename and hash
-        # echo "File: $folder/$filename | SHA-256 Hash: $(cat "$folder/$filename.hash")"
+        echo "$folder/$filename $match"
     done
 done
-
-echo $?

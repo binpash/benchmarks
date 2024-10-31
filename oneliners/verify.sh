@@ -40,7 +40,7 @@ do
     # Remove trailing slash
     folder=${folder%/}
 
-    echo "Verifying folder: $folder"
+    # echo "Verifying folder: $folder"
 
     # Loop through all .out files in the current directory
     for file in "$folder"/*.out
@@ -58,7 +58,7 @@ do
 
         diff "$hash_folder/$filename.hash" "$folder/$filename.hash"
         # Print the filename and hash
-        echo "File: $folder/$filename | SHA-256 Hash: $(cat "$folder/$filename.hash")"
+        # echo "File: $folder/$filename | SHA-256 Hash: $(cat "$folder/$filename.hash")"
     done
 done
 

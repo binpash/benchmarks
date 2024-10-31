@@ -15,7 +15,7 @@ fi
 
 if [[ "$@" == *"--generate"* ]]; then
     # Directory to iterate over
-    directory="outputs/bash"
+    directory="outputs"
 
     # Loop through all .out files in the directory
     for file in "$directory"/*.out
@@ -32,6 +32,8 @@ if [[ "$@" == *"--generate"* ]]; then
         # Print the filename and hash
         echo "$hash_folder/$filename.hash $hash"
     done
+
+    exit 0
 fi
 
 # Loop through all directories in the parent directory
@@ -39,8 +41,6 @@ for folder in "outputs"/
 do
     # Remove trailing slash
     folder=${folder%/}
-
-    # echo "Verifying folder: $folder"
 
     # Loop through all .out files in the current directory
     for file in "$folder"/*.out

@@ -29,10 +29,7 @@ for file in $(find ${eval_dir} -name "*grams.txt"); do
     hash=$(md5sum ${file} | cut -d ' ' -f 1)
     expected_hash=$(cat "${hashes_dir}/$(basename ${file})${suffix}.hash")
     if [[ "${hash}" != "${expected_hash}" ]]; then
-        echo "Hash mismatch for ${file}"
-        echo "Expected: ${expected_hash}"
-        echo "Actual: ${hash}"
         exit 1
     fi
 done
-echo $?
+exit 0

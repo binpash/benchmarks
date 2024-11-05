@@ -6,7 +6,7 @@ scripts_dir="${eval_dir}/scripts"
 
 tz="America/New_York"
 sudo echo "$tz" > /etc/timezone 
-sudo rm /etc/localtime
+sudo rm -f /etc/localtime
 sudo ln -s "/usr/share/zoneinfo/$tz" /etc/localtime
 
 sudo apt update

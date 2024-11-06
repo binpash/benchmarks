@@ -6,7 +6,7 @@ mkfifo s1 s2
 
 cat $1 |
     cut -d ' ' -f 1 |
-    tr [:lower:] [:upper:] |
+    tr "[:lower:]" "[:upper:]" |
     sort > s1 &
 
 cat $1 |

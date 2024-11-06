@@ -4,8 +4,9 @@
 # set -e
 
 cd "$(realpath $(dirname "$0"))"
-
 mkdir -p hashes/small
+
+[ ! -d "outputs" ] && echo "Directory 'outputs' does not exist" && exit 1
 
 if [[ "$@" == *"--small"* ]]; then
     hash_folder="hashes/small"

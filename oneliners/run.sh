@@ -44,5 +44,4 @@ do
     echo "$script_file"
     time "$SHELL" "$script_file" "$input_file" > "$output_file"
     echo "$?"
-
 done

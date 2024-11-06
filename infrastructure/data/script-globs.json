@@ -1,0 +1,13 @@
+[
+    "covid-mts/scripts/*.sh",
+    "file-enc/scripts/*.sh",
+    "log-analysis/scripts/*.sh",
+    "max-temp/scripts/*.sh",
+    "media-conv/scripts/*.sh",
+    "nlp/scripts/*.sh",
+    "oneliners/scripts/*.sh",
+    "sklearn/run.sh",
+    "riker/scripts/*/build.sh",
+    "uniq-ips/scripts/run.sh",
+    "unix50/scripts/*.sh"
+]

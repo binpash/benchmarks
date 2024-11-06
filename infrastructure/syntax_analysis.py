@@ -45,6 +45,7 @@ NodeWSource = namedtuple('NodeWSource', ['node', 'source_syntax', 'linum_before'
 first_time = True
 def parse_shell_script(path):
     global first_time
+    path = str(path) # handle both str and pathlib.Path
     raw_asts = libdash.parse(path, first_time)
     first_time = False
     return [NodeWSource(to_ast_node(raw_ast),

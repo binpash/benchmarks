@@ -4,4 +4,5 @@ sudo apt update
 sudo apt install -y \
     wget \
     bsdmainutils \
-    file
+    file \
+    dos2unix

@@ -10,6 +10,7 @@ if [ ! -f ./1M.txt ]; then
     wget --no-check-certificate https://atlas-group.cs.brown.edu/data/dummy/1M.txt
     # TODO: Add newline to the original file
     echo >> 1M.txt
+    dos2unix 1M.txt
 fi
 
 if [ ! -f ./1G.txt ]; then

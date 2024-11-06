@@ -27,7 +27,6 @@ jobs:
 
       - name: Run Benchmark for ${{ matrix.benchmark }}
         run: ./main.sh ${{ matrix.benchmark }} --small
-        continue-on-error: true
 
       - name: Upload .out and .err files
         uses: actions/upload-artifact@v4

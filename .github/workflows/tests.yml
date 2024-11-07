@@ -10,8 +10,9 @@ jobs:
   run-benchmark:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        benchmark: [nlp, file-enc, unix50, log-analysis, max-temp, uniq-ips, media-conv, sklearn, covid-mts, web-index]
+        benchmark: [nlp, file-enc, unix50, log-analysis, max-temp, uniq-ips, media-conv, sklearn, covid-mts, riker, oneliners, web-index]
 
     steps:
       - name: Checkout code
@@ -30,6 +31,7 @@ jobs:
 
       - name: Upload .out and .err files
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: ${{ matrix.benchmark }}-logs
           path: ${{ matrix.benchmark }}/${{ matrix.benchmark }}.*

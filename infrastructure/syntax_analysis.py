@@ -4,6 +4,8 @@
 # https://github.com/binpash/shasta/blob/main/shasta/ast_node.py
 # https://github.com/binpash/Shseer/blob/8bb9e72f7fe1b4703fc963bfa5d5bd2837e80ab3/src/shseer/symb.py
 
+import operator
+from collections import Counter
 import sys
 import libdash
 import functools as ft
@@ -72,21 +74,9 @@ def flatmap(f, l):
         res += rl
     return res
 
-def merge_counts(d1, d2):
-    h = d1.copy()
-    for k, v in d2.items():
-        if k in h:
-            h[k] += v
-        else:
-            h[k] = v
-    return h
-
 def add_ast(d, a):
     name = type(a).__name__
-    if name in d:
-        d[name] += 1
-    else:
-        d[name] = 1
+    d[name] += 1
     return d
 
 def count_nodes(asts):
@@ -121,15 +111,46 @@ def count_nodes(asts):
              | DupRedirNode(arg=argchars) \
              | HeredocRedirNode(arg=argchars):
             return add_ast(count_nodes(flatmap(argchar_to_subnodes, argchars)), asts)
-        case CommandNode(arguments=lolo_argchar, redir_list=redir_list):
-            return add_ast(count_nodes(flatmap(lambda lo_argchar: flatmap(argchar_to_subnodes, lo_argchar),
-                                               lolo_argchar) + \
-                                       redir_list),
-                           asts)
+        case CommandNode(arguments=lolo_argchar, assignments=assignments, redir_list=redir_list):
+            redir_count = count_nodes(flatmap(lambda lo_argchar: flatmap(argchar_to_subnodes, lo_argchar), lolo_argchar) + redir_list)
+            assignments_count = count_nodes(assignments)
+            return add_ast(redir_count + assignments_count, asts)
         case [*subnodes]:
-            return ft.reduce(merge_counts, map(count_nodes, subnodes), dict())
+            return ft.reduce(operator.add, map(count_nodes, subnodes), Counter())
         case other:
             raise Exception(f"oops: {other} of type {type(other)}")
+
+# what commands?
+# setting environmnt variables
+# what kind of expansion
+
+# https://arxiv.org/pdf/1907.05308 page 1:5
+# kinds of nodes
+# setting environment variables before running command (s=w)* w r*
+# * redirections, 
+#   * duplicate redirections: > >| < <> >> >& <& 
+#   * heredoc redirection -- HeredocRedirNode
+#   * file redirection -- FileRedirNode
+# * backgrounding -- BackgroundNode
+# * expansion
+#   * home expansion ~
+#   * quoted expansion "word" to inhibit path expansion and splitting
+#   * parameter expansion ${s phi} where phi controls how lookups are done
+#   * command substitution $() 
+#   * $(()) arithmetic substitution
+# * commands
+#   * subshell (command) -- SubshellNode
+#   * sequence (;)  -- SemiNode
+#   * && combination -- AndNode
+#   * || combination -- OrNode
+#   * not ! combination -- NotNode
+#   * pipeline (c\1 | c\2 | c\3) -- PipeNode
+#   * structure
+#     * for loop -- ForNode
+#     * while loop -- WhileNode
+#     * if statement -- IfNode
+#     * case statement -- CaseNode
+#     * function definition -- DefunNode
 
 if __name__ == '__main__':
     p = "script.sh"

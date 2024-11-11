@@ -13,3 +13,7 @@ rl.on('line', function (line) {
   //console.log(natural.PorterStemmer.stem(line));
   console.log(natural.LancasterStemmer.stem(line));
 });
+
+rl.on('close', function () {
+    process.exit(0);
+})

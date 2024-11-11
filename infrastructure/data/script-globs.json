@@ -31,5 +31,8 @@
     },
     "unix50": {
         "scripts": ["unix50/scripts/*.sh"]
+    },
+    "web-index": {
+        "scripts": ["unix50/scripts/*.sh"]
     }
 }

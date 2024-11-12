@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 cd "$(realpath $(dirname "$0"))"
 mkdir -p inputs
 cd inputs

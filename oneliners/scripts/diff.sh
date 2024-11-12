@@ -7,12 +7,12 @@ mkfifo s1 s2
 
 cat $1 |
   # shuf |
-  tr [:lower:] [:upper:] |
+  tr "[:lower:]" "[:upper:]" |
   sort > s1 &
 
 cat $1 |
   # shuf |
-  tr [:upper:] [:lower:] |
+  tr "[:upper:]" "[:lower:]" |
   sort > s2 &
 
 diff -B s1 s2

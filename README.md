@@ -2,7 +2,28 @@
 
 > _It's a suite that has benchmarks in it._
 
-## Docker
+## Benchmarks
+
+| Benchmark    | Description                                             |
+| ---------    | -----------                                             |
+| aurpkg       |                                                         |
+| bio          | Bioinformatics.                                         |
+| covid-mts    | COVID-19 multivariate time series.                      |
+| file-enc     | File encoding.                                          |
+| log-analysis | Log analysis.                                           |
+| max-temp     | Maximum temperature.                                    |
+| media-conv   | Media conversion.                                       |
+| nlp          | Natural language processing.                            |
+| oneliners    | One-liners.                                             |
+| riker        |                                                         |
+| sklearn      | Machine learning.                                       |
+| teraseq      |                                                         |
+| tuft-weather | Tuft weather.                                           |
+| uniq-ips     | Unique IPs.                                             |
+| unix50       | Unix 50.                                                |
+| web-index    | Web index.                                              |
+
+## Docker Instructions
 
 ```sh
 # Build the container

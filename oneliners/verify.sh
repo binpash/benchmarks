@@ -4,8 +4,9 @@
 # set -e
 
 cd "$(realpath $(dirname "$0"))"
-
 mkdir -p hashes/small
+
+[ ! -d "outputs" ] && echo "Directory 'outputs' does not exist" && exit 1
 
 if [[ "$@" == *"--small"* ]]; then
     hash_folder="hashes/small"
@@ -15,7 +16,7 @@ fi
 
 if [[ "$@" == *"--generate"* ]]; then
     # Directory to iterate over
-    directory="outputs/bash"
+    directory="outputs"
 
     # Loop through all .out files in the directory
     for file in "$directory"/*.out
@@ -30,17 +31,17 @@ if [[ "$@" == *"--generate"* ]]; then
         echo "$hash" > "$hash_folder/$filename.hash"
 
         # Print the filename and hash
-        echo "File: $hash_folder/$filename.hash | SHA-256 Hash: $hash"
+        echo "$hash_folder/$filename.hash $hash"
     done
+
+    exit 0
 fi
 
 # Loop through all directories in the parent directory
-for folder in "outputs"/*/
+for folder in "outputs"/
 do
     # Remove trailing slash
     folder=${folder%/}
-
-    echo "Verifying folder: $folder"
 
     # Loop through all .out files in the current directory
     for file in "$folder"/*.out
@@ -56,10 +57,9 @@ do
             echo "$hash" > "$folder/$filename.hash"
         fi
 
-        # Compare the hash with the hash in the hashes directory
-        diff "$hash_folder/$filename.hash" "$folder/$filename.hash"
-
+        diff "$hash_folder/$filename.hash" "$folder/$filename.hash" > /dev/null
+        match="$?"
         # Print the filename and hash
-        echo "File: $folder/$filename | SHA-256 Hash: $(cat "$folder/$filename.hash")"
+        echo "$folder/$filename $match"
     done
 done

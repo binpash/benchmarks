@@ -5,8 +5,7 @@
 dict=$SUITE_DIR/inputs/dict.txt
 
 cat $1 |
-    iconv -f utf-8 -t ascii//translit | # remove non utf8 characters
-    # groff -t -e -mandoc -Tascii |  # remove formatting commands
+    sed 's/[^[:print:]]//g' |      # remove non-printing characters
     col -bx |                      # remove backspaces / linefeeds
     tr -cs A-Za-z '\n' |
     tr A-Z a-z |                   # map upper to lower case

@@ -5,7 +5,9 @@
 
 cd "$(realpath $(dirname "$0"))"
 
-mkdir -p hashes
+hash_folder="hashes"
+
+mkdir -p $hash_folder
 
 if [[ "$@" == *"--generate"* ]]; then
     directory="output"
@@ -50,7 +52,7 @@ do
     for file in "$folder"/*.bam
     do
         current_file=$((current_file + 1))
-        echo "Processing file $current_file of $total_files..."
+        # echo "Processing file $current_file of $total_files..."
 
         # Extract the filename without the directory path and extension
         filename=$(basename "$file" .bam)
@@ -66,7 +68,8 @@ do
         # Compare the hash with the hash in the hashes directory
         diff "$hash_folder/$filename.hash" "$folder/$filename.hash"
 
-        # Print the filename and hash
-        echo "File: $folder/$filename | SHA-256 Hash: $(cat "$folder/$filename.hash")"
+        # # Print the filename and hash
+        # echo "File: $folder/$filename | SHA-256 Hash: $(cat "$folder/$filename.hash")"
     done
 done
+exit 0

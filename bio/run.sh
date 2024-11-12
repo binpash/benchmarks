@@ -1,7 +1,7 @@
 # create bam files with regions
 ################### 1KG SAMPLES
 IN=${INPUT:-$PASH_TOP/benchmarks/bio}
-IN_NAME=${IN_N:-input_all.txt}
+IN_NAME=${IN_N:-input.txt}
 OUT=${OUTPUT:-$PASH_TOP/benchmarks/bio/output}
 cat ${IN}/${IN_NAME}|while read s_line;
   do
@@ -22,7 +22,6 @@ cat ${IN}/${IN_NAME}|while read s_line;
     samtools view -b "${OUT}/$sample"_corrected.bam chr"$chr" > "${OUT}/$pop"_"$sample"_"$chr".bam ;
     echo 'Indexing Sample '$pop'_'${OUT}/$sample' ';
     samtools index -b "${OUT}/$pop"_"$sample"_"$chr".bam;
-    sleep 2
   done;
   #rm "${OUT}/$sample"_corrected.bam;
   #rm "${OUT}/$sample"_corrected.bam.bai;

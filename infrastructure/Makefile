@@ -8,11 +8,11 @@ target/scripts_to_benchmark.csv: scripts_to_benchmark.py
 target/lines_of_code.csv: count_lines_of_code.py 
 	python3 $< > $@
 	
-target/nodes_in_scripts.csv: count_nodes_in_scripts.py 
+target/nodes_in_scripts.csv: count_nodes_in_scripts.py syntax_analysis.py
 	python3 $< > $@
 
 static-test: tests/test_syntax_analysis.py
-	python3 $< > $@
+	python3 -m unittest $<
 
 clean-static: 
 	rm -f $(STATIC_OUTPUTS)

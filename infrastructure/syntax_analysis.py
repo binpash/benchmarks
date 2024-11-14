@@ -79,6 +79,8 @@ def add_ast(d, a):
     d[name] += 1
     return d
 
+
+
 def count_nodes(asts):
     match asts:
         case NodeWSource(node=subnode):
@@ -119,6 +121,8 @@ def count_nodes(asts):
             return ft.reduce(operator.add, map(count_nodes, subnodes), Counter())
         case other:
             raise Exception(f"oops: {other} of type {type(other)}")
+
+
 
 # what commands?
 # setting environmnt variables

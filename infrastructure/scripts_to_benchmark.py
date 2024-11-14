@@ -12,7 +12,4 @@ from project_root import get_project_root
 root = get_project_root()
 for benchmark_name, scripts in get_all_scripts().items():
     for script in scripts:
-        asts = parse_shell_script(script)
-        count = count_nodes(asts)
-        count = ';'.join(f'{n}:{c}' for n, c in count.items())
-        print(script.relative_to(root), count, sep=',')
+        print(script.relative_to(root), benchmark_name, sep=',')

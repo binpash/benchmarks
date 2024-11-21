@@ -1,4 +1,4 @@
-STATIC_OUTPUTS = target/lines_of_code.csv target/nodes_in_scripts.csv target/scripts_to_benchmark.csv
+STATIC_OUTPUTS = target/lines_of_code.csv target/nodes_in_scripts.csv target/scripts_to_benchmark.csv target/shellmetrics.csv
 
 static: $(STATIC_OUTPUTS)
 
@@ -16,6 +16,13 @@ static-test: tests/test_syntax_analysis.py
 
 clean-static: 
 	rm -f $(STATIC_OUTPUTS)
+
+target/shellmetrics.sh:
+	wget --quiet -O $@ https://raw.githubusercontent.com/shellspec/shellmetrics/b3bfff2af6880443112cdbf2ea449440b30ab9b0/shellmetrics
+	chmod +x $@
+
+target/shellmetrics.csv: get_shellmetrics.py target/shellmetrics.sh
+	python3 get_shellmetrics.py > $@
 
 dynamic:
 

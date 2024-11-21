@@ -20,12 +20,11 @@ all_scripts = [s for scripts in get_all_scripts().values() for s in scripts]
 output = check_output([shellmetrics, '--csv', '--shell', 'bash', '--no-color', *all_scripts], text=True)
 datas = defaultdict(list)
 for line in output.splitlines()[1:]:
-    file, func, _lineno, lloc, ccn, _lines, _comment, _blank = line.split(',')
+    file, _func, _lineno, _lloc, ccn, _lines, _comment, _blank = line.split(',')
     file = json.loads(file)
     file = Path(file).relative_to(root)
-    datas[file].append((lloc, ccn))
+    datas[file].append((ccn))
 
 for file, datas in datas.items():
-    lloc = sum(int(d[0]) for d in datas)
-    ccn = sum(int(d[1]) for d in datas)
-    print(file, lloc, ccn, sep=',')
+    ccn = sum(float(ccn) for ccn, in datas)
+    print(file, ccn, sep=',')

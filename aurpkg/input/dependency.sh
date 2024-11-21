@@ -8,29 +8,59 @@ if ! dpkg -s $pkgs >/dev/null 2>&1 ; then
     echo 'Packages Installed'
 fi
 
-if [ ! -d ${IN}/deps/samtools-1.7 ]; then
-    cd ${IN}/deps/
-    wget https://github.com/samtools/samtools/archive/refs/tags/1.7.zip
-    unzip 1.7.zip
-    rm 1.7.zip
-    cd samtools-1.7
-    wget https://github.com/samtools/htslib/archive/refs/tags/1.7.zip
-    unzip 1.7.zip
-    autoheader            # Build config.h.in (this may generate a warning about
-    # AC_CONFIG_SUBDIRS - please ignore it).
-    autoconf -Wno-syntax  # Generate the configure script
-    ./configure           # Needed for choosing optional functionality
+# install dependencies
+required_version="1.7"
+
+# Check if Samtools is already installed and matches the required version
+if command -v samtools &>/dev/null; then
+    installed_version=$(samtools --version | head -n 1 | awk '{print $2}')
+    if [[ "$installed_version" == "$required_version" ]]; then
+        echo "Samtools version $required_version is already installed."
+    else
+        echo "A different version of Samtools is installed: $installed_version."
+        echo "Proceeding to install the required version: $required_version."
+    fi
+else
+    echo "Samtools is not installed. Proceeding with the installation."
+    # Update and install prerequisites
+    echo "Installing prerequisites..."
+    sudo apt update
+    sudo apt install -y build-essential libncurses5-dev libncursesw5-dev libbz2-dev liblzma-dev libcurl4-openssl-dev libssl-dev wget zlib1g-dev
+
+    # Download Samtools version 1.7
+    echo "Downloading Samtools version $required_version..."
+    wget https://github.com/samtools/samtools/releases/download/$required_version/samtools-$required_version.tar.bz2
+
+    # Extract the downloaded file
+    echo "Extracting Samtools..."
+    tar -xvjf samtools-$required_version.tar.bz2
+    cd samtools-$required_version
+
+    # Compile and install
+    echo "Compiling and installing Samtools..."
+    ./configure
     make
-    rm -rf 1.7.zip
-    echo 'Samtools installed'
+    sudo make install
+
+    sudo ln -s /usr/local/bin/samtools /usr/bin/samtools
+
+    # Verify the installation
+    echo "Verifying the installation..."
+    installed_version=$(samtools --version | head -n 1 | awk '{print $2}')
+    if [[ "$installed_version" == "$required_version" ]]; then
+        echo "Samtools version $required_version has been successfully installed."
+    else
+        echo "Failed to install the correct version of Samtools."
+        exit 1
+    fi
 fi
 
-# Check if makedeb-makepkg is installed
-if ! dpkg -s "makedeb-makepkg" >/dev/null 2>&1 ; then
-    cd ${IN}/deps/
-    wget https://shlink.makedeb.org/install -O install.sh
-    chmod +x install.sh
-    # Use sudo to run the install script with root privileges
-    sudo ./install.sh
-    echo 'Makedeb installed'
-fi
+# # Check if makedeb-makepkg is installed
+# if ! dpkg -s "makedeb-makepkg" >/dev/null 2>&1 ; then
+#     cd ${IN}/deps/
+#     wget https://shlink.makedeb.org/install -O install.sh
+#     chmod +x install.sh
+#     # Use sudo to run the install script with root privileges
+#     sudo ./install.sh
+#     echo 'Makedeb installed'
+# fi

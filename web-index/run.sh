@@ -2,6 +2,7 @@
 
 cd "$(dirname "$0")"
 
+BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 directory_path="inputs/articles"
 
 if [ ! -d "$directory_path" ]; then
@@ -25,5 +26,5 @@ fi
 mkdir -p "$OUTPUT_BASE"
 
 echo "web-index"
-time $SHELL ./scripts/ngrams.sh "$OUTPUT_BASE"
+$BENCHMARK_SHELL ./scripts/ngrams.sh "$OUTPUT_BASE"
 echo $?

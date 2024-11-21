@@ -18,4 +18,6 @@ export statistics_dir="$results_dir/statistics$suffix"
 
 mkdir -p "$statistics_dir"
 
-${scripts_dir}/temp-analytics.sh
+BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+
+$BENCHMARK_SHELL ${scripts_dir}/temp-analytics.sh

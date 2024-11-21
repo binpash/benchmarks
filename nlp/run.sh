@@ -12,6 +12,8 @@ else
     export IN="$SUITE_DIR/inputs/pg"
 fi
 
+BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+
 mkdir -p "outputs"
 
 # Define the script names in a single variable
@@ -51,6 +53,6 @@ while IFS= read -r script; do
     mkdir -p "$output_dir"
 
     echo "$script"
-    time "$SHELL" "$script_file" "$output_dir"
+    $BENCHMARK_SHELL "$SHELL" "$script_file" "$output_dir"
     echo "$?"
 done <<< "$script_names"

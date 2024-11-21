@@ -25,9 +25,12 @@ if [ ! -d ${IN}/deps/samtools-1.7 ]; then
     echo 'Samtools installed'
 fi
 
+# Check if makedeb-makepkg is installed
 if ! dpkg -s "makedeb-makepkg" >/dev/null 2>&1 ; then
     cd ${IN}/deps/
-    wget http://pac-n4.csail.mit.edu:81/pash_data/makedeb.deb
-    sudo dpkg -i makedeb.deb
+    wget https://shlink.makedeb.org/install -O install.sh
+    chmod +x install.sh
+    # Use sudo to run the install script with root privileges
+    sudo ./install.sh
     echo 'Makedeb installed'
 fi

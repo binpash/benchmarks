@@ -21,13 +21,13 @@
         "scripts": ["oneliners/scripts/*.sh"]
     },
     "sklearn": {
-        "scripts": ["sklearn/run.sh"]
+        "scripts": ["sklearn/scripts/run.sh"]
     },
     "riker": {
         "scripts": ["riker/scripts/*/build.sh"]
     },
     "uniq-ips": {
-        "scripts": ["uniq-ips/run.sh"]
+        "scripts": ["uniq-ips/scripts/run.sh"]
     },
     "unix50": {
         "scripts": ["unix50/scripts/*.sh"]

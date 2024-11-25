@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
+import argparse
 from pathlib import Path
 from typing import Optional
 import json
-from subprocess import check_output
+from subprocess import check_output, run
 from collections import Counter
 import os
 
@@ -15,7 +16,7 @@ def get_parser():
     parser = argparse.ArgumentParser(
             prog='run_dynamic',
             description='runs the dynamic analysis')
-    parser.add_argument('--bench', type=Path)
+    parser.add_argument('--bench', required=True, type=str)
     parser.add_argument('--run-input', action=argparse.BooleanOptionalAction)
     parser.add_argument('--run-deps', action=argparse.BooleanOptionalAction)
     return parser
@@ -27,15 +28,11 @@ def get_environment(root):
 
 def run_analysis(root: Path, bench: Path, run_input: bool, run_deps: bool):
     env = get_environment(root)
-
     if run_deps:
-        run([bench / 'deps.sh'], env=env)
+        run([root / bench / 'deps.sh'], env=env)
     if run_input:
-        run([bench / 'input.sh'], env=env)
-    run([bench / 'run.sh'], env=env)
-
-#     run([bench / 'verify.sh'])
-    
+        run([root / bench / 'input.sh'], env=env)
+    run([root / bench / 'run.sh'], env=env)
 
 if __name__ == '__main__':
     parser = get_parser()

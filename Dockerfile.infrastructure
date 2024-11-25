@@ -1,0 +1,8 @@
+FROM ubuntu:24.04
+
+RUN apt update && apt install -y cloc sysstat sudo vim git wget curl
+
+WORKDIR /benchmarks
+COPY . .
+
+CMD ["bash"]

@@ -1,0 +1,2 @@
+/benchmarks/log-analysis/scripts/nginx.sh /benchmarks/log-analysis/input/nginx-logs /benchmarks/log-analysis/results/nginx.full,1.5968113659982919
+/benchmarks/log-analysis/scripts/pcaps.sh /benchmarks/log-analysis/input/pcaps /benchmarks/log-analysis/results/pcaps.full,116.00431065500015

@@ -22,9 +22,10 @@ def get_parser():
     return parser
 
 def get_environment(root):
-    my_env = os.environ.copy()  
+    env = os.environ.copy()  
     dynamic_shell = root / 'infrastructure' / 'run_dynamic_shell.py'
-    my_env['BENCHMARK_SHELL'] = str(dynamic_shell)
+    env['BENCHMARK_SHELL'] = str(dynamic_shell)
+    return env
 
 def run_analysis(root: Path, bench: Path, run_input: bool, run_deps: bool):
     env = get_environment(root)

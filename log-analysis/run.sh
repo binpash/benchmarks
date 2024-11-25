@@ -18,6 +18,7 @@ if [[ "$@" == *"--small"* ]]; then
 fi
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+echo "shell: $BENCHMARK_SHELL"
 
 echo "nginx"
 $BENCHMARK_SHELL $scripts_dir/nginx.sh $nginx_input $results_dir/nginx$suffix 

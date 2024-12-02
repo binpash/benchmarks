@@ -54,6 +54,7 @@ fi
 echo executing unix50 $(date)
 
 mkdir -p "outputs"
+BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 
 for script_input in ${scripts_inputs[@]};
 do
@@ -67,6 +68,6 @@ do
     output_file="./outputs/$script.out"
 
     echo "$script"
-    time $SHELL $script_file $input_file > $output_file
+    $BENCHMARK_SHELL $script_file $input_file > $output_file
     echo $?
 done

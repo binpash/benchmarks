@@ -4,6 +4,8 @@ export SUITE_DIR=$(realpath $(dirname "$0"))
 export TIMEFORMAT=%R
 cd $SUITE_DIR
 
+BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+
 if [[ "$@" == *"--small"* ]]; then
     scripts_inputs=(
         "nfa-regex;1M"
@@ -42,6 +44,6 @@ do
     output_file="./outputs/${parsed[0]}.out"
 
     echo "$script_file"
-    time "$SHELL" "$script_file" "$input_file" > "$output_file"
+    $BENCHMARK_SHELL "$SHELL" "$script_file" "$input_file" > "$output_file"
     echo "$?"
 done

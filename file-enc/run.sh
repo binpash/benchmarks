@@ -17,5 +17,6 @@ if [[ "$1" == "--small" ]]; then
     suffix=".small"
 fi
 
-$scripts_dir/compress_files.sh $input_pcaps $results_dir/compress_files$suffix
-$scripts_dir/encrypt_files.sh $input_pcaps $results_dir/encrypt_files$suffix
+BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+$BENCHMARK_SHELL $scripts_dir/compress_files.sh $input_pcaps $results_dir/compress_files$suffix
+$BENCHMARK_SHELL $scripts_dir/encrypt_files.sh $input_pcaps $results_dir/encrypt_files$suffix

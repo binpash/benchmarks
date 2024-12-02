@@ -17,10 +17,12 @@ if [[ "$@" == *"--small"* ]]; then
     suffix=".small"
 fi
 
+BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+
 echo "nginx"
-time $scripts_dir/nginx.sh $nginx_input $results_dir/nginx$suffix 
+$BENCHMARK_SHELL $scripts_dir/nginx.sh $nginx_input $results_dir/nginx$suffix 
 echo $?
 
 echo "pcaps"
-time $scripts_dir/pcaps.sh $pcaps_input $results_dir/pcaps$suffix 
+$BENCHMARK_SHELL $scripts_dir/pcaps.sh $pcaps_input $results_dir/pcaps$suffix 
 echo $?

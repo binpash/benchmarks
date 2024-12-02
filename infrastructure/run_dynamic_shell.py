@@ -4,7 +4,7 @@ import shlex
 from pathlib import Path
 from typing import Optional
 import json
-from subprocess import check_output, run
+from subprocess import check_output, run, Popen
 from collections import Counter
 import sys
 from time import perf_counter
@@ -18,7 +18,9 @@ time_file = get_project_root() / 'infrastructure' / 'target' / 'runtime_log.csv'
 command = sys.argv[1:]
 
 start = perf_counter()
-run(['bash', *command])
+process = Popen(['/bin/bash', *command])
+
+process.wait()
 elapsed = perf_counter() - start
 
 with time_file.open('a') as file:

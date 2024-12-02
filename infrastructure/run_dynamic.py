@@ -16,7 +16,7 @@ def get_parser():
     parser = argparse.ArgumentParser(
             prog='run_dynamic',
             description='runs the dynamic analysis')
-    parser.add_argument('--bench', required=True, type=str)
+    parser.add_argument('bench', type=str)
     parser.add_argument('--run-input', action=argparse.BooleanOptionalAction)
     parser.add_argument('--run-deps', action=argparse.BooleanOptionalAction)
     return parser

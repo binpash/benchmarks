@@ -1,6 +1,7 @@
 #!/bin/bash
-IN=${IN:-$PASH_TOP/evaluation/benchmarks/dependency_untangling/input/packages}
-OUT=${OUT:-$PASH_TOP/evaluation/benchmarks/dependency_untangling/input/output/packages}
+REPO_TOP=$(git rev-parse --show-toplevel)
+IN=$REPO_TOP/aurpkg/input/packages
+OUT=${OUT:-$REPO_TOP/aurpkg/outputs}
 LOGS=${OUT}/logs
 mkdir -p ${OUT} ${LOGS}
 
@@ -30,9 +31,13 @@ run_tests() {
 
 export -f run_tests
 pkg_count=0
+
+count=0
 # loop over required packages
 for pkg in $(cat ${IN} | tr '\n' ' ' ); 
-do
+do  
+    count+=1
+    echo $count
     pkg_count=$((pkg_count + 1))
     run_tests $pkg > "${LOGS}"/"$pkg_count.log"
 done

@@ -7,6 +7,7 @@ import json
 from subprocess import check_output, run
 from collections import Counter
 import os
+from datetime import datetime
 
 from all_scripts import get_all_scripts
 from syntax_analysis import parse_shell_script, count_nodes
@@ -25,6 +26,7 @@ def get_environment(root):
     env = os.environ.copy()  
     dynamic_shell = root / 'infrastructure' / 'run_dynamic_shell.py'
     env['BENCHMARK_SHELL'] = str(dynamic_shell)
+    env['BENCHMARK_EXPERIMENT_START'] = datetime.now().isoformat()
     return env
 
 def run_analysis(root: Path, bench: Path, run_input: bool, run_deps: bool):

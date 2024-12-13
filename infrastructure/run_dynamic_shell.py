@@ -67,11 +67,13 @@ async def collect_process_data(parent: int, stdout):
         print(e, type(e))
 
 async def run_and_collect(program, data_log: Path):
+    start_time = time.perf_counter()
     process = await asyncio.create_subprocess_exec(*program)
     pid = process.pid
     with data_log.open('a') as data_log:
         process_data = asyncio.create_task(collect_process_data(pid, data_log))
         await process.wait()
+        print('pid', pid, time.perf_counter() - start_time)
         process_data.cancel()
 
 async def main():

@@ -33,6 +33,6 @@
         "scripts": ["unix50/scripts/*.sh"]
     },
     "web-index": {
-        "scripts": ["unix50/scripts/*.sh"]
+        "scripts": ["web-index/scripts/*.sh"]
     }
 }

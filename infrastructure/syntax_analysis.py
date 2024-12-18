@@ -127,8 +127,10 @@ def count_nodes(asts, count: Counter[NodeVariant]):
             count_nodes(more, count)
         case QArgChar(arg=more):
             count[NodeVariant.QUOTED_CONTROL] += 1
-        case BArgChar(node=node):
+            count_nodes(more, count)
+        case BArgChar(node=subnode):
             count[NodeVariant.DOLLAR_PAREN_SHELL_CONTROL] += 1
+            count_nodes(subnode, count)
         case PipeNode(items=subnodes):
             count_nodes(subnodes, count)
             count[NodeVariant.PIPELINE] += 1

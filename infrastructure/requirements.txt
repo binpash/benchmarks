@@ -1,2 +1,7 @@
 shasta
 libdash
+
+# for visualiztion
+pandas
+seaborn
+matplotlib

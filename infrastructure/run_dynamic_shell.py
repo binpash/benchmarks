@@ -17,18 +17,24 @@ from all_scripts import get_all_scripts
 from syntax_analysis import parse_shell_script, count_nodes
 from project_root import get_project_root
 
-def data_json(p: psutil.Process) -> str: 
+def data_json(p: psutil.Process, log_current_time: str) -> str: 
+    parent_pid = None
+    try:
+        parent_pid = p.parent().pid
+    except AttributeError:
+        pass
     p = p.as_dict()
     times = p['cpu_times']
     mem = p['memory_full_info']
     io_counters = p['io_counters']
     return json.dumps({
         'pid': p['pid'],
+        'parent': parent_pid,
         'benchmark_category': p['environ'].get('BENCHMARK_CATEGORY'),
         'benchmark_script': p['environ'].get('BENCHMARK_SCRIPT'),
         'benchmark_input_file': p['environ'].get('BENCHMARK_INPUT_FILE'),
         'benchmark_experiment_start': p['environ'].get('BENCHMARK_EXPERIMENT_START'),
-        'log_current_time': datetime.now().isoformat(),
+        'log_current_time': log_current_time,
         'cwd': p['cwd'],
         'cmdline': p['cmdline'],
         'create_time': p['create_time'],
@@ -50,10 +56,11 @@ def data_json(p: psutil.Process) -> str:
     })
 
 def write_process_data(parent: int, data_log):
+    log_current_time = datetime.now().isoformat()
     parent = psutil.Process(parent)
     for p in chain(parent.children(recursive=True), [parent]):
         try:
-            print(data_json(p), file=data_log)
+            print(data_json(p, log_current_time), file=data_log)
         except psutil.NoSuchProcess:
             pass
 

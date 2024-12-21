@@ -1,0 +1,2 @@
+#!/bin/bash
+echo 'Startup script executed for xz'

@@ -55,6 +55,8 @@ def node_heatmap(df):
             heatmap_data.at[normalize_node_name(node), row['benchmark']] = count
 
     heatmap_data = heatmap_data.fillna(0)
+
+    heatmap_data['Total'] = heatmap_data.sum(axis=1)
     limit = 5
     heatmap_data = heatmap_data.applymap(lambda x: min(x, limit))
     annot_data = heatmap_data.applymap(lambda x: \

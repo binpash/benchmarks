@@ -1,0 +1,98 @@
+#!/bin/bash
+set -eu
+THIS="$(readlink -f "$0")"
+THISDIR="$(dirname "${THIS}")"
+SRCDIR="$(dirname "${THISDIR}")"
+SUT="${SRCDIR}/makeself.sh"
+WHAT="$(basename "${THIS}")"
+
+# FIXME: These tests need to check that the concatenation of archives works
+
+
+readonly archive_dir_create="$(mktemp -dt archive_dir_create.XXXXXX)"
+readonly archive_dir_append="$(mktemp -dt archive_dir_append.XXXXXX)"
+touch "${archive_dir_create}/fee"
+touch "${archive_dir_create}/fie"
+touch "${archive_dir_append}/foe"
+touch "${archive_dir_append}/fum"
+
+evalAssert() {
+    eval "$@"
+    assertEquals "$?" "0"
+}
+
+# $1 : file_name
+doInfoListCheckExec() {
+    evalAssert "$1" --info
+    evalAssert "$1" --list
+    evalAssert "$1" --check
+    evalAssert "$1"
+}
+
+# $1 : file_name
+# rest : content basenames
+assertFileContains() {
+    local file_name=""
+    file_name="$(readlink -f "$1")"
+    shift
+    local target="${file_name}.d"
+    rm -rf "${target}"
+    mkdir -p "${target}"
+    evalAssert "${file_name}" --target "${target}"
+    assertEquals "$(find "${target}" -type f -exec basename -a {} + | sort)" "$(echo -e "$@" | sort)"
+    rm -rf "${target}"
+}
+
+# $@ : makeself options
+doTestOpts() {
+    local stem=""
+    stem="$(printf '%s' "${WHAT}" "$@" | tr -sc '[:alnum:]_.-' '_')"
+    local file_name=""
+    file_name="${stem}.run"
+
+    evalAssert "${SUT}" "$@" --sha256 \
+        "${archive_dir_create}" \
+        "${file_name}" \
+        "${stem}" \
+        "echo ${stem}"
+    file_name="$(readlink -f ${file_name})"
+    doInfoListCheckExec "${file_name}"
+    assertFileContains "${file_name}" "fee\nfie"
+
+    evalAssert "${SUT}" "$@" --sha256 \
+        --append "${archive_dir_append}" \
+        "${file_name}"
+    doInfoListCheckExec "${file_name}"
+    assertFileContains "${file_name}" "fee\nfie\nfoe\nfum"
+
+    rm -f "${file_name}"
+}
+
+# $1 : compression option
+doTestComp() {
+    if ! command -v "${1#--*}" >/dev/null 2>&1; then
+        echo "WARNING: missing command: ${1#--*}" >&2
+        return 0
+    fi
+    doTestOpts "$1"
+}
+
+################################################################################
+
+testDefault() { doTestOpts; }
+
+testNocomp() { doTestOpts --nocomp; }
+
+testBase64() { doTestComp --base64; }
+testBzip2() { doTestComp --bzip2; }
+testCompress() { doTestComp --compress; }
+testGzip() { doTestComp --gzip; }
+testLz4() { doTestComp --lz4; }
+testLzo() { doTestComp --lzo; }
+testPbzip2() { doTestComp --pbzip2; }
+testPigz() { doTestComp --pigz; }
+testXz() { doTestComp --xz; }
+testZstd() { doTestComp --zstd; }
+
+# Load and run shUnit2.
+source "./shunit2/shunit2"

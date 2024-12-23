@@ -34,5 +34,11 @@
     },
     "web-index": {
         "scripts": ["web-index/scripts/*.sh"]
+    },
+    "makeself": {
+        "scripts": ["makeself/makeself/*.sh"]
+    },
+    "vps-audit": {
+        "scripts": ["vps-audit/scripts/*.sh"]
     }
 }

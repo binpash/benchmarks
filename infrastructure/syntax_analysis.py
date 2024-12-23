@@ -181,7 +181,6 @@ def count_nodes(asts, count: Counter[NodeVariant]):
             count_nodes(argchars, count)
         case DupRedirNode(arg=argchars):
             count[NodeVariant.DUP_REDIRECTION] += 1
-            count_nodes(argchars, count)
         case HeredocRedirNode(arg=argchars):
             count[NodeVariant.HEREDOC_REDIRECTION] += 1
             count_nodes(argchars, count)

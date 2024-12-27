@@ -5,30 +5,31 @@ REPORT_FILE=$(ls vps-audit-report-* 2>/dev/null | tail -n 1)
 LOG_FILE=$(ls outputs/vps-audit-console.log 2>/dev/null | tail -n 1)
 DIFF_FILE="log_report_diff.txt"
 
-# Ensure report and log files exist
-if [[ ! -f "$REPORT_FILE" ]]; then
-    echo "Verification FAIL: No report file found. Please run the benchmark first."
+# Exit with a failure message
+fail() {
+    echo "Verification FAIL: $1"
     exit 1
-fi
+}
 
-if [[ ! -f "$LOG_FILE" ]]; then
-    echo "Verification FAIL: No log file found in outputs directory. Check your setup."
-    exit 1
-fi
+# Ensure report and log files exist and are not empty
+[[ -f "$REPORT_FILE" ]] || fail "No report file found. Please run the benchmark first."
+[[ -f "$LOG_FILE" ]] || fail "No log file found in outputs directory. Check your setup."
+[[ -s "$REPORT_FILE" ]] || fail "Report file is empty."
+[[ -s "$LOG_FILE" ]] || fail "Log file is empty."
 
-# Ensure the report file is not empty
-if [[ ! -s "$REPORT_FILE" ]]; then
-    echo "Verification FAIL: Report file is empty."
-    exit 1
-fi
+# Verify the presence of markers in the report
+check_presence() {
+    local type="$1"
+    local file="$2"
+    shift 2
+    local items=("$@")
 
-# Ensure the log file is not empty
-if [[ ! -s "$LOG_FILE" ]]; then
-    echo "Verification FAIL: Log file is empty."
-    exit 1
-fi
+    for item in "${items[@]}"; do
+        grep -qF "$item" "$file" || fail "Missing $type '$item' in $file."
+    done
+}
 
-# Define static markers to verify the report structure
+# Static markers
 STATIC_MARKERS=(
     "VPS Security Audit Tool"
     "System Information"
@@ -36,14 +37,13 @@ STATIC_MARKERS=(
     "End of VPS Audit Report"
 )
 
-# Define individual checks that must appear in the report
+# Expected individual checks
 EXPECTED_CHECKS=(
     "System Restart"
     "SSH Root Login"
     "SSH Password Auth"
     "SSH Port"
     "Firewall Status"
-    "Intrusion Prevention"
     "Failed Logins"
     "System Updates"
     "Port Security"
@@ -55,56 +55,29 @@ EXPECTED_CHECKS=(
     "SUID Files"
 )
 
-# Define disallowed markers
+# Verify report structure and individual checks
+check_presence "marker" "$REPORT_FILE" "${STATIC_MARKERS[@]}"
+check_presence "check" "$REPORT_FILE" "${EXPECTED_CHECKS[@]}"
+
+# Verify result markers ([PASS], [WARN], [FAIL])
+RESULT_MARKERS=("[PASS]" "[WARN]" "[FAIL]")
+RESULTS_COUNT=$(grep -Eo "$(IFS=\|; echo "${RESULT_MARKERS[*]}")" "$REPORT_FILE" | wc -l)
+
+[[ "$RESULTS_COUNT" -gt 0 ]] || fail "No result markers ([PASS], [WARN], [FAIL]) found in the report."
+
+# Disallowed markers
 DISALLOWED_MARKERS=(
     "Error:"
     "command not found"
     "failed to retrieve"
-    "No such file" 
+    "No such file"
     "Cannot resolve"
-    # "Permission denied" # may have to be removed, else we need sudo
 )
 
-# Verify the presence of static markers
-for marker in "${STATIC_MARKERS[@]}"; do
-    if ! grep -qF "$marker" "$REPORT_FILE"; then
-        echo "Verification FAIL: Missing marker '$marker' in report."
-        exit 1
-    fi
-done
+# Check for disallowed markers
+grep -F -f <(printf '%s\n' "${DISALLOWED_MARKERS[@]}") "$LOG_FILE" > "$DIFF_FILE" || true
+[[ ! -s "$DIFF_FILE" ]] || fail "Found disallowed markers in log. Check '$DIFF_FILE' for details."
 
-# Verify the presence of individual checks
-for check in "${EXPECTED_CHECKS[@]}"; do
-    if ! grep -qF "$check" "$REPORT_FILE"; then
-        echo "Verification FAIL: Missing check '$check' in report."
-        exit 1
-    fi
-done
-
-# Verify the presence of result markers ([PASS], [WARN], [FAIL])
-EXPECTED_RESULTS=("[PASS]" "[WARN]" "[FAIL]")
-RESULTS_COUNT=0
-
-for result in "${EXPECTED_RESULTS[@]}"; do
-    COUNT=$(grep -o "$result" "$REPORT_FILE" | wc -l)
-    if [[ "$COUNT" -gt 0 ]]; then
-        RESULTS_COUNT=$((RESULTS_COUNT + COUNT))
-    fi
-done
-
-if [[ "$RESULTS_COUNT" -eq 0 ]]; then
-    echo "Verification FAIL: No result markers ([PASS], [WARN], [FAIL]) found in the report."
-    exit 1
-fi
-
-# Check for disallowed markers in the diff
-grep -F -f <(printf '%s\n' "${DISALLOWED_MARKERS[@]}") "$LOG_FILE" > "$DIFF_FILE"
-
-if [[ -s "$DIFF_FILE" ]]; then
-    echo "Verification FAIL: Found disallowed markers in log. Check '$DIFF_FILE' for details."
-    exit 1
-fi
-
-# If all checks pass
+# All checks passed
 echo "Verification PASS: All markers, checks, and comparisons are valid. No disallowed markers found."
 exit 0

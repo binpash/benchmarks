@@ -2,11 +2,12 @@
 
 sudo apt update 
 
-sudo apt install -y --no-install-recommends \
+sudo apt install -y \
+    sudo \
     bash \
     curl \
     grep \
-    awk \
+    gawk \
     iptables \
     ufw \
     systemd

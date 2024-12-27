@@ -1,5 +1,12 @@
 #!/bin/bash
 
-sudo apt-get update 
+sudo apt update 
 
-sudo apt-get install -y bash curl grep awk iptables ufw systemd
+sudo apt install -y --no-install-recommends \
+    bash \
+    curl \
+    grep \
+    awk \
+    iptables \
+    ufw \
+    systemd

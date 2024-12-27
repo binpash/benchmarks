@@ -1,6 +1,8 @@
 #! /bin/bash
 
-sudo apt-get update && sudo apt-get install -y \
+sudo apt update 
+
+sudo apt install -y --no-install-recommends \
     git \
     build-essential \
     coreutils \

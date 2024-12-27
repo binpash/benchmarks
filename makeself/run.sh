@@ -8,6 +8,12 @@ SHUNIT2_REPO="https://github.com/kward/shunit2.git"
 SHUNIT2_DIR="${TEST_DIR}/shunit2"
 SHUNIT2_COMMIT="47be8b23a46a7897e849f1841f0fb704d34d0f6e"
 
+#do nothing
+if [[ "$@" == *"--small"* ]]; then
+    continue
+fi
+
+
 if [[ ! -d "$EVAL_DIR" ]]; then
     echo "Cloning makeself repository..."
     git clone https://github.com/megastep/makeself.git "$EVAL_DIR"

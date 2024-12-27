@@ -3,16 +3,20 @@
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/vps-audit"
 scripts_dir="${eval_dir}/scripts"
-# Paths for the audit script and outputs
 main_script="${scripts_dir}/vps-audit.sh"
 error_file="${eval_dir}/outputs/vps-audit-error.log"
 log_file="${eval_dir}/outputs/vps-audit-console.log"
 output_file="${eval_dir}/outputs/vps-audit-output.txt"
 
-# Create the outputs directory
+#do nothing
+if [[ "$@" == *"--small"* ]]; then
+    continue
+fi
+
+
 mkdir -p "${eval_dir}/outputs"
 
-# Run the audit script and capture real-time output in both log and output files
+# run the audit script and capture real-time output
 echo "Starting VPS audit..."
 "${main_script}" 2>&1 | tee "${log_file}" > "${output_file}"
 # Check for errors during execution

@@ -7,9 +7,9 @@ file-enc/scripts/compress_files.sh,file-enc
 file-enc/scripts/encrypt_files.sh,file-enc
 log-analysis/scripts/nginx.sh,log-analysis
 log-analysis/scripts/pcaps.sh,log-analysis
-makeself/scripts/make-release.sh,makeself
-makeself/scripts/makeself-header.sh,makeself
-makeself/scripts/makeself.sh,makeself
+makeself/makeself/make-release.sh,makeself
+makeself/makeself/makeself-header.sh,makeself
+makeself/makeself/makeself.sh,makeself
 max-temp/scripts/temp-analytics.sh,max-temp
 media-conv/scripts/img_convert.sh,media-conv
 media-conv/scripts/to_mp3.sh,media-conv
@@ -68,6 +68,8 @@ unix50/scripts/19.sh,unix50
 unix50/scripts/1.sh,unix50
 unix50/scripts/20.sh,unix50
 unix50/scripts/21.sh,unix50
+unix50/scripts/22.sh,unix50
+unix50/scripts/23.sh,unix50
 unix50/scripts/24.sh,unix50
 unix50/scripts/25.sh,unix50
 unix50/scripts/26.sh,unix50

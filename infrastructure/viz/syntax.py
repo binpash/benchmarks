@@ -55,8 +55,6 @@ def node_heatmap(df):
             heatmap_data.at[normalize_node_name(node), row['benchmark']] = count
 
     heatmap_data = heatmap_data.fillna(0)
-
-    heatmap_data['Total'] = heatmap_data.sum(axis=1)
     limit = 5
     heatmap_data = heatmap_data.applymap(lambda x: min(x, limit))
     annot_data = heatmap_data.applymap(lambda x: \
@@ -77,6 +75,13 @@ def extract_special_command(node):
             return sc
     return node
 
+def merge_node_counts(series):
+    merged_dict = {}
+    for d in series:
+        for k, v in d.items():
+            merged_dict[k] = merged_dict.get(k, 0) + v
+    return merged_dict
+
 def main(data_path):
     df = pd.read_csv(data_path, header=None)
     df.columns = ['script', 'nodes']
@@ -91,12 +96,6 @@ def main(data_path):
     map_df = pd.read_csv(benchmark_mapping_path, header=None)
     map_df.columns = ['script', 'benchmark']
     df = df.merge(map_df, on='script')
-    def merge_node_counts(series):
-        merged_dict = {}
-        for d in series:
-            for k, v in d.items():
-                merged_dict[k] = merged_dict.get(k, 0) + v
-        return merged_dict
     df = df.groupby('benchmark').agg({'nodes': merge_node_counts}).reset_index()
 
     node_heatmap(df)

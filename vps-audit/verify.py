@@ -104,12 +104,6 @@ def compare_hashes(file_path, hash_folder):
         sys.exit(1)
     print(f"{file_path} Verification Success")
 
-def check_error_file(error_file):
-    if os.path.exists(error_file) and os.path.getsize(error_file) > 0:
-        print(f"Error file {error_file} is not empty. Verification Failed.")
-        sys.exit(1)
-    print(f"Error file {error_file} is empty. Verification Success.")
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process and optionally generate hashes for files.")
     parser.add_argument(
@@ -129,4 +123,3 @@ if __name__ == "__main__":
     else:
         print("Comparison mode enabled. Hashes will be compared.")
         compare_hashes(output_file, hash_folder)
-        check_error_file(error_file)

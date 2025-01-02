@@ -2,7 +2,8 @@
 
 sudo apt update 
 
-sudo apt install -y --no-install-recommends \
+sudo apt install -y \
+    binutils \
     git \
     build-essential \
     coreutils \

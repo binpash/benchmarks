@@ -1,28 +1,42 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -eu
 THIS="$(readlink -f "$0")"
 THISDIR="$(dirname "${THIS}")"
-SRCDIR="$(dirname "${THISDIR}")"
+SRCDIR="$(dirname "$(dirname "${THISDIR}")")"
 VERSION="$(cat "${SRCDIR}/VERSION")"
+LOGFILE="${THISDIR}/test_results.log"
+BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 
 is_alpine_distro=false && [[ -f "/etc/alpine-release" ]] && is_alpine_distro=true
 
 uncompressed_size="12 KB" && [[ $is_alpine_distro == true ]] && uncompressed_size="4 KB"
 
-################################################################################
+echo "Test results:" > "${LOGFILE}"
+
+log_result() {
+    local test_name="$1"
+    local result="$2"
+    local details="${3:-}"
+    echo "${result}: ${test_name} ${details}" >> "${LOGFILE}"
+}
 
 # Take makeself options, generate a predefined archive, print --info to stdout.
 #
 # $@ : makeself options
-haveInfo() (
-    cd "${SRCDIR}" || return 1
-    mkdir -p infotest
-    ./makeself.sh "$@" ./infotest ./infotest.run infotest ls -lah >/dev/null 2>&1
-    assertEquals "$?" 0 >&2
-    ./infotest.run --info
-    assertEquals "$?" 0 >&2
-    rm -rf infotest infotest.run
-)
+haveInfo() {
+    (
+        cd "${SRCDIR}" || return 1
+        mkdir -p infotest
+        $BENCHMARK_SHELL ./makeself.sh "$@" ./infotest ./infotest.run infotest ls -lah >/dev/null 2>&1
+        if [[ $? -ne 0 ]]; then
+            return 1
+        fi
+        $BENCHMARK_SHELL ./infotest.run --info
+        local rc=$?
+        rm -rf infotest infotest.run
+        return "${rc}"
+    )
+}
 
 # Read want.info from stdin. Generate have.info using given options. Invoke
 # diff want.info have.info and return its exit status
@@ -34,16 +48,27 @@ diffInfo() {
     cat >want.info
     haveInfo "$@" >have.info
     if diff want.info have.info >&2; then
-        rc="$?"
+        rc=0
     else
-        rc="$?"
+        rc=1
     fi
     rm -f have.info want.info
     return "${rc}"
 }
 
-testDefault() (
-    cd "$(mktemp -d)" || return 1
+# Run a test and log results
+run_test() {
+    local test_name="$1"
+    shift
+    echo "Running ${test_name}..."
+    if "$@"; then
+        log_result "${test_name}" "PASS"
+    else
+        log_result "${test_name}" "FAIL"
+    fi
+}
+
+testDefault() {
     diffInfo --packaging-date "@0" <<EOF
 Identification: infotest
 Target directory: infotest
@@ -64,11 +89,10 @@ Script run after extraction:
      ls -lah
 infotest will be removed after extraction
 EOF
-    assertEquals "$?" 0
-)
+    return $?
+}
 
-testNocomp() (
-    cd "$(mktemp -d)" || return 1
+testNocomp() {
     diffInfo --packaging-date "@0" --nocomp <<EOF
 Identification: infotest
 Target directory: infotest
@@ -90,11 +114,10 @@ Script run after extraction:
      ls -lah
 infotest will be removed after extraction
 EOF
-    assertEquals "$?" 0
-)
+    return $?
+}
 
-testNotemp() (
-    cd "$(mktemp -d)" || return 1
+testNotemp() {
     diffInfo --packaging-date "@0" --notemp <<EOF
 Identification: infotest
 Target directory: infotest
@@ -116,10 +139,12 @@ Script run after extraction:
      ls -lah
 directory infotest is permanent
 EOF
-    assertEquals "$?" 0
-)
+    return $?
+}
 
-################################################################################
+# Run all tests and log results
+run_test "testDefault" testDefault
+run_test "testNocomp" testNocomp
+run_test "testNotemp" testNotemp
 
-# Load and run shUnit2.
-source "./shunit2/shunit2"
+echo "Tests completed. Results logged in ${LOGFILE}"

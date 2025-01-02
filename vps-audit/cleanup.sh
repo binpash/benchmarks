@@ -1,4 +1,4 @@
 #!/bin/bash
 
 rm *.txt
-rm -r outputs
+rm vps-audit-processed.out

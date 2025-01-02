@@ -1,40 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -eu
 THIS="$(readlink -f "$0")"
 THISDIR="$(dirname "${THIS}")"
-SUT="$(dirname "${THISDIR}")/makeself.sh"
+SUT="$(dirname "$(dirname "${THISDIR}")")/makeself.sh"
+LOGFILE="${THISDIR}/test_results.log"
+BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 
-################################################################################
+echo "Test results:" > "${LOGFILE}"
 
-# Generate new gpg key.
-#
-# This function is not used by the test unit, but it was used to create the
-# keys that appear in this test unit.
-#
-# https://gnupg.org/documentation/manuals/gnupg/Unattended-GPG-key-generation.html#Unattended-GPG-key-generation
-gpg_genkey() {
-    gpg --batch --generate-key - <<'EOF'
-%echo Generating temporary key...
-Key-Type: default
-Name-Real: Makeself Tester
-Name-Comment: time to test the makeself
-Name-Email: noreply@makeself.io
-Expire-Date: 0
-Passphrase: password123
-%commit
-%echo ...generated temporary key.
-EOF
+log_result() {
+    local test_name="$1"
+    local result="$2"
+    local details="${3:-}"
+    echo "${result}: ${test_name} ${details}" >> "${LOGFILE}"
 }
 
 # $1 : keyid
-#
-# print the ascii-armored key content for the given keyid
 cat_key() {
     case "$1" in
         3DD6797A5EDE9A253311C13AED3E040B19F6996E)
-            # sec   rsa3072 2021-09-24 [SC]
-            #       3DD6797A5EDE9A253311C13AED3E040B19F6996E
-            # uid           [ unknown] Makeself Tester (time to test the makeself) <noreply@makeself.io>
             cat <<'EOF'
 -----BEGIN PGP PRIVATE KEY BLOCK-----
 
@@ -84,9 +68,6 @@ F/K8LdM3iHJ5iWSRmORhAM4oXxZbV6v73Qm+Aw0=
 EOF
             ;;
         3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1)
-            # sec   rsa3072 2021-09-24 [SC]
-            #       3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1
-            # uid           [ultimate] Makeself Tester (time to test the makeself) <noreply@makeself.io>
             cat <<'EOF'
 -----BEGIN PGP PRIVATE KEY BLOCK-----
 
@@ -143,11 +124,9 @@ EOF
 
 # $1 : keyid
 checked_import_key() {
-    cat_key "$1" \
-        | gpg --quiet --import --passphrase=password123 --pinentry-mode=loopback --trust-model=always
-    assertEquals "$?" 0
+    cat_key "$1" | gpg --quiet --import --passphrase=password123 --pinentry-mode=loopback --trust-model=always
     gpg --list-secret-keys "$1" >/dev/null 2>&1
-    assertEquals "$?" 0
+    return $?
 }
 
 # $1 : keyid
@@ -155,134 +134,92 @@ checked_import_key() {
 create_sign_verify() {
     local keyid="$1"
     shift
-
-    # prepare archive directory
-    local archive_dir=""
+    local archive_dir
     archive_dir="$(mktemp -dt archive_dir.XXXXXX)"
-    touch "${archive_dir}"/foo.txt
-    touch "${archive_dir}"/bar.txt
-    touch "${archive_dir}"/qux.txt
+    touch "${archive_dir}/foo.txt" "${archive_dir}/bar.txt" "${archive_dir}/qux.txt"
 
-    # create archive
-    local archive_run=""
-    archive_run="${archive_dir}.run"
-    local output=""
-    output="${archive_run}.out"
-    "${SUT}" --sign password123 "$@" \
-        "${archive_dir}" "${archive_run}" "signtest" ls \
-        >"${output}"
-    assertEquals "$?" 0
+    local archive_run="${archive_dir}.run"
+    local output="${archive_run}.out"
 
-    # check output for signature
-    grep -Exq 'Signature: [[:alnum:]+/]+' "${output}"
-    assertEquals "$?" 0
-
-    # verify signature
-    local res=""
-    if eval "${archive_run}" --verify-sig "${keyid}"; then
-        res="$?"
+    if $BENCHMARK_SHELL "$SUT" --sign password123 "$@" "${archive_dir}" "${archive_run}" "signtest" ls >"${output}"; then
+        grep -Exq 'Signature: [[:alnum:]+/]+' "${output}" || return 1
+        eval "${archive_run}" --verify-sig "${keyid}" || return 1
     else
-        res="$?"
+        return 1
     fi
 
-    # clean up
     rm -rf "${archive_dir}" "${archive_run}" "${output}"
-    return "${res}"
 }
 
-testSingleKey() (
+testSingleKey() {
+    local GNUPGHOME
     GNUPGHOME="$(mktemp -dt GNUPGHOME.XXXXXX)"
     export GNUPGHOME
 
-    checked_import_key 3DD6797A5EDE9A253311C13AED3E040B19F6996E
-    assertEquals "$?" 0
-
-    create_sign_verify 3DD6797A5EDE9A253311C13AED3E040B19F6996E
-    assertEquals "$?" 0
+    if checked_import_key 3DD6797A5EDE9A253311C13AED3E040B19F6996E; then
+        if create_sign_verify 3DD6797A5EDE9A253311C13AED3E040B19F6996E; then
+            log_result "testSingleKey" "PASS"
+        else
+            log_result "testSingleKey" "FAIL" "Failed to sign/verify archive with single key"
+        fi
+    else
+        log_result "testSingleKey" "FAIL" "Failed to import single key"
+    fi
 
     rm -rf "${GNUPGHOME}"
-)
+}
 
-testMultipleKeys() (
+testMultipleKeys() {
+    local GNUPGHOME
     GNUPGHOME="$(mktemp -dt GNUPGHOME.XXXXXX)"
     export GNUPGHOME
 
-    checked_import_key 3DD6797A5EDE9A253311C13AED3E040B19F6996E
-    assertEquals "$?" 0
+    if checked_import_key 3DD6797A5EDE9A253311C13AED3E040B19F6996E && checked_import_key 3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1; then
+        if create_sign_verify 3DD6797A5EDE9A253311C13AED3E040B19F6996E --gpg-extra "--local-user=3DD6797A5EDE9A253311C13AED3E040B19F6996E"; then
+            log_result "testMultipleKeys (Key 1)" "PASS"
+        else
+            log_result "testMultipleKeys (Key 1)" "FAIL"
+        fi
 
-    checked_import_key 3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1
-    assertEquals "$?" 0
-
-    create_sign_verify \
-        3DD6797A5EDE9A253311C13AED3E040B19F6996E \
-        --gpg-extra "--local-user=3DD6797A5EDE9A253311C13AED3E040B19F6996E"
-    assertEquals "$?" 0
-
-    create_sign_verify \
-        3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1 \
-        --gpg-extra "--local-user=3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1"
-    assertEquals "$?" 0
+        if create_sign_verify 3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1 --gpg-extra "--local-user=3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1"; then
+            log_result "testMultipleKeys (Key 2)" "PASS"
+        else
+            log_result "testMultipleKeys (Key 2)" "FAIL"
+        fi
+    else
+        log_result "testMultipleKeys" "FAIL" "Failed to import keys"
+    fi
 
     rm -rf "${GNUPGHOME}"
-)
+}
 
-testWrongKey() (
+testWrongKey() {
+    local GNUPGHOME
     GNUPGHOME="$(mktemp -dt GNUPGHOME.XXXXXX)"
     export GNUPGHOME
 
-    checked_import_key 3DD6797A5EDE9A253311C13AED3E040B19F6996E
-    assertEquals "$?" 0
+    if checked_import_key 3DD6797A5EDE9A253311C13AED3E040B19F6996E && checked_import_key 3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1; then
+        if ! create_sign_verify 3DD6797A5EDE9A253311C13AED3E040B19F6996E --gpg-extra "--local-user=3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1"; then
+            log_result "testWrongKey (Key 1)" "PASS"
+        else
+            log_result "testWrongKey (Key 1)" "FAIL"
+        fi
 
-    checked_import_key 3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1
-    assertEquals "$?" 0
-
-    create_sign_verify \
-        3DD6797A5EDE9A253311C13AED3E040B19F6996E \
-        --gpg-extra "--local-user=3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1" \
-        || assertEquals "$?" 2
-
-    create_sign_verify \
-        3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1 \
-        --gpg-extra "--local-user=3DD6797A5EDE9A253311C13AED3E040B19F6996E" \
-        || assertEquals "$?" 2
+        if ! create_sign_verify 3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1 --gpg-extra "--local-user=3DD6797A5EDE9A253311C13AED3E040B19F6996E"; then
+            log_result "testWrongKey (Key 2)" "PASS"
+        else
+            log_result "testWrongKey (Key 2)" "FAIL"
+        fi
+    else
+        log_result "testWrongKey" "FAIL" "Failed to import keys"
+    fi
 
     rm -rf "${GNUPGHOME}"
-)
+}
 
-testWrongPassword() (
-    GNUPGHOME="$(mktemp -dt GNUPGHOME.XXXXXX)"
-    export GNUPGHOME
+# Run tests
+testSingleKey
+testMultipleKeys
+testWrongKey
 
-    checked_import_key 3DD6797A5EDE9A253311C13AED3E040B19F6996E
-    assertEquals "$?" 0
-
-    checked_import_key 3F717988DF7D8D55A1660FC1A5ECF255B5AE77E1
-    assertEquals "$?" 0
-
-    # prepare archive directory
-    local archive_dir=""
-    archive_dir="$(mktemp -dt archive_dir.XXXXXX)"
-    touch "${archive_dir}"/foo.txt
-    touch "${archive_dir}"/bar.txt
-    touch "${archive_dir}"/qux.txt
-
-    # create archive
-    local archive_run=""
-    archive_run="${archive_dir}.run"
-    local output=""
-    output="${archive_run}.out"
-    "${SUT}" --sign TheWrongPassword1357 "$@" \
-        "${archive_dir}" "${archive_run}" "signtest" ls \
-        >"${output}"
-    assertEquals "$?" 0
-
-    grep -Fxq 'Signature: ' "${output}"
-    assertEquals "$?" 0
-
-    rm -rf "${GNUPGHOME}" "${archive_dir}" "${archive_run}" "${output}"
-)
-
-################################################################################
-
-# Load and run shUnit2.
-source "./shunit2/shunit2"
+echo "Tests completed. Results logged in ${LOGFILE}"

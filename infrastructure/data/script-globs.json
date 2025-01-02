@@ -40,5 +40,8 @@
     },
     "vps-audit": {
         "scripts": ["vps-audit/scripts/*.sh"]
+    },
+    "vps-audit-negate": {
+        "scripts": ["vps-audit-negate/scripts/*.sh"]
     }
 }

@@ -1,8 +1,13 @@
 #! /bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-EVAL_DIR="${REPO_TOP}/makeself"
-TEST_DIR="${EVAL_DIR}/test"
-SHUNIT2_DIR="${TEST_DIR}/shunit2"
+BASE_DIR="$(dirname "$(readlink -f "$0")")"
+TEST_DIR="${BASE_DIR}/makeself/test"
+find "${TEST_DIR}" -type f -name "*.log" -exec rm -f {} +
 
-rm -rf "${SHUNIT2_DIR}"
+if [[ -f run_results.log ]]; then
+    rm run_results.log
+fi
+
+if [[ -f verify_results.log ]]; then
+    rm verify_results.log
+fi

@@ -1,38 +1,24 @@
-#!/bin/bash
-REPO_TOP=$(git rev-parse --show-toplevel)
-EVAL_DIR="${REPO_TOP}/makeself"
-TEST_DIR="${EVAL_DIR}/test"
-SHUNIT2_REPO="https://github.com/kward/shunit2.git"
-SHUNIT2_DIR="${TEST_DIR}/shunit2"
-SHUNIT2_COMMIT="47be8b23a46a7897e849f1841f0fb704d34d0f6e"
+#!/usr/bin/env bash
+set -eu
 
-#do nothing
-if [[ "$@" == *"--small"* ]]; then
-    continue
-fi
+BASE_DIR="$(dirname "$(readlink -f "$0")")"
+TESTS_DIR="${BASE_DIR}/makeself/test"
+LOGFILE="${BASE_DIR}/run_results.log"
+BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 
-cd "$TEST_DIR"
+echo "Starting test execution..." > "${LOGFILE}"
 
-if [[ ! -d "$SHUNIT2_DIR" ]]; then
-    echo "Directory does not exist. Cloning shunit2 repository..."
-    git clone "$SHUNIT2_REPO" "$SHUNIT2_DIR"
-    cd "$SHUNIT2_DIR"
-    git checkout "$SHUNIT2_COMMIT"
-elif [[ -z "$(ls -A "$SHUNIT2_DIR" 2>/dev/null)" ]]; then
-    echo "Directory exists but is empty. Removing and re-cloning shunit2 repository..."
-    rm -rf "$SHUNIT2_DIR"
-    git clone "$SHUNIT2_REPO" "$SHUNIT2_DIR"
-    cd "$SHUNIT2_DIR"
-    git checkout "$SHUNIT2_COMMIT"
-fi
+for test_script in "${TESTS_DIR}"/*/*.sh; do
+    test_dir="$(dirname "${test_script}")"
+    test_name="$(basename "${test_dir}")"
+    test_log="${test_dir}/test_results.log"
 
+    echo "Running test: $BENCHMARK_SHELL ${test_name}" >> "${LOGFILE}"
+    if "${test_script}" >> "${test_log}" 2>&1; then
+        echo "PASS: ${test_name}" >> "${LOGFILE}"
+    else
+        echo "FAIL: ${test_name}" >> "${LOGFILE}"
+    fi
+done
 
-cd "$EVAL_DIR"
-# Run the test suite
-echo "Running makeself test suite..."
-if make test; then
-    echo "All tests passed successfully."
-else
-    echo "Some tests failed. Check the output above for details."
-    exit 1
-fi
+echo "Test execution completed. Results in ${LOGFILE}"

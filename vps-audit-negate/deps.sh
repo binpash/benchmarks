@@ -1,0 +1,13 @@
+#!/bin/bash
+
+sudo apt update 
+
+sudo apt install -y \
+    sudo \
+    bash \
+    curl \
+    grep \
+    gawk \
+    iptables \
+    ufw \
+    systemd

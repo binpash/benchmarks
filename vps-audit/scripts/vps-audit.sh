@@ -176,7 +176,7 @@ check_firewall_status() {
             check_security "Firewall Status (firewalld)" "FAIL" "Firewalld is not active - your system is exposed to network attacks"
         fi
     elif command -v iptables >/dev/null 2>&1; then
-        if iptables -L | grep -q "Chain INPUT"; then
+        if sudo iptables -L | grep -q "Chain INPUT"; then
             check_security "Firewall Status (iptables)" "PASS" "iptables rules are active and protecting your system"
         else
             check_security "Firewall Status (iptables)" "FAIL" "No active iptables rules found - your system may be exposed"
@@ -204,7 +204,7 @@ fi
 
 # Check fail2ban
 if dpkg -l | grep -q "fail2ban"; then
-    if systemctl is-active fail2ban >/dev/null 2>&1; then
+    if ! pgrep -x "fail2ban-server" >/dev/null 2>&1; then
         check_security "Fail2ban" "PASS" "Brute force protection is active and running"
     else
         check_security "Fail2ban" "WARN" "Fail2ban is installed but not running - brute force protection is disabled"
@@ -232,7 +232,8 @@ else
 fi
 
 # Check running services
-SERVICES=$(systemctl list-units --type=service --state=running | grep "loaded active running" | wc -l)
+SERVICES=$(ps --no-headers -eo cmd | wc -l)
+
 if [ "$SERVICES" -lt 20 ]; then
     check_security "Running Services" "PASS" "Running minimal services ($SERVICES) - good for security"
 elif [ "$SERVICES" -lt 40 ]; then

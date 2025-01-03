@@ -10,4 +10,7 @@ sudo apt install -y \
     gawk \
     iptables \
     ufw \
-    systemd
+    procps \
+    net-tools \
+    fail2ban \
+    iproute2

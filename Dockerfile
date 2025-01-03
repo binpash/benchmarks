@@ -22,4 +22,13 @@ RUN pip3 install --break-system-packages \
     scikit-learn \
     kaggle
 
+# Install PaSh
+RUN wget https://raw.githubusercontent.com/binpash/pash/main/scripts/up.sh && \
+    sh up.sh && \
+    export PASH_TOP="$PWD/pash/"
+
+# Test PaSh installation
+RUN "$PWD/pash/pa.sh" -c "echo hi"
+
+# Default command
 CMD ["bash"]

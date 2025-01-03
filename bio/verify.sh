@@ -6,22 +6,18 @@
 cd "$(realpath $(dirname "$0"))"
 
 hash_folder="hashes"
+directory="outputs"
 
 mkdir -p $hash_folder
 
 if [[ "$@" == *"--generate"* ]]; then
-    directory="output"
 
     # get total number of files
     total_files=$(ls "$directory"/*.bam | wc -l)
-    current_file=0
 
     # Loop through all .bam files in the directory
     for file in "$directory"/*.bam
     do
-        current_file=$((current_file + 1))
-        echo "Processing file $current_file of $total_files..."
-
         # Extract the filename without the directory path and extension
         filename=$(basename "$file" .bam)
 
@@ -34,43 +30,29 @@ if [[ "$@" == *"--generate"* ]]; then
         # Print the filename and hash
         echo "File: $hash_folder/$filename.hash | SHA-256 Hash: $hash"
     done
+
+    exit 0
 fi
 
-# Loop through all directories in the parent directory
-for folder in "output"
+# Loop through all .bam files in the current directory
+for file in "$directory"/*.bam 
 do
-    # Remove trailing slash
-    folder=${folder%/}
 
-    echo "Verifying folder: $folder"
+    # Extract the filename without the directory path and extension
+    filename=$(basename "$file" .bam)
 
-    # total number of files
-    total_files=$(ls "$folder"/*.bam | wc -l)
-    current_file=0
+    if [ ! -f "$folder/$filename.hash" ]; then
+        # Generate SHA-256 hash
+        hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
 
-    # Loop through all .bam files in the current directory
-    for file in "$folder"/*.bam
-    do
-        current_file=$((current_file + 1))
-        # echo "Processing file $current_file of $total_files..."
+        # Save the hash to a file
+        echo "$hash" > "$folder/$filename.hash"
+    fi
 
-        # Extract the filename without the directory path and extension
-        filename=$(basename "$file" .bam)
+    # Compare the hash with the hash in the hashes directory
+    diff "$hash_folder/$filename.hash" "$folder/$filename.hash" > /dev/null
+    match="$?"
 
-        if [ ! -f "$folder/$filename.hash" ]; then
-            # Generate SHA-256 hash
-            hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
-
-            # Save the hash to a file
-            echo "$hash" > "$folder/$filename.hash"
-        fi
-
-        # Compare the hash with the hash in the hashes directory
-        diff "$hash_folder/$filename.hash" "$folder/$filename.hash" > /dev/null
-        match="$?"
-
-        # Print the filename and match
-        echo "$folder/$filename $match"
-    done
+    # Print the filename and match
+    echo "$folder/$filename $match"
 done
-exit 0

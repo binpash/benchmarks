@@ -31,4 +31,3 @@ do
     echo "$pkg"
     run_tests $pkg
 done
-

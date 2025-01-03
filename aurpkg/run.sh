@@ -10,5 +10,5 @@ script="./scripts/pacaur.sh"
 # Switch to user "user" to avoid permission issues
 
 echo "$script"
-sudo -u user $BENCHMARK_SHELL "$script" "$IN" "$OUT"
+$BENCHMARK_SHELL "$script" "$IN" "$OUT"
 echo "$?"

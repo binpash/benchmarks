@@ -66,10 +66,11 @@ do
         fi
 
         # Compare the hash with the hash in the hashes directory
-        diff "$hash_folder/$filename.hash" "$folder/$filename.hash"
+        diff "$hash_folder/$filename.hash" "$folder/$filename.hash" > /dev/null
+        match="$?"
 
-        # # Print the filename and hash
-        # echo "File: $folder/$filename | SHA-256 Hash: $(cat "$folder/$filename.hash")"
+        # Print the filename and match
+        echo "$folder/$filename $match"
     done
 done
 exit 0

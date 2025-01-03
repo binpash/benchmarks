@@ -1,6 +1,9 @@
-STATIC_OUTPUTS = target/lines_of_code.csv target/nodes_in_scripts.csv target/scripts_to_benchmark.csv
+STATIC_OUTPUTS = target/lines_of_code.csv target/nodes_in_scripts.csv target/scripts_to_benchmark.csv target/dynamic_analysis.csv
 
 static: $(STATIC_OUTPUTS)
+
+target/dynamic_analysis.csv: dynamic_analysis.py target/collect_dynamic_logs.touch 
+	python3 $< | sort > $@
 
 target/scripts_to_benchmark.csv: scripts_to_benchmark.py
 	python3 $< | sort > $@
@@ -17,6 +20,7 @@ static-test: tests/test_syntax_analysis.py
 clean-static: 
 	rm -f $(STATIC_OUTPUTS)
 
-dynamic:
+target/collect_dynamic_logs.touch: 
+	python3 collect_dynamic_logs.py 
 
-.PHONY: static dynamic clean-static static-test
+.PHONY: static clean-static static-test

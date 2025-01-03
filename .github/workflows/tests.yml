@@ -21,13 +21,21 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update && sudo apt install -y --no-install-recommends \
-            curl wget unzip
+            curl wget unzip git \
+            autoconf automake libtool build-essential gawk pkg-config \
+            python3-pip
+          pip3 install scikit-learn kaggle
+          wget https://raw.githubusercontent.com/binpash/pash/main/scripts/up.sh
+          sh up.sh
+          export PASH_TOP="$PWD/pash/"
 
       - name: Set execute permissions for main.sh
         run: chmod +x main.sh
 
       - name: Run Benchmark for ${{ matrix.benchmark }}
-        run: ./main.sh ${{ matrix.benchmark }} --small
+        run: |
+          export PASH_TOP="$PWD/pash/"
+          "$PASH_TOP/pa.sh" -c "./main.sh ${{ matrix.benchmark }} --small"
 
       - name: Upload .out and .err files
         uses: actions/upload-artifact@v4

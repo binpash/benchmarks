@@ -10,13 +10,31 @@ RUN apt update && apt install -y --no-install-recommends \
     curl \
     wget \
     unzip \
+    git \
     samtools \
     minimap2 \
     bcftools \
     python3-pip \
     vim \
-    ffmpeg unrtf imagemagick libarchive-tools libncurses5-dev libncursesw5-dev zstd liblzma-dev libbz2-dev zip unzip nodejs tcpdump \
-    git
+    ffmpeg \
+    unrtf \
+    imagemagick \
+    libarchive-tools \
+    libncurses5-dev \
+    libncursesw5-dev \
+    zstd \
+    liblzma-dev \
+    libbz2-dev \
+    zip \
+    unzip \
+    nodejs \
+    tcpdump \
+    autoconf \
+    automake \
+    libtool \
+    build-essential \
+    gawk \
+    pkg-config
 
 RUN pip3 install --break-system-packages \
     scikit-learn \

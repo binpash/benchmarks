@@ -14,15 +14,16 @@ else
     hash_folder="hashes"
 fi
 
+directory="outputs"
+
 if [[ "$@" == *"--generate"* ]]; then
     # Directory to iterate over
-    directory="outputs"
 
     # Loop through all PKGBUILD files in the directory and its subdirectories
-    find "$directory" -type f -name "PKGBUILD" | while read -r file
+    find "$directory" -maxdepth 1 -type f -name "*.txt" | while read -r file
     do
-        # Extract the package name from the directory path
-        package_name=$(basename "$(dirname "$file")")
+        # Extract the package name from the filepath, removing the .txt extension
+        package_name=$(basename "$file" .txt)
 
         # Generate SHA-256 hash
         hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
@@ -38,10 +39,9 @@ if [[ "$@" == *"--generate"* ]]; then
 fi
 
 # Loop through all PKGBUILD files in the directory and its subdirectories
-find "outputs" -type f -name "PKGBUILD" | while read -r file
+find "$directory" -maxdepth 1 -type f -name "*.txt" | while read -r file
 do
-    # Extract the package name from the directory path
-    package_name=$(basename "$(dirname "$file")")
+    package_name=$(basename "$file" .txt)
 
     if [ ! -f "$hash_folder/$package_name.hash" ]; then
         echo "Hash file for $package_name does not exist."
@@ -54,9 +54,9 @@ do
     # Read the stored hash
     stored_hash=$(cat "$hash_folder/$package_name.hash")
 
-    if [ "$hash" == "$stored_hash" ]; then
-        echo "$package_name: OK"
-    else
-        echo "$package_name: FAILED"
-    fi
+    diff <(echo "$hash") <(echo "$stored_hash") > /dev/null
+    match=$?
+
+    echo "$package_name $match"
+
 done

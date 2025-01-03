@@ -2,44 +2,13 @@
 REPO_TOP=$(git rev-parse --show-toplevel)
 IN=$REPO_TOP/aurpkg/input/packages
 OUT=${OUT:-$REPO_TOP/aurpkg/outputs}
-LOGS=${OUT}/logs
-mkdir -p ${OUT} ${LOGS}
+BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+mkdir -p ${OUT}
 
-info() { echo -e "\e[1m--> $@\e[0m"; }
-mkcd() { mkdir -p "$1" && cd "$1"; }
+script="./scripts/pacaur.sh"
 
-# check if not running as root
-# test "$UID" -gt 0 || { info "don't run this as root!"; exit; }
+# Switch to user "user" to avoid permission issues
 
-# set link to plaintext PKGBUILDs
-pkgbuild="https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h"
-
-run_tests() {
-    pgk=$1
-    info "create subdirectory for $pkg"
-    mkcd "${OUT}/$pkg"
-
-    info "fetch PKGBUILD for $pkg"
-    curl --insecure -o  PKGBUILD "$pkgbuild=$pkg" 2> /dev/null|| echo ' '
-
-    #info "fetch required pgp keys from PKGBUILD"
-    #gpg --recv-keys $(sed -n "s:^validpgpkeys=('\([0-9A-Fa-fx]\+\)').*$:\1:p" PKGBUILD)
-    info "make and install ..."
-    timeout 100 makedeb-makepkg --format-makedeb -d 2>/dev/null|| echo 'failed'
-    cd -
-}
-
-export -f run_tests
-pkg_count=0
-
-count=0
-# loop over required packages
-for pkg in $(cat ${IN} | tr '\n' ' ' ); 
-do  
-    count+=1
-    echo $count
-    pkg_count=$((pkg_count + 1))
-    run_tests $pkg > "${LOGS}"/"$pkg_count.log"
-done
-
-echo 'done';
+echo "$script"
+sudo -u user $BENCHMARK_SHELL "$script" "$IN" "$OUT"
+echo "$?"

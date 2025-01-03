@@ -1,7 +1,10 @@
+#!/usr/bin/env python3
+
 import re
 import argparse
 import hashlib
 import os
+import sys
 
 
 input_file = "vps-audit-negate.out"
@@ -87,8 +90,6 @@ def generate_hash(file_path, hash_folder):
     
     print(f"{hash_file_path} {hash_value}")
 
-import sys
-
 def compare_hashes(file_path, hash_folder):
     filename = os.path.splitext(os.path.basename(file_path))[0]
     
@@ -101,13 +102,18 @@ def compare_hashes(file_path, hash_folder):
         sys.exit(1)
 
     with open(hash_file_path, 'r') as hash_file:
-        existing_hash = hash_file.read().strip()
+        # Read all lines and strip whitespace
+        hashes = [line.strip() for line in hash_file.readlines() if line.strip()]
     
-    match = current_hash == existing_hash
-    if not match:
+    # Check if the current hash matches any of the hashes in the file
+    if current_hash in hashes:
+        print(f"{file_path} Verification Success")
+    else:
         print(f"{file_path} Verification Failed")
+        print(f"Computed hash: {current_hash}")
+        print(f"Stored hashes: {hashes}")
         sys.exit(1)
-    print(f"{file_path} Verification Success")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process and optionally generate hashes for files.")

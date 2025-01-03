@@ -15,6 +15,4 @@ if ! dpkg -s $pkgs >/dev/null 2>&1 ; then
     echo 'Packages Installed'
 fi
 
-sudo useradd -m user && \
-  echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-  chown -R user:user /benchmarks
+sudo useradd -m user && chown -R user:user .

@@ -42,3 +42,12 @@ if [ ! -f ./all_cmdsx100.txt ]; then
         cat all_cmds.txt >> all_cmdsx100.txt
     done
 fi
+
+# For uniq-ips
+if [ "$1" = "--small" ]; then
+    N=4000 # 4K
+else
+    N=40000000 # 40M
+fi
+
+../scripts/gen_ips.py "$N" > logs-popcount-org.txt

@@ -17,6 +17,7 @@ if [[ "$@" == *"--small"* ]]; then
         "bi-grams;1M"
         "set-diff;1M"
         "sort-sort;1M"
+        "uniq-ips;logs-popcount-org"
     )
 else
     scripts_inputs=(
@@ -29,6 +30,7 @@ else
         "bi-grams;3G"
         "set-diff;3G"
         "sort-sort;3G"
+        "uniq-ips;logs-popcount-org"
     )
 fi
 

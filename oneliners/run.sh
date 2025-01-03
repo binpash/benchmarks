@@ -46,6 +46,6 @@ do
     output_file="./outputs/${parsed[0]}.out"
 
     echo "$script_file"
-    $BENCHMARK_SHELL "$SHELL" "$script_file" "$input_file" > "$output_file"
+    $BENCHMARK_SHELL "$script_file" "$input_file" > "$output_file"
     echo "$?"
 done

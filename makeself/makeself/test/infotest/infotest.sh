@@ -44,17 +44,35 @@ haveInfo() {
 # $@ : makeself options
 diffInfo() {
     local rc=""
+    local valid_sizes="4 KB|12 KB" # Pipe-separated list of valid sizes for POSIX compliance
     cd "$(mktemp -d)" || return 1
     cat >want.info
     haveInfo "$@" >have.info
-    if diff want.info have.info >&2; then
+
+    # Replace the uncompressed size in have.info and want.info with a placeholder
+    sed 's/Uncompressed size: .*$/Uncompressed size: VALID_SIZE/' have.info >have.modified.info
+    sed 's/Uncompressed size: .*$/Uncompressed size: VALID_SIZE/' want.info >want.modified.info
+
+    # Compare the modified files
+    if diff want.modified.info have.modified.info >&2; then
         rc=0
     else
         rc=1
     fi
-    rm -f have.info want.info
+
+    # Extract the actual size from have.info
+    actual_size=$(grep "Uncompressed size" have.info | awk '{print $3, $4}')
+
+    # Check if the actual size is in the list of valid sizes
+    if ! echo "$actual_size" | grep -Eq "^($valid_sizes)$"; then
+        echo "Error: Uncompressed size '${actual_size}' is not valid. Expected one of: 4 KB or 12 KB" >&2
+        rc=1
+    fi
+
+    rm -f have.info want.info have.modified.info want.modified.info
     return "${rc}"
 }
+
 
 # Run a test and log results
 run_test() {

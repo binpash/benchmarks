@@ -12,7 +12,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+<<<<<<< HEAD
         benchmark: [nlp, file-enc, unix50, log-analysis, max-temp, uniq-ips, media-conv, sklearn, covid-mts, riker, oneliners, web-index, vps-audit, vps-audit-negate, makeself]
+=======
+        benchmark: [nlp, file-enc, unix50, log-analysis, max-temp, media-conv, sklearn, covid-mts, riker, oneliners, web-index, bio, aurpkg]
+>>>>>>> upstream/main
 
     steps:
       - name: Checkout code

@@ -13,8 +13,8 @@ for test_script in "${TESTS_DIR}"/*/*.sh; do
     test_name="$(basename "${test_dir}")"
     test_log="${test_dir}/test_results.log"
 
-    echo "Running test: $BENCHMARK_SHELL ${test_name}" >> "${LOGFILE}"
-    if "${test_script}" >> "${test_log}" 2>&1; then
+    echo "Running test: ${test_name}" >> "${LOGFILE}"
+    if "${BENCHMARK_SHELL}" "${test_script}" >> "${test_log}" 2>&1; then
         echo "PASS: ${test_name}" >> "${LOGFILE}"
     else
         echo "FAIL: ${test_name}" >> "${LOGFILE}"

@@ -614,7 +614,7 @@ if test "$QUIET" = "n"; then
 fi
 
 # See if we have GNU tar
-TAR=`exec <&- 2>&-; which gtar || command -v gtar || type gtar`
+TAR=`exec <&- 2>&-; which gtar || command -v gtar || type gtar || which tar || command -v tar || type tar`
 test -x "$TAR" || TAR=`exec <&- 2>&-; which bsdtar || command -v bsdtar || type bsdtar`
 test -x "$TAR" || TAR=tar
 

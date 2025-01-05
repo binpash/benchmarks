@@ -61,7 +61,7 @@ def clean_line(line):
 
     line = re.sub(r"^Starting audit at [^\x1b]+", "Starting audit at", line)
 
-    line = re.sub(r'vps-audit-report-\S+', '', line)
+    line = re.sub(r'vps-audit-negate-report-\S+', '', line)
 
     if ':' in line and any(marker in line for marker in sys_info_markers):
         line = line.split(':', 1)[0] + ':'

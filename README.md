@@ -30,8 +30,8 @@
 $ docker build -t bensh .
 
 # Run the container
-$ docker run -it bensh
+$ docker run --cap-add NET_ADMIN --cap-add NET_RAW -it bensh
 
 # For development, mount the benchmarks directory
-docker run -it -v "$(pwd):/benchmarks" bensh
+docker run --cap-add NET_ADMIN --cap-add NET_RAW -it -v "$(pwd):/benchmarks" bensh
 ```

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 s2=$(mktemp -u)
 s3=$(mktemp -u)
 
@@ -14,3 +16,4 @@ tee $s2 |
     sed "\$d"
 
 rm $s2 $s3
+

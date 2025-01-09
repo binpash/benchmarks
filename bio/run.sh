@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # create bam files with regions
 ################### 1KG SAMPLES
 IN=inputs
@@ -8,6 +10,11 @@ if [[ "$@" == *"--small"* ]]; then
     IN_NAME=input_small.txt
 fi
 
+export BENCHMARK_CATEGORY="nlp"
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 
-"$BENCHMARK_SHELL" ./scripts/bio.sh "$IN" "$IN_NAME" "$OUT"
+script_file=./scripts/bio.sh 
+export BENCHMARK_SCRIPT="$(realpath "$script_file")"
+export BENCHMARK_INPUT_FILE="$(realpath "$IN_NAME")"
+
+$BENCHMARK_SHELL "$script_file" "$IN" "$IN_NAME" "$OUT"

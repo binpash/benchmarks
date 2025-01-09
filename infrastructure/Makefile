@@ -1,6 +1,9 @@
-STATIC_OUTPUTS = target/lines_of_code.csv target/nodes_in_scripts.csv target/scripts_to_benchmark.csv target/cyclomatic.csv target/shellmetrics.sh
+STATIC_OUTPUTS = target/lines_of_code.csv target/nodes_in_scripts.csv target/scripts_to_benchmark.csv target/cyclomatic.csv target/shellmetrics.sh target/dynamic_analysis.csv
 
 static: $(STATIC_OUTPUTS)
+
+target/dynamic_analysis.csv: dynamic_analysis.py target/collect_dynamic_logs.touch target/collect_standard_dynamic_logs.touch
+	python3 $< | sort > $@
 
 target/scripts_to_benchmark.csv: scripts_to_benchmark.py
 	python3 $< | sort > $@
@@ -24,6 +27,12 @@ target/shellmetrics.sh:
 target/cyclomatic.csv: get_cyclomatic.py target/shellmetrics.sh
 	python3 get_cyclomatic.py > $@
 
-dynamic:
+target/collect_dynamic_logs.touch: 
+	python3 collect_dynamic_logs.py 
+	touch $@
 
-.PHONY: static dynamic clean-static static-test
+target/collect_standard_dynamic_logs.touch: 
+	python3 standard_run.py
+	touch $@
+
+.PHONY: static clean-static static-test

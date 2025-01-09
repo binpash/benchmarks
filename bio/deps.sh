@@ -1,3 +1,4 @@
+#!/bin/bash
 # install dependencies
 required_version="1.7"
 
@@ -44,3 +45,4 @@ else
         exit 1
     fi
 fi
+

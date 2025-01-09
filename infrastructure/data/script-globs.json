@@ -1,4 +1,10 @@
 {
+    "aurpkg": {
+        "scripts": ["aurpkg/scripts/*.sh"]
+    },
+    "bio": {
+        "scripts": ["bio/scripts/*.sh"]
+    },
     "covid-mts": {
         "scripts": ["covid-mts/scripts/*.sh"]
     },
@@ -26,9 +32,6 @@
     "riker": {
         "scripts": ["riker/scripts/*/build.sh"]
     },
-    "uniq-ips": {
-        "scripts": ["uniq-ips/scripts/run.sh"]
-    },
     "unix50": {
         "scripts": ["unix50/scripts/*.sh"]
     },
@@ -43,5 +46,29 @@
     },
     "vps-audit-negate": {
         "scripts": ["vps-audit-negate/scripts/*.sh"]
+    },
+    "infrastructure/standards/100-files": {
+        "scripts": ["infrastructure/standards/100-files/scripts/*.sh"]
+    },
+    "infrastructure/standards/read-write": {
+        "scripts": ["infrastructure/standards/read-write/scripts/*.sh"]
+    },
+    "infrastructure/standards/shell-memory": {
+        "scripts": ["infrastructure/standards/shell-memory/scripts/*.sh"]
+    },
+    "infrastructure/standards/sleep": {
+        "scripts": ["infrastructure/standards/sleep/scripts/*.sh"]
+    },
+    "infrastructure/standards/time-in-shell-subprocess": {
+        "scripts": ["infrastructure/standards/time-in-shell-subprocess/scripts/*.sh"]
+    },
+    "infrastructure/standards/user-time": {
+        "scripts": ["infrastructure/standards/user-time/scripts/*.sh"]
+    },
+    "infrastructure/standards/user-time-in-shell": {
+        "scripts": ["infrastructure/standards/user-time-in-shell/scripts/*.sh"]
+    },
+    "infrastructure/standards/write-only": {
+        "scripts": ["infrastructure/standards/write-only/scripts/*.sh"]
     }
 }

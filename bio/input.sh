@@ -1,3 +1,5 @@
+#!/bin/bash
+
 IN=inputs
 IN_NAME=input.txt
 

@@ -59,7 +59,4 @@ export -f pure_func
 
 ls "${IN}" | head -n "${ENTRIES}" | parallel -j "$(nproc)" pure_func {} "${IN}" "${INPUT2}" "${OUT}"
 
-# Cleanup
-rm -f file_list.txt
-
 echo "done"

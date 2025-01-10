@@ -37,7 +37,4 @@ export -f process_file
 # Use GNU Parallel to process files concurrently
 ls "${IN}" | head -n "${ENTRIES}" | parallel -j "$(nproc)" process_file {} "${IN}" "${OUT}"
 
-# Cleanup
-rm -f file_list.txt
-
 echo "done"

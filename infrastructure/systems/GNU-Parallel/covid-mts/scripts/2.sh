@@ -26,28 +26,20 @@
 INPUT="$1"
 
 process_chunk() {
-  local chunk="$1"
-  sed 's/T..:..:..//' "$chunk" |
+  sed 's/T..:..:..//'|
   cut -d ',' -f 3,1                      
 }
 export -f process_chunk
 
-lines=$(wc -l < "$1")
-nproc=$(nproc)
-chunk_size=$((lines / nproc))
+tmp_dir=$(mktemp -d)
+trap "rm -rf $tmp_dir" EXIT  
 
+cat "$INPUT" |
+  parallel --pipe --block "$chunk_size" -j "$nproc" process_chunk > "$tmp_dir/combined.tmp"
 
-split -l "$chunk_size" "$INPUT" chunk_
-ls chunk_* | parallel -j "$(nproc)" process_chunk > combined.tmp
-
-# Combine and process the results sequentially
-cat combined.tmp |
-  sort -u |                       # global deduplication
+sort -u "$tmp_dir/combined.tmp" |
   cut -d ',' -f 2 |              
   sort |                         
   uniq -c |                      
   sort -k 1 -n |                 
   awk '{print $2,$1}'           
-
-rm chunk_*
-rm combined.tmp

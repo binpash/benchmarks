@@ -44,11 +44,15 @@ scripts_inputs=(
 )
 
 suffix=""
+jobs=$(nproc)
+export jobs
 
 if [[ "$@" == *"--small"* ]]; then
     suffix="_1M"
+    export BLOCK_SIZE=$((1000000/jobs))
 else
     suffix="_3G"
+    export BLOCK_SIZE=$((3000000000/jobs))
 fi
 
 echo executing unix50 $(date)
@@ -68,6 +72,6 @@ do
     output_file="./outputs/$script.out"
 
     echo "$script"
-    $BENCHMARK_SHELL $script_file $input_file > $output_file
+    time $BENCHMARK_SHELL $script_file $input_file > $output_file
     echo $?
 done

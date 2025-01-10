@@ -26,28 +26,20 @@
 INPUT="$1"
 
 process_chunk() {
-  local chunk="$1"
-  sed 's/T\(..\):..:../,\1/' "$chunk" |  # keep times only
-  cut -d ',' -f 1,2,4                    # keep only time, date, and bus ID
+  sed 's/T\(..\):..:../,\1/' |  
+  cut -d ',' -f 1,2,4                  
 }
 export -f process_chunk
 
-lines=$(wc -l < "$1")
-nproc=$(nproc)
-chunk_size=$((lines / nproc))
+tmp_dir=$(mktemp -d)
+trap "rm -rf $tmp_dir" EXIT  
 
+cat "$INPUT" |
+  parallel --pipe --block "$chunk_size" -j "$nproc" process_chunk > "$tmp_dir/combined.tmp"
 
-split -l "$chunk_size" "$INPUT" chunk_
-
-ls chunk_* | parallel -j "$(nproc)" process_chunk > combined.tmp
-
-cat combined.tmp |
-  sort -u |                       # global deduplication
-  cut -d ',' -f 3 |               # keep only bus ID
-  sort |                          # prepare for counting
-  uniq -c |                       # count hours per bus
-  sort -k 1 -n |                  # sort in numerical order
-  awk '{print $2,$1}'             # print bus ID, then count
-
-rm chunk_*
-rm combined.tmp
+sort -u "$tmp_dir/combined.tmp" |
+  cut -d ',' -f 3 |               
+  sort |                         
+  uniq -c |                      
+  sort -k 1 -n |                 
+  awk '{print $2,$1}'             

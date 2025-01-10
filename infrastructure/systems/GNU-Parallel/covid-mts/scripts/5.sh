@@ -31,11 +31,11 @@ process_chunk() {
 
 export -f process_chunk
 
-# Split the input file into chunks
-split -l 10000 "$INPUT" chunk_
+tmp_dir=$(mktemp -d)
+trap "rm -rf $tmp_dir" EXIT  
 
 # Process each chunk in parallel and combine results
-ls chunk_* | parallel -j "$(nproc)" process_chunk > combined.tmp
+cat "$INPUT" | parallel --pipe --block "$chunk_size" -j "$(nproc)" process_chunk > "$tmp_dir/combined.tmp"
 
 # Aggregate results globally
 awk '
@@ -61,8 +61,5 @@ END {
       printf("%d\t", hours[d " " b] ? hours[d " " b] : 0);
     printf("\n");
   }
-}' combined.tmp > out
-
-# Clean up temporary files
-rm chunk_*
-rm combined.tmp
+}' "$tmp_dir/combined.tmp" > out
+  

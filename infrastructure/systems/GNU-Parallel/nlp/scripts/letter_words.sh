@@ -43,6 +43,4 @@ export -f process_file
 
 ls "${IN}" | head -n "${ENTRIES}" | parallel -j "$(nproc)" process_file {} "${IN}" "${OUT}"
 
-rm -f file_list.txt
-
 echo "done"

@@ -5,6 +5,7 @@ export TIMEFORMAT=%R
 cd $SUITE_DIR
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+num_cpus=$(nproc)
 
 if [[ "$@" == *"--small"* ]]; then
     scripts_inputs=(
@@ -19,6 +20,7 @@ if [[ "$@" == *"--small"* ]]; then
         "sort-sort;1M"
         "uniq-ips;logs-popcount-org"
     )
+    export BLOCK_SIZE=1000000/num_cpus
 else
     scripts_inputs=(
         "nfa-regex;1G"
@@ -32,7 +34,9 @@ else
         "sort-sort;3G"
         "uniq-ips;logs-popcount-org"
     )
+    export BLOCK_SIZE=1000000000/num_cpus
 fi
+
 
 mkdir -p "outputs"
 

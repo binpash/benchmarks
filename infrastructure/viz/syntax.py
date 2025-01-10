@@ -41,9 +41,16 @@ quoted_control
 # raw_command
 # escaped_char
 
+node_rename_map = {
+    'home_tilde_control': 'home_tilde',
+    'dollar_paren_shell_control': '$(shell)',
+    'dollar_paren_paren_arith_control': '$((arithmetic))'
+}
+
 def normalize_node_name(node):
     # remove "_command" suffix if present
-    return node.replace('_command', '')
+    renamed = node_rename_map.get(node, node)
+    return renamed.replace('_command', '')
 
 def node_heatmap(df):
     # todo which of these are missing entirely?
@@ -82,23 +89,28 @@ def merge_node_counts(series):
             merged_dict[k] = merged_dict.get(k, 0) + v
     return merged_dict
 
-def main(data_path):
+def read_data(merge_commands=True):
     df = pd.read_csv(data_path, header=None)
     df.columns = ['script', 'nodes']
     # Unpack node counts
     df['nodes'] = df['nodes'].apply(lambda x: dict([tuple(i.split(':')) for i in x.split(';')]) if isinstance(x, str) else {})
     # Transform nodes entries for 'command(eval)' and 'command(alias)' into 'eval' and 'alias'
-    df['nodes'] = df['nodes'].apply(lambda x: {extract_special_command(k): v for k, v in x.items()})
-    # Merge all the "command" nodes, we don't care about the individual commands here
-    df['nodes'] = df['nodes'].apply(lambda x: {k: int(v) for k, v in x.items() if 'command(' not in k} | {'command': sum([int(v) for k, v in x.items() if 'command(' in k])})
+    df['nodes'] = df['nodes'].apply(lambda x: {extract_special_command(k): int(v) for k, v in x.items()})
+    if merge_commands:
+        # Merge all the "command" nodes, we don't care about the individual commands here
+        df['nodes'] = df['nodes'].apply(lambda x: {k: v for k, v in x.items() if 'command(' not in k} | {'command': sum([v for k, v in x.items() if 'command(' in k])})
     
     # Aggregate by benchmark
     map_df = pd.read_csv(benchmark_mapping_path, header=None)
     map_df.columns = ['script', 'benchmark']
     df = df.merge(map_df, on='script')
-    df = df.groupby('benchmark').agg({'nodes': merge_node_counts}).reset_index()
+    bench_df = df.groupby('benchmark').agg({'nodes': merge_node_counts}).reset_index()
 
+    return (df, bench_df)
+
+def main():
+    _, df = read_data()
     node_heatmap(df)
 
 if __name__ == '__main__':
-    main(data_path)
+    main()

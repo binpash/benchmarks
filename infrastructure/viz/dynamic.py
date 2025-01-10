@@ -68,28 +68,13 @@ def plot_memory(df,
     plt.legend()
     plt.show()
 
-def main(data_path):
+def read_data():
     df = pd.read_csv(data_path, header=None)
     df.columns = ['script', 'user_time', 'system_time', 'max_unique_set_size', 'read_chars', 'write_chars', 'user_time_in_shell', 'system_time_in_shell', 'all_input_files', 'wall_time']
     print()
     for col in list(df.columns[1:7]) + list(df.columns[9:10]):
         df[col] = df[col].astype(float)
     df['all_input_files'] = df['all_input_files'].apply(lambda x: str(x).split(';'))
-
-    # aggregate by benchmark
-    map_df = pd.read_csv(benchmark_mapping_path, header=None)
-    map_df.columns = ['script', 'benchmark']
-    df = df.merge(map_df, on='script')
-    # sum all times
-    df = df.groupby('benchmark').agg({'user_time': 'sum', 
-                                      'system_time': 'sum',
-                                      'max_unique_set_size': 'sum',
-                                      'read_chars': 'sum', 
-                                      'write_chars': 'sum', 
-                                      'user_time_in_shell': 'sum', 
-                                      'system_time_in_shell': 'sum', 
-                                      'all_input_files': 'sum',
-                                      'wall_time': 'sum'}).reset_index()
 
     # merge the read and write_chars
     df['io_chars'] = df['read_chars'] + df['write_chars']
@@ -99,6 +84,25 @@ def main(data_path):
     df['time'] = df['user_time'] + df['system_time']
     df['time_in_shell'] = df['user_time_in_shell'] + df['system_time_in_shell']
     df['time_in_commands'] = df['time'] - df['time_in_shell']
+
+    # aggregate by benchmark
+    map_df = pd.read_csv(benchmark_mapping_path, header=None)
+    map_df.columns = ['script', 'benchmark']
+    df = df.merge(map_df, on='script')
+    # sum all times
+    bench_df = df.groupby('benchmark').agg({'time_in_shell': 'sum', 
+                                            'time_in_commands': 'sum',
+                                            'max_unique_set_size': 'sum',
+                                            'io_chars': 'sum', 
+                                            'user_time_in_shell': 'sum', 
+                                            'system_time_in_shell': 'sum', 
+                                            'all_input_files': 'sum',
+                                            'wall_time': 'sum'}).reset_index()
+    return (df, bench_df)
+
+
+def main():
+    _, df = read_data()
 
     # report any benchmarks where the wall time is not approximately equal to the sum of user and system time
     for _, row in df.iterrows():
@@ -138,4 +142,4 @@ def main(data_path):
 
 
 if __name__ == '__main__':
-    main(data_path)
+    main()

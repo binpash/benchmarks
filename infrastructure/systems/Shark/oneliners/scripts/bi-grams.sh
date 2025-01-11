@@ -11,9 +11,9 @@
 #   sort |
 #   uniq
 
-tr -c 'A-Za-z' '[\n*]' < $1 | 
-  grep -v "^\s*$" |
-  tr A-Z a-z |
-  bigrams_aux |
-  sort |
-  uniq
+< "$1" tr -c 'A-Za-z' '[\n*]' | 
+grep -v "^\s*$" |
+tr A-Z a-z |
+bigrams_aux |
+sort |
+uniq

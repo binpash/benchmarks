@@ -35,16 +35,21 @@
 
 mkdir -p "$2"
 
+#!TODO if possible remove tempfile
+
 pure_func() {
-    tee >(cut -d "\"" -f3 | cut -d ' ' -f2 | sort | uniq -c | sort -rn) \
-        >(awk '{print $9}' | sort | uniq -c | sort -rn) \
-        >(awk '($9 ~ /404/)' | awk '{print $7}' | sort | uniq -c | sort -rn) \
-        >(awk '($9 ~ /502/)' | awk '{print $7}' | sort | uniq -c | sort -r) \
-        >(awk -F\" '($2 ~ "/wp-admin/install.php"){print $1}' | awk '{print $1}' | sort | uniq -c | sort -r) \
-        >(awk '($9 ~ /404/)' | awk -F\" '($2 ~ "^GET .*.php")' | awk '{print $7}' | sort | uniq -c | sort -r | head -n 20) \
-        >(awk -F\" '{print $2}' | awk '{print $2}' | sort | uniq -c | sort -r) \
-        >(awk -F\" '($2 ~ "ref"){print $2}' | awk '{print $2}' | sort | uniq -c | sort -r) \
-        > /dev/null
+    tempfile=$(mktemp)
+
+    tee "$tempfile" | cut -d "\"" -f3 | cut -d ' ' -f2 | sort | uniq -c | sort -rn
+    awk '{print $9}' "$tempfile" | sort | uniq -c | sort -rn
+    awk '($9 ~ /404/)' "$tempfile" | awk '{print $7}' | sort | uniq -c | sort -rn
+    awk '($9 ~ /502/)' "$tempfile" | awk '{print $7}' | sort | uniq -c | sort -r
+    awk -F\" '($2 ~ "/wp-admin/install.php"){print $1}' "$tempfile" | awk '{print $1}' | sort | uniq -c | sort -r
+    awk '($9 ~ /404/)' "$tempfile" | awk -F\" '($2 ~ "^GET .*.php")' | awk '{print $7}' | sort | uniq -c | sort -r | head -n 20
+    awk -F\" '{print $2}' "$tempfile" | awk '{print $2}' | sort | uniq -c | sort -r
+    awk -F\" '($2 ~ "ref"){print $2}' "$tempfile" | awk '{print $2}' | sort | uniq -c | sort -r
+
+    rm -f "$tempfile"
 }
 export -f pure_func
 

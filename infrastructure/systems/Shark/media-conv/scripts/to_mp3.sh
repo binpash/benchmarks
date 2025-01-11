@@ -18,13 +18,13 @@
 mkdir -p "$2"
 
 pure_func() {
-    ffmpeg -y -i "$1" -f mp3 -ab 192000 "$2" 2>/dev/null
+    ffmpeg -y -i pipe:0 -f mp3 -ab 192000 pipe:1 2>/dev/null
 }
 export -f pure_func
 
 for i in "$1"/*; do
     out="$2/$(basename "$i").mp3"
-    pure_func "$i" "$out" &
+    pure_func < "$i" > "$out" &
 done
 wait
 

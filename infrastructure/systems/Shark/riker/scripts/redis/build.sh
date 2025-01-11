@@ -18,6 +18,7 @@ SRC="acl.c adlist.c ae.c anet.c aof.c bio.c bitops.c blocked.c childinfo.c cli_c
 for file in $SRC; do
     gcc $CFLAGS -c "$file" &
 done
+wait
 
 # Build redis-server
 OBJ1="adlist.o quicklist.o ae.o anet.o dict.o server.o sds.o zmalloc.o lzf_c.o lzf_d.o pqsort.o zipmap.o sha1.o ziplist.o release.o networking.o util.o object.o db.o replication.o rdb.o t_string.o t_list.o t_set.o t_zset.o t_hash.o config.o aof.o pubsub.o multi.o debug.o sort.o intset.o syncio.o cluster.o crc16.o endianconv.o slowlog.o scripting.o bio.o rio.o rand.o memtest.o crcspeed.o crc64.o bitops.o sentinel.o notify.o setproctitle.o blocked.o hyperloglog.o latency.o sparkline.o redis-check-rdb.o redis-check-aof.o geo.o lazyfree.o module.o evict.o expire.o geohash.o geohash_helper.o childinfo.o defrag.o siphash.o rax.o t_stream.o listpack.o localtime.o lolwut.o lolwut5.o lolwut6.o acl.o gopher.o tracking.o connection.o tls.o sha256.o timeout.o setcpuaffinity.o monotonic.o mt19937-64.o"
@@ -34,6 +35,7 @@ OBJ3="ae.o anet.o redis-benchmark.o adlist.o dict.o zmalloc.o release.o crcspeed
 gcc $CFLAGS -o redis-server $OBJ1 $LDFLAGS &
 gcc $CFLAGS -o redis-cli $OBJ2 $LDFLAGS &
 gcc $CFLAGS -o redis-benchmark $OBJ3 $LDFLAGS &
+wait 
 
 install redis-server redis-sentinel
 install redis-server redis-check-aof

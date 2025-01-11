@@ -33,17 +33,54 @@ heredoc_redirection
 home_tilde_control
 dollar_paren_shell_control
 dollar_paren_paren_arith_control
-quoted_control
 """.strip().split("\n") + special_commands
 # Omitted these because they don't seem to be useful:
 # ---
 # redirection
 # raw_command
 # escaped_char
+# quoted_control
+
+nodes_to_omit = [
+    'redirection',
+    'raw_command',
+    'escaped_char',
+    'quoted_control'
+]
+
+node_rename_map = {
+    'home_tilde_control': 'home_tilde',
+    'dollar_paren_shell_control': '$(substitution)',
+    'dollar_paren_paren_arith_control': '$((arithmetic))',
+    'file_redirection': 'file_redir',
+    'dup_redirection': 'dup_redir',
+    'heredoc_redirection': 'heredoc_redir',
+}
+
+node_order = [
+    'command',
+    'pipeline',
+    'variable_use',
+    'assignment',
+    'function',
+    '$(substitution)',
+    #'$((arithmetic))',
+    'file_redir',
+    'dup_redir',
+    'heredoc_redir',
+    'negate',
+    'or',
+    'and',
+    'if',
+    'case',
+    'for',
+    'while',
+]
 
 def normalize_node_name(node):
     # remove "_command" suffix if present
-    return node.replace('_command', '')
+    renamed = node_rename_map.get(node, node)
+    return renamed.replace('_command', '')
 
 def node_heatmap(df):
     # todo which of these are missing entirely?
@@ -52,7 +89,8 @@ def node_heatmap(df):
     heatmap_data = pd.DataFrame(index=list(map(normalize_node_name, node_types)), columns=df['benchmark'])
     for _, row in df.iterrows():
         for node, count in row['nodes'].items():
-            heatmap_data.at[normalize_node_name(node), row['benchmark']] = count
+            if node not in nodes_to_omit:
+                heatmap_data.at[normalize_node_name(node), row['benchmark']] = count
 
     heatmap_data = heatmap_data.fillna(0)
     limit = 5
@@ -62,11 +100,18 @@ def node_heatmap(df):
         '*' \
             if x == limit else '')
     
+    # order the y-axis of the heatmap according to the node_order, any nodes not in that list can appear after in any order
+    heatmap_data = heatmap_data.loc[[x for x in heatmap_data.index if x not in node_order] + list(reversed(node_order))]
+    annot_data = annot_data.loc[[x for x in annot_data.index if x not in node_order] + list(reversed(node_order))]
+    
     plt.figure(figsize=(50, 8))
-    sns.heatmap(heatmap_data, cmap='Reds', annot=annot_data, fmt='', cbar_kws={'label': 'Node Count'})
-    plt.xlabel('Benchmark')
-    plt.ylabel('Node Names')
-    plt.title('Node Heatmap')
+    sns.heatmap(heatmap_data, cmap='Reds', annot=annot_data, fmt='', cbar_kws={'label': 'Occurrences (* denotes more than 5)'})
+    # sns.clustermap(heatmap_data, col_cluster=False, cmap='Reds', annot=annot_data, fmt='', cbar_kws={'label': 'Occurrences (* denotes more than 5)'})
+    plt.xlabel('')
+    plt.xticks(rotation=60, ha='right')
+    plt.ylabel('')
+    plt.title('')
+    plt.subplots_adjust(bottom=0.15)
     plt.show()
 
 def extract_special_command(node):
@@ -82,23 +127,28 @@ def merge_node_counts(series):
             merged_dict[k] = merged_dict.get(k, 0) + v
     return merged_dict
 
-def main(data_path):
+def read_data(merge_commands=True):
     df = pd.read_csv(data_path, header=None)
     df.columns = ['script', 'nodes']
     # Unpack node counts
     df['nodes'] = df['nodes'].apply(lambda x: dict([tuple(i.split(':')) for i in x.split(';')]) if isinstance(x, str) else {})
     # Transform nodes entries for 'command(eval)' and 'command(alias)' into 'eval' and 'alias'
-    df['nodes'] = df['nodes'].apply(lambda x: {extract_special_command(k): v for k, v in x.items()})
-    # Merge all the "command" nodes, we don't care about the individual commands here
-    df['nodes'] = df['nodes'].apply(lambda x: {k: int(v) for k, v in x.items() if 'command(' not in k} | {'command': sum([int(v) for k, v in x.items() if 'command(' in k])})
+    df['nodes'] = df['nodes'].apply(lambda x: {extract_special_command(k): int(v) for k, v in x.items()})
+    if merge_commands:
+        # Merge all the "command" nodes, we don't care about the individual commands here
+        df['nodes'] = df['nodes'].apply(lambda x: {k: v for k, v in x.items() if 'command(' not in k} | {'command': sum([v for k, v in x.items() if 'command(' in k])})
     
     # Aggregate by benchmark
     map_df = pd.read_csv(benchmark_mapping_path, header=None)
     map_df.columns = ['script', 'benchmark']
     df = df.merge(map_df, on='script')
-    df = df.groupby('benchmark').agg({'nodes': merge_node_counts}).reset_index()
+    bench_df = df.groupby('benchmark').agg({'nodes': merge_node_counts}).reset_index()
 
+    return (df, bench_df)
+
+def main():
+    _, df = read_data()
     node_heatmap(df)
 
 if __name__ == '__main__':
-    main(data_path)
+    main()

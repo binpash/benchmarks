@@ -53,19 +53,17 @@ print_header "System Information"
 # PUBLIC_IP=$(curl -s https://api.ipify.org)
 # LOAD_AVERAGE=$(uptime | awk -F'load average:' '{print $2}' | xargs)
 
-OS_INFO=$(cat /etc/os-release | grep PRETTY_NAME | cut -d'"' -f2) &
-KERNEL_VERSION=$(uname -r) &
-HOSTNAME=$(hostname) &
-UPTIME=$(uptime -p) &
-UPTIME_SINCE=$(uptime -s) &
-CPU_INFO=$(lscpu | grep "Model name" | cut -d':' -f2 | xargs) &
+OS_INFO=$(grep PRETTY_NAME /etc/os-release | cut -d'"' -f2)
+KERNEL_VERSION=$(uname -r)
+HOSTNAME=$(hostname)
+UPTIME=$(uptime -p)
+UPTIME_SINCE=$(uptime -s)
+CPU_INFO=$(lscpu | grep "Model name" | cut -d':' -f2 | xargs)
 CPU_CORES=$(nproc) &
-TOTAL_MEM=$(free -h | awk '/^Mem:/ {print $2}') &
-TOTAL_DISK=$(df -h / | awk 'NR==2 {print $2}') &
-PUBLIC_IP=$(curl -s https://api.ipify.org) &
-LOAD_AVERAGE=$(uptime | awk -F'load average:' '{print $2}' | xargs) &
-
-wait
+TOTAL_MEM=$(free -h | awk '/^Mem:/ {print $2}')
+TOTAL_DISK=$(df -h / | awk 'NR==2 {print $2}')
+PUBLIC_IP=$(curl -s https://api.ipify.org)
+LOAD_AVERAGE=$(uptime | awk -F'load average:' '{print $2}' | xargs)
 
 # Print system information
 print_info "Hostname" "$HOSTNAME"
@@ -86,9 +84,9 @@ print_header "Security Audit Results"
 
 # Function to check and report with three states
 check_security() {
-    local test_name="$1"
-    local status="$2"
-    local message="$3"
+    test_name="$1"
+    status="$2"
+    message="$3"
     
     case $status in
         "PASS")

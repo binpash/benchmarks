@@ -225,7 +225,6 @@ check_firewall_status() {
     else
         check_security "Firewall Status" "FAIL" "No recognized firewall tool is installed on this system" "018.txt"
     fi
-    fi
 }
 
 # Function to check unattended upgrades

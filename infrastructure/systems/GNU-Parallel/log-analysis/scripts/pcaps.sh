@@ -22,8 +22,6 @@
 #     cat $item | pure_func > $logname
 # done
 
-# Using GNU parallel:
-
 mkdir -p "$2"
 
 pure_func() {
@@ -40,4 +38,4 @@ pure_func() {
 
 export -f pure_func
 
-find "$1" -type f | parallel --jobs "$(nproc)" pure_func {} "$2"
+find "$1" -type f | parallel "cat {} | pure_func > $2/{/}.log"

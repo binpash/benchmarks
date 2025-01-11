@@ -37,7 +37,6 @@
 
 mkdir -p $2
 
-
 pure_func() {
     tempfile=$(mktemp)
     outputdir=$(mktemp -d)
@@ -69,4 +68,3 @@ export -f pure_func
 export OUTPUT_DIR=$2
 
 find "$1" -type f | parallel --jobs "$(nproc)" "cat {} | pure_func > $OUTPUT_DIR/{/}"
-

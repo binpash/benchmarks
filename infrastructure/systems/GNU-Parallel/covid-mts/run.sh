@@ -18,12 +18,12 @@ mkdir -p "$output_scoped"
 file_size=$(du -b "$input_file" | awk '{print $1}')
 nproc=$(nproc)
 chunk_size=$((file_size / nproc))
-
+export nproc
 export chunk_size
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 
-time $BENCHMARK_SHELL "$scripts_dir/1.sh" "$input_file" > "$output_scoped/1.out"
-time $BENCHMARK_SHELL "$scripts_dir/2.sh" "$input_file" > "$output_scoped/2.out"
-time $BENCHMARK_SHELL "$scripts_dir/3.sh" "$input_file" > "$output_scoped/3.out"
-time $BENCHMARK_SHELL "$scripts_dir/4.sh" "$input_file" > "$output_scoped/4.out"
+$BENCHMARK_SHELL "$scripts_dir/1.sh" "$input_file" > "$output_scoped/1.out"
+$BENCHMARK_SHELL "$scripts_dir/2.sh" "$input_file" > "$output_scoped/2.out"
+$BENCHMARK_SHELL "$scripts_dir/3.sh" "$input_file" > "$output_scoped/3.out"
+$BENCHMARK_SHELL "$scripts_dir/4.sh" "$input_file" > "$output_scoped/4.out"

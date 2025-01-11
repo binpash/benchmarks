@@ -41,19 +41,18 @@ echo "================================" >> "$REPORT_FILE"
 print_header "System Information"
 
 # Get system information
-OS_INFO=$(cat /etc/os-release | grep PRETTY_NAME | cut -d'"' -f2) &
-KERNEL_VERSION=$(uname -r) &
-HOSTNAME=$(hostname) &
-UPTIME=$(uptime -p) &
-UPTIME_SINCE=$(uptime -s) &
-CPU_INFO=$(lscpu | grep "Model name" | cut -d':' -f2 | xargs) &
-CPU_CORES=$(nproc) &
-TOTAL_MEM=$(free -h | awk '/^Mem:/ {print $2}') &
-TOTAL_DISK=$(df -h / | awk 'NR==2 {print $2}') &
-PUBLIC_IP=$(curl -s https://api.ipify.org) &
-LOAD_AVERAGE=$(uptime | awk -F'load average:' '{print $2}' | xargs) &
+OS_INFO=$(cat /etc/os-release | grep PRETTY_NAME | cut -d'"' -f2)
+KERNEL_VERSION=$(uname -r)
+HOSTNAME=$(hostname)
+UPTIME=$(uptime -p)
+UPTIME_SINCE=$(uptime -s)
+CPU_INFO=$(lscpu | grep "Model name" | cut -d':' -f2 | xargs)
+CPU_CORES=$(nproc)
+TOTAL_MEM=$(free -h | awk '/^Mem:/ {print $2}')
+TOTAL_DISK=$(df -h / | awk 'NR==2 {print $2}')
+PUBLIC_IP=$(curl -s https://api.ipify.org)
+LOAD_AVERAGE=$(uptime | awk -F'load average:' '{print $2}' | xargs)
 
-wait
 # Print system information
 print_info "Hostname" "$HOSTNAME"
 print_info "Operating System" "$OS_INFO"
@@ -76,7 +75,6 @@ check_security() {
     local test_name="$1"
     local status="$2"
     local message="$3"
-    
     case $status in
         "PASS")
             echo -e "${GREEN}[PASS]${NC} $test_name ${GRAY}- $message${NC}"
@@ -192,6 +190,7 @@ check_firewall_status() {
 {
 check_firewall_status
 } &
+{
 # Check for unattended upgrades
 if ! dpkg -l | grep -q "unattended-upgrades"; then
     check_security "Unattended Upgrades" "FAIL" "Automatic security updates are not configured - system may miss critical updates"

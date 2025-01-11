@@ -24,6 +24,7 @@ pure_func () {
 }
 export -f pure_func
 
-export DEST_DIR="$2"
+export dest_dir="$2"
 
-parallel "cat {} | pure_func > $DEST_DIR/{/}" ::: "$1"/*
+find "$1" -type f | parallel --jobs "$(nproc)" \
+    'cat {} | pure_func > "$dest_dir/{/}"'

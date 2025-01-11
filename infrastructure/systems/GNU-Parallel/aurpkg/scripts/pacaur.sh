@@ -44,19 +44,18 @@ pkgbuild="https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h"
 
 run_tests() {
     pkg="$1"
-    out_dir="$2"
+    mkcd "${OUT}/$pkg" || exit 1
 
-    mkcd "${out_dir}/$pkg" || exit 1
+    curl --insecure -o PKGBUILD "$pkgbuild=$pkg" 2>/dev/null || echo ' '
 
-    curl --insecure -o PKGBUILD "$pkgbuild=$pkg" 2> /dev/null || echo ' '
-
-    # Info: Fetch required PGP keys from PKGBUILD (commented in the original script)
+    # Fetch required pgp keys from PKGBUILD (optional)
     # gpg --recv-keys $(sed -n "s:^validpgpkeys=('\([0-9A-Fa-fx]\+\)').*$:\1:p" PKGBUILD)
+    # Some failure is expected here, so we ignore the return code
     makedeb -d >> "../$pkg.txt" 2>&1
     cd - > /dev/null || exit 1
 }
-export -f run_tests
+export -f run_tests mkcd
 export pkgbuild
 
 # Read package names from the input file and process them in parallel
-cat "$IN" | tr '\n' ' ' | parallel --jobs "$(nproc)" run_tests {} "$OUT"
+parallel run_tests :::: "$IN"

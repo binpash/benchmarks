@@ -72,6 +72,6 @@ do
     output_file="./outputs/$script.out"
 
     echo "$script"
-    time $BENCHMARK_SHELL $script_file $input_file > $output_file
+    $BENCHMARK_SHELL $script_file $input_file > $output_file
     echo $?
 done

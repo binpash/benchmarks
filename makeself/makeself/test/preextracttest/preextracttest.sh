@@ -4,7 +4,6 @@ THIS="$(readlink -f "$0")"
 THISDIR="$(dirname "${THIS}")"
 SUT="$(dirname "$(dirname "${THISDIR}")")/makeself.sh"
 LOGFILE="${THISDIR}/test_results.log"
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 
 echo "Test results:" > "${LOGFILE}"
 
@@ -36,7 +35,7 @@ testPreextractOpts() {
     echo "$$ Some\toutput\n\a\b\0777 $var1 ${var2} `cat var3.txt` $(env)" > text.txt
   ' > preextract.sh
 
-    $BENCHMARK_SHELL "$SUT" --nox11 --preextract preextract.sh src src.sh alabel ./startup.sh
+    "$SUT" --nox11 --preextract preextract.sh src src.sh alabel ./startup.sh
     if [[ $? -eq 0 ]]; then
         log_result "testPreextractOpts: Create Archive" "PASS"
     else
@@ -45,7 +44,7 @@ testPreextractOpts() {
         return 1
     fi
 
-    $BENCHMARK_SHELL ./src.sh --show-preextract > show-preextract.out
+    ./src.sh --show-preextract > show-preextract.out
     if diff preextract.sh show-preextract.out > /dev/null; then
         log_result "testPreextractOpts: Verify Preextract" "PASS"
     else
@@ -59,8 +58,8 @@ testPreextractOpts() {
 
 testWithNoPreextractOpts() {
     setUp
-    $BENCHMARK_SHELL "$SUT" src src.sh alabel ./startup.sh
-    if $BENCHMARK_SHELL ./src.sh --show-preextract; then
+    "$SUT" src src.sh alabel ./startup.sh
+    if ./src.sh --show-preextract; then
         log_result "testWithNoPreextractOpts" "FAIL"
     else
         log_result "testWithNoPreextractOpts" "PASS"
@@ -71,8 +70,8 @@ testWithNoPreextractOpts() {
 testPreextractRun() {
     setUp
     echo 'echo Validating provided options...' > preextract.sh
-    $BENCHMARK_SHELL "$SUT" --nox11 --preextract preextract.sh src src.sh alabel ./startup.sh
-    if $BENCHMARK_SHELL ./src.sh | grep -qF 'Validating provided options...'; then
+    "$SUT" --nox11 --preextract preextract.sh src src.sh alabel ./startup.sh
+    if ./src.sh | grep -qF 'Validating provided options...'; then
         log_result "testPreextractRun" "PASS"
     else
         log_result "testPreextractRun" "FAIL"
@@ -83,8 +82,8 @@ testPreextractRun() {
 testPreextractNoexec() {
     setUp
     echo 'exit 2' > preextract.sh
-    $BENCHMARK_SHELL "$SUT" --preextract preextract.sh src src.sh alabel ./startup.sh
-    if $BENCHMARK_SHELL ./src.sh --noexec; then
+    "$SUT" --preextract preextract.sh src src.sh alabel ./startup.sh
+    if ./src.sh --noexec; then
         log_result "testPreextractNoexec" "PASS"
     else
         log_result "testPreextractNoexec" "FAIL"
@@ -95,7 +94,7 @@ testPreextractNoexec() {
 testPreextractArgs() {
     setUp
     echo 'echo $*' > preextract.sh
-    $BENCHMARK_SHELL "$SUT" --nox11 --preextract preextract.sh src src.sh alabel ./startup.sh --logdir /var/log
+    "$SUT" --nox11 --preextract preextract.sh src src.sh alabel ./startup.sh --logdir /var/log
     test_cmd='./src.sh -- --env dev'
 
     if eval "${test_cmd}" | grep -qF -- '--logdir /var/log --env dev'; then
@@ -110,8 +109,8 @@ testPreextractEnvPassing() {
     setUp
     echo 'echo "export INSTALLATION_DIR=/usr/bin" > preextract.env' > preextract.sh
     echo '. ./preextract.env; echo $INSTALLATION_DIR' > src/startup.sh
-    $BENCHMARK_SHELL "$SUT" --nox11 --preextract preextract.sh src src.sh alabel ./startup.sh
-    if $BENCHMARK_SHELL ./src.sh | grep -qF '/usr/bin'; then
+    "$SUT" --nox11 --preextract preextract.sh src src.sh alabel ./startup.sh
+    if ./src.sh | grep -qF '/usr/bin'; then
         log_result "testPreextractEnvPassing" "PASS"
     else
         log_result "testPreextractEnvPassing" "FAIL"

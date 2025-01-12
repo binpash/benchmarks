@@ -28,7 +28,7 @@ if [ ! -f ./3G.txt ]; then
 fi
 
 if [ ! -f ./dict.txt ]; then
-    wget -O - https://atlas-group.cs.brown.edu/data/dummy/dict.txt --no-check-certificate | sort > dict.txt
+    wget -O - https://atlas-group.cs.brown.edu/data/dummy/dict.txt --no-check-certificate | LC_ALL=C sort > dict.txt
 fi
 
 if [ ! -f ./all_cmds.txt ]; then

@@ -5,7 +5,6 @@ THISDIR="$(dirname "${THIS}")"
 SRCDIR="$(dirname "$(dirname "${THISDIR}")")"
 VERSION="$(cat "${SRCDIR}/VERSION")"
 LOGFILE="${THISDIR}/test_results.log"
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 
 is_alpine_distro=false && [[ -f "/etc/alpine-release" ]] && is_alpine_distro=true
 
@@ -27,11 +26,11 @@ haveInfo() {
     (
         cd "${SRCDIR}" || return 1
         mkdir -p infotest
-        $BENCHMARK_SHELL ./makeself.sh "$@" ./infotest ./infotest.run infotest ls -lah >/dev/null 2>&1
+        ./makeself.sh "$@" ./infotest ./infotest.run infotest ls -lah >/dev/null 2>&1
         if [[ $? -ne 0 ]]; then
             return 1
         fi
-        $BENCHMARK_SHELL ./infotest.run --info
+        ./infotest.run --info
         local rc=$?
         rm -rf infotest infotest.run
         return "${rc}"

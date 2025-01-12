@@ -4,7 +4,6 @@ THIS="$(readlink -f "$0")"
 THISDIR="$(dirname "${THIS}")"
 SUT="$(dirname "$(dirname "${THISDIR}")")/makeself.sh"
 LOGFILE="${THISDIR}/test_results.log"
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}" 
 
 echo "Test results:" > "${LOGFILE}"
 
@@ -21,7 +20,7 @@ setupTests() {
     mkdir archive
     touch archive/file
 
-    $BENCHMARK_SHELL "$SUT" archive makeself-test.run "Test $1" echo "\\\"\${${1}}\\\""
+    "$SUT" archive makeself-test.run "Test $1" echo "\\\"\${${1}}\\\""
 }
 
 testArchiveDir() {

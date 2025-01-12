@@ -49,13 +49,11 @@ do
         # Extract the filename without the directory path and extension
         filename=$(basename "$file" .out)
 
-        if [ ! -f "$folder/$filename.hash" ]; then
-            # Generate SHA-256 hash
-            hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
+        # Generate SHA-256 hash
+        hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
 
-            # Save the hash to a file
-            echo "$hash" > "$folder/$filename.hash"
-        fi
+        # Save the hash to a file
+        echo "$hash" > "$folder/$filename.hash"
 
         diff "$hash_folder/$filename.hash" "$folder/$filename.hash" > /dev/null
         match="$?"

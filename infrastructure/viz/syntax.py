@@ -33,13 +33,49 @@ heredoc_redirection
 home_tilde_control
 dollar_paren_shell_control
 dollar_paren_paren_arith_control
-quoted_control
 """.strip().split("\n") + special_commands
 # Omitted these because they don't seem to be useful:
 # ---
 # redirection
 # raw_command
 # escaped_char
+# quoted_control
+
+nodes_to_omit = [
+    'redirection',
+    'raw_command',
+    'escaped_char',
+    'quoted_control'
+]
+
+node_rename_map = {
+    'home_tilde_control': 'home_tilde',
+    'dollar_paren_shell_control': '$(substitution)',
+    'dollar_paren_paren_arith_control': '$((arithmetic))',
+    'file_redirection': 'file_redir',
+    'dup_redirection': 'dup_redir',
+    'heredoc_redirection': 'heredoc_redir',
+}
+
+node_order = [
+    'command',
+    'pipeline',
+    'variable_use',
+    'assignment',
+    'function',
+    '$(substitution)',
+    #'$((arithmetic))',
+    'file_redir',
+    'dup_redir',
+    'heredoc_redir',
+    'negate',
+    'or',
+    'and',
+    'if',
+    'case',
+    'for',
+    'while',
+]
 
 node_rename_map = {
     'home_tilde_control': 'home_tilde',
@@ -59,7 +95,8 @@ def node_heatmap(df):
     heatmap_data = pd.DataFrame(index=list(map(normalize_node_name, node_types)), columns=df['benchmark'])
     for _, row in df.iterrows():
         for node, count in row['nodes'].items():
-            heatmap_data.at[normalize_node_name(node), row['benchmark']] = count
+            if node not in nodes_to_omit:
+                heatmap_data.at[normalize_node_name(node), row['benchmark']] = count
 
     heatmap_data = heatmap_data.fillna(0)
     limit = 5
@@ -69,11 +106,18 @@ def node_heatmap(df):
         '*' \
             if x == limit else '')
     
+    # order the y-axis of the heatmap according to the node_order, any nodes not in that list can appear after in any order
+    heatmap_data = heatmap_data.loc[[x for x in heatmap_data.index if x not in node_order] + list(reversed(node_order))]
+    annot_data = annot_data.loc[[x for x in annot_data.index if x not in node_order] + list(reversed(node_order))]
+    
     plt.figure(figsize=(50, 8))
-    sns.heatmap(heatmap_data, cmap='Reds', annot=annot_data, fmt='', cbar_kws={'label': 'Node Count'})
-    plt.xlabel('Benchmark')
-    plt.ylabel('Node Names')
-    plt.title('Node Heatmap')
+    sns.heatmap(heatmap_data, cmap='Reds', annot=annot_data, fmt='', cbar_kws={'label': 'Occurrences (* denotes more than 5)'})
+    # sns.clustermap(heatmap_data, col_cluster=False, cmap='Reds', annot=annot_data, fmt='', cbar_kws={'label': 'Occurrences (* denotes more than 5)'})
+    plt.xlabel('')
+    plt.xticks(rotation=60, ha='right')
+    plt.ylabel('')
+    plt.title('')
+    plt.subplots_adjust(bottom=0.15)
     plt.show()
 
 def extract_special_command(node):

@@ -1,12 +1,32 @@
+#!/usr/bin/env python3
+
 import pandas as pd
 import fnmatch
 import viz.syntax as stx
 import viz.dynamic as dyn
 
-loc_data_path = 'target/lines_of_code.csv'
-input_data_path = 'data/size-inputs.csv'
+from all_scripts import get_all_scripts
+from project_root import get_project_root
+
+root = get_project_root()
+data_path = root / 'infrastructure/target/dynamic_analysis.jsonl'
+input_size_path = root / 'infrastructure/data/size_inputs.jsonl'
+loc_data_path = root / 'infrastructure/target/lines_of_code.csv'
 
 benchmark_category_style = {
+    'bio': ('XXX', 'XXX', 'XXX'),
+    'vps-audit': ('XXX', 'XXX', 'XXX'),
+    'vps-audit-negate': ('XXX', 'XXX', 'XXX'),
+    'aurpkg': ('XXX', 'XXX', 'XXX'),
+    'makeself': ('XXX', 'XXX', 'XXX'),
+    'infrastructure/standards/100-files': ('XXX', 'XXX', 'XXX'),
+    'infrastructure/standards/read-write': ('XXX', 'XXX', 'XXX'),
+    'infrastructure/standards/shell-memory': ('XXX', 'XXX', 'XXX'),
+    'infrastructure/standards/sleep': ('XXX', 'XXX', 'XXX'),
+    'infrastructure/standards/time-in-shell-subprocess': ('XXX', 'XXX', 'XXX'),
+    'infrastructure/standards/user-time': ('XXX', 'XXX', 'XXX'),
+    'infrastructure/standards/user-time-in-shell': ('XXX', 'XXX', 'XXX'),
+    'infrastructure/standards/write-only': ('XXX', 'XXX', 'XXX'),
     'covid-mts': ('Data analysis', 'Data extraction', '\\cite{covid-mts-source}'),
     'file-enc': ('Cryptography', 'Automation', '\\cite{cito2020empirical}'),
     'log-analysis': ('System admin.', 'Data extraction', '\\cite{spinellis2017extending, raghavan2020posh}'),
@@ -28,6 +48,8 @@ def short_category(benchmark):
     return shorten(dom) + '/' + shorten(style)
 
 benchmark_input_description = {
+    'aurpkg': 'package files',
+    'bio': 'biological data files',
     'covid-mts': 'transit data',
     'file-enc': 'pcap files',
     'log-analysis': 'log files',
@@ -35,13 +57,23 @@ benchmark_input_description = {
     'media-conv': 'media files',
     'nlp': 'text files',
     'oneliners': 'text files',
-    'riker': 'source code files',
+    'riker': 'application sources',
     'sklearn': 'CSV files',
-    'uniq-ips': 'text files',
     'unix50': 'text files',
     'web-index': 'HTML files',
-    'aurpkg': 'package files',
-    'bio': 'biological data files'
+    'bio': 'XXX',
+    'vps-audit': None,
+    'vps-audit-negate': None,
+    'makeself': None,
+    'aurpkg': 'XXX',
+    'infrastructure/standards/100-files': 'XXX',
+    'infrastructure/standards/read-write': 'XXX',
+    'infrastructure/standards/shell-memory': 'XXX',
+    'infrastructure/standards/sleep': 'XXX',
+    'infrastructure/standards/time-in-shell-subprocess': 'XXX',
+    'infrastructure/standards/user-time': 'XXX',
+    'infrastructure/standards/user-time-in-shell': 'XXX',
+    'infrastructure/standards/write-only': 'XXX',
 }
 
 scripts_to_include = [
@@ -57,9 +89,9 @@ scripts_to_include = [
     # sklearn is just 1
     # aurpkg is just 1
     # bio is just 1
-    # makeself??
     'web-index/scripts/ngrams.sh',
     # vps-audit is just 1
+    'makeself/makeself/test/lsmtest/lsmtest.sh'
 ]
 
 
@@ -79,14 +111,6 @@ def read_loc_data():
     }).reset_index()
     loc_data_bench.rename(columns={'script': 'number_of_scripts'}, inplace=True)
     return loc_data, loc_data_bench
-
-def read_input_data():
-    input_data = pd.read_csv(input_data_path, header=None)
-    input_data.columns = ['input_size', 'input_file']
-    input_data['benchmark'] = input_data['input_file'].apply(lambda x: x.split('/')[0])
-    input_data = input_data.groupby('benchmark').agg({'input_size': 'sum'}).reset_index()
-    input_data['input_description'] = input_data['benchmark'].apply(lambda x: benchmark_input_description[x])
-    return input_data
 
 def prettify_bytes_number(n):
     if n < 1024:
@@ -108,18 +132,24 @@ def prettify_bytes_number(n):
     color = 'black' if unit == 'GB' else 'gray'
     return f"{value:.{decimals}f} \\textcolor{{{color}}}{{{unit}}}"
 
+def make_input_description(row):
+    if row['input_description']:
+        desc = prettify_bytes_number(row['input_size']) + ' of ' + row['input_description']
+        return f"\\multirow{{2}}{{*}}{{\\parbox{{\\idw}}{{{desc}}}}}"
+    else:
+        return "N/A"
+
 def main():
     syntax_script, syntax_bench = stx.read_data(True)
+
     syntax_script_all_cmds, syntax_bench_all_cmds = stx.read_data(False)
     dyn_script,    dyn_bench = dyn.read_data()
     loc_data_script, loc_data_bench = read_loc_data()
-    inputs_bench = read_input_data()
 
     syntax_script_all_cmds['unique_cmds'] = syntax_script_all_cmds['nodes'].apply(count_unique_cmds)
     syntax_bench_all_cmds['unique_cmds'] = syntax_bench_all_cmds['nodes'].apply(count_unique_cmds)
     syntax_script['constructs'] = syntax_script['nodes'].apply(count_constructs)
     syntax_bench['constructs'] = syntax_bench['nodes'].apply(count_constructs)
-
     
     # all_scripts = set(syntax_script['script'].unique())
     
@@ -131,10 +161,10 @@ def main():
     # print("Missing in loc_data_script:", missing_in_loc_data)
     # print("Missing in syntax_script_all_cmds:", missing_in_cmds)
 
+    dyn_bench['input_description'] = dyn_bench['benchmark'].apply(lambda x: benchmark_input_description[x])
 
     big_bench = syntax_bench.merge(dyn_bench, on='benchmark')\
         .merge(loc_data_bench, on='benchmark')\
-        .merge(inputs_bench, on='benchmark')\
         .merge(syntax_bench_all_cmds[['benchmark', 'unique_cmds']], on='benchmark')
     
     big_script = syntax_script.merge(dyn_script, on='script')\
@@ -143,7 +173,7 @@ def main():
     
 
     print("""
-          \\def\\idw{5em}
+          \\def\\idw{7em}
 \\begin{tabular}{l|lrr|rr|l|rrrr|lr}
     \\toprule
 \\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c|}{Surface} & \\multicolumn{2}{c|}{Syntax} & \\multicolumn{1}{c|}{Inputs} & \\multicolumn{4}{c|}{Dynamic} & \\multicolumn{2}{c}{System} \\\\
@@ -156,7 +186,7 @@ def main():
         numscripts_shown = 0
         numscripts = row['number_of_scripts']
         print("\\rule{0pt}{5ex}")
-        print(f"\\textbf{{\\tt {row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {row['constructs']} & {row['unique_cmds']} & \\multirow{{2}}{{*}}{{\\parbox{{\\idw}}{{{prettify_bytes_number(row['input_size']) + ' of ' + row['input_description']}}}}} & {row['time_in_shell']:.2f} & {row['time_in_commands']:.2f} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} \\\\")
+        print(f"\\textbf{{\\tt {row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {row['constructs']} & {row['unique_cmds']} & {make_input_description(row)} & {row['time_in_shell']:.2f} & {row['time_in_commands']:.2f} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} \\\\")
         # now print the details of all scripts in the benchmark
         for _, row_script in big_script.iterrows():
             if row_script['benchmark'] == row['benchmark'] and any([fnmatch.fnmatch(row_script['script'], pattern) for pattern in scripts_to_include]):

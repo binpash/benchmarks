@@ -55,7 +55,7 @@ while IFS= read -r script; do
 
     export BENCHMARK_SCRIPT="$(realpath "$script_file")"
     echo "$script"
-    $BENCHMARK_SHELL "$script_file" "$output_dir"
+    time $BENCHMARK_SHELL "$script_file" "$output_dir"
     echo "$?"
 done <<< "$script_names"
 

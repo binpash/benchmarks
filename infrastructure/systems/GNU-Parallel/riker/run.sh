@@ -8,6 +8,6 @@ export BENCHMARK_CATEGORY="riker"
 
 for bench in "$scripts_dir"/*; do
     export BENCHMARK_SCRIPT="$(realpath "$bench/run.sh")"
-    "$bench/run.sh" $@
+    time "$bench/run.sh" $@
 done
 

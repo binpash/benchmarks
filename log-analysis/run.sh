@@ -24,11 +24,11 @@ echo "shell: $BENCHMARK_SHELL"
 echo "nginx"
 export BENCHMARK_INPUT_FILE="$(realpath "$nginx_input")"
 export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/nginx.sh")"
-$BENCHMARK_SHELL $scripts_dir/nginx.sh $nginx_input $results_dir/nginx$suffix 
+time $BENCHMARK_SHELL $scripts_dir/nginx.sh $nginx_input $results_dir/nginx$suffix 
 echo $?
 
 echo "pcaps"
 export BENCHMARK_INPUT_FILE="$(realpath "$pcaps_input")"
 export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/pcaps.sh")"
-$BENCHMARK_SHELL $scripts_dir/pcaps.sh $pcaps_input $results_dir/pcaps$suffix 
+time $BENCHMARK_SHELL $scripts_dir/pcaps.sh $pcaps_input $results_dir/pcaps$suffix 
 echo $?

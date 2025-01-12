@@ -29,5 +29,5 @@ mkdir -p "$OUTPUT_BASE"
 echo "web-index"
 export BENCHMARK_SCRIPT="$(realpath "./scripts/ngrams.sh")"
 export BENCHMARK_INPUT_FILE="$(realpath "$INPUT_FILE")"
-$BENCHMARK_SHELL ./scripts/ngrams.sh "$OUTPUT_BASE"
+time $BENCHMARK_SHELL ./scripts/ngrams.sh "$OUTPUT_BASE"
 echo $?

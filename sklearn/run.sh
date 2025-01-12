@@ -10,5 +10,5 @@ export BENCHMARK_CATEGORY="sklearn"
 cd "$eval_dir" # scripts/run.sh references PWD
 
 export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/run.sh")"
-$BENCHMARK_SHELL "$scripts_dir/run.sh" $@
+time $BENCHMARK_SHELL "$scripts_dir/run.sh" $@
 

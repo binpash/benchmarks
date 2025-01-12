@@ -22,6 +22,6 @@ export BENCHMARK_INPUT_FILE="$(realpath "$input_pcaps")"
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 
 export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/compress_files.sh")"
-$BENCHMARK_SHELL "$scripts_dir/compress_files.sh" "$input_pcaps" "$results_dir/compress_files$suffix"
+time $BENCHMARK_SHELL "$scripts_dir/compress_files.sh" "$input_pcaps" "$results_dir/compress_files$suffix"
 export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/encrypt_files.sh")"
-$BENCHMARK_SHELL "$scripts_dir/encrypt_files.sh" "$input_pcaps" "$results_dir/encrypt_files$suffix"
+time $BENCHMARK_SHELL "$scripts_dir/encrypt_files.sh" "$input_pcaps" "$results_dir/encrypt_files$suffix"

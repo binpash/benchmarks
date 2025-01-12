@@ -15,4 +15,4 @@ script_file=./scripts/bio.sh
 export BENCHMARK_SCRIPT="$(realpath "$script_file")"
 export BENCHMARK_INPUT_FILE="$(realpath "$IN_NAME")"
 
-"$BENCHMARK_SHELL" ./scripts/bio.sh "$IN" "$IN_NAME" "$OUT"
+time "$BENCHMARK_SHELL" ./scripts/bio.sh "$IN" "$IN_NAME" "$OUT"

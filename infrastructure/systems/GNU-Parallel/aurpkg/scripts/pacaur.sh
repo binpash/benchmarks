@@ -33,6 +33,7 @@
 # done
 
 # Using GNU Parallel:
+#!/bin/bash
 
 IN="$1"
 OUT="$2"
@@ -44,6 +45,7 @@ pkgbuild="https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h"
 
 run_tests() {
     pkg="$1"
+    echo "$pkg"
     mkcd "${OUT}/$pkg" || exit 1
 
     curl --insecure -o PKGBUILD "$pkgbuild=$pkg" 2>/dev/null || echo ' '

@@ -75,6 +75,6 @@ do
     export BENCHMARK_SCRIPT="$(realpath "$script_file")"
     export BENCHMARK_INPUT_FILE="$(realpath "$input_file")"
     echo "$script"
-    $BENCHMARK_SHELL $script_file $input_file > $output_file
+    time $BENCHMARK_SHELL $script_file $input_file > $output_file
     echo $?
 done

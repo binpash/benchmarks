@@ -16,11 +16,9 @@ for test_script in "${TESTS_DIR}"/*/*.sh; do
 
     echo "Running test: ${test_name}" >> "${LOGFILE}"
     export BENCHMARK_SCRIPT="$(realpath "$test_script")"
-    if "${BENCHMARK_SHELL}" "${test_script}" >> "${test_log}" 2>&1; then
-        echo "PASS: ${test_name}" >> "${LOGFILE}"
-    else
-        echo "FAIL: ${test_name}" >> "${LOGFILE}"
-    fi
+    { time "${BENCHMARK_SHELL}" "${test_script}" >> "${test_log}" 2>&1; } 2>> "${test_log}" \
+        && echo "PASS: ${test_name}" >> "${LOGFILE}" \
+        || echo "FAIL: ${test_name}" >> "${LOGFILE}"
 done
 
 echo "Test execution completed. Results in ${LOGFILE}"

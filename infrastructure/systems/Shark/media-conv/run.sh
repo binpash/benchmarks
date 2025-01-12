@@ -18,11 +18,17 @@ if [[ "$@" == *"--small"* ]]; then
 fi
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+export BENCHMARK_CATEGORY="media-conv"
 
 echo "img_convert"
+export BENCHMARK_INPUT_FILE="$(realpath "$img_convert_input")"
+export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/img_convert.sh")"
 $BENCHMARK_SHELL $scripts_dir/img_convert.sh $img_convert_input $results_dir/img_convert$suffix > $results_dir/img_convert$suffix.log
 echo $?
 
 echo "to_mp3"
+export BENCHMARK_INPUT_FILE="$(realpath "$to_mp3_input")"
+export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/to_mp3.sh")"
 $BENCHMARK_SHELL $scripts_dir/to_mp3.sh $to_mp3_input $results_dir/to_mp3$suffix > $results_dir/to_mp3$suffix.log
 echo $?
+

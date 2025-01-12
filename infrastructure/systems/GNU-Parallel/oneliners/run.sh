@@ -4,6 +4,7 @@ export SUITE_DIR=$(realpath $(dirname "$0"))
 export TIMEFORMAT=%R
 cd $SUITE_DIR
 
+export BENCHMARK_CATEGORY="oneliners"
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 num_cpus=$(nproc)
 
@@ -50,6 +51,9 @@ do
     output_file="./outputs/${parsed[0]}.out"
 
     echo "$script_file"
+    export BENCHMARK_INPUT_FILE="$(realpath "$input_file")"
+    export BENCHMARK_SCRIPT="$(realpath "$script_file")"
     $BENCHMARK_SHELL "$script_file" "$input_file" > "$output_file"
     echo "$?"
 done
+

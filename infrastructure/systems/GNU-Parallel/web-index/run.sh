@@ -2,6 +2,7 @@
 
 cd "$(dirname "$0")"
 
+export BENCHMARK_CATEGORY="web-index"
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 directory_path="inputs/articles"
 
@@ -26,5 +27,7 @@ fi
 mkdir -p "$OUTPUT_BASE"
 
 echo "web-index"
+export BENCHMARK_SCRIPT="$(realpath "./scripts/ngrams.sh")"
+export BENCHMARK_INPUT_FILE="$(realpath "$INPUT_FILE")"
 $BENCHMARK_SHELL ./scripts/ngrams.sh "$OUTPUT_BASE"
 echo $?

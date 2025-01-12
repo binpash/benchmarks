@@ -19,3 +19,7 @@ def get_all_scripts(
         ]
         for benchmark_name, benchmark_data in benchmark_data.items()
     }
+
+if __name__ == "__main__":
+    for bench in get_all_scripts().keys():
+        print(bench)

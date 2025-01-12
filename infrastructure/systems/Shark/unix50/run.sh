@@ -55,6 +55,7 @@ echo executing unix50 $(date)
 
 mkdir -p "outputs"
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+export BENCHMARK_CATEGORY="unix50"
 
 for script_input in ${scripts_inputs[@]};
 do
@@ -67,7 +68,10 @@ do
     input_file="./inputs/$input$suffix.txt"
     output_file="./outputs/$script.out"
 
+    export BENCHMARK_SCRIPT="$(realpath "$script_file")"
+    export BENCHMARK_INPUT_FILE="$(realpath "$input_file")"
     echo "$script"
     $BENCHMARK_SHELL $script_file $input_file > $output_file
     echo $?
 done
+

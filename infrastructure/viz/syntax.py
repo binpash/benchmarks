@@ -1,15 +1,24 @@
+#!/usr/bin/env python3 
+
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+
+#from all_scripts import get_all_scripts
+#from project_root import get_project_root
+import sys, os
+# Add the parent directory to sys.path
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+from all_scripts import get_all_scripts
+from project_root import get_project_root
 
 # Data format example:
 # covid-mts/scripts/1.sh,command(cat):1;quoted_control:5;command(sed):1;command(cut):2;command(sort):2;command(uniq):1;command(awk):1;pipeline:1
 # file-enc/scripts/encrypt_files.sh,command(mkdir):1;variable_use:4;command(openssl):1;quoted_control:2;function_command:1;command(export):1;assignment:1;command(cat):1;command(pure_func):1;file_redirection:1;pipeline:1;for_command:1
 # ...
 
-data_path = 'target/nodes_in_scripts.csv'
-benchmark_mapping_path = 'target/scripts_to_benchmark.csv'
-
+root = get_project_root()
+data_path = root / 'infrastructure/target/nodes_in_scripts.csv'
 
 special_commands = ['eval', 'alias']
 
@@ -77,16 +86,19 @@ node_order = [
     'while',
 ]
 
-node_rename_map = {
-    'home_tilde_control': 'home_tilde',
-    'dollar_paren_shell_control': '$(shell)',
-    'dollar_paren_paren_arith_control': '$((arithmetic))'
-}
 
 def normalize_node_name(node):
     # remove "_command" suffix if present
     renamed = node_rename_map.get(node, node)
     return renamed.replace('_command', '')
+
+def get_map_df():
+    items = [
+        (str(script.relative_to(root)), benchmark_name)
+        for benchmark_name, scripts in get_all_scripts().items()
+        for script in scripts
+    ]
+    return pd.DataFrame(items, columns=['script', 'benchmark'])
 
 def node_heatmap(df):
     # todo which of these are missing entirely?
@@ -143,10 +155,9 @@ def read_data(merge_commands=True):
     if merge_commands:
         # Merge all the "command" nodes, we don't care about the individual commands here
         df['nodes'] = df['nodes'].apply(lambda x: {k: v for k, v in x.items() if 'command(' not in k} | {'command': sum([v for k, v in x.items() if 'command(' in k])})
-    
+
     # Aggregate by benchmark
-    map_df = pd.read_csv(benchmark_mapping_path, header=None)
-    map_df.columns = ['script', 'benchmark']
+    map_df = get_map_df()
     df = df.merge(map_df, on='script')
     bench_df = df.groupby('benchmark').agg({'nodes': merge_node_counts}).reset_index()
 

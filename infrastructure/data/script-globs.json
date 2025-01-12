@@ -36,12 +36,19 @@
         "scripts": ["web-index/scripts/*.sh"]
     },
     "makeself": {
-        "scripts": ["makeself/makeself/*.sh"]
+        "scripts": ["makeself/makeself/*.sh",
+		    "makeself/makeself/test/*/*.sh"]
     },
     "vps-audit": {
         "scripts": ["vps-audit/scripts/*.sh"]
     },
     "vps-audit-negate": {
         "scripts": ["vps-audit-negate/scripts/*.sh"]
+    },
+    "bio": {
+	"scripts": ["bio/scripts/bio.sh"]
+    },
+    "aurpkg": {
+	"scripts": ["aurpkg/scripts/pacaur.sh"]
     }
 }

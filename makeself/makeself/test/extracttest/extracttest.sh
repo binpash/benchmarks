@@ -5,7 +5,6 @@ THISDIR="$(dirname "${THIS}")"
 SRCDIR="$(dirname "$(dirname "${THISDIR}")")"
 SUT="${SRCDIR}/makeself.sh"
 LOGFILE="${THISDIR}/test_results.log"
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"  # Default to bash if not set
 
 # Initialize the log file
 echo "Test results:" > "${LOGFILE}"
@@ -22,7 +21,7 @@ setupTests() {
     cd "$temp"
     mkdir archive
     cp -a "$SRCDIR" archive/
-    $BENCHMARK_SHELL "$SUT" "$@" archive makeself-test.run "Test $*" echo Testing --tar-extra="--exclude .git"
+    "$SUT" "$@" archive makeself-test.run "Test $*" echo Testing --tar-extra="--exclude .git"
 }
 
 run_test() {
@@ -38,19 +37,19 @@ run_test() {
 
 testQuiet() {
     setupTests
-    $BENCHMARK_SHELL ./makeself-test.run --quiet
+    ./makeself-test.run --quiet
     return $?
 }
 
 testGzip() {
     setupTests --gzip
-    $BENCHMARK_SHELL ./makeself-test.run --check
+    ./makeself-test.run --check
     return $?
 }
 
 testBzip2() {
     setupTests --bzip2
-    $BENCHMARK_SHELL ./makeself-test.run --check
+    ./makeself-test.run --check
     return $?
 }
 
@@ -60,7 +59,7 @@ testPBzip2() {
         return 0
     fi
     setupTests --pbzip2
-    $BENCHMARK_SHELL ./makeself-test.run --check
+    ./makeself-test.run --check
     return $?
 }
 
@@ -70,7 +69,7 @@ testZstd() {
         return 0
     fi
     setupTests --zstd
-    $BENCHMARK_SHELL ./makeself-test.run --check
+    ./makeself-test.run --check
     return $?
 }
 

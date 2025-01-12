@@ -1,3 +1,5 @@
+#!/bin/bash
+
 sudo apt-get update
 
 pkgs='ffmpeg unrtf imagemagick libarchive-tools libncurses5-dev libncursesw5-dev zstd liblzma-dev libbz2-dev zip unzip nodejs tcpdump'

@@ -33,7 +33,7 @@ export -f run_tests
 # done
 
 for pkg in $(tr '\n' ' ' < "$IN"); do
-    echo "Processing $pkg"
-    run_tests "$pkg" &
+    echo "Processing $pkg" &
+    (run_tests $pkg) &
 done
 wait

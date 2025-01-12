@@ -10,9 +10,7 @@ gcc  -g -O2 -o lemon ./tool/lemon.c
 cp ./tool/lempar.c .
 cp ./src/parse.y .
 ./lemon -DSQLITE_ENABLE_MATH_FUNCTIONS  -S parse.y
-# cat parse.h ./src/vdbe.c | tclsh8.6 ./tool/mkopcodeh.tcl >opcodes.h
-tclsh8.6 ./tool/mkopcodeh.tcl < parse.h ./src/vdbe.c > opcodes.h
-
+cat parse.h ./src/vdbe.c | tclsh8.6 ./tool/mkopcodeh.tcl >opcodes.h
 tclsh8.6 ./tool/mkopcodec.tcl opcodes.h >opcodes.c
 tclsh8.6 ./tool/mkshellc.tcl >shell.c
 cp ./ext/fts5/fts5parse.y .

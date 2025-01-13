@@ -20,11 +20,11 @@ def read_sys_results():
     return csv_data
 
 benchmark_category_style = {
-    'bio': ('XXX', 'XXX', '\\cite{Cappellini2019,puritz2019bio594}'),
-    'vps-audit': ('XXX', 'XXX', '\\cite{vpsaudit}'),
-    'vps-audit-negate': ('XXX', 'XXX', '\\cite{vpsaudit}'),
-    'aurpkg': ('XXX', 'XXX', '\\cite{pacaur}'),
-    'makeself': ('XXX', 'XXX', '\\cite{makeself}'),
+    'bio': ('Biology', 'Automation', '\\cite{Cappellini2019,puritz2019bio594}'),
+    'vps-audit': ('System admin', 'Data extraction', '\\cite{vpsaudit}'),
+    'vps-audit-negate': ('System admin', 'Data extraction', '\\cite{vpsaudit}'),
+    'aurpkg': ('System admin', 'Automation', '\\cite{pacaur}'),
+    'makeself': ('Misc.', 'Compression', '\\cite{makeself}'),
     'infrastructure/standards/100-files': ('XXX', 'XXX', 'XXX'),
     'infrastructure/standards/read-write': ('XXX', 'XXX', 'XXX'),
     'infrastructure/standards/shell-memory': ('XXX', 'XXX', 'XXX'),

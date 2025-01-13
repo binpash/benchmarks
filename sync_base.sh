@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ORIGINAL_REPO="/benchmarks"
-MODIFIED_SUITE="/benchmarks/temp/benchmarks/infrastructure/systems/GNU-Parallel"
+MODIFIED_SUITE="./temp/benchmarks/infrastructure/systems/GNU-Parallel"
 
 sync_benchmarks() {
     local src="$1"

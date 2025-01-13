@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ORIGINAL_REPO="/benchmarks"
-MODIFIED_SUITE="./temp/benchmarks/infrastructure/systems/Shark"
+MODIFIED_SUITE="/benchmarks/temp/benchmarks/infrastructure/systems/Shark"
 
 sync_benchmarks() {
     local src="$1"

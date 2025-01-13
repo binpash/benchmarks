@@ -46,3 +46,4 @@ gcc $CFLAGS -o xzdec src/common/*.c src/xzdec/*.c $INCLUDES -L. -llzma
 
 # Build xz
 gcc $CFLAGS -o xz src/common/*.c src/xz/*.c $INCLUDES -L. -llzma
+# no parallelization in compilations

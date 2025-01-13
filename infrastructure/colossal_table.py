@@ -12,6 +12,12 @@ root = get_project_root()
 data_path = root / 'infrastructure/target/dynamic_analysis.jsonl'
 input_size_path = root / 'infrastructure/data/size_inputs.jsonl'
 loc_data_path = root / 'infrastructure/target/lines_of_code.csv'
+csv_file_path = root / 'infrastructure/data/sys_summary.csv'
+
+def read_sys_results():
+    csv_data = pd.read_csv(csv_file_path)
+    csv_data.rename(columns={'Benchmark': 'benchmark', 'Sys Calls': 'sys_calls', 'File Descriptors': 'file_descriptors'}, inplace=True)
+    return csv_data
 
 benchmark_category_style = {
     'bio': ('XXX', 'XXX', 'XXX'),
@@ -145,6 +151,7 @@ def main():
     syntax_script_all_cmds, syntax_bench_all_cmds = stx.read_data(False)
     dyn_script,    dyn_bench = dyn.read_data()
     loc_data_script, loc_data_bench = read_loc_data()
+    sys_results = read_sys_results()
 
     syntax_script_all_cmds['unique_cmds'] = syntax_script_all_cmds['nodes'].apply(count_unique_cmds)
     syntax_bench_all_cmds['unique_cmds'] = syntax_bench_all_cmds['nodes'].apply(count_unique_cmds)
@@ -165,7 +172,8 @@ def main():
 
     big_bench = syntax_bench.merge(dyn_bench, on='benchmark')\
         .merge(loc_data_bench, on='benchmark')\
-        .merge(syntax_bench_all_cmds[['benchmark', 'unique_cmds']], on='benchmark')
+        .merge(syntax_bench_all_cmds[['benchmark', 'unique_cmds']], on='benchmark')\
+        .merge(sys_results, on='benchmark')
     
     big_script = syntax_script.merge(dyn_script, on='script')\
         .merge(loc_data_script, on='script')\

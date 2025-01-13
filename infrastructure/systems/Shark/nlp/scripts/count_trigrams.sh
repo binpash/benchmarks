@@ -39,7 +39,7 @@ pure_func() {
 export -f pure_func
 
 # Parallelize the processing
-for input in $(ls "$IN" | head -n "$ENTRIES"); do
+for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1); do
     pure_func "$input" > "${OUT}/${input}.trigrams" &
 done
 

@@ -20,7 +20,7 @@ ENTRIES=${ENTRIES:-1000}
 mkdir -p "$OUT"
 
 # Parallelize the processing
-for input in $(ls "$IN" | head -n "$ENTRIES"); do
+for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1); do
     tr 'a-z' '[A-Z]' < "$IN/$input" | tr -sc 'AEIOU' '[\012*]' | sort | uniq -c > "${OUT}/${input}.out" &
 done
 

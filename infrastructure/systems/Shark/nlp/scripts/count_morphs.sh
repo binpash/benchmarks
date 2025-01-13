@@ -13,7 +13,7 @@ mkdir -p "$OUT"
 # done
 
 
-for input in $(ls "$IN" | head -n "$ENTRIES"); do
+for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1); do
     sed 's/ly$/-ly/g; s/ .*//g' < "$IN/$input" | sort | uniq -c > "${OUT}/${input}.out" &
 done
 wait

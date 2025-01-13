@@ -29,7 +29,8 @@ pure_func() {
 
 export -f pure_func
 
-for input in $(ls "$IN" | head -n "$ENTRIES"); do
+for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1)
+do
     pure_func "$input" > "${OUT}/${input}.out" &
 done
 

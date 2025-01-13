@@ -12,7 +12,7 @@ mkdir -p "$OUT"
 #     cat $IN/$input | tr -c 'A-Za-z' '[\n*]' | grep -v "^\s*$" | tr -sc 'AEIOUaeiou' '[\012*]' | sort | uniq -c | awk "\$1 >= 1000" > ${OUT}/${input}.out
 # done
 
-for input in $(ls "$IN" | head -n "$ENTRIES"); do
+for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1)
     tr -c 'A-Za-z' '[\n*]' < "$IN/$input" | \
     grep -v "^\s*$" | \
     tr -sc 'AEIOUaeiou' '[\012*]' | \

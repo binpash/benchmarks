@@ -12,7 +12,8 @@ mkdir -p "$OUT"
 #     cat ${IN}/${input} | tr -c 'A-Za-z' '[\n*]' | grep -v "^\s*$" | grep -i '^[^aeiou]*[aeiou][^aeiou]*$' | sort | uniq -c | sed 5q > ${OUT}/${input}.out
 # done
 
-for input in $(ls "$IN" | head -n "$ENTRIES"); do
+for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1)
+do
     tr -c 'A-Za-z' '[\n*]' < "$IN/$input" | \
     grep -v "^\s*$" | \
     grep -i '^[^aeiou]*[aeiou][^aeiou]*$' | \

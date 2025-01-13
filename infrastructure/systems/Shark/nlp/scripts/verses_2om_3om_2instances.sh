@@ -10,10 +10,11 @@ mkdir -p "$OUT"
 
 for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1)
 do
-    cat $IN/$input | grep -c 'light.\*light'                                 > ${OUT}/${input}.out0
-    cat $IN/$input | grep -c 'light.\*light.\*light'                         > ${OUT}/${input}.out1
-    cat $IN/$input | grep 'light.\*light' | grep -vc 'light.\*light.\*light' > ${OUT}/${input}.out2
+    # Process the file
+    grep -c 'light.*light' < "$input" > "${OUT}/${input}.out0" &
+    grep -c 'light.*light.*light' < "$input" > "${OUT}/${input}.out1" &
+    grep 'light.*light' < "$input" | grep -vc 'light.*light.*light' > "${OUT}/${input}.out2" &
 done
-wait
+
 echo 'done';
 # rm -rf ${OUT}

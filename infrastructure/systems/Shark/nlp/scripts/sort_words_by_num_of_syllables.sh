@@ -26,7 +26,7 @@ pure_func() {
     tr -sc '[AEIOUaeiou\012]' ' ' < "$IN/$input" | awk '{print NF}' |
     paste - <(tr -c 'A-Za-z' '[\n*]' < "$IN/$input" | sort -u) | sort -nr | sed 5q
 }
-for input in $(ls "$IN" | head -n "$ENTRIES"); do
+for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1); do
     pure_func "$input" > "${OUT}/${input}.out" &
 done
 wait

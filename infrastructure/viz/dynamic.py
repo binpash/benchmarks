@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 from sys import stderr
 from pathlib import Path
 import pandas as pd
@@ -15,6 +16,8 @@ from project_root import get_project_root
 root = get_project_root()
 data_path = root / 'infrastructure/target/dynamic_analysis.jsonl'
 input_size_path = root / 'infrastructure/data/size_inputs.jsonl'
+
+figsize = (5, 3)
 
 def get_input_sizes_df(df):
     sizes_df = pd.read_json(input_size_path, lines=True)
@@ -60,79 +63,70 @@ def get_map_df():
     ]
     return pd.DataFrame(items, columns=['script', 'benchmark'])
 
-def plot_benchmark_times_split(df):
-    sns.set_theme(style="whitegrid")
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x='benchmark', y='user_time', data=df, color='blue', label='User time')
-    sns.barplot(x='benchmark', y='system_time', data=df, color='red', label='System time')
-    plt.xticks(rotation=60, ha='right')
-    plt.subplots_adjust(bottom=0.25)
-    plt.yscale('symlog', linthresh=0.1)
-    plt.legend()
-    plt.show()
-
 def plot_benchmark_times(df,
+                         ax,
+                         legend=True,
                          ticks = ([0, 0.1, 1, 10, 100, 1000, 10000], 
                                   ['0', '0.1s', '1s', '10s', '100s', '1,000s', '10,000s']),
                          ylabel='CPU time',
                          linthresh=0.1):
     sns.set(style="whitegrid")
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x='benchmark', y='time_in_commands', data=df, color='blue', label='Commands')
-    sns.barplot(x='benchmark', y='time_in_shell', data=df, color='green', label='Shell')
-    plt.xticks(rotation=60, ha='right')
-    plt.xlabel('')
-    plt.subplots_adjust(bottom=0.25)
-    plt.yscale('symlog', linthresh=linthresh)
-    plt.yticks(*ticks)
-    plt.ylabel(ylabel)
-    plt.legend()
-    plt.show()
+    ax.grid(True, which='both', axis='y')
+    sns.barplot(x='benchmark', y='time_in_commands', data=df, color='#117733', label='Commands', ax=ax, zorder=3, hatch='//')
+    sns.barplot(x='benchmark', y='time_in_shell', data=df, color='#88CCEE', label='Shell', ax=ax, zorder=3, hatch='\\\\')
+    #ax.set_xticklabels(ax.get_xticklabels(), rotation=60, ha='right')
+    ax.set_xlabel('')
+    ax.set_yscale('symlog', linthresh=linthresh)
+    ax.set_yticks(ticks[0])
+    ax.set_yticklabels(ticks[1])
+    ax.set_ylabel(ylabel)
+    if legend:
+        ax.legend(loc=('best' if legend == True else legend))
+    else:
+        ax.legend().set_visible(False)
 
 def plot_io(df,
+            ax,
             ticks=([0, 100000000, 1000000000, 10000000000, 100000000000, 1000000000000], 
                    ['0', '100MB', '1GB', '10GB', '100GB', '1TB']),
             ylabel='IO bytes',
             linthresh=100000000):
     sns.set(style="whitegrid")
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x='benchmark', y='io_chars', data=df, color='green', label=None)
-    plt.yscale('symlog', linthresh=linthresh)
-    plt.yticks(*ticks)
-    plt.ylabel(ylabel)
-    plt.xticks(rotation=60, ha='right')
-    plt.xlabel('')
-    plt.subplots_adjust(bottom=0.25)
-    plt.show()
+    ax.grid(True, which='both', axis='y')
+    sns.barplot(x='benchmark', y='io_chars', data=df, color='#882255', ax=ax, zorder=3)
+    ax.set_yscale('symlog', linthresh=linthresh)
+    ax.set_yticks(ticks[0])
+    ax.set_yticklabels(ticks[1])
+    ax.set_ylabel(ylabel)
+    #ax.set_xticklabels(ax.get_xticklabels(), rotation=60, ha='right')
+    ax.set_xlabel('')
 
 def plot_memory(df,
+                ax,
                 ticks=([0, 1000000, 10000000, 100000000, 1000000000], 
                        ['0', '1MB', '10MB', '100MB', '1GB']),
-                ylabel='Memory high water mark (bytes)',
+                ylabel='Memory (high water, bytes)',
                 linthresh=1000000):
     sns.set(style="whitegrid")
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x='benchmark', y='max_unique_set_size', data=df, color='purple', label=None)
-    plt.xticks(rotation=60, ha='right')
-    plt.xlabel('')
-    plt.subplots_adjust(bottom=0.25)
-    plt.yscale('symlog', linthresh=linthresh)
-    plt.yticks(*ticks)
-    plt.ylabel(ylabel)
-    plt.show()
+    ax.grid(True, which='both', axis='y')
+    sns.barplot(x='benchmark', y='max_unique_set_size', data=df, color='#CC6677', ax=ax, zorder=3)
+    #ax.set_xticklabels(ax.get_xticklabels(), rotation=60, ha='right')
+    ax.set_xlabel('')
+    ax.set_yscale('symlog', linthresh=linthresh)
+    ax.set_yticks(ticks[0])
+    ax.set_yticklabels(ticks[1])
+    ax.set_ylabel(ylabel)
 
-def plot_time_vs_wall(df):
+def plot_time_vs_wall(df, ax):
     # what fraction of the real (wall) runtime of the process is user or system time?
     df['time_occupied'] = (df['user_time'] + df['system_time']) / df['wall_time']
     sns.set(style="whitegrid")
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x='benchmark', y='time_occupied', data=df, color='blue')
-    plt.subplots_adjust(bottom=0.25)
-    plt.xticks(rotation=60, ha='right')
-    plt.xlabel('')
-    plt.yticks(np.linspace(0, 6, 10))
-    plt.ylabel('Proporion of CPU time to wall time')
-    plt.show()
+    ax.grid(True, which='both', axis='y')
+    sns.barplot(x='benchmark', y='time_occupied', data=df, color='#44AA99', ax=ax, zorder=3)
+    #ax.set_xticklabels(ax.get_xticklabels(), rotation=60, ha='right')
+    ax.set_xlabel('')
+    ax.set_yticks(np.linspace(0, 6, 7))
+    ax.set_ylabel('CPU time / wall time')
 
 dynamic_analysis_script_translations = {
     "riker/scripts/vim/run.sh": "riker/scripts/vim/build.sh",
@@ -190,16 +184,18 @@ def read_data():
 
     return df, bench_df
 
-def main():
+def main(output_dir=None):
     _, df = read_data()
 
+    def name(str):
+        return os.path.join(output_dir, f"bensh-dyn-{str}.pdf") if output_dir else None
     
     
 #     # this metric is bad in the cases that we don't have the data for the inputs
 #     # the benchmark has a specific input on disk that it processed. how much of this input did it process per second?
 #     df['bytes_per_second_input'] = df['input_size'] / (df['wall_time'])
 #     sns.set(style="whitegrid")
-#     plt.figure(figsize=(10, 6))
+#     plt.figure(figsize=figsize)
 #     sns.barplot(x='benchmark', y='bytes_per_second_input', data=df, color='blue', label='Commands')
 #     plt.xticks(rotation=60, ha='right')
 #     plt.title('missing input')
@@ -212,7 +208,7 @@ def main():
     # # fraction of the actual scheduled (user + system) time is in the shell. how much cpu work is in the launnched shell
     # df['time_in_shell_frac'] = (df['user_time_in_shell'] + df['system_time_in_shell']) / (df['user_time'] + df['system_time'])
     # sns.set(style="whitegrid")
-    # plt.figure(figsize=(10, 6))
+    # plt.figure(figsize=figsize)
     # sns.barplot(x='benchmark', y='time_in_shell_frac', data=df, color='blue', label='Commands')
     # plt.xticks(rotation=60, ha='right')
     # plt.subplots_adjust(bottom=0.25)
@@ -221,11 +217,26 @@ def main():
     # plt.legend()
     # plt.show()
 
+    num_plots = 8
+    cols = 2
+    rows = num_plots // cols
+    fig, axes = plt.subplots(rows, cols, figsize=(12 , 9), sharex=True)
+    axes = axes.flatten()
     
-    plot_time_vs_wall(df)
-    plot_benchmark_times(df)
-    plot_io(df)
-    plot_memory(df)
+    # the benchmark did a certain amount of io. how many bytes per second was this?
+    df_rel_to_wall = df.copy()
+    df_rel_to_wall['io_chars'] = (df_rel_to_wall['read_chars'] + df_rel_to_wall['write_chars']) / (df_rel_to_wall['wall_time'])
+    plot_io(df_rel_to_wall, 
+            axes[1],
+            ylabel='IO per second wall time',
+            ticks=([0, 1000000, 10000000, 100000000, 1000000000, 10000000000], 
+                   ['0', '1MB', '10MB', '100MB', '1GB', '10GB']),
+            linthresh=1000000)
+
+    plot_time_vs_wall(df, axes[0])
+    plot_benchmark_times(df, axes[2], legend=False)
+    plot_memory(df, axes[4])
+    plot_io(df, axes[6])
 
     df_rel_to_input = df.copy()
     df_rel_to_input['io_chars'] = df_rel_to_input['io_chars'] / df_rel_to_input['input_size']
@@ -233,26 +244,42 @@ def main():
     df_rel_to_input['time_in_shell'] = df_rel_to_input['time_in_shell'] / df_rel_to_input['input_size']
     df_rel_to_input['time_in_commands'] = df_rel_to_input['time_in_commands'] / df_rel_to_input['input_size']
 
-    plot_benchmark_times(df_rel_to_input, ylabel='CPU time per input byte',
+    plot_benchmark_times(df_rel_to_input, 
+                         axes[3],
+                         legend=(0.1, 0.65),
+                         ylabel='CPU time per input byte',
                          ticks=([0, 0.00000001, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01], 
                                 ['0', '10ns', '100ns',    '1us',    '10us', '100us',  '1ms', '10ms']),
                                 linthresh=0.00000001)
-    plot_io(df_rel_to_input, ylabel='IO per input byte',
+    plot_io(df_rel_to_input, 
+            axes[7],
+            ylabel='IO per input byte',
             ticks=([0,    1,   10,     100,    1000,  10000,  100000, 1000000], 
                    ['0', '1B', '10B', '100B', '1KB', '10KB', '100KB', '1MB']),
                    linthresh=1)
-    plot_memory(df_rel_to_input, ylabel='Memory per input byte',
+    plot_memory(df_rel_to_input, 
+                axes[5],
+                ylabel='Memory per input byte',
                 ticks=([0,   0.001,   0.01,     0.1,  1,    10,    100,   1000,  10000], 
                        ['0', '0.001B', '0.01B', '0.1B', '1B', '10B', '100B', '1KB', '10KB']),
                 linthresh=0.001)
     
-    # the benchmark did a certain amount of io. how many bytes per second was this?
-    df_rel_to_wall = df.copy()
-    df_rel_to_wall['io_chars'] = (df_rel_to_wall['read_chars'] + df_rel_to_wall['write_chars']) / (df_rel_to_wall['wall_time'])
-    plot_io(df_rel_to_wall, ylabel='IO bytes per second wall time',
-            ticks=([0, 1000000, 10000000, 100000000, 1000000000, 10000000000], 
-                   ['0', '1MB', '10MB', '100MB', '1GB', '10GB']),
-            linthresh=1000000)
+    plt.setp(axes[6].get_xticklabels(), visible=True, rotation=60, ha='right')
+    plt.setp(axes[7].get_xticklabels(), visible=True, rotation=60, ha='right')
+
+    plt.rcParams.update({
+        "text.usetex": True,
+        "font.family": "serif",
+        "font.serif": ["Times New Roman"],  # Replace with your LaTeX font if different
+    })
+    plt.tight_layout()
+    if output_dir:
+        plt.savefig(name('trellis'))
+    else:
+        plt.show()
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Generate dynamic characterization plots.')
+    parser.add_argument('output_dir', nargs='?', help='Directory to save the plots as PDF')
+    args = parser.parse_args()
+    main(args.output_dir)

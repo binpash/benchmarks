@@ -11,6 +11,7 @@ import sys, os
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from all_scripts import get_all_scripts
 from project_root import get_project_root
+import argparse
 
 # Data format example:
 # covid-mts/scripts/1.sh,command(cat):1;quoted_control:5;command(sed):1;command(cut):2;command(sort):2;command(uniq):1;command(awk):1;pipeline:1
@@ -100,7 +101,7 @@ def get_map_df():
     ]
     return pd.DataFrame(items, columns=['script', 'benchmark'])
 
-def node_heatmap(df):
+def node_heatmap(df, outdir=None):
     # todo which of these are missing entirely?
     #unique_node_names = list(set(df['nodes'].apply(lambda x: [x for x in x.keys()]).sum()))
 
@@ -122,15 +123,28 @@ def node_heatmap(df):
     heatmap_data = heatmap_data.loc[[x for x in heatmap_data.index if x not in node_order] + list(reversed(node_order))]
     annot_data = annot_data.loc[[x for x in annot_data.index if x not in node_order] + list(reversed(node_order))]
     
-    plt.figure(figsize=(50, 8))
-    sns.heatmap(heatmap_data, cmap='Reds', annot=annot_data, fmt='', cbar_kws={'label': 'Occurrences (* denotes more than 5)'})
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(heatmap_data, 
+                cmap='Reds', 
+                annot=annot_data, 
+                fmt='', 
+                cbar_kws={'label': 'Occurrences (* denotes more than 5)'})
     # sns.clustermap(heatmap_data, col_cluster=False, cmap='Reds', annot=annot_data, fmt='', cbar_kws={'label': 'Occurrences (* denotes more than 5)'})
     plt.xlabel('')
     plt.xticks(rotation=60, ha='right')
     plt.ylabel('')
     plt.title('')
     plt.subplots_adjust(bottom=0.15)
-    plt.show()
+    plt.tight_layout()
+    if outdir:
+        plt.rcParams.update({
+            "text.usetex": True,
+            "font.family": "serif",
+            "font.serif": ["Times New Roman"],  # Replace with your LaTeX font if different
+        })
+        plt.savefig(os.path.join(outdir, 'bensh-stx-analysis.pdf'))
+    else:
+        plt.show()
 
 def extract_special_command(node):
     for sc in special_commands:
@@ -163,9 +177,12 @@ def read_data(merge_commands=True):
 
     return (df, bench_df)
 
-def main():
+def main(outdir=None):
     _, df = read_data()
-    node_heatmap(df)
+    node_heatmap(df, outdir)
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Generate node heatmap.')
+    parser.add_argument('output_dir', nargs='?', help='Directory to save the plot as PDF')
+    args = parser.parse_args()
+    main(args.output_dir)

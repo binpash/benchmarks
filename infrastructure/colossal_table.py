@@ -153,9 +153,11 @@ def prettify_bytes_number(n):
 def make_input_description(row):
     if row['input_description']:
         desc = prettify_bytes_number(row['input_size']) # + ' of ' + row['input_description']
-        return f"\\multirow{{2}}{{*}}{{\\parbox{{\\idw}}{{{desc}}}}}"
+        # return f"\\multirow{{2}}{{*}}{{\\parbox{{\\idw}}{{{desc}}}}}"
+        return desc
     else:
-        return "N/A"
+        # Center the N/A
+        return "\\multicolumn{1}{c|}{N/A}"
 
 def main():
     syntax_script, syntax_bench = stx.read_data(True)
@@ -204,7 +206,7 @@ def main():
           \\def\\idw{7em}
 \\begin{tabular}{l|lrr|rr|l|rrrr|lrc}
     \\toprule
-\\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c|}{Surface} & \\multicolumn{2}{c|}{Syntax} & \\multicolumn{1}{c|}{Inputs} & \\multicolumn{4}{c|}{Dynamic} & \\multicolumn{2}{c}{System} & Reference \\\\
+\\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c|}{Surface} & \\multicolumn{2}{c|}{Syntax} & \\multicolumn{1}{r|}{Inputs} & \\multicolumn{4}{r|}{Dynamic} & \\multicolumn{2}{c}{System} & Reference \\\\
                                   & Dom     & \\#.sh     & LOC    & \\# Cons       & \\# Cmd      &                             & T.sh  & T.cmd  & Mem   & I/O & \\# s/c       & \\# fd        &   \\\\
     \\midrule
 """)

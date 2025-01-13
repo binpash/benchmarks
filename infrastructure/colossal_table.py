@@ -54,32 +54,32 @@ def short_category(benchmark):
     return shorten(dom) + '/' + shorten(style)
 
 benchmark_input_description = {
-    'aurpkg': 'package files',
-    'bio': 'biological data files',
+    'aurpkg': 'package urls',
+    'bio': '\\xxx',
     'covid-mts': 'transit data',
-    'file-enc': 'pcap files',
+    'file-enc': '\\xxx',
     'log-analysis': 'log files',
     'max-temp': 'temperature data',
     'media-conv': 'media files',
-    'nlp': 'text files',
-    'oneliners': 'text files',
+    'nlp': 'books',
+    'oneliners': '\\xxx',
     'riker': 'application sources',
-    'sklearn': 'CSV files',
-    'unix50': 'text files',
-    'web-index': 'HTML files',
-    'bio': 'XXX',
+    'sklearn': '\\xxx',
+    'unix50': 'challenge inputs',
+    'web-index': 'root webpages',
+    'bio': '\\xxx',
     'vps-audit': None,
     'vps-audit-negate': None,
     'makeself': None,
-    'aurpkg': 'XXX',
-    'infrastructure/standards/100-files': 'XXX',
-    'infrastructure/standards/read-write': 'XXX',
-    'infrastructure/standards/shell-memory': 'XXX',
-    'infrastructure/standards/sleep': 'XXX',
-    'infrastructure/standards/time-in-shell-subprocess': 'XXX',
-    'infrastructure/standards/user-time': 'XXX',
-    'infrastructure/standards/user-time-in-shell': 'XXX',
-    'infrastructure/standards/write-only': 'XXX',
+    'aurpkg': '\\xxx',
+    'infrastructure/standards/100-files': '\\xxx',
+    'infrastructure/standards/read-write': '\\xxx',
+    'infrastructure/standards/shell-memory': '\\xxx',
+    'infrastructure/standards/sleep': '\\xxx',
+    'infrastructure/standards/time-in-shell-subprocess': '\\xxx',
+    'infrastructure/standards/user-time': '\\xxx',
+    'infrastructure/standards/user-time-in-shell': '\\xxx',
+    'infrastructure/standards/write-only': '\\xxx',
 }
 
 scripts_to_include = [
@@ -153,6 +153,14 @@ def main():
     loc_data_script, loc_data_bench = read_loc_data()
     sys_results = read_sys_results()
 
+    # fill any benchmarks missing from sys_results
+    for benchmark in syntax_bench['benchmark']:
+        if benchmark not in sys_results['benchmark'].values:
+            new_row = pd.DataFrame([{'benchmark': benchmark, 'sys_calls': '\\xxx', 'file_descriptors': '\\xxx'}])
+            sys_results = pd.concat([sys_results, new_row], ignore_index=True)
+    sys_results.reset_index(drop=True, inplace=True)
+    sys_results['file_descriptors'] = sys_results['file_descriptors'].apply(lambda x: '\\xxx' if x == 0 else x)
+
     syntax_script_all_cmds['unique_cmds'] = syntax_script_all_cmds['nodes'].apply(count_unique_cmds)
     syntax_bench_all_cmds['unique_cmds'] = syntax_bench_all_cmds['nodes'].apply(count_unique_cmds)
     syntax_script['constructs'] = syntax_script['nodes'].apply(count_constructs)
@@ -193,8 +201,8 @@ def main():
     for _, row in big_bench.iterrows():
         numscripts_shown = 0
         numscripts = row['number_of_scripts']
-        print("\\rule{0pt}{5ex}")
-        print(f"\\textbf{{\\tt {row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {row['constructs']} & {row['unique_cmds']} & {make_input_description(row)} & {row['time_in_shell']:.2f} & {row['time_in_commands']:.2f} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} \\\\")
+        print("\\rule{0pt}{4ex}")
+        print(f"\\textbf{{\\tt {row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {row['constructs']} & {row['unique_cmds']} & {make_input_description(row)} & {row['time_in_shell']:.2f} & {row['time_in_commands']:.2f} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} \\\\")
         # now print the details of all scripts in the benchmark
         for _, row_script in big_script.iterrows():
             if row_script['benchmark'] == row['benchmark'] and any([fnmatch.fnmatch(row_script['script'], pattern) for pattern in scripts_to_include]):

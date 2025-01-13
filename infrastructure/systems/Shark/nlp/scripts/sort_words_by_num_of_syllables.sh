@@ -23,11 +23,12 @@ mkdir -p "$OUT"
 
 pure_func() {
     input=$1
-    tr -sc '[AEIOUaeiou\012]' ' ' < "$IN/$input" | awk '{print NF}' |
-    paste - <(tr -c 'A-Za-z' '[\n*]' < "$IN/$input" | sort -u) | sort -nr | sed 5q
+    mkfifo "$input"p1
+    tee "$input"p1 | tr -sc '[AEIOUaeiou\012]' ' ' | awk '{print NF}' | paste - "$input"p1 | sort -nr | sed 5q
+    rm "$input"p1
 }
 for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1); do
-    pure_func "$input" > "${OUT}/${input}.out" &
+    tr -c 'A-Za-z' '[\n*]' < $IN/$input | grep -v "^\s*$" | sort -u | pure_func "$input" > "${OUT}/${input}.out" &
 done
 wait
 echo 'done';

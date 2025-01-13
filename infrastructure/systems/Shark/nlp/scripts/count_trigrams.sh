@@ -32,8 +32,9 @@ mkdir -p "$OUT"
 
 pure_func() {
     input=$1
-    tr -c 'A-Za-z' '[\n*]' < "$IN/$input" | grep -v "^\s*$" |
-    tail -n +2 | paste - <(tail -n +2 "$IN/$input" | tail -n +2) | sort | uniq -c
+    mkfifo "$input"p1 "$input"p2
+    tr -c 'A-Za-z' '[\n*]' < "$IN/$input" | grep -v "^\s*$" | tee "$input"p1 "$input"p2 | paste - <(tail -n +2 "$input"p1) <(tail -n +2 "$input"p2) | sort | uniq -c
+    rm "$input"p1 "$input"p2
 }
 
 export -f pure_func

@@ -26,14 +26,16 @@ mkdir -p "$OUT"
 
 pure_func() {
     input=$1
-    tr -sc '[AEIOUaeiou\012]' ' ' < "$IN/$input" | awk '{print NF}' |
-    paste - <(tr -c 'A-Za-z' '[\n*]' < "$IN/$input" | sort -u) | sort -nr | sed 5q
+    mkfifo "$input"p1 "$input"p2
+    tr -sc '[A-Z][a-z]' '[\012*]' | tee "$input"p1 "$input"p2 | paste - <(tail +2 "$input"p1) <(tail +3 "$input"p2) | sort | uniq -c
+    rm "$input"p1 "$input"p2
 }
-
 export -f pure_func
 
-for input in $(ls "$IN" | head -n "$ENTRIES"); do
-    pure_func "$input" > "${OUT}/${input}.out" &
+for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1)
+do
+    cat $IN/$input | grep 'the land of' | pure_func ${input} | sort -nr | sed 5q > ${OUT}/${input}.0.out &
+    cat $IN/$input | grep 'And he said' | pure_func ${input} | sort -nr | sed 5q > ${OUT}/${input}.1.out &
 done
 
 wait

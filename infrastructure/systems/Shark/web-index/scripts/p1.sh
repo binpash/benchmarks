@@ -7,12 +7,12 @@ export WIKI
 # It also prefixes with the URL
 
 page_per_line () {
-  tr -d "\n\r" < "$WIKI/$0" | tr -d '\n' | sed -e '/.$/a\'
+  cat "$WIKI/$0" | tr -d "\n\r" | tr -d '\n' | sed -e '/.$/a\'
 }
 
 export -f page_per_line
 
 # xargs:
 # add `-t` for debugging
-# cat $WIKI/input/index.txt | xargs -0 -d '\n' -n 1 bash -c 'page_per_line "$@"'
-xargs -0 -d '\n' -n 1 bash -c 'page_per_line "$@"' < "$WIKI/input/index.txt"
+cat $WIKI/input/index.txt | xargs -0 -d '\n' -n 1 bash -c 'page_per_line "$@"'
+

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 REPO_TOP=$(git rev-parse --show-toplevel)
 export TEST_BASE=$REPO_TOP/web-index
 export SCRIPT_DIR="$TEST_BASE"/scripts
@@ -24,33 +26,25 @@ cat "$INPUT_FILE" |
   "$SCRIPT_DIR/stem-words.js" |
   tee 3grams 2grams 1grams > /dev/null &
 
-# cat 1grams |
-#     sort |
-#     uniq -c |
-#     sort -rn > "$output_base/1-grams.txt" &
+cat 1grams |
+    sort |
+    uniq -c |
+    sort -rn > "$output_base/1-grams.txt" &
 
-# cat 2grams |
-#     tr -cs A-Za-z '\n' |
-#     tr A-Z a-z |
-#     $bigrams_aux |
-#     sort |
-#     uniq -c |
-#     sort -rn > "$output_base/2-grams.txt" &
+cat 2grams |
+    tr -cs A-Za-z '\n' |
+    tr A-Z a-z |
+    $bigrams_aux |
+    sort |
+    uniq -c |
+    sort -rn > "$output_base/2-grams.txt" &
 
-# cat 3grams |
-#     tr -cs A-Za-z '\n' |
-#     tr A-Z a-z |
-#     $trigrams_aux |
-#     sort |
-#     uniq -c |
-#     sort -rn > "$output_base/3-grams.txt"
-
-# rm -f {1,2,3}grams
-
-
-parallel --ungroup ::: \
-    "cat 1grams | sort | uniq -c | sort -rn > '$output_base/1-grams.txt'" \
-    "cat 2grams | tr -cs A-Za-z '\n' | tr A-Z a-z | $bigrams_aux | sort | uniq -c | sort -rn > '$output_base/2-grams.txt'" \
-    "cat 3grams | tr -cs A-Za-z '\n' | tr A-Z a-z | $trigrams_aux | sort | uniq -c | sort -rn > '$output_base/3-grams.txt'"
+cat 3grams |
+    tr -cs A-Za-z '\n' |
+    tr A-Z a-z |
+    $trigrams_aux |
+    sort |
+    uniq -c |
+    sort -rn > "$output_base/3-grams.txt"
 
 rm -f {1,2,3}grams

@@ -6,13 +6,10 @@ export WIKI
 # Squash all HTML for each URL into a single line, streaming fashion
 # It also prefixes with the URL
 
-# page_per_line () {
-#   cat "$WIKI/$0" | tr -d "\n\r" | tr -d '\n' | sed -e '/.$/a\'
-# }
-
 page_per_line () {
   tr -d "\n\r" < "$WIKI/$0" | tr -d '\n' | sed -e '/.$/a\'
 }
+
 export -f page_per_line
 
 # xargs:

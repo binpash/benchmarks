@@ -42,20 +42,10 @@ wait
 # Validity checking functions
 # These functions just check to make sure that the input is valid. 
 # If not they will raise an error. Otherwise, they do not mutate the data.
-# $PYTHON $SCRIPTS/check_solver.py $MODEL
-# penalty=$($PYTHON $SCRIPTS/penalty.py $MODEL)
-# $PYTHON $SCRIPTS/val_data.py $MODEL $X $y 
-# $PYTHON $SCRIPTS/classes.py $MODEL $y # This should return a classes with just the unique classes in y
-
-$PYTHON "$SCRIPTS/check_solver.py" "$MODEL" &
-
-penalty=$($PYTHON "$SCRIPTS/penalty.py" "$MODEL") &
-
-$PYTHON "$SCRIPTS/val_data.py" "$MODEL" "$X" "$y" &
-
-$PYTHON "$SCRIPTS/classes.py" "$MODEL" "$y" &
-
-wait
+$PYTHON $SCRIPTS/check_solver.py $MODEL
+penalty=$($PYTHON $SCRIPTS/penalty.py $MODEL)
+$PYTHON $SCRIPTS/val_data.py $MODEL $X $y 
+$PYTHON $SCRIPTS/classes.py $MODEL $y # This should return a classes with just the unique classes in y
 
 echo "$PYTHON $SCRIPTS/check_multiclass.py $MODEL" >&2
 multiclass=$($PYTHON $SCRIPTS/check_multiclass.py $MODEL)

@@ -10,27 +10,45 @@ from syntax import *
 
 # from wikipedia
 coreutil_cmds = 'chcon chgrp chown chmod cp dd df dir dircolors install ln ls mkdir mkfifo mknod mktemp mv realpath rm rmdir shred sync touch truncate vdir b2sum base32 base64 basenc cat cksum comm csplit cut expand fmt fold head join md5sum nl numfmt od paste ptx pr sha1sum sha224sum sha256sum sha384sum sha512sum shuf sort split sum tac tail tr tsort unexpand uniq wc arch basename chroot date dirname du echo env expr factor false groups hostid id link logname nice nohup nproc pathchk pinky printenv printf pwd readlink runcon seq sleep stat stdbuf stty tee test timeout true tty uname unlink uptime users who whoami yes ['.split()
-shell_builtins = ['read', 'exit', 'cd', 'export', 'wait', '[[', '.']
+shell_builtins = ['read', 'exit', 'cd', 'export', 'wait', '[[', '.',
+                  'set', 'unset', 'exec', 'trap', 'return', 'eval', 'source', 'shift',
+                  'pushd', 'popd', 'dirs', 'umask', 'type', 'command', 'enable',
+                  'break', 'continue', 'local', 'declare', 'export', 'readonly',]
 standard_linux_tools = [
     'egrep', 'hostname', 'libtool', 'tcpdump', 'openssl', 'rev', 'ar', 'xargs', 
     'ffmpeg', 'gzip', 'grep', 'iconv', 'git', 'gcc', 'sed', 'col', 'convert', 
-    'diff', 'ranlib', 'pandoc', 'clang', 'awk'
+    'diff', 'ranlib', 'pandoc', 'clang', 'awk', 'tar', 'make', 'curl', 'perl',
+    'top',
+    'sh', 'bc', 'which','find', 
+    'readonly', 'strings', 'cmp', 
+    'gpg', 'lscpu', 'free', 'sysctl', 'ufw', 'firewall-cmd', 'sudo', 
+    'nft', 'dpkg', 'pgrep', 'apt-get', 'ps', 'netstat', 'ss'
 ]
 
-def command_distribution(df):
+def command_distribution(df, outdir=None):
     command_counts_d = df.agg({'nodes': merge_node_counts})['nodes']
     # turn the command_counts dict into a DataFrame, with keys as the 'command' column and values as the 'count' column
     command_counts = pd.DataFrame(list(command_counts_d.items()), columns=['command', 'count'])
+    command_counts = command_counts[command_counts['command'].isin(coreutil_cmds + shell_builtins + standard_linux_tools)]
     command_counts = command_counts.sort_values('count', ascending=False)
     # trim commands with fewer than 10 occurrences
-    command_counts = command_counts[command_counts['count'] >= 10]
+    command_counts = command_counts[command_counts['count'] >= 30]
     # Plot the distribution of commands
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(6, 5))
     sns.barplot(x='count', y='command', data=command_counts)
-    plt.title('Distribution of commands')
+    plt.title('')
     plt.xlabel('Count')
-    plt.ylabel('Command')
-    plt.show()
+    plt.ylabel('')
+    plt.subplots_adjust(bottom=0.15, left=0.2)
+    if outdir:
+        plt.rcParams.update({
+            "text.usetex": True,
+            "font.family": "serif",
+            "font.serif": ["Times New Roman"],  # Replace with your LaTeX font if different
+        })
+        plt.savefig(os.path.join(outdir, 'bensh-cmd-distribution.pdf'))
+    else:
+        plt.show()
 
 def command_distribution_stacked(df):
     # Extract command counts for each benchmark
@@ -82,7 +100,7 @@ def scripts_using_command_distribution(df, by='benchmark'):
     plt.ylabel('Command')
     plt.show()
 
-def main(data_path):
+def main(data_path, outdir=None):
     print("\n\nNote: this script will show three plots, one at a time. Close the current plot to show the next one.\n\n")
 
     df = pd.read_csv(data_path, header=None)
@@ -94,16 +112,15 @@ def main(data_path):
     # Filter out non-command nodes
     df['nodes'] = df['nodes'].apply(lambda x: {k[len('command('):-1]: v for k, v in x.items() if k.startswith('command(')})
 
-    scripts_using_command_distribution(df, 'script')
+    #scripts_using_command_distribution(df, 'script')
     
     # Aggregate by benchmark
-    map_df = pd.read_csv(benchmark_mapping_path, header=None)
-    map_df.columns = ['script', 'benchmark']
+    map_df = get_map_df()
     df = df.merge(map_df, on='script')
     df = df.groupby('benchmark').agg({'nodes': merge_node_counts}).reset_index()
 
-    command_distribution(df)
-    scripts_using_command_distribution(df, 'benchmark')
+    command_distribution(df, outdir)
+    #scripts_using_command_distribution(df, 'benchmark')
 
     # print the total number of distinct commands
     distinct_cmds = df.agg({"nodes": merge_node_counts})["nodes"]
@@ -125,7 +142,10 @@ def main(data_path):
     command_types_counts = command_types_df.groupby('type')['command'].count()
     print(command_types_counts)
     print()
-    print(command_types_df[command_types_df['type'] == 'other'])
+    print(list(command_types_df[command_types_df['type'] == 'other']['command']))
 
 if __name__ == '__main__':
-    main(data_path)
+    parser = argparse.ArgumentParser(description='Generate command distribution.')
+    parser.add_argument('output_dir', nargs='?', help='Directory to save the plot as PDF')
+    args = parser.parse_args()
+    main(data_path, args.output_dir)

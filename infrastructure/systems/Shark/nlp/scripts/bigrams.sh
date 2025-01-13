@@ -26,7 +26,6 @@
 # echo 'done';
 # rm -rf ${OUT}
 #!/bin/bash
-# tag: bigrams.sh
 
 IN=${IN:-$SUITE_DIR/inputs/pg}
 OUT=${1:-$SUITE_DIR/outputs/4_3/}
@@ -34,17 +33,22 @@ ENTRIES=${ENTRIES:-1000}
 mkdir -p "$OUT"
 
 pure_func() {
-    input="$1"
-    tr -c 'A-Za-z' '[\n*]' < "$IN/$input" | grep -v "^\s*$" | 
-    awk '{if (NR > 1) print prev, $0; prev = $0}' |
-    sort | uniq -c
+    input=$1
+
+    # Generate bigrams directly in memory
+    tr -c 'A-Za-z' '[\n*]' < "$IN/$input" | grep -v "^\s*$" | \
+    paste - <(tr -c 'A-Za-z' '[\n*]' < "$IN/$input" | grep -v "^\s*$" | tail -n +2)
 }
 
 export -f pure_func
 
-for input in $(ls ${IN} | head -n ${ENTRIES} | xargs -I arg1 basename arg1); do
-    pure_func "$input" > "${OUT}/${input}.input.bigrams.out" &
+# Process each input file
+for input in $(find "$IN" -type f | head -n ${ENTRIES}); do
+    pure_func "$(basename "$input")" | \
+    sort | uniq -c > "${OUT}/$(basename "$input").input.bigrams.out" &
 done
+
+# Wait for all background processes to finish
 wait
 
 echo 'done'

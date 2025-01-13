@@ -123,12 +123,14 @@ def node_heatmap(df, outdir=None):
     heatmap_data = heatmap_data.loc[[x for x in heatmap_data.index if x not in node_order] + list(reversed(node_order))]
     annot_data = annot_data.loc[[x for x in annot_data.index if x not in node_order] + list(reversed(node_order))]
     
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(5.5, 6))
     sns.heatmap(heatmap_data, 
                 cmap='Reds', 
                 annot=annot_data, 
                 fmt='', 
-                cbar_kws={'label': 'Occurrences (* denotes more than 5)'})
+                cbar_kws={'label': 'Occurrences (* denotes more than 5)',
+                          'location': 'top'
+                        })
     # sns.clustermap(heatmap_data, col_cluster=False, cmap='Reds', annot=annot_data, fmt='', cbar_kws={'label': 'Occurrences (* denotes more than 5)'})
     plt.xlabel('')
     plt.xticks(rotation=60, ha='right')

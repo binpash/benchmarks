@@ -100,6 +100,12 @@ scripts_to_include = [
     'makeself/makeself/test/lsmtest/lsmtest.sh'
 ]
 
+def benchmark_name(benchmark):
+    if benchmark == 'vps-audit-negate':
+        return 'vps-audit-n'
+    else:
+        return benchmark
+
 
 def count_unique_cmds(series):
     return len({node for node in series if 'command(' in node})
@@ -140,7 +146,7 @@ def prettify_bytes_number(n):
 
 def make_input_description(row):
     if row['input_description']:
-        desc = prettify_bytes_number(row['input_size']) + ' of ' + row['input_description']
+        desc = prettify_bytes_number(row['input_size']) # + ' of ' + row['input_description']
         return f"\\multirow{{2}}{{*}}{{\\parbox{{\\idw}}{{{desc}}}}}"
     else:
         return "N/A"
@@ -202,12 +208,12 @@ def main():
         numscripts_shown = 0
         numscripts = row['number_of_scripts']
         print("\\rule{0pt}{4ex}")
-        print(f"\\textbf{{\\tt {row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {row['constructs']} & {row['unique_cmds']} & {make_input_description(row)} & {row['time_in_shell']:.2f} & {row['time_in_commands']:.2f} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} \\\\")
+        print(f"\\bs{{{benchmark_name(row['benchmark'])}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {row['constructs']} & {row['unique_cmds']} & {make_input_description(row)} & {row['time_in_shell']:.2f} & {row['time_in_commands']:.2f} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} \\\\")
         # now print the details of all scripts in the benchmark
         for _, row_script in big_script.iterrows():
             if row_script['benchmark'] == row['benchmark'] and any([fnmatch.fnmatch(row_script['script'], pattern) for pattern in scripts_to_include]):
                 # all columns except leave blank benchmark, category, number of scripts, input description
-                print(f"\\hspace{{0.5em}} {row_script['script'].split('/')[-1]} & & & {row_script['loc']} & {row_script['constructs']} & {row_script['unique_cmds']} & & {row_script['time_in_shell']:.2f} & {row_script['time_in_commands']:.2f} & {prettify_bytes_number(row_script['max_unique_set_size'])} & {prettify_bytes_number(row_script['io_chars'])} \\\\")
+                print(f"\\hspace{{0.5em}} \\ttt{{{row_script['script'].split('/')[-1]}}} & & & {row_script['loc']} & {row_script['constructs']} & {row_script['unique_cmds']} & & {row_script['time_in_shell']:.2f} & {row_script['time_in_commands']:.2f} & {prettify_bytes_number(row_script['max_unique_set_size'])} & {prettify_bytes_number(row_script['io_chars'])} \\\\")
                 numscripts_shown += 1
         if numscripts_shown < numscripts and numscripts > 1:
             print(f"\\hspace{{0.5em}} \\ldots & & & & & & & & & & \\\\")

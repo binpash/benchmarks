@@ -20,11 +20,11 @@ def read_sys_results():
     return csv_data
 
 benchmark_category_style = {
-    'bio': ('XXX', 'XXX', 'XXX'),
-    'vps-audit': ('XXX', 'XXX', 'XXX'),
-    'vps-audit-negate': ('XXX', 'XXX', 'XXX'),
-    'aurpkg': ('XXX', 'XXX', 'XXX'),
-    'makeself': ('XXX', 'XXX', 'XXX'),
+    'bio': ('XXX', 'XXX', '\\cite{Cappellini2019,puritz2019bio594}'),
+    'vps-audit': ('XXX', 'XXX', '\\cite{vpsaudit}'),
+    'vps-audit-negate': ('XXX', 'XXX', '\\cite{vpsaudit}'),
+    'aurpkg': ('XXX', 'XXX', '\\cite{pacaur}'),
+    'makeself': ('XXX', 'XXX', '\\cite{makeself}'),
     'infrastructure/standards/100-files': ('XXX', 'XXX', 'XXX'),
     'infrastructure/standards/read-write': ('XXX', 'XXX', 'XXX'),
     'infrastructure/standards/shell-memory': ('XXX', 'XXX', 'XXX'),
@@ -39,10 +39,10 @@ benchmark_category_style = {
     'max-temp': ('Data analysis', 'Data extraction', '\\cite{hadoop-guide-2009}'),
     'media-conv': ('Misc.', 'Automation', '\\cite{spinellis2017extending, raghavan2020posh}'),
     'nlp': ('Machine learning', 'Text processing', '\\cite{unix-for-poets-church}'),
-    'oneliners': ('Misc.', 'Text processing', '\\cite{bentley-pearl-cacm-1985, bentley-pearl-cacm-1986, unix-cacm-1974, wicked-cool-shell-scripts}'),
-    'riker': ('Development', 'Build scripts', ''),
-    'sklearn': ('Machine learning', 'Automation', ''),
     'uniq-ips': ('System admin.', 'Automation', ''),
+    'oneliners': ('Misc.', 'Text processing', '\\cite{bentley-pearl-cacm-1985, bentley-pearl-cacm-1986, unix-cacm-1974, wicked-cool-shell-scripts,majkowski2020bloom}'),
+    'riker': ('Development', 'Build scripts', '\\cite{riker2022}'),
+    'sklearn': ('Machine learning', 'Automation', '\\cite{scikit-learn}'),
     'unix50': ('Misc.', 'Text processing', '\\cite{bhandari2020solutions}'),
     'web-index': ('Development', 'Text processing', '\\cite{pash2021}')
 }
@@ -52,6 +52,12 @@ def short_category(benchmark):
     def shorten(str):
         return ''.join([x[0].upper() for x in str.split(' ')])
     return shorten(dom) + '/' + shorten(style)
+
+def citation(benchmark):
+    citation = benchmark_category_style[benchmark][2]
+    if 'cite' in citation: 
+        return citation
+    return ''
 
 benchmark_input_description = {
     'aurpkg': 'package urls',
@@ -196,10 +202,10 @@ def main():
 
     print("""
           \\def\\idw{7em}
-\\begin{tabular}{l|lrr|rr|l|rrrr|lr}
+\\begin{tabular}{l|lrr|rr|l|rrrr|lrc}
     \\toprule
-\\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c|}{Surface} & \\multicolumn{2}{c|}{Syntax} & \\multicolumn{1}{c|}{Inputs} & \\multicolumn{4}{c|}{Dynamic} & \\multicolumn{2}{c}{System} \\\\
-                                  & Dom     & \\#.sh     & LOC    & \\# Cons       & \\# Cmd      &                             & T.sh  & T.cmd  & Mem   & I/O & \\# s/c       & \\# fd       \\\\
+\\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c|}{Surface} & \\multicolumn{2}{c|}{Syntax} & \\multicolumn{1}{c|}{Inputs} & \\multicolumn{4}{c|}{Dynamic} & \\multicolumn{2}{c}{System} & Reference \\\\
+                                  & Dom     & \\#.sh     & LOC    & \\# Cons       & \\# Cmd      &                             & T.sh  & T.cmd  & Mem   & I/O & \\# s/c       & \\# fd        &   \\\\
     \\midrule
 """)
     # generate a big latex table with the following columns:
@@ -208,15 +214,15 @@ def main():
         numscripts_shown = 0
         numscripts = row['number_of_scripts']
         print("\\rule{0pt}{4ex}")
-        print(f"\\bs{{{benchmark_name(row['benchmark'])}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {row['constructs']} & {row['unique_cmds']} & {make_input_description(row)} & {row['time_in_shell']:.2f} & {row['time_in_commands']:.2f} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} \\\\")
+        print(f"\\bs{{{benchmark_name(row['benchmark'])}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {row['constructs']} & {row['unique_cmds']} & {make_input_description(row)} & {row['time_in_shell']:.2f} & {row['time_in_commands']:.2f} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
         # now print the details of all scripts in the benchmark
         for _, row_script in big_script.iterrows():
             if row_script['benchmark'] == row['benchmark'] and any([fnmatch.fnmatch(row_script['script'], pattern) for pattern in scripts_to_include]):
                 # all columns except leave blank benchmark, category, number of scripts, input description
-                print(f"\\hspace{{0.5em}} \\ttt{{{row_script['script'].split('/')[-1]}}} & & & {row_script['loc']} & {row_script['constructs']} & {row_script['unique_cmds']} & & {row_script['time_in_shell']:.2f} & {row_script['time_in_commands']:.2f} & {prettify_bytes_number(row_script['max_unique_set_size'])} & {prettify_bytes_number(row_script['io_chars'])} \\\\")
+                print(f"\\hspace{{0.5em}} \\ttt{{{row_script['script'].split('/')[-1]}}} & & & {row_script['loc']} & {row_script['constructs']} & {row_script['unique_cmds']} & & {row_script['time_in_shell']:.2f} & {row_script['time_in_commands']:.2f} & {prettify_bytes_number(row_script['max_unique_set_size'])} & {prettify_bytes_number(row_script['io_chars'])} & \\\\")
                 numscripts_shown += 1
         if numscripts_shown < numscripts and numscripts > 1:
-            print(f"\\hspace{{0.5em}} \\ldots & & & & & & & & & & \\\\")
+            print(f"\\hspace{{0.5em}} \\ldots & & & & & & & & & & & \\\\")
     print("""
     \\bottomrule
   \\end{tabular}

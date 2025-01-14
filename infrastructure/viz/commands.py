@@ -1,6 +1,7 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import os
 from syntax import *
 
 # Data format example:
@@ -46,7 +47,7 @@ def command_distribution(df, outdir=None):
             "font.family": "serif",
             "font.serif": ["Times New Roman"],  # Replace with your LaTeX font if different
         })
-        plt.savefig(os.path.join(outdir, 'bensh-cmd-distribution.pdf'))
+        plt.savefig(os.path.join(outdir, 'bensh-cmd-distribution.pdf'), facecolor='none', edgecolor='none')
     else:
         plt.show()
 

@@ -6,7 +6,7 @@ import viz.syntax as stx
 import viz.dynamic as dyn
 import sys
 
-from all_scripts import get_all_scripts
+from all_scripts import get_all_scripts, benchmark_rename_map
 from project_root import get_project_root
 
 root = get_project_root()
@@ -111,18 +111,9 @@ scripts_to_include = [
     # aurpkg is just 1
     # bio is just 1
     'web-index/scripts/ngrams.sh',
-    # vps-audit is just 1
+    'vps-audit/scripts/vps-audit.sh',
     'makeself/makeself/test/lsmtest/lsmtest.sh'
 ]
-
-def benchmark_name(benchmark):
-    benchmark_name_map = {
-            'vps-audit-negate': 'vps-audit-n'
-    }
-    if benchmark in benchmark_name_map:
-        return benchmark_name_map[benchmark]
-    else:
-        return benchmark
 
 def script_name(script):
     script_name_map = {
@@ -154,7 +145,8 @@ def count_constructs(series):
 def read_loc_data():
     loc_data = pd.read_csv(loc_data_path, header=None)
     loc_data.columns = ['script', 'loc']
-    loc_data['benchmark'] = loc_data['script'].apply(lambda x: x.split('/')[0])
+    map_df = stx.get_map_df()
+    loc_data = loc_data.merge(map_df, on='script')
     loc_data_bench = loc_data.groupby('benchmark').agg({
         'loc': 'sum',
         'script': 'count'
@@ -279,7 +271,7 @@ def main():
     for _, row in big_bench.iterrows():
         numscripts_shown = 0
         numscripts = row['number_of_scripts']
-        print(f"\\bs{{{benchmark_name(row['benchmark'])}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {make_input_description(row)}  & {row['constructs']} & {row['unique_cmds']} & {format_number(row['time_in_shell'])} & {format_number(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
+        print(f"\\bs{{{row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {make_input_description(row)}  & {row['constructs']} & {row['unique_cmds']} & {format_number(row['time_in_shell'])} & {format_number(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
         # now print the details of all scripts in the benchmark
         for _, row_script in big_script.iterrows():
             if row_script['benchmark'] == row['benchmark'] and any([fnmatch.fnmatch(row_script['script'], pattern) for pattern in scripts_to_include]):
@@ -308,6 +300,10 @@ def main():
     \\bottomrule
   \\end{tabular}
 """)
+    
+    print('time', file=sys.stderr)
+    print(agg_order, file=sys.stderr)
+    print([format_value(v) for v in big_bench['time'].agg(agg_order).values], file=sys.stderr)
     
 
 if __name__ == '__main__':

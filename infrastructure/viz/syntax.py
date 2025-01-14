@@ -141,7 +141,7 @@ def node_heatmap(df, outdir=None):
     
     plt.figure(figsize=(5.5, 6))
     sns.heatmap(heatmap_data, 
-                cmap='Greys',
+                cmap='Reds',
                 annot=annot_data, 
                 fmt='', 
                 cbar_kws={'label': 'Occurrences (* denotes more than 5)',

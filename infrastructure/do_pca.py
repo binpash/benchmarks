@@ -3,50 +3,110 @@ import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
+from adjustText import adjust_text
 
-def perform_pca_and_plot(dataframe):
+def perform_pca_and_plot(dataframe1, dataframe2, name='row_analysis'):
     """
-    Performs PCA on the numeric columns of the input dataframe and plots the first two principal components.
+    Performs PCA on the numeric columns of two input dataframes and plots each pair of principal components
+    (1&2 and 3&4) in a 2x2 grid, with one dataset per row and unified titles for each dataset.
+    Each point is annotated with the corresponding benchmark name, avoiding label collisions.
 
     Parameters:
-        dataframe (pd.DataFrame): Input dataframe containing data for PCA.
+        dataframe1 (pd.DataFrame): First input dataframe.
+        dataframe2 (pd.DataFrame): Second input dataframe.
+        name (str): Name for saving the plots.
 
     Returns:
-        pd.DataFrame: A dataframe containing the principal components.
+        tuple: Two dataframes containing the principal components for each input dataframe.
     """
-    # Ensure numeric columns are selected for PCA
-    numeric_cols = dataframe.select_dtypes(include=[np.number]).columns
-    if numeric_cols.empty:
-        raise ValueError("No numeric columns available in the dataframe for PCA.")
-    print(f"Numeric columns selected for PCA: {numeric_cols}")
+    def prepare_pca(dataframe):
+        # Ensure numeric columns are selected for PCA
+        numeric_cols = dataframe.select_dtypes(include=[np.number]).columns
+        if numeric_cols.empty:
+            raise ValueError("No numeric columns available in the dataframe for PCA.")
+        print(f"Numeric columns selected for PCA: {numeric_cols}")
 
-    # Drop rows with NaN values in numeric columns (if any)
-    dataframe_numeric = dataframe[numeric_cols].dropna()
+        # Drop rows with NaN values in numeric columns and retain their indices for annotation
+        dataframe_clean = dataframe.dropna(subset=numeric_cols)
+        benchmark_names = dataframe_clean['benchmark'].values
 
-    # Standardize the data
-    scaler = StandardScaler()
-    data_scaled = scaler.fit_transform(dataframe_numeric)
+        # Standardize the data
+        scaler = StandardScaler()
+        data_scaled = scaler.fit_transform(dataframe_clean[numeric_cols])
 
-    # Perform PCA
-    pca = PCA(n_components=2)  # Reduce to 2 components for visualization
-    principal_components = pca.fit_transform(data_scaled)
+        # Perform PCA
+        pca = PCA(n_components=4)  # Reduce to 4 components for analysis
+        principal_components = pca.fit_transform(data_scaled)
 
-    # Create a new dataframe with the principal components
-    pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
+        # Create a new dataframe with the principal components
+        pca_df = pd.DataFrame(
+            data=principal_components, 
+            columns=['PC1', 'PC2', 'PC3', 'PC4']
+        )
+        return pca_df, benchmark_names
 
-    # Plot the results
-    plt.figure(figsize=(10, 7))
-    plt.scatter(pca_df['PC1'], pca_df['PC2'], alpha=0.7)
-    plt.title('PCA of Input DataFrame', fontsize=16)
-    plt.xlabel('Principal Component 1', fontsize=12)
-    plt.ylabel('Principal Component 2', fontsize=12)
-    plt.grid(True)
+    # Perform PCA on both dataframes
+    pca_df1, benchmarks1 = prepare_pca(dataframe1)
+    pca_df2, benchmarks2 = prepare_pca(dataframe2)
 
-    # Optionally, add labels for points (if 'benchmark' column exists)
-    if 'benchmark' in dataframe.columns:
-        for i, label in enumerate(dataframe['benchmark']):
-            plt.annotate(label, (pca_df['PC1'][i], pca_df['PC2'][i]), fontsize=8, alpha=0.6)
+    # Create a 2x2 grid for the plots
+    fig, axes = plt.subplots(2, 2, figsize=(12, 12), constrained_layout=True)
 
-    plt.savefig('pca_plot.pdf')
+    # Set the main titles for each dataset
+    axes[0, 0].set_title('PCA from collected metrics', fontsize=14, loc='left')
+    axes[1, 0].set_title('PCA from language model embeddings', fontsize=14, loc='left')
 
-    return pca_df
+    # Helper function to plot and annotate
+    def plot_with_labels(ax, x, y, labels, title, secondary=False):
+        scatter = ax.scatter(x, y, c='black', alpha=0.7)
+        # ax.set_title(title, fontsize=14, loc='left')
+        ax.set_xlabel(f'Component {1 if not secondary else 3}', fontsize=14)
+        ax.set_ylabel(f'Component {2 if not secondary else 4}', fontsize=14)
+        ax.grid(color='lightgray', linestyle='--', linewidth=0.5)
+
+        # Add text annotations
+        texts = [ax.text(x[i], y[i], labels[i], fontsize=14, ha='center', va='center') for i in range(len(labels))]
+        adjust_text(texts, ax=ax, arrowprops=dict(arrowstyle='-', color='gray', lw=0.5))
+
+    # Plot Components 1 and 2 for Dataset 1
+    plot_with_labels(
+        axes[0, 0], 
+        pca_df1['PC1'], 
+        pca_df1['PC2'], 
+        benchmarks1, 
+        'PCA from collected metrics'
+    )
+
+    # Plot Components 3 and 4 for Dataset 1
+    plot_with_labels(
+        axes[0, 1], 
+        pca_df1['PC3'], 
+        pca_df1['PC4'], 
+        benchmarks1, 
+        '',
+        True
+    )
+
+    # Plot Components 1 and 2 for Dataset 2
+    plot_with_labels(
+        axes[1, 0], 
+        pca_df2['PC1'], 
+        pca_df2['PC2'], 
+        benchmarks2, 
+        'PCA from language model embeddings'
+    )
+
+    # Plot Components 3 and 4 for Dataset 2
+    plot_with_labels(
+        axes[1, 1], 
+        pca_df2['PC3'], 
+        pca_df2['PC4'], 
+        benchmarks2, 
+        '',
+        True
+    )
+
+    # Save the plots
+    plt.savefig(f'pca-row-plot-{name}.pdf', format='pdf')
+
+    return pca_df1, pca_df2

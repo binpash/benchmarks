@@ -180,7 +180,8 @@ def read_data():
                                       'time': 'sum',
                                       'time_in_shell': 'sum',
                                       'time_in_commands': 'sum',
-                                      'wall_time': 'sum'}).reset_index()
+                                      'wall_time': 'sum',
+                                      'children_num_fds': 'sum'}).reset_index()
 
     return df, bench_df
 

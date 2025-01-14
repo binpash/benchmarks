@@ -200,7 +200,9 @@ def main():
             new_row = pd.DataFrame([{'benchmark': benchmark, 'sys_calls': '\\xxx', 'file_descriptors': '\\xxx'}])
             sys_results = pd.concat([sys_results, new_row], ignore_index=True)
     sys_results.reset_index(drop=True, inplace=True)
-    sys_results['file_descriptors'] = sys_results['file_descriptors'].apply(lambda x: '\\xxx' if x == 0 else x)
+    # replace sys_results file_descriptors numbers with those from children_num_fds in dyn_bench
+    sys_results = sys_results.merge(dyn_bench[['benchmark', 'children_num_fds']], on='benchmark')
+    sys_results['file_descriptors'] = sys_results['children_num_fds']
 
     syntax_script_all_cmds['unique_cmds'] = syntax_script_all_cmds['nodes'].apply(count_unique_cmds)
     syntax_bench_all_cmds['unique_cmds'] = syntax_bench_all_cmds['nodes'].apply(count_unique_cmds)
@@ -229,7 +231,9 @@ def main():
         .merge(syntax_script_all_cmds[['script', 'unique_cmds']], on='script')
 
     # Calculate summary statistics
-    summary_stats = big_bench[['loc', 'constructs', 'unique_cmds', 'number_of_scripts']].agg(['mean', 'min', 'max']).reset_index()
+    agg_order = ['min', 'max', 'mean']
+    summary_names = [s.capitalize() for s in agg_order]
+    summary_stats = big_bench[['loc', 'constructs', 'unique_cmds', 'number_of_scripts']].agg(agg_order).reset_index()
     summary_stats.rename(columns={
         'index': 'benchmark',
         'loc': 'loc',
@@ -239,17 +243,17 @@ def main():
     }, inplace=True)
 
     # Add placeholder values for non-numeric columns
-    summary_stats['benchmark'] = ['Min', 'Max', 'Avg']
-    summary_stats['sys_calls'] = '\\xxx'
-    summary_stats['file_descriptors'] = '\\xxx'
+    summary_stats['benchmark'] = summary_names
+    summary_stats['sys_calls'] = big_bench['sys_calls'].agg(agg_order).values if big_bench['sys_calls'].dtype == 'int64' else '\\xxx'
+    summary_stats['file_descriptors'] = big_bench['file_descriptors'].agg(agg_order).values if big_bench['file_descriptors'].dtype == 'int64' else '\\xxx'
     summary_stats['input_description'] = None
-    summary_stats['time_in_shell'] = big_bench['time_in_shell'].agg(['min', 'max', 'mean']).values
-    summary_stats['time_in_commands'] = big_bench['time_in_commands'].agg(['min', 'max', 'mean']).values
-    summary_stats['max_unique_set_size'] = big_bench['max_unique_set_size'].agg(['min', 'max', 'mean']).values
-    summary_stats['io_chars'] = big_bench['io_chars'].agg(['min', 'max', 'mean']).values
-    summary_stats['number_of_scripts'] = big_bench['number_of_scripts'].agg(['min', 'max', 'mean']).values
+    summary_stats['time_in_shell'] = big_bench['time_in_shell'].agg(agg_order).values
+    summary_stats['time_in_commands'] = big_bench['time_in_commands'].agg(agg_order).values
+    summary_stats['max_unique_set_size'] = big_bench['max_unique_set_size'].agg(agg_order).values
+    summary_stats['io_chars'] = big_bench['io_chars'].agg(agg_order).values
+    summary_stats['number_of_scripts'] = big_bench['number_of_scripts'].agg(agg_order).values
     # Ignore rows that have no input_description
-    summary_stats['input_size'] = big_bench[big_bench['input_description'].notnull()]['input_size'].agg(['min', 'max', 'mean']).values
+    summary_stats['input_size'] = big_bench[big_bench['input_description'].notnull()]['input_size'].agg(agg_order).values
     summary_stats['input_description'] = '\\xxx' # Have something so that N/A doesn't show up
 
     # Append summary rows to big_bench
@@ -258,10 +262,10 @@ def main():
 
     print("""
           \\def\\idw{7em}
-\\setlength{\\tabcolsep}{3pt}
-\\begin{tabular}{llrrlrrrrrrlrc}
+\\begin{tabular}{@{\\extracolsep{5pt}}llrrlrrrrrrlrl@{}}
 \\toprule
-\\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c}{Surface} & \\multicolumn{1}{c}{Inputs}  & \\multicolumn{2}{c}{Syntax} & \\multicolumn{4}{c}{Dynamic} & \\multicolumn{2}{c}{System} & Source \\\\
+\\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c}{Surface} & \\multirow{2}{*}{Inputs}  & \\multicolumn{2}{c}{Syntax} & \\multicolumn{4}{c}{Dynamic} & \\multicolumn{2}{c}{System} & \\multirow{2}{*}{Source} \\\\
+    \\cline{2-4} \\cline{6-7} \\cline{8-11} \\cline{12-13}
                                   & Dom     & \\#.sh     & LOC     &                               & \\# Cons       & \\# Cmd      & T.sh  & T.cmd  & Mem   & I/O & \\# s/c       & \\# fd        &   \\\\
     \\midrule
 """)
@@ -281,15 +285,19 @@ def main():
             print(f"\\hspace{{0.5em}} \\ldots & & & & & & & & & & & & & {script_citation(row['benchmark'] + '...')} \\\\")
 
     print("\\midrule")
-    for aggregate in ['Min', 'Max', 'Avg']:
+    for aggregate in ['Min', 'Mean', 'Max']:
         row = summary_stats[summary_stats['benchmark'] == aggregate].iloc[0]
        
         def format_value(value):
+            def round_whole(numstr):
+                if numstr.endswith(".0"):
+                    return numstr[:-2]
+                return numstr
             if isinstance(value, (int, float)):
-                return f"{value:.1f}" if isinstance(value, float) else f"{int(value)}"
+                return round_whole(f"{value:.1f}") if isinstance(value, float) else f"{int(value)}"
             return value  # For non-numeric values
 
-        print(f"{{\\textbf{{\\centering {row['benchmark']}}}}} & & {format_value(row['number_of_scripts'])} & {format_value(row['loc'])} & {format_value(row['constructs'])} & {format_value(row['unique_cmds'])} & {make_input_description(row):s} & {format_value(row['time_in_shell'])} & {format_value(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} & \\\\")
+        print(f"{{\\textbf{{\\centering {row['benchmark']}}}}} & & {format_value(row['number_of_scripts'])} & {format_value(row['loc'])} & {make_input_description(row):s} & {format_value(row['constructs'])} & {format_value(row['unique_cmds'])} & {format_value(row['time_in_shell'])} & {format_value(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {format_value(row['sys_calls'])} & {format_value(row['file_descriptors'])} & \\\\")
 
     print("""
     \\bottomrule

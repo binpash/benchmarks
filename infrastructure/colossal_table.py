@@ -4,6 +4,7 @@ import pandas as pd
 import fnmatch
 import viz.syntax as stx
 import viz.dynamic as dyn
+import sys
 
 from all_scripts import get_all_scripts
 from project_root import get_project_root
@@ -39,12 +40,18 @@ benchmark_category_style = {
     'max-temp': ('Data analysis', 'Data extraction', '\\cite{hadoop-guide-2009}'),
     'media-conv': ('Misc.', 'Automation', '\\cite{spinellis2017extending, raghavan2020posh}'),
     'nlp': ('Machine learning', 'Text processing', '\\cite{unix-for-poets-church}'),
-    'uniq-ips': ('System admin.', 'Automation', ''),
-    'oneliners': ('Misc.', 'Text processing', '\\cite{bentley-pearl-cacm-1985, bentley-pearl-cacm-1986, unix-cacm-1974, wicked-cool-shell-scripts,majkowski2020bloom}'),
+    'oneliners': ('Misc.', 'Text processing', ''),
     'riker': ('Development', 'Build scripts', '\\cite{riker2022}'),
     'sklearn': ('Machine learning', 'Automation', '\\cite{scikit-learn}'),
     'unix50': ('Misc.', 'Text processing', '\\cite{bhandari2020solutions}'),
     'web-index': ('Development', 'Text processing', '\\cite{pash2021}')
+}
+
+script_to_citation = {
+        'oneliners/scripts/spell.sh': '\\cite{bentley-pearl-cacm-1985}',
+        'oneliners/scripts/uniq-ips.sh': '\\cite{majkowski2020bloom}',
+        'oneliners/scripts/top-n.sh': '\\cite{bentley-pearl-cacm-1986}',
+        'oneliners...': '\\cite{unix-cacm-1974, wicked-cool-shell-scripts}'
 }
 
 def short_category(benchmark):
@@ -94,7 +101,9 @@ scripts_to_include = [
     'log-analysis/scripts/nginx.sh',
     'media-conv/scripts/img_convert.sh',
     'nlp/scripts/bigrams.sh',
-    'oneliners/*',
+    'oneliners/scripts/spell.sh',
+    'oneliners/scripts/uniq-ips.sh',
+    'oneliners/scripts/top-n.sh',
     'unix50/scripts/1.sh',
     'riker/scripts/redis/build.sh',
     # max-temp is just 1
@@ -107,10 +116,28 @@ scripts_to_include = [
 ]
 
 def benchmark_name(benchmark):
-    if benchmark == 'vps-audit-negate':
-        return 'vps-audit-n'
+    benchmark_name_map = {
+            'vps-audit-negate': 'vps-audit-n'
+    }
+    if benchmark in benchmark_name_map:
+        return benchmark_name_map[benchmark]
     else:
         return benchmark
+
+def script_name(script):
+    script_name_map = {
+            "encrypt_files.sh": "encrypt.sh",
+            "img_convert.sh": "img-conv.sh",
+    }
+    if script in script_name_map:
+        return script_name_map[script]
+    else:
+        return script
+
+def script_citation(script):
+    if script in script_to_citation:
+        return script_to_citation[script]
+    return ''
 
 
 def count_unique_cmds(series):
@@ -134,11 +161,11 @@ def prettify_bytes_number(n):
     if n < 1024:
         value, unit = n, "B"
     elif n < 1024 * 1024:
-        value, unit = n / 1024, "KB"
+        value, unit = n / 1024, "K"
     elif n < 1024 * 1024 * 1024:
-        value, unit = n / (1024 * 1024), "MB"
+        value, unit = n / (1024 * 1024), "M"
     else:
-        value, unit = n / (1024 * 1024 * 1024), "GB"
+        value, unit = n / (1024 * 1024 * 1024), "G"
     
     if value < 10:
         decimals = 2
@@ -147,8 +174,8 @@ def prettify_bytes_number(n):
     else:
         decimals = 0
     
-    color = 'black' if unit == 'GB' else 'gray'
-    return f"{value:.{decimals}f} \\textcolor{{{color}}}{{{unit}}}"
+    color = 'black' if unit == 'G' else 'gray'
+    return f"{value:.{decimals}f}\\textcolor{{{color}}}{{{unit}}}"
 
 def make_input_description(row):
     if row['input_description']:
@@ -226,44 +253,44 @@ def main():
     summary_stats['input_description'] = '\\xxx' # Have something so that N/A doesn't show up
 
     # Append summary rows to big_bench
-    big_bench = pd.concat([big_bench, summary_stats], ignore_index=True)
+    # big_bench = pd.concat([big_bench, summary_stats], ignore_index=True)
         
 
     print("""
           \\def\\idw{7em}
-\\begin{tabular}{l|lrr|rr|l|rrrr|lrc}
-    \\toprule
-\\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c|}{Surface} & \\multicolumn{2}{c|}{Syntax} & \\multicolumn{1}{c|}{Inputs} & \\multicolumn{4}{c|}{Dynamic} & \\multicolumn{2}{c}{System} & Reference \\\\
-                                  & Dom     & \\#.sh     & LOC    & \\# Cons       & \\# Cmd      &                             & T.sh  & T.cmd  & Mem   & I/O & \\# s/c       & \\# fd        &   \\\\
+\\setlength{\\tabcolsep}{3pt}
+\\begin{tabular}{l|lrr|l|rr|rrrr|lrc}
+\\toprule
+\\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c|}{Surface} & \\multicolumn{1}{c|}{Inputs}  & \\multicolumn{2}{c|}{Syntax} & \\multicolumn{4}{c|}{Dynamic} & \\multicolumn{2}{c}{System} & Source \\\\
+                                  & Dom     & \\#.sh     & LOC     &                               & \\# Cons       & \\# Cmd      & T.sh  & T.cmd  & Mem   & I/O & \\# s/c       & \\# fd        &   \\\\
     \\midrule
 """)
     # generate a big latex table with the following columns:
     # benchmark, short_category, number of scripts, LOC, number of constructs, number of unique commands, input description, time in shell, time in commands, max memory, IO
     for _, row in big_bench.iterrows():
-        print("\\rule{0pt}{4ex}")
-        if row['benchmark'] in ['Min', 'Max', 'Avg']:
-           
-            def format_value(value):
-                if isinstance(value, (int, float)):
-                    return f"{value:.1f}" if isinstance(value, float) else f"{int(value)}"
-                return value  # For non-numeric values
-
-            print(f"{{\\textbf{{\\centering {row['benchmark']}}}}} & & {format_value(row['number_of_scripts'])} & {format_value(row['loc'])} & {format_value(row['constructs'])} & {format_value(row['unique_cmds'])} & {make_input_description(row):s} & {format_value(row['time_in_shell'])} & {format_value(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} & \\\\")
-            continue
-
-
         numscripts_shown = 0
         numscripts = row['number_of_scripts']
-        print(f"\\bs{{{benchmark_name(row['benchmark'])}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {row['constructs']} & {row['unique_cmds']} & {make_input_description(row)} & {row['time_in_shell']:.1f} & {row['time_in_commands']:.1f} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
+        print(f"\\bs{{{benchmark_name(row['benchmark'])}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {make_input_description(row)}  & {row['constructs']} & {row['unique_cmds']} & {row['time_in_shell']:.1f} & {row['time_in_commands']:.1f} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
         # now print the details of all scripts in the benchmark
         for _, row_script in big_script.iterrows():
             if row_script['benchmark'] == row['benchmark'] and any([fnmatch.fnmatch(row_script['script'], pattern) for pattern in scripts_to_include]):
                 # all columns except leave blank benchmark, category, number of scripts, input description
-                print(f"\\hspace{{0.5em}} \\ttt{{{row_script['script'].split('/')[-1]}}} & & & {row_script['loc']} & {row_script['constructs']} & {row_script['unique_cmds']} & & {row_script['time_in_shell']:.1f} & {row_script['time_in_commands']:.1f} & {prettify_bytes_number(row_script['max_unique_set_size'])} & {prettify_bytes_number(row_script['io_chars'])} & \\\\")
+                print(f"\\hspace{{0.5em}} \\ttt{{{script_name(row_script['script'].split('/')[-1])}}} & & & {row_script['loc']} & & {row_script['constructs']} & {row_script['unique_cmds']} & {row_script['time_in_shell']:.1f} & {row_script['time_in_commands']:.1f} & {prettify_bytes_number(row_script['max_unique_set_size'])} & {prettify_bytes_number(row_script['io_chars'])} & & & {script_citation(row_script['script'])} \\\\")
                 numscripts_shown += 1
-                if numscripts_shown > 4: break
         if numscripts_shown < numscripts and numscripts > 1:
-            print(f"\\hspace{{0.5em}} \\ldots & & & & & & & & & & & \\\\")
+            print(f"\\hspace{{0.5em}} \\ldots & & & & & & & & & & & & & {script_citation(row['benchmark'] + '...')} \\\\")
+
+    print("\\midrule")
+    for aggregate in ['Min', 'Max', 'Avg']:
+        row = summary_stats[summary_stats['benchmark'] == aggregate].iloc[0]
+       
+        def format_value(value):
+            if isinstance(value, (int, float)):
+                return f"{value:.1f}" if isinstance(value, float) else f"{int(value)}"
+            return value  # For non-numeric values
+
+        print(f"{{\\textbf{{\\centering {row['benchmark']}}}}} & & {format_value(row['number_of_scripts'])} & {format_value(row['loc'])} & {format_value(row['constructs'])} & {format_value(row['unique_cmds'])} & {make_input_description(row):s} & {format_value(row['time_in_shell'])} & {format_value(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} & \\\\")
+
     print("""
     \\bottomrule
   \\end{tabular}

@@ -23,8 +23,8 @@ makeself/makeself/test/signtest/signtest.sh,197
 makeself/makeself/test/tarextratest/tarextratest.sh,43
 makeself/makeself/test/variabletest/variabletest.sh,66
 max-temp/scripts/temp-analytics.sh,17
-media-conv/scripts/img_convert.sh,11
-media-conv/scripts/to_mp3.sh,11
+media-conv/scripts/img_convert.sh,12
+media-conv/scripts/to_mp3.sh,12
 nlp/scripts/bigrams.sh,19
 nlp/scripts/bigrams_appear_twice.sh,20
 nlp/scripts/compare_exodus_genesis.sh,21
@@ -51,8 +51,8 @@ nlp/scripts/words_no_vowels.sh,10
 oneliners/scripts/bi-gram.aux.sh,61
 oneliners/scripts/bi-grams.sh,9
 oneliners/scripts/diff.sh,10
+oneliners/scripts/icfp-spell.sh,5
 oneliners/scripts/nfa-regex.sh,2
-oneliners/scripts/run.sh,1
 oneliners/scripts/set-diff.sh,11
 oneliners/scripts/sort-sort.sh,2
 oneliners/scripts/sort.sh,2

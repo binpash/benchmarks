@@ -51,8 +51,8 @@ nlp/scripts/words_no_vowels.sh,nlp
 oneliners/scripts/bi-gram.aux.sh,oneliners
 oneliners/scripts/bi-grams.sh,oneliners
 oneliners/scripts/diff.sh,oneliners
+oneliners/scripts/icfp-spell.sh,oneliners
 oneliners/scripts/nfa-regex.sh,oneliners
-oneliners/scripts/run.sh,oneliners
 oneliners/scripts/set-diff.sh,oneliners
 oneliners/scripts/sort-sort.sh,oneliners
 oneliners/scripts/sort.sh,oneliners

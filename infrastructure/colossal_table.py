@@ -8,6 +8,7 @@ import sys
 
 from all_scripts import get_all_scripts, benchmark_rename_map
 from project_root import get_project_root
+from do_pca import perform_pca_and_plot
 
 root = get_project_root()
 data_path = root / 'infrastructure/target/dynamic_analysis.jsonl'
@@ -21,16 +22,16 @@ def read_sys_results():
     return df
 
 benchmark_category_style = {
-    'aurpkg': ('Continuous Integration', 'Automation', '\\cite{pacaur}'),
+    'aurpkg': ('Continuous Integration', 'Automation Now', '\\cite{pacaur}'),
     'bio': ('Data analysis', 'Biology', '\\cite{Cappellini2019,puritz2019bio594}'),
     'covid-mts': ('Data analysis', 'Data extraction', '\\cite{covid-mts-source}'),
-    'file-enc': ('Automation', 'Cryptography', '\\cite{cito2020empirical}'),
+    'file-enc': ('Automation Now', 'Cryptography', '\\cite{cito2020empirical}'),
     'log-analysis': ('System admin.', 'Data analysis', '\\cite{spinellis2017extending, raghavan2020posh}'),
     'makeself': ('Misc.', 'Compression', '\\cite{makeself}'),
     'max-temp': ('Data analysis', 'Data extraction', '\\cite{hadoop-guide-2009}'),
-    'media-conv': ('Misc.', 'Automation', '\\cite{spinellis2017extending, raghavan2020posh}'),
+    'media-conv': ('Automation Now', 'Misc.', '\\cite{spinellis2017extending, raghavan2020posh}'),
     'nlp': ('Machine learning', 'Text processing', '\\cite{unix-for-poets-church}'),
-    'oneliners': ('Misc.', 'Text processing', ''),
+    'oneliners': ('Automation Now', 'Text processing', ''),
     'riker': ('Continuous Integration', 'Build scripts', '\\cite{riker2022}'),
     'sklearn': ('Machine learning', 'Data analysis', '\\cite{scikit-learn}'),
     'unix50': ('Misc.', 'Text processing', '\\cite{bhandari2020solutions}'),
@@ -238,6 +239,9 @@ def main():
         .merge(loc_data_script, on='script')\
         .merge(syntax_script_all_cmds[['script', 'unique_cmds']], on='script')
 
+    perform_pca_and_plot(big_bench)
+    exit(0)
+
     # Calculate summary statistics
     agg_order = ['min', 'max', 'mean']
     summary_names = [s.capitalize() for s in agg_order]
@@ -274,7 +278,7 @@ def main():
 \\toprule
 \\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c}{Surface} & \\multirow{2}{*}{Inputs}  & \\multicolumn{2}{c}{Syntax} & \\multicolumn{4}{c}{Dynamic} & \\multicolumn{2}{c}{System} & \\multirow{2}{*}{Source} \\\\
     \\cline{2-4} \\cline{6-7} \\cline{8-11} \\cline{12-13}
-                                  & Dom     & \\#.sh     & LOC     &                               & \\# Cons       & \\# Cmd      & T.sh  & T.cmd  & Mem   & I/O & \\# s/c       & \\# fd        &   \\\\
+                                  & Dom     & \\#.sh     & LoC     &                               & \\#Cons       & \\#Cmd      & $t_{S}$  & $t_{C}$  & Mem   & I/O & \\#SC       & \\#FD        &   \\\\
     \\midrule
 """)
     # generate a big latex table with the following columns:

@@ -143,6 +143,11 @@ def script_citation(script):
 def count_unique_cmds(series):
     return len({node for node in series if 'command(' in node})
 
+def format_number(n):
+    if n == 0:
+        return '\\textasciitilde 0'
+    return f"{n:.1f}"
+
 def count_constructs(series):
     return len(set(series))
 
@@ -274,7 +279,7 @@ def main():
     for _, row in big_bench.iterrows():
         numscripts_shown = 0
         numscripts = row['number_of_scripts']
-        print(f"\\bs{{{benchmark_name(row['benchmark'])}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {make_input_description(row)}  & {row['constructs']} & {row['unique_cmds']} & {row['time_in_shell']:.1f} & {row['time_in_commands']:.1f} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
+        print(f"\\bs{{{benchmark_name(row['benchmark'])}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {make_input_description(row)}  & {row['constructs']} & {row['unique_cmds']} & {format_number(row['time_in_shell'])} & {format_number(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
         # now print the details of all scripts in the benchmark
         for _, row_script in big_script.iterrows():
             if row_script['benchmark'] == row['benchmark'] and any([fnmatch.fnmatch(row_script['script'], pattern) for pattern in scripts_to_include]):

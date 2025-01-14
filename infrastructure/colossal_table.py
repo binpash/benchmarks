@@ -21,10 +21,10 @@ def read_sys_results():
     return csv_data
 
 benchmark_category_style = {
-    'bio': ('Biology', 'Automation', '\\cite{Cappellini2019,puritz2019bio594}'),
+    'bio': ('Automation', 'Biology', '\\cite{Cappellini2019,puritz2019bio594}'),
     'vps-audit': ('System admin', 'Data extraction', '\\cite{vpsaudit}'),
     'vps-audit-negate': ('System admin', 'Data extraction', '\\cite{vpsaudit}'),
-    'aurpkg': ('System admin', 'Automation', '\\cite{pacaur}'),
+    'aurpkg': ('Build scripts', 'Automation', '\\cite{pacaur}'),
     'makeself': ('Misc.', 'Compression', '\\cite{makeself}'),
     'infrastructure/standards/100-files': ('XXX', 'XXX', 'XXX'),
     'infrastructure/standards/read-write': ('XXX', 'XXX', 'XXX'),

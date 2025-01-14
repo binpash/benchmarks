@@ -7,6 +7,7 @@ import pandas as pd
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors
 import sys, os
 # Add the parent directory to sys.path
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
@@ -72,14 +73,23 @@ def plot_benchmark_times(df,
                          linthresh=0.1):
     sns.set(style="whitegrid")
     ax.grid(True, which='both', axis='y')
-    sns.barplot(x='benchmark', y='time_in_commands', data=df, color='#117733', label='Commands', ax=ax, zorder=3, hatch='//')
-    sns.barplot(x='benchmark', y='time_in_shell', data=df, color='#88CCEE', label='Shell', ax=ax, zorder=3, hatch='\\\\')
-    #ax.set_xticklabels(ax.get_xticklabels(), rotation=60, ha='right')
+    data = df.copy()
+    # pivot
+    data = data.melt(id_vars=['benchmark'], value_vars=['time_in_shell', 'time_in_commands'], var_name='type', value_name='timeSorC')
+    bar = sns.barplot(x='benchmark', y='timeSorC', hue='type', data=data, palette=['#88CCEE', '#117733'],  ax=ax, zorder=3)
+    first_color = ax.patches[0].get_facecolor()
+    for i, bar in enumerate(ax.patches):
+        if bar.get_facecolor() == first_color:
+            bar.set_hatch('//')
+        else:
+            bar.set_hatch('\\\\')
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=60, ha='right')
     ax.set_xlabel('')
     ax.set_yscale('symlog', linthresh=linthresh)
     ax.set_yticks(ticks[0])
     ax.set_yticklabels(ticks[1])
     ax.set_ylabel(ylabel)
+    ax.set_ybound(lower=0)
     if legend:
         ax.legend(loc=('best' if legend == True else legend))
     else:
@@ -227,6 +237,13 @@ def main(output_dir=None):
     # the benchmark did a certain amount of io. how many bytes per second was this?
     df_rel_to_wall = df.copy()
     df_rel_to_wall['io_chars'] = (df_rel_to_wall['read_chars'] + df_rel_to_wall['write_chars']) / (df_rel_to_wall['wall_time'])
+
+    df_rel_to_input = df.copy()
+    df_rel_to_input['io_chars'] = df_rel_to_input['io_chars'] / df_rel_to_input['input_size']
+    df_rel_to_input['max_unique_set_size'] = df_rel_to_input['max_unique_set_size'] / df_rel_to_input['input_size']
+    df_rel_to_input['time_in_shell'] = df_rel_to_input['time_in_shell'] / df_rel_to_input['input_size']
+    df_rel_to_input['time_in_commands'] = df_rel_to_input['time_in_commands'] / df_rel_to_input['input_size']
+
     plot_io(df_rel_to_wall, 
             axes[1],
             ylabel='IO per second wall time',
@@ -238,12 +255,6 @@ def main(output_dir=None):
     plot_benchmark_times(df, axes[2], legend=False)
     plot_memory(df, axes[4])
     plot_io(df, axes[6])
-
-    df_rel_to_input = df.copy()
-    df_rel_to_input['io_chars'] = df_rel_to_input['io_chars'] / df_rel_to_input['input_size']
-    df_rel_to_input['max_unique_set_size'] = df_rel_to_input['max_unique_set_size'] / df_rel_to_input['input_size']
-    df_rel_to_input['time_in_shell'] = df_rel_to_input['time_in_shell'] / df_rel_to_input['input_size']
-    df_rel_to_input['time_in_commands'] = df_rel_to_input['time_in_commands'] / df_rel_to_input['input_size']
 
     plot_benchmark_times(df_rel_to_input, 
                          axes[3],
@@ -274,6 +285,12 @@ def main(output_dir=None):
         "font.serif": ["Times New Roman"],  # Replace with your LaTeX font if different
     })
     plt.tight_layout()
+    for i in range(2, len(axes)):
+        # adjust the position of the axes down a little bit
+        pos = axes[i].get_position()
+        pos.y0 -= 0.05
+        pos.y1 -= 0.05
+        axes[i].set_position(pos)
     if output_dir:
         plt.savefig(name('trellis'))
     else:

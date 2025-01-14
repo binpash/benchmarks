@@ -124,12 +124,12 @@ def node_heatmap(df, outdir=None):
     annot_data = annot_data.loc[[x for x in annot_data.index if x not in node_order] + list(reversed(node_order))]
 
     # Sort the columns by the sum of the values in each column
-    heatmap_data = heatmap_data[heatmap_data.sum().sort_values(ascending=False).index]
+    heatmap_data = heatmap_data[heatmap_data.sum().sort_values(ascending=True).index]
     annot_data = annot_data[heatmap_data.columns]
 
     # Add an overall total column, this should be outside the normalizations
-    heatmap_data['total'] = heatmap_data.sum(axis=1)
-    annot_data['total'] = annot_data.sum(axis=1)
+    heatmap_data['ALL'] = heatmap_data.sum(axis=1)
+    annot_data['ALL'] = annot_data.sum(axis=1)
 
     heatmap_data = heatmap_data.applymap(lambda x: min(x, limit))
     annot_data = heatmap_data.applymap(lambda x: \

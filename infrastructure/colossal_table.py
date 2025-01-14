@@ -184,7 +184,7 @@ def make_input_description(row):
         return desc
     else:
         # Center the N/A
-        return "\\multicolumn{1}{c|}{N/A}"
+        return "\\multicolumn{1}{c}{N/A}"
 
 def main():
     syntax_script, syntax_bench = stx.read_data(True)
@@ -259,9 +259,9 @@ def main():
     print("""
           \\def\\idw{7em}
 \\setlength{\\tabcolsep}{3pt}
-\\begin{tabular}{l|lrr|l|rr|rrrr|lrc}
+\\begin{tabular}{llrrlrrrrrrlrc}
 \\toprule
-\\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c|}{Surface} & \\multicolumn{1}{c|}{Inputs}  & \\multicolumn{2}{c|}{Syntax} & \\multicolumn{4}{c|}{Dynamic} & \\multicolumn{2}{c}{System} & Source \\\\
+\\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c}{Surface} & \\multicolumn{1}{c}{Inputs}  & \\multicolumn{2}{c}{Syntax} & \\multicolumn{4}{c}{Dynamic} & \\multicolumn{2}{c}{System} & Source \\\\
                                   & Dom     & \\#.sh     & LOC     &                               & \\# Cons       & \\# Cmd      & T.sh  & T.cmd  & Mem   & I/O & \\# s/c       & \\# fd        &   \\\\
     \\midrule
 """)

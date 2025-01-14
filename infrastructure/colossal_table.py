@@ -21,11 +21,23 @@ def read_sys_results():
     return df
 
 benchmark_category_style = {
-    'bio': ('Automation', 'Biology', '\\cite{Cappellini2019,puritz2019bio594}'),
+    'aurpkg': ('Continuous Integration', 'Automation', '\\cite{pacaur}'),
+    'bio': ('Data analysis', 'Biology', '\\cite{Cappellini2019,puritz2019bio594}'),
+    'covid-mts': ('Data analysis', 'Data extraction', '\\cite{covid-mts-source}'),
+    'file-enc': ('Automation', 'Cryptography', '\\cite{cito2020empirical}'),
+    'log-analysis': ('System admin.', 'Data analysis', '\\cite{spinellis2017extending, raghavan2020posh}'),
+    'makeself': ('Misc.', 'Compression', '\\cite{makeself}'),
+    'max-temp': ('Data analysis', 'Data extraction', '\\cite{hadoop-guide-2009}'),
+    'media-conv': ('Misc.', 'Automation', '\\cite{spinellis2017extending, raghavan2020posh}'),
+    'nlp': ('Machine learning', 'Text processing', '\\cite{unix-for-poets-church}'),
+    'oneliners': ('Misc.', 'Text processing', ''),
+    'riker': ('Continuous Integration', 'Build scripts', '\\cite{riker2022}'),
+    'sklearn': ('Machine learning', 'Data analysis', '\\cite{scikit-learn}'),
+    'unix50': ('Misc.', 'Text processing', '\\cite{bhandari2020solutions}'),
     'vps-audit': ('System admin', 'Data extraction', '\\cite{vpsaudit}'),
     'vps-audit-negate': ('System admin', 'Data extraction', '\\cite{vpsaudit}'),
-    'aurpkg': ('Build scripts', 'Automation', '\\cite{pacaur}'),
-    'makeself': ('Misc.', 'Compression', '\\cite{makeself}'),
+    'web-index': ('Misc.', 'Text processing', '\\cite{pash2021}'),
+
     'infrastructure/standards/100-files': ('XXX', 'XXX', 'XXX'),
     'infrastructure/standards/read-write': ('XXX', 'XXX', 'XXX'),
     'infrastructure/standards/shell-memory': ('XXX', 'XXX', 'XXX'),
@@ -34,17 +46,6 @@ benchmark_category_style = {
     'infrastructure/standards/user-time': ('XXX', 'XXX', 'XXX'),
     'infrastructure/standards/user-time-in-shell': ('XXX', 'XXX', 'XXX'),
     'infrastructure/standards/write-only': ('XXX', 'XXX', 'XXX'),
-    'covid-mts': ('Data analysis', 'Data extraction', '\\cite{covid-mts-source}'),
-    'file-enc': ('Cryptography', 'Automation', '\\cite{cito2020empirical}'),
-    'log-analysis': ('System admin.', 'Data extraction', '\\cite{spinellis2017extending, raghavan2020posh}'),
-    'max-temp': ('Data analysis', 'Data extraction', '\\cite{hadoop-guide-2009}'),
-    'media-conv': ('Misc.', 'Automation', '\\cite{spinellis2017extending, raghavan2020posh}'),
-    'nlp': ('Machine learning', 'Text processing', '\\cite{unix-for-poets-church}'),
-    'oneliners': ('Misc.', 'Text processing', ''),
-    'riker': ('Development', 'Build scripts', '\\cite{riker2022}'),
-    'sklearn': ('Machine learning', 'Automation', '\\cite{scikit-learn}'),
-    'unix50': ('Misc.', 'Text processing', '\\cite{bhandari2020solutions}'),
-    'web-index': ('Development', 'Text processing', '\\cite{pash2021}')
 }
 
 script_to_citation = {

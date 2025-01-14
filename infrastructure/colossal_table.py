@@ -13,12 +13,12 @@ root = get_project_root()
 data_path = root / 'infrastructure/target/dynamic_analysis.jsonl'
 input_size_path = root / 'infrastructure/data/size_inputs.jsonl'
 loc_data_path = root / 'infrastructure/target/lines_of_code.csv'
-csv_file_path = root / 'infrastructure/data/sys_summary.csv'
+syscall_data_path = root / 'infrastructure/data/no_of_syscalls.csv'
 
 def read_sys_results():
-    csv_data = pd.read_csv(csv_file_path)
-    csv_data.rename(columns={'Benchmark': 'benchmark', 'Sys Calls': 'sys_calls', 'File Descriptors': 'file_descriptors'}, inplace=True)
-    return csv_data
+    df = pd.read_csv(syscall_data_path)
+    df.rename(columns={'Benchmark-(small)': 'benchmark', 'System Calls': 'sys_calls'}, inplace=True)
+    return df
 
 benchmark_category_style = {
     'bio': ('Automation', 'Biology', '\\cite{Cappellini2019,puritz2019bio594}'),
@@ -158,11 +158,11 @@ def prettify_bytes_number(n):
     if n < 1024:
         value, unit = n, "B"
     elif n < 1024 * 1024:
-        value, unit = n / 1024, "K"
+        value, unit = n / 1024, "KB"
     elif n < 1024 * 1024 * 1024:
-        value, unit = n / (1024 * 1024), "M"
+        value, unit = n / (1024 * 1024), "MB"
     else:
-        value, unit = n / (1024 * 1024 * 1024), "G"
+        value, unit = n / (1024 * 1024 * 1024), "GB"
     
     if value < 10:
         decimals = 2
@@ -171,8 +171,18 @@ def prettify_bytes_number(n):
     else:
         decimals = 0
     
-    color = 'black' if unit == 'G' else 'gray'
+    color = 'black' if unit == 'GB' else 'gray'
     return f"{value:.{decimals}f}\\textcolor{{{color}}}{{{unit}}}"
+
+def prettify_big_count(n):
+    if n < 1000:
+        return str(n)
+    elif n >= 1000 and n < 10**6:
+        return f"{(n/1000):.1f}k"
+    elif n >= 10**6 and n < 10**9:
+        return f"{n/(10**6):.1f}m"
+    else:
+        return f"{n/(10**9):.1f}g"
 
 def make_input_description(row):
     if row['input_description']:
@@ -194,7 +204,7 @@ def main():
     # fill any benchmarks missing from sys_results
     for benchmark in syntax_bench['benchmark']:
         if benchmark not in sys_results['benchmark'].values:
-            new_row = pd.DataFrame([{'benchmark': benchmark, 'sys_calls': '\\xxx', 'file_descriptors': '\\xxx'}])
+            new_row = pd.DataFrame([{'benchmark': benchmark, 'sys_calls': '\\xxx'}])
             sys_results = pd.concat([sys_results, new_row], ignore_index=True)
     sys_results.reset_index(drop=True, inplace=True)
     # replace sys_results file_descriptors numbers with those from children_num_fds in dyn_bench
@@ -271,7 +281,7 @@ def main():
     for _, row in big_bench.iterrows():
         numscripts_shown = 0
         numscripts = row['number_of_scripts']
-        print(f"\\bs{{{row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {make_input_description(row)}  & {row['constructs']} & {row['unique_cmds']} & {format_number(row['time_in_shell'])} & {format_number(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {row['sys_calls']} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
+        print(f"\\bs{{{row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {make_input_description(row)}  & {row['constructs']} & {row['unique_cmds']} & {format_number(row['time_in_shell'])} & {format_number(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {prettify_big_count(row['sys_calls'])} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
         # now print the details of all scripts in the benchmark
         for _, row_script in big_script.iterrows():
             if row_script['benchmark'] == row['benchmark'] and any([fnmatch.fnmatch(row_script['script'], pattern) for pattern in scripts_to_include]):
@@ -294,7 +304,7 @@ def main():
                 return round_whole(f"{value:.1f}") if isinstance(value, float) else f"{int(value)}"
             return value  # For non-numeric values
 
-        print(f"{{\\textbf{{\\centering {row['benchmark']}}}}} & & {format_value(row['number_of_scripts'])} & {format_value(row['loc'])} & {make_input_description(row):s} & {format_value(row['constructs'])} & {format_value(row['unique_cmds'])} & {format_value(row['time_in_shell'])} & {format_value(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {format_value(row['sys_calls'])} & {format_value(row['file_descriptors'])} & \\\\")
+        print(f"{{\\textbf{{\\centering {row['benchmark']}}}}} & & {format_value(row['number_of_scripts'])} & {format_value(row['loc'])} & {make_input_description(row):s} & {format_value(row['constructs'])} & {format_value(row['unique_cmds'])} & {format_value(row['time_in_shell'])} & {format_value(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {prettify_big_count(row['sys_calls'])} & {format_value(row['file_descriptors'])} & \\\\")
 
     print("""
     \\bottomrule

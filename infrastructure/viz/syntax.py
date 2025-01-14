@@ -122,10 +122,26 @@ def node_heatmap(df, outdir=None):
     # order the y-axis of the heatmap according to the node_order, any nodes not in that list can appear after in any order
     heatmap_data = heatmap_data.loc[[x for x in heatmap_data.index if x not in node_order] + list(reversed(node_order))]
     annot_data = annot_data.loc[[x for x in annot_data.index if x not in node_order] + list(reversed(node_order))]
+
+    # Sort the columns by the sum of the values in each column
+    heatmap_data = heatmap_data[heatmap_data.sum().sort_values(ascending=False).index]
+    annot_data = annot_data[heatmap_data.columns]
+
+    # Add an overall total column, this should be outside the normalizations
+    heatmap_data['total'] = heatmap_data.sum(axis=1)
+    annot_data['total'] = annot_data.sum(axis=1)
+
+    heatmap_data = heatmap_data.applymap(lambda x: min(x, limit))
+    annot_data = heatmap_data.applymap(lambda x: \
+        #'>{}'.format(limit) \
+        '*' \
+            if x == limit else '')
+
+    # Set the color limit to be 5
     
     plt.figure(figsize=(5.5, 6))
     sns.heatmap(heatmap_data, 
-                cmap='Reds', 
+                cmap='Greys',
                 annot=annot_data, 
                 fmt='', 
                 cbar_kws={'label': 'Occurrences (* denotes more than 5)',

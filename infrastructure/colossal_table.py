@@ -5,6 +5,7 @@ import fnmatch
 import viz.syntax as stx
 import viz.dynamic as dyn
 import sys
+import ast
 
 from all_scripts import get_all_scripts, benchmark_rename_map
 from project_root import get_project_root
@@ -239,8 +240,11 @@ def main():
         .merge(loc_data_script, on='script')\
         .merge(syntax_script_all_cmds[['script', 'unique_cmds']], on='script')
 
-    perform_pca_and_plot(big_bench)
-    exit(0)
+    embedding_df = pd.read_csv(root / 'infrastructure/data/embeddings.csv')
+    embedding_df['embedding'] = embedding_df['embedding'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+    # Embedding is a list of numbers, turn them into columns
+    embedding_df = pd.concat([embedding_df['benchmark'], embedding_df['embedding'].apply(pd.Series)], axis=1)
+    perform_pca_and_plot(big_bench, embedding_df, 'dual_analysis')
 
     # Calculate summary statistics
     agg_order = ['min', 'max', 'mean']

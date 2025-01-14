@@ -1,0 +1,17 @@
+Benchmark-(small),System Calls
+aurpkg,881299
+bio,132714
+covid-mts,30258
+file-enc,241927
+log-analysis,116448888
+makeself,2212019
+max-temp,1576
+media-conv,794398
+nlp,1928929
+oneliners,1675820
+riker,2579121
+sklearn,2403510
+unix50,48667
+vps-audit,362870
+vps-audit-negate,362878
+web-index,1544549

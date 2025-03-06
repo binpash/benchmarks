@@ -8,6 +8,8 @@ REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/log-analysis"
 input_dir="${eval_dir}/input"
 
+mkdir -p $input_dir
+
 url=https://atlas-group.cs.brown.edu/data/pcaps.zip
 zip_dst="$input_dir/pcaps.zip"
 wget --no-check-certificate $url -O "$zip_dst"

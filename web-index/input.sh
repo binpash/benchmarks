@@ -3,9 +3,9 @@
 BENCH_TOP=${BENCH_TOP:-$(git rev-parse --show-toplevel)}
 RESOURCES_DIR=${RESOURCES_DIR:-$BENCH_TOP/web-index}/inputs
 
-cp stopwords.txt $RESOURCES_DIR # TODO: Grab this from the atlas server
-
 mkdir -p $RESOURCES_DIR
+
+cp stopwords.txt $RESOURCES_DIR # TODO: Grab this from the atlas server
 
 if [ "$1" = "--small" ]; then
 	if [[ ! -f "$RESOURCES_DIR/wikipedia-small.tar.gz" ]]; then

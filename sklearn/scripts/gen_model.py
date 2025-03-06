@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from sklearn.linear_model import LogisticRegression
 import pickle
 import sys

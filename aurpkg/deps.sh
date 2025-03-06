@@ -1,3 +1,5 @@
+#!/bin/bash
+
 REPO_TOP=$(git rev-parse --show-toplevel)
 IN=$REPO_TOP/aurpkg/input
 

@@ -11,7 +11,7 @@ NC='\033[0m' # No Color
 
 # Get current timestamp for the report filename
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-REPORT_FILE="vps-audit-negate-report-${TIMESTAMP}.txt"
+REPORT_FILE="vps-audit-negate-report.txt"
 
 print_header() {
     local header="$1"
@@ -197,7 +197,7 @@ fi
 # Check fail2ban
 if ! dpkg -l | grep -q "fail2ban"; then
     check_security "Fail2ban" "FAIL" "No brute force protection installed - system is vulnerable to login attacks"
-else
+else 
     if ! pgrep -x "fail2ban-server" >/dev/null 2>&1; then
         check_security "Fail2ban" "WARN" "Fail2ban is installed but not running - brute force protection is disabled"
     else

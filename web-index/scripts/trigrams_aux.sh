@@ -1,4 +1,6 @@
-s2=$(mktemp -u)
+#!/bin/bash
+
+2=$(mktemp -u)
 s3=$(mktemp -u)
 
 mkfifo $s2 $s3

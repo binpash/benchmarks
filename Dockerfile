@@ -17,7 +17,8 @@ RUN apt update && apt install -y --no-install-recommends \
     vim \
     ffmpeg unrtf imagemagick libarchive-tools libncurses5-dev libncursesw5-dev zstd liblzma-dev libbz2-dev zip unzip nodejs tcpdump \
     git \
-    gpg
+    gpg \
+    time
 
 RUN pip3 install --break-system-packages \
     scikit-learn \

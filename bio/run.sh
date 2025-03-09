@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # create bam files with regions
 ################### 1KG SAMPLES
 IN=inputs
@@ -9,5 +11,9 @@ if [[ "$@" == *"--small"* ]]; then
 fi
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+export BENCHMARK_CATEGORY="bio"
+script_file=./scripts/bio.sh 
+export BENCHMARK_SCRIPT="$(realpath "$script_file")"
+export BENCHMARK_INPUT_FILE="$(realpath "$IN_NAME")"
 
-"$BENCHMARK_SHELL" ./scripts/bio.sh "$IN" "$IN_NAME" "$OUT"
+$BENCHMARK_SHELL "$script_file" "$IN" "$IN_NAME" "$OUT"

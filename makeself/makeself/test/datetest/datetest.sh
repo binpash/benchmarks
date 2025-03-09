@@ -5,7 +5,6 @@ THISDIR="$(dirname "${THIS}")"
 SRCDIR="$(dirname "$(dirname "${THISDIR}")")"
 SUT="${SRCDIR}/makeself.sh"
 LOGFILE="${THISDIR}/test_results.log"
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}" 
 
 echo "Test results:" > "${LOGFILE}"
 
@@ -30,7 +29,7 @@ tearDown() {
 
 testCurrentDate() {
     setUp
-    $BENCHMARK_SHELL "$SUT" src src.sh alabel startup.sh
+    "$SUT" src src.sh alabel startup.sh
 
     actual=$(strings src.sh | grep packaging || true)
     expected=$(LC_ALL=C date +"%b")
@@ -47,7 +46,7 @@ testDateSet() {
     setUp
     expected='Sat Mar  5 19:35:21 EST 2016'
 
-    $BENCHMARK_SHELL "$SUT" --packaging-date "${expected}" src src.sh alabel startup.sh
+    "$SUT" --packaging-date "${expected}" src src.sh alabel startup.sh
 
     actual=$(strings src.sh | grep "Date of packaging" || true)
 
@@ -61,7 +60,7 @@ testDateSet() {
 
 testPackagingDateNeedsParameter() {
     setUp
-    if ! $BENCHMARK_SHELL "$SUT" --packaging-date src src.sh alabel startup.sh; then
+    if ! "$SUT" --packaging-date src src.sh alabel startup.sh; then
         log_result "testPackagingDateNeedsParameter" "PASS"
     else
         log_result "testPackagingDateNeedsParameter" "FAIL" "Expected failure, but succeeded"
@@ -73,10 +72,10 @@ testByteforbyte() {
     setUp
     date='Sat Mar  3 19:35:21 EST 2016'
 
-    $BENCHMARK_SHELL "$SUT" --packaging-date "${date}" --tar-extra "--mtime 20160303" \
+    "$SUT" --packaging-date "${date}" --tar-extra "--mtime 20160303" \
         src src.sh alabel startup.sh
     mv src.sh first
-    $BENCHMARK_SHELL "$SUT" --packaging-date "${date}" --tar-extra "--mtime 20160303" \
+    "$SUT" --packaging-date "${date}" --tar-extra "--mtime 20160303" \
         src src.sh alabel startup.sh
     mv src.sh second
 

@@ -23,7 +23,7 @@ for line in output.splitlines()[1:]:
     file, _func, _lineno, _lloc, ccn, _lines, _comment, _blank = line.split(',')
     file = json.loads(file)
     file = Path(file).relative_to(root)
-    datas[file].append((ccn))
+    datas[file].append((ccn,))
 
 for file, datas in datas.items():
     ccn = sum(float(ccn) for ccn, in datas)

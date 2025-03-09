@@ -13,6 +13,7 @@ else
 fi
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+export BENCHMARK_CATEGORY="nlp"
 
 mkdir -p "outputs"
 
@@ -52,6 +53,7 @@ while IFS= read -r script; do
 
     mkdir -p "$output_dir"
 
+    export BENCHMARK_SCRIPT="$(realpath "$script_file")"
     echo "$script"
     $BENCHMARK_SHELL "$script_file" "$output_dir"
     echo "$?"

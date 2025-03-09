@@ -9,6 +9,11 @@ script="./scripts/pacaur.sh"
 
 # Switch to user "user" to avoid permission issues
 
+BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+export BENCHMARK_CATEGORY="aurpkg"
+export BENCHMARK_SCRIPT="$(realpath "$script")"
+export BENCHMARK_INPUT_FILE="$(realpath "$IN")"
+
 echo "$script"
 $BENCHMARK_SHELL "$script" "$IN" "$OUT"
 echo "$?"

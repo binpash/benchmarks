@@ -18,5 +18,11 @@ if [[ "$1" == "--small" ]]; then
 fi
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
-$BENCHMARK_SHELL $scripts_dir/compress_files.sh $input_pcaps $results_dir/compress_files$suffix
-$BENCHMARK_SHELL $scripts_dir/encrypt_files.sh $input_pcaps $results_dir/encrypt_files$suffix
+
+export BENCHMARK_CATEGORY="file-enc"
+export BENCHMARK_INPUT_FILE="$(realpath "$input_pcaps")"
+
+export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/compress_files.sh")"
+$BENCHMARK_SHELL "$scripts_dir/compress_files.sh" "$input_pcaps" "$results_dir/compress_files$suffix"
+export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/encrypt_files.sh")"
+$BENCHMARK_SHELL "$scripts_dir/encrypt_files.sh" "$input_pcaps" "$results_dir/encrypt_files$suffix"

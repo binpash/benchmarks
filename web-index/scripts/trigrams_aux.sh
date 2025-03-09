@@ -1,3 +1,5 @@
+#!/bin/bash
+
 s2=$(mktemp -u)
 s3=$(mktemp -u)
 

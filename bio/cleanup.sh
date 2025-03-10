@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rm -rf input output
+rm -rf inputs outputs

@@ -51,7 +51,13 @@ if __name__ == '__main__':
         mortem_log = root / 'infrastructure' / 'target' / 'process-logs' / f'{bench_id}.mortem'
         env = get_environment(root=root, start_time=start_time, bench=bench, data_log=data_log, mortem_log=mortem_log)
         # write to an uncompressed file because it is faster
-        run([root / bench / 'run.sh', *args.forward], env=env, cwd=root / bench)
+        #run([root / bench / 'run.sh', *args.forward], env=env, cwd=root / bench)
+        output_file = root / bench / f"{bench}.out"
+        error_file = root / bench / f"{bench}.err"
+
+        with open(output_file, "w") as out, open(error_file, "w") as err:
+            run([root / bench / 'run.sh', *args.forward], env=env, cwd=root / bench, stdout=out, stderr=err)
+
         compressed_data_log = root / 'infrastructure' / 'target' / 'process-logs' / f'{bench_id}.jsonl.xz'
         with compressed_data_log.open('w') as stdout:
             run(['xz', '-7e', '-T0', '-c', data_log], stdout=stdout)

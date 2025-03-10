@@ -28,6 +28,9 @@ main()
             --resources)
                 measure_resources=true
                 ;;
+            --bare)
+                run_locally=true
+                ;;
             *)
                 args+=("$arg")
                 ;;
@@ -45,7 +48,7 @@ main()
     ./input.sh $@ || error "Failed to fetch inputs for $BENCHMARK"
 
 
-    if $measure_resources; then
+    if [[ $measure_resources && ! $run_locally ]]; then
         sudo apt-get install -y autoconf automake libtool build-essential cloc
         cd "$REPO_TOP" || exit 1
         pip install --break-system-packages -r "$REPO_TOP/infrastructure/requirements.txt"
@@ -58,6 +61,8 @@ main()
         python3 viz/dynamic.py "$REPO_TOP/$BENCHMARK" --text
         cat "$REPO_TOP/$BENCHMARK/benchmark_stats.txt"
         cd "$REPO_TOP/$BENCHMARK" || exit 1
+    elif if [[ $measure_resources && $run_locally ]]; then
+        continue
     elif $measure_time; then
         /usr/bin/time -f "Runtime: %E (CPU: %P)" ./run.sh $@ > "$BENCHMARK.out" 2> "$BENCHMARK.err" || error "Failed to run $BENCHMARK"
     else

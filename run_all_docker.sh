@@ -34,18 +34,6 @@ run_benchmarks() {
     done
 }
 
-if $run_locally; then
-    echo "Running benchmarks locally..."
-    chmod +x "$BENCHMARKS_DIR/$SCRIPT_NAME"
-    run_benchmarks
-else
-    echo "Running benchmarks inside Docker..."
-    
-    # Ensure we copy the benchmarks directory into the container
-    #docker build -t "$IMAGE_NAME" . || { echo "Docker build failed!"; exit 1; }
-
-    docker run --rm --cap-add NET_ADMIN --cap-add NET_RAW -v "$(pwd):$BENCHMARKS_DIR" -it "$IMAGE_NAME" "$BENCHMARK_SHELL" -c "
-        chmod +x /benchmarks/run_all_docker.sh
-        /benchmarks/run_all_docker.sh \"${args[@]}\"
-    "
-fi
+echo "Running benchmarks inside Docker container..."
+chmod +x "$BENCHMARKS_DIR/$SCRIPT_NAME"
+run_benchmarks

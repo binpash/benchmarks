@@ -18,7 +18,7 @@ RUN apt update && apt install -y --no-install-recommends \
     ffmpeg unrtf imagemagick libarchive-tools libncurses5-dev libncursesw5-dev zstd liblzma-dev libbz2-dev zip unzip nodejs tcpdump \
     git \
     gpg \
-    time
+    autoconf automake libtool build-essential cloc
 
 RUN pip3 install --break-system-packages \
     scikit-learn \
@@ -27,5 +27,7 @@ RUN pip3 install --break-system-packages \
 RUN useradd -m user && \
     echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     chown -R user:user /benchmarks
+
+RUN git config --global --add safe.directory /benchmarks
 
 CMD ["bash"]

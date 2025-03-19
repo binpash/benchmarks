@@ -4,20 +4,14 @@ WORKDIR /aurpkg
 
 COPY . .
 
+RUN apt-get update && apt-get install -y \
+    bash \
+    curl \
+    python3 \
+    python3-pip
+
 RUN ./deps.sh
 RUN ./input.sh
 RUN ./run.sh
 RUN ./verify.sh
 RUN ./cleanup.sh
-
-RUN pip3 install --break-system-packages \
-    scikit-learn \
-    kaggle
-
-RUN useradd -m user && \
-    echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-    chown -R user:user /benchmarks
-
-RUN git config --global --add safe.directory /benchmarks
-
-CMD ["bash"]

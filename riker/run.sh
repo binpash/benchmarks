@@ -8,5 +8,6 @@ BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 export BENCHMARK_CATEGORY="riker"
 
 for bench in "$scripts_dir"/*; do
+    export BENCHMARK_SCRIPT="$bench/run.sh"
     "$BENCHMARK_SHELL" "$bench/run.sh" "$@"
 done

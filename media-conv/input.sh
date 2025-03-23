@@ -24,16 +24,19 @@ for i in {1..10}; do
 done
 rm -r "$zip_dst" "$input_dir/wav"
 
-data_url=https://atlas-group.cs.brown.edu/data/full/jpg.zip
-zip_dst="$input_dir/jpg_full.zip"
-out_dir="$input_dir/jpg_full"
-wget --no-check-certificate $data_url -O $zip_dst
-unzip $zip_dst -d $out_dir
-rm "$zip_dst"
-
-data_url=https://atlas-group.cs.brown.edu/data/small/jpg.zip
-zip_dst=$input_dir/jpg_small.zip
-out_dir=$input_dir/jpg_small
-wget --no-check-certificate $data_url -O $zip_dst
-unzip $zip_dst -d $out_dir
-rm "$zip_dst"
+# if small flag
+if [[ " $* " == *" --small "* ]]; then
+    data_url=https://atlas-group.cs.brown.edu/data/small/jpg.zip
+    zip_dst=$input_dir/jpg_small.zip
+    out_dir=$input_dir/jpg_small
+    wget --no-check-certificate $data_url -O $zip_dst || { echo "Failed to download $data_url"; exit 1; }
+    unzip $zip_dst -d $out_dir || { echo "Failed to unzip $zip_dst"; exit 1; }
+    rm "$zip_dst"
+else
+    data_url=https://atlas-group.cs.brown.edu/data/full/jpg.zip
+    zip_dst="$input_dir/jpg_full.zip"
+    out_dir="$input_dir/jpg_full"
+    wget --no-check-certificate $data_url -O $zip_dst
+    unzip $zip_dst -d $out_dir
+    rm "$zip_dst"
+fi

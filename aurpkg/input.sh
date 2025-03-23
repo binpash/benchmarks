@@ -17,3 +17,8 @@ if [[ "$@" == *"--small"* ]]; then
   head -n 10 ${IN}/packages > ${IN}/packages_small
   mv ${IN}/packages_small ${IN}/packages
 fi
+
+if [[ "$@" == *"--min"* ]]; then
+  head -n 1 ${IN}/packages > ${IN}/packages_min
+  mv ${IN}/packages_min ${IN}/packages
+fi

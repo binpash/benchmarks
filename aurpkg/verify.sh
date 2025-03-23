@@ -5,10 +5,13 @@
 
 cd "$(realpath $(dirname "$0"))"
 mkdir -p hashes/small
+mkdir -p hashes/min
 
 [ ! -d "outputs" ] && echo "Directory 'outputs' does not exist" && exit 1
 
-if [[ "$@" == *"--small"* ]]; then
+if [[ "$@" == *"--min"* ]]; then
+    hash_folder="hashes/min"
+elif [[ "$@" == *"--small"* ]]; then
     hash_folder="hashes/small"
 else
     hash_folder="hashes"

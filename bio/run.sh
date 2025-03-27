@@ -10,6 +10,10 @@ if [[ "$@" == *"--small"* ]]; then
     IN_NAME=input_small.txt
 fi
 
+if [[ "$@" == *"--min"* ]]; then
+    IN_NAME=input_min.txt
+fi
+
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 export BENCHMARK_CATEGORY="bio"
 script_file=./scripts/bio.sh 

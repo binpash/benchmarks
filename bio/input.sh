@@ -7,6 +7,10 @@ if [[ "$@" == *"--small"* ]]; then
     IN_NAME=input_small.txt
 fi
 
+if [[ "$@" == *"--min"* ]]; then
+    IN_NAME=input_min.txt
+fi
+
 if [[ $1 == "-c" ]]; then
     rm -rf *.bam
     rm -rf *.sam

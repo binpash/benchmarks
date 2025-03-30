@@ -1,0 +1,6 @@
+input/
+results/
+.venv/
+scripts/models
+.DS_Store
+models

@@ -9,15 +9,15 @@ BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 run_locally=false
 args=()
 
-# Parse arguments
+# parse arguments
 for arg in "$@"; do
     case "$arg" in
-        --bare)
-            run_locally=true
-            ;;
-        *)
-            args+=("$arg")
-            ;;
+    --bare)
+        run_locally=true
+        ;;
+    *)
+        args+=("$arg")
+        ;;
     esac
 done
 
@@ -25,7 +25,7 @@ run_benchmarks() {
     for BENCH in "$BENCHMARKS_DIR"/*/; do
         BENCH_NAME=$(basename "$BENCH")
 
-        if [[ "$BENCH_NAME" == "$EXCLUDE_DIR" ]]; then
+        if [ "$BENCH_NAME" = "$EXCLUDE_DIR" ]; then
             continue
         fi
 
@@ -40,12 +40,14 @@ if $run_locally; then
     run_benchmarks
 else
     echo "Running benchmarks inside Docker..."
-    
-    # Ensure we copy the benchmarks directory into the container
-    #docker build -t "$IMAGE_NAME" . || { echo "Docker build failed!"; exit 1; }
 
-    docker run --rm --cap-add NET_ADMIN --cap-add NET_RAW -v "$(pwd):$BENCHMARKS_DIR" -it "$IMAGE_NAME" "$BENCHMARK_SHELL" -c "
+    docker build -t "$IMAGE_NAME" . || {
+        echo "Docker build failed!"
+        exit 1
+    }
+
+    docker run --rm --cap-add NET_ADMIN --cap-add NET_RAW -v "$(pwd):$BENCHMARKS_DIR" -it "$IMAGE_NAME" "$BENCHMARK_SHELL" -c '
         chmod +x /benchmarks/run_all_docker.sh
-        /benchmarks/run_all_docker.sh \"${args[@]}\"
-    "
+        /benchmarks/run_all_docker.sh "$@"
+    ' _ "${args[@]}"
 fi

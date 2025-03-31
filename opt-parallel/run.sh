@@ -3,9 +3,9 @@ REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/opt-parallel"
 scripts_dir="${eval_dir}/scripts"
 
-SUITE_DIR=$(realpath $(dirname "$0"))
+SUITE_DIR="$(realpath "$(dirname "$0")")"
 export SUITE_DIR
-cd $SUITE_DIR || exit 1
+cd "$SUITE_DIR" || exit 1
 
 export TIMEFORMAT=%R
 

@@ -10,19 +10,25 @@ generate=false
 
 for arg in "$@"; do
     case "$arg" in
-        --small) suffix="_small" ;;
-        --min) suffix="_min" ;;
-        --generate) generate=true ;;
+    --small) suffix="_small" ;;
+    --min) suffix="_min" ;;
+    --generate) generate=true ;;
     esac
 done
 
 if $generate; then
     mkdir -p "$hashes_dir"
     # give relative paths to md5sum
-    (cd "$outputs_dir"; md5sum "outputs$suffix"/* > "$hashes_dir/outputs$suffix.md5sum")
+    (
+        cd "$outputs_dir" || exit 1
+        md5sum "outputs$suffix"/* >"$hashes_dir/outputs$suffix.md5sum"
+    )
     exit 0
 fi
 
 # give relative paths to md5sum
-(cd "$outputs_dir"; md5sum --check --quiet --status "$hashes_dir/outputs$suffix.md5sum")
+(
+    cd "$outputs_dir" || exit 1
+    md5sum --check --quiet --status "$hashes_dir/outputs$suffix.md5sum"
+)
 echo covid-mts$suffix $?

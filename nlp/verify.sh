@@ -6,7 +6,7 @@
 cd "$(realpath "$(dirname "$0")")" || exit 1
 
 hash_folder="hashes"
-gemerate=false
+generate=false
 
 for arg in "$@"; do
     case "$arg" in

@@ -1,6 +1,6 @@
 #!/bin/bash --posix
 
-SUITE_DIR=$(realpath $(dirname "$0"))
+SUITE_DIR="""$(realpath "$(dirname "$0")")"
 export SUITE_DIR
 
 export TIMEFORMAT=%R

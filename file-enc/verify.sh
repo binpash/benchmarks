@@ -17,14 +17,19 @@ suffix=".full"
 
 mkdir -p "$hashes_dir"
 
+generate=false
 for arg in "$@"; do
+    if [[ "$arg" == "--generate" ]]; then
+        generate=true
+        continue
+    fi
     case "$arg" in
         --small) suffix=".small" ;;
         --min) suffix=".min" ;;
     esac
 done
 
-if [[ " $* " == *" --generate "* ]]; then
+if $generate; then
     md5sum $outputs_dir/compress_files$suffix/* > "$hashes_dir/compress_files$suffix.md5sum"
     md5sum $outputs_dir/encrypt_files$suffix/* > "$hashes_dir/encrypt_files$suffix.md5sum"
     exit 0

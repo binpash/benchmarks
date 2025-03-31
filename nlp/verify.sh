@@ -7,7 +7,12 @@ cd "$(realpath "$(dirname "$0")")" || exit 1
 
 hash_folder="hashes"
 
+generate=false
 for arg in "$@"; do
+    if [[ "$arg" == "--generate" ]]; then
+        generate=true
+        continue
+    fi
     case "$arg" in
     --min) hash_folder="hashes/min" ;;
     --small) hash_folder="hashes/small" ;;
@@ -16,7 +21,7 @@ done
 
 mkdir -p "$hash_folder"
 
-if [[ " $* " == *" --generate "* ]]; then
+if $generate; then
     # Directory to iterate over
     directory="outputs"
 

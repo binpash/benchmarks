@@ -12,7 +12,12 @@ if [ ! -d "outputs" ]; then
 fi
 
 hash_folder="hashes"
+generate=false
 for arg in "$@"; do
+    if [[ "$arg" == "--generate" ]]; then
+        generate=true
+        continue
+    fi
     if [ "$arg" = "--small" ]; then
         hash_folder="hashes/small"
     elif [ "$arg" = "--min" ]; then
@@ -20,7 +25,7 @@ for arg in "$@"; do
     fi
 done
 
-if [[ " $* " == *" --generate "* ]]; then
+if $generate; then
     # Directory to iterate over
     directory="outputs"
 

@@ -14,14 +14,19 @@ outputs_dir="${eval_dir}/outputs"
 hashes_dir="${eval_dir}/hashes"
 
 suffix=".full"
+generate=false
 for arg in "$@"; do
+    if [[ "$arg" == "--generate" ]]; then
+        generate=true
+        continue
+    fi
     case "$arg" in
         --small) suffix=".small" ;;
         --min) suffix=".min" ;;
     esac
 done
 
-if [[ " $* " == *" --generate "* ]]; then
+if $generate; then
     bench=to_mp3$suffix
     hash_audio_dir "$outputs_dir/$bench" > "$hashes_dir/$bench.md5sum"
 

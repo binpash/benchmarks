@@ -8,13 +8,19 @@ cd "$(realpath "$(dirname "$0")")" || exit 1
 mkdir -p hashes/small
 
 hash_folder="hashes"
+generate=false
 for arg in "$@"; do
-    if [ "$arg" = "--small" ]; then
-        hash_folder="hashes/small"
+    if [[ "$arg" == "--generate" ]]; then
+        generate=true
+        continue
     fi
+    case "$arg" in
+    --min) hash_folder="hashes/min" ;;
+    --small) hash_folder="hashes/small" ;;
+    esac
 done
 
-if [[ " $* " == *" --generate "* ]]; then
+if $generate; then
     # Directory to iterate over
     directory="outputs"
 

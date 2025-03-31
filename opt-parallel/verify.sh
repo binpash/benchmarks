@@ -7,7 +7,12 @@ cd "$(realpath "$(dirname "$0")")" || exit 1
 
 [ ! -d "outputs" ] && echo "Directory 'outputs' does not exist" && exit 1
 
+generate=false
 for arg in "$@"; do
+    if [[ "$arg" == "--generate" ]]; then
+        generate=true
+        continue
+    fi
     case "$arg" in
     --small) hash_folder="hashes/small" ;;
     --min) hash_folder="hashes/min" ;;
@@ -16,7 +21,7 @@ done
 
 mkdir -p "$hash_folder"
 
-if [[ " $* " == *" --generate "* ]]; then
+if $generate; then
     for file in outputs/*.out; do
         filename=$(basename "$file" .out)
         hash=$(shasum -a 256 "$file" | awk '{print $1}')

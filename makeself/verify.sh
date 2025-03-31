@@ -7,8 +7,6 @@ TESTS_DIR="${BASE_DIR}/makeself/test"
 all_passed=true
 
 for test_log in "${TESTS_DIR}"/*/test_results.log; do
-    test_name="$(basename "$(dirname "${test_log}")")"
-
     if grep -q "FAIL" "${test_log}" 2>/dev/null; then
         all_passed=false
         break

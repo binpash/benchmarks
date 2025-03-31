@@ -1,13 +1,15 @@
 #!/bin/bash
 
-export SUITE_DIR=$(realpath $(dirname "$0"))
+SUITE_DIR="$(realpath "$(dirname "$0")")"
+export SUITE_DIR
+cd "$SUITE_DIR" || exit 1
+
 export TIMEFORMAT=%R
-cd $SUITE_DIR
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 export BENCHMARK_CATEGORY="oneliners"
 
-if [[ "$@" == *"--small"* ]]; then
+if [[ " $* " == *" --small "* ]]; then
     scripts_inputs=(
         "nfa-regex;1M"
         "sort;1M"
@@ -37,9 +39,9 @@ fi
 
 mkdir -p "outputs"
 
-echo executing oneliners $(date)
+echo "executing oneliners $(date)"
 
-for script_input in ${scripts_inputs[@]}
+for script_input in "${scripts_inputs[@]}"
 do
     IFS=";" read -r -a parsed <<< "${script_input}"
     script_file="./scripts/${parsed[0]}.sh"
@@ -47,8 +49,12 @@ do
     output_file="./outputs/${parsed[0]}.out"
 
     echo "$script_file"
-    export BENCHMARK_INPUT_FILE="$(realpath "$input_file")"
-    export BENCHMARK_SCRIPT="$(realpath "$script_file")"
-    $BENCHMARK_SHELL "$script_file" "$input_file" > "$output_file"
+    BENCHMARK_INPUT_FILE="$(realpath "$input_file")"
+    export BENCHMARK_INPUT_FILE
+
+    BENCHMARK_SCRIPT="$(realpath "$script_file")"
+    export BENCHMARK_SCRIPT
+    
+    "$BENCHMARK_SHELL" "$script_file" "$input_file" > "$output_file"
     echo "$?"
 done

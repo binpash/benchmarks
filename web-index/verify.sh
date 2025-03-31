@@ -9,11 +9,15 @@ if [ ! -d "${hashes_dir}" ]; then
 fi
 
 suffix=".full"
-if [[ "$@" == *"--small"* ]]; then
-    suffix=".small"
-fi
+for arg in "$@"; do
+    if [ "$arg" = "--small" ]; then
+        suffix=".small"
+    elif [ "$arg" = "--min" ]; then
+        suffix=".min"
+    fi
+done
 
-if [[ "$@" == *"--generate"* ]]; then
+if [[ " $* " == *" --generate "* ]]; then
     # generate hashes and store in hashes directory for all *grams.txt files
     for file in $(find ${eval_dir} -name "*grams.txt"); do
         hash=$(md5sum <(sort "$file") | cut -d ' ' -f 1)

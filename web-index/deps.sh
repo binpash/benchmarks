@@ -21,7 +21,7 @@ if ! dpkg -s nodejs > /dev/null 2>&1 ; then
     sudo apt-get install -y nodejs
 fi
 
-cd $(dirname $0)/scripts || exit 1
+cd "$(dirname "$0")/scripts" || exit 1
 npm install
 # Install the npm packages
 npm install natural

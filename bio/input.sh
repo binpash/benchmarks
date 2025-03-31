@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd "$(dirname "$(realpath "$0")")"
+cd "$(realpath "$(dirname "$0")")" || exit 1
 
 IN="inputs"
 IN_NAME="input.txt"
@@ -18,13 +18,13 @@ if [[ "${1:-}" == "-c" ]]; then
     exit 0
 fi
 
-mkdir -p "$IN" outputs
+mkdir -p "${IN}" outputs
 
 while IFS= read -r s_line; do
     sample=$(echo "$s_line" | cut -d ' ' -f 2)
     if [[ ! -f "$IN/$sample.bam" ]]; then
         pop=$(echo "$s_line" | cut -d ' ' -f 1)
         link=$(echo "$s_line" | cut -d ' ' -f 3)
-        wget -O "$IN/$sample.bam" "$link"
+        wget -O "${IN}/$sample.bam" "$link"
     fi
 done < "$IN_NAME"

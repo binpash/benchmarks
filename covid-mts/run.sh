@@ -1,10 +1,10 @@
 #!/bin/bash
 
 REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="$REPO_TOP/covid-mts"
-input_dir="$eval_dir/inputs"
-outputs_dir="$eval_dir/outputs"
-scripts_dir="$eval_dir/scripts"
+eval_dir="${REPO_TOP}/covid-mts"
+input_dir="${eval_dir}/inputs"
+outputs_dir="${eval_dir}/outputs"
+scripts_dir="${eval_dir}/scripts"
 
 suffix=""
 for arg in "$@"; do

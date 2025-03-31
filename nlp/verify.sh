@@ -3,20 +3,30 @@
 # Exit immediately if a command exits with a non-zero status
 # set -e
 
-cd "$(realpath $(dirname "$0"))"
+cd "$(realpath "$(dirname "$0")")" || exit 1
 
-mkdir -p hashes/small
+hash_folder="hashes"
+gemerate=false
 
-if [[ "$@" == *"--small"* ]]; then
-    hash_folder="hashes/small"
-else
-    hash_folder="hashes"
-fi
+for arg in "$@"; do
+    case "$arg" in
+    --min) hash_folder="hashes/min" ;;
+    --small) hash_folder="hashes/small" ;;
+    --generate) generate=true ;;
+    esac
+done
 
-if [[ "$@" == *"--generate"* ]]; then
+mkdir -p "$hash_folder"
+
+if $generate; then
     # Directory to iterate over
     directory="outputs"
 
+    # Check if the directory exists
+    if [ ! -d "$directory" ]; then
+        echo "Directory 'outputs' does not exist"
+        exit 1
+    fi
     # Loop through all .out files in the directory
     find "$directory" -type f -name '*.out' | while read -r file;
     do

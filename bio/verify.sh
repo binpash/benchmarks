@@ -3,7 +3,7 @@
 # Exit immediately if a command exits with a non-zero status
 # set -e
 
-cd "$(dirname "$(realpath "$0")")"
+cd "$(realpath "$(dirname "$0")")" || exit 1
 
 hash_folder="hashes"
 directory="outputs"
@@ -18,7 +18,6 @@ for arg in "$@"; do
 done
 
 mkdir -p "$hash_folder"
-
 
 if $generate; then
     # get total number of files

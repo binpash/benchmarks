@@ -2,7 +2,7 @@
 
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/media-conv"
-input_dir="${eval_dir}/input"
+input_dir="${eval_dir}/inputs"
 
 mkdir -p $input_dir
 
@@ -29,6 +29,13 @@ if [[ " $* " == *" --small "* ]]; then
     data_url=https://atlas-group.cs.brown.edu/data/small/jpg.zip
     zip_dst=$input_dir/jpg_small.zip
     out_dir=$input_dir/jpg_small
+    wget --no-check-certificate $data_url -O $zip_dst || { echo "Failed to download $data_url"; exit 1; }
+    unzip $zip_dst -d $out_dir || { echo "Failed to unzip $zip_dst"; exit 1; }
+    rm "$zip_dst"
+elif [[ " $* " == *" --min "* ]]; then
+    data_url=https://atlas-group.cs.brown.edu/data/min/jpg.zip
+    zip_dst=$input_dir/jpg_min.zip
+    out_dir=$input_dir/jpg_min
     wget --no-check-certificate $data_url -O $zip_dst || { echo "Failed to download $data_url"; exit 1; }
     unzip $zip_dst -d $out_dir || { echo "Failed to unzip $zip_dst"; exit 1; }
     rm "$zip_dst"

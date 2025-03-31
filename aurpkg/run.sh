@@ -6,7 +6,7 @@ OUT="${OUT:-$REPO_TOP/aurpkg/outputs}"
 BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 SCRIPT="./scripts/pacaur.sh"
 
-mkdir -p "$OUT"
+mkdir -p "${OUT}"
 
 # Switch to user "user" to avoid permission issues
 

@@ -19,13 +19,18 @@ export TMPDIR=$PWD/tmp
 INPUTS="$PWD/inputs"
 OUTPUT_BASE="$PWD/outputs/ngrams"
 
+INPUT_FILE="$INPUTS/index.txt"
 for arg in "$@"; do
-    case "$arg" in
-        --small) INPUT_FILE="$INPUTS/index_small.txt" ;;
-        --min) INPUT_FILE="$INPUTS/index_min.txt" ;;
-        *) INPUT_FILE="$INPUTS/index.txt" ;;
-    esac
+    if [ "$arg" = "--small" ]; then
+        INPUT_FILE="$INPUTS/index_small.txt"
+        break
+    elif [ "$arg" = "--min" ]; then
+        INPUT_FILE="$INPUTS/index_min.txt"
+        break
+    fi
 done
+
+export INPUT_FILE
 
 mkdir -p "$OUTPUT_BASE"
 

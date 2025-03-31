@@ -10,11 +10,10 @@ fi
 
 suffix=".full"
 for arg in "$@"; do
-    if [ "$arg" = "--small" ]; then
-        suffix=".small"
-    elif [ "$arg" = "--min" ]; then
-        suffix=".min"
-    fi
+    case "$arg" in
+        --small) suffix=".small" ;;
+        --min) suffix=".min" ;;
+    esac
 done
 
 if [[ " $* " == *" --generate "* ]]; then

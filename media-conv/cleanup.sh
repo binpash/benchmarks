@@ -6,4 +6,3 @@ input_dir="${REPO_TOP}/media-conv/inputs"
 
 rm -rf "$outputs_dir"
 rm -rf "$input_dir"
-

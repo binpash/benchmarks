@@ -4,15 +4,16 @@ REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/media-conv"
 input_dir="${eval_dir}/inputs"
 
-mkdir -p $input_dir
+mkdir -p "$input_dir"
 
 data_url=https://atlas-group.cs.brown.edu/data/wav.zip
 zip_dst=$input_dir/wav.zip
 full_dir="$input_dir/wav_full"
 small_dir="$input_dir/wav_small"
+min_dir="$input_dir/wav_min"
 wget --no-check-certificate "$data_url" -O "$zip_dst"
 unzip "$zip_dst" -d "$input_dir"
-mkdir -p "$full_dir" "$small_dir"
+mkdir -p "$full_dir" "$small_dir" "$min_dir"
 # copy `.wav`s to their final destinations. 
 # Make sure we have the correct number of inputs
 # with numbered backups (do not overwrite inputs).
@@ -21,6 +22,9 @@ for i in {1..120}; do
 done
 for i in {1..10}; do
     cp --backup=numbered $input_dir/wav/* "--target-directory=$small_dir"
+done
+for i in {1..2}; do
+    cp --backup=numbered $input_dir/wav/* "--target-directory=$min_dir"
 done
 rm -r "$zip_dst" "$input_dir/wav"
 

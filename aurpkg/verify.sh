@@ -10,19 +10,17 @@ mkdir -p hashes/small hashes/min
 [ ! -d "outputs" ] && echo "Directory 'outputs' does not exist" && exit 1
 
 hash_folder="hashes"
-generate=false
 
 for arg in "$@"; do
     case "$arg" in
     --min) hash_folder="hashes/min" ;;
     --small) hash_folder="hashes/small" ;;
-    --generate) generate=true ;;
     esac
 done
 
 directory="outputs"
 
-if $generate; then
+if [[ " $* " == *" --generate "* ]]; then
     # Directory to iterate over
 
     # Loop through all PKGBUILD files in the directory and its subdirectories

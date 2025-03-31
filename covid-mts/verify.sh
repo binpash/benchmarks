@@ -12,11 +12,10 @@ for arg in "$@"; do
     case "$arg" in
     --small) suffix="_small" ;;
     --min) suffix="_min" ;;
-    --generate) generate=true ;;
     esac
 done
 
-if $generate; then
+if [[ " $* " == *" --generate "* ]]; then
     mkdir -p "$hashes_dir"
     # give relative paths to md5sum
     (

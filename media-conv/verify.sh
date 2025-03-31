@@ -14,23 +14,18 @@ outputs_dir="${eval_dir}/outputs"
 hashes_dir="${eval_dir}/hashes"
 
 suffix=".full"
-generate=false
-
 for arg in "$@"; do
     case "$arg" in
         --small) suffix=".small" ;;
         --min) suffix=".min" ;;
-        --generate) generate=true ;;
     esac
 done
 
-mkdir -p "$hashes_dir"
-
-if $generate; then
+if [[ " $* " == *" --generate "* ]]; then
     bench=to_mp3$suffix
     hash_audio_dir "$outputs_dir/$bench" > "$hashes_dir/$bench.md5sum"
 
-    cd $outputs_dir || exit 1
+    cd $outputs_dir
     bench=img_convert$suffix
     md5sum $bench/* > "$hashes_dir/$bench.md5sum"
 
@@ -42,8 +37,7 @@ bench=to_mp3$suffix
 hash_audio_dir "$outputs_dir/$bench" | diff -q "$hashes_dir/$bench.md5sum" -
 echo $bench $?
 
-cd $outputs_dir || exit 1
+cd $outputs_dir
 bench=img_convert$suffix
 md5sum --check --quiet --status $hashes_dir/$bench.md5sum
 echo $bench $?
-

@@ -3,15 +3,21 @@
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/covid-mts"
 outputs_dir="${eval_dir}/outputs"
-scripts_dir="${eval_dir}/scripts"
 hashes_dir="${eval_dir}/hashes"
 
 suffix=""
-if [[ "$@" == *"--small"* ]]; then
-    suffix="_small"
-fi
+generate=false
 
-if [[ "$@" == *"--generate"* ]]; then
+for arg in "$@"; do
+    case "$arg" in
+        --small) suffix="_small" ;;
+        --min) suffix="_min" ;;
+        --generate) generate=true ;;
+    esac
+done
+
+if $generate; then
+    mkdir -p "$hashes_dir"
     # give relative paths to md5sum
     (cd "$outputs_dir"; md5sum "outputs$suffix"/* > "$hashes_dir/outputs$suffix.md5sum")
     exit 0

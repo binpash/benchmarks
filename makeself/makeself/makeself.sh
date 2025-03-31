@@ -622,7 +622,7 @@ if ! "$TAR" --help 2>/dev/null | grep -q -- '--mtime'; then
   echo "Warning: '$TAR' does not support --mtime. Some options may fail (needs GNU tar)."
 fi
 
-fitest -x "$TAR" || TAR=$(exec <&- 2>&-; which bsdtar || command -v bsdtar || type bsdtar)
+test -x "$TAR" || TAR=$(exec <&- 2>&-; which bsdtar || command -v bsdtar || type bsdtar)
 test -x "$TAR" || TAR=tar
 
 tmparch="${TMPDIR:-/tmp}/mkself$$.tar"

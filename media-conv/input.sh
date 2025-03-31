@@ -37,6 +37,7 @@ if [[ " $* " == *" --small "* ]]; then
     unzip $zip_dst -d $out_dir || { echo "Failed to unzip $zip_dst"; exit 1; }
     rm "$zip_dst"
 elif [[ " $* " == *" --min "* ]]; then
+#TODO min versions
     data_url=https://atlas-group.cs.brown.edu/data/min/jpg.zip
     zip_dst=$input_dir/jpg_min.zip
     out_dir=$input_dir/jpg_min

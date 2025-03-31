@@ -9,6 +9,7 @@ eval_dir="${REPO_TOP}/log-analysis"
 input_dir="${eval_dir}/inputs"
 
 mkdir -p "$input_dir"
+#TODO add small and min versions
 
 url=https://atlas-group.cs.brown.edu/data/pcaps.zip
 zip_dst="$input_dir/pcaps.zip"

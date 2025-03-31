@@ -28,8 +28,9 @@ if $is_small; then
 		wget -O $RESOURCES_DIR/index_small.txt https://atlas-group.cs.brown.edu/data/wikipedia/input_small/index.txt --no-check-certificate
 	fi
 elif $is_min; then
+#TODO add min version
 	if [[ ! -f "$RESOURCES_DIR/wikipedia-min.tar.gz" ]]; then
-		# 1000 entries
+		# 10 entries
 		echo "Downloading the min dataset."
 		wget -O $RESOURCES_DIR/wikipedia-min.tar.gz https://atlas-group.cs.brown.edu/data/wikipedia/input_min/articles.tar.gz --no-check-certificate
 		wget -O $RESOURCES_DIR/index_min.txt https://atlas-group.cs.brown.edu/data/wikipedia/input_min/index.txt --no-check-certificate

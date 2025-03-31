@@ -1,4 +1,5 @@
 #!/bin/bash
+#TODO add min version
 
 cd "$(realpath "$(dirname "$0")")" || exit 1
 mkdir -p inputs

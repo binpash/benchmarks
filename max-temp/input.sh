@@ -29,3 +29,4 @@ head -n 200 "$input_dir/temperatures.full.txt" \
 
 head -n 20 "$input_dir/temperatures.full.txt" \
   >"$input_dir/temperatures.min.txt"
+#TODO add small and min versions in a repo to avoid downloading everything

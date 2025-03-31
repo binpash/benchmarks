@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPO_TOP=$(git rev-parse --show-toplevel)
-IN="$REPO_TOP/aurpkg/input"
+IN="$REPO_TOP/aurpkg/inputs"
 
 cd "$REPO_TOP" || exit 1
 mkdir -p "$IN"

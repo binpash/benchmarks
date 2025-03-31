@@ -18,7 +18,7 @@ run_tests() {
     pkg=$1
     ORIG_DIR=$(pwd)
 
-    mkcd "$OUT/$pkg"
+    mkcd "${OUT}/$pkg" || exit 1
 
     curl --insecure -o PKGBUILD "$pkgbuild=$pkg" 2>/dev/null || echo ' '
 
@@ -34,8 +34,8 @@ export -f run_tests
 pkg_count=0
 
 # loop over required packages
-for pkg in $(cat "$IN" | tr '\n' ' '); do
+for pkg in $(cat ${IN}  | tr '\n' ' '); do
     pkg_count=$((pkg_count + 1))
     echo "$pkg"
-    run_tests "$pkg" >"${OUT}/${pkg_count}.txt"
+    run_tests $pkg>"${OUT}/$pkg_count.txt"
 done

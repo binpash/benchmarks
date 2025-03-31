@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPO_TOP=$(git rev-parse --show-toplevel)
-IN="$REPO_TOP/aurpkg/input/packages"
+IN="$REPO_TOP/aurpkg/inputs/packages"
 OUT="${OUT:-$REPO_TOP/aurpkg/outputs}"
 BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 SCRIPT="./scripts/pacaur.sh"

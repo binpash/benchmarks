@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IN="input"
+IN="inputs"
 OUT="outputs"
 
 rm -rf "${IN}/packages"

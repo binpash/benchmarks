@@ -11,10 +11,13 @@ zip_dst=$input_dir/wav.zip
 full_dir="$input_dir/wav_full"
 small_dir="$input_dir/wav_small"
 min_dir="$input_dir/wav_min"
+
 wget --no-check-certificate "$data_url" -O "$zip_dst"
 unzip "$zip_dst" -d "$input_dir"
+rm -rf "$full_dir" "$small_dir" "$min_dir"
 mkdir -p "$full_dir" "$small_dir" "$min_dir"
-# copy `.wav`s to their final destinations. 
+
+# copy `.wav`s to their final destinations.
 # Make sure we have the correct number of inputs
 # with numbered backups (do not overwrite inputs).
 for i in {1..120}; do
@@ -29,26 +32,42 @@ done
 rm -r "$zip_dst" "$input_dir/wav"
 
 # if small flag
-if [[ " $* " == *" --small "* ]]; then
-    data_url=https://atlas-group.cs.brown.edu/data/small/jpg.zip
-    zip_dst=$input_dir/jpg_small.zip
-    out_dir=$input_dir/jpg_small
-    wget --no-check-certificate $data_url -O $zip_dst || { echo "Failed to download $data_url"; exit 1; }
-    unzip $zip_dst -d $out_dir || { echo "Failed to unzip $zip_dst"; exit 1; }
-    rm "$zip_dst"
-elif [[ " $* " == *" --min "* ]]; then
-#TODO min versions
-    data_url=https://atlas-group.cs.brown.edu/data/min/jpg.zip
-    zip_dst=$input_dir/jpg_min.zip
-    out_dir=$input_dir/jpg_min
-    wget --no-check-certificate $data_url -O $zip_dst || { echo "Failed to download $data_url"; exit 1; }
-    unzip $zip_dst -d $out_dir || { echo "Failed to unzip $zip_dst"; exit 1; }
-    rm "$zip_dst"
-else
-    data_url=https://atlas-group.cs.brown.edu/data/full/jpg.zip
-    zip_dst="$input_dir/jpg_full.zip"
-    out_dir="$input_dir/jpg_full"
-    wget --no-check-certificate $data_url -O $zip_dst
-    unzip $zip_dst -d $out_dir
-    rm "$zip_dst"
-fi
+for arg in "$@"; do
+    if [[ "$arg" == "--small" ]]; then
+        data_url=https://atlas-group.cs.brown.edu/data/small/jpg.zip
+        zip_dst=$input_dir/jpg_small.zip
+        out_dir=$input_dir/jpg_small
+        wget --no-check-certificate $data_url -O $zip_dst || {
+            echo "Failed to download $data_url"
+            exit 1
+        }
+        unzip $zip_dst -d $out_dir || {
+            echo "Failed to unzip $zip_dst"
+            exit 1
+        }
+        rm "$zip_dst"
+        exit 0
+    elif [[ "$arg" == "--min" ]]; then
+        #TODO min versions
+        data_url=https://atlas-group.cs.brown.edu/data/min/jpg.zip
+        zip_dst=$input_dir/jpg_min.zip
+        out_dir=$input_dir/jpg_min
+        wget --no-check-certificate $data_url -O $zip_dst || {
+            echo "Failed to download $data_url"
+            exit 1
+        }
+        unzip $zip_dst -d $out_dir || {
+            echo "Failed to unzip $zip_dst"
+            exit 1
+        }
+        rm "$zip_dst"
+        exit 0
+    fi
+done
+
+data_url=https://atlas-group.cs.brown.edu/data/full/jpg.zip
+zip_dst="$input_dir/jpg_full.zip"
+out_dir="$input_dir/jpg_full"
+wget --no-check-certificate $data_url -O $zip_dst
+unzip $zip_dst -d $out_dir
+rm "$zip_dst"

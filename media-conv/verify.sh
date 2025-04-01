@@ -30,7 +30,7 @@ if $generate; then
     bench=to_mp3$suffix
     hash_audio_dir "$outputs_dir/$bench" > "$hashes_dir/$bench.md5sum"
 
-    cd $outputs_dir
+    cd $outputs_dir || exit 1
     bench=img_convert$suffix
     md5sum $bench/* > "$hashes_dir/$bench.md5sum"
 
@@ -42,7 +42,7 @@ bench=to_mp3$suffix
 hash_audio_dir "$outputs_dir/$bench" | diff -q "$hashes_dir/$bench.md5sum" -
 echo $bench $?
 
-cd $outputs_dir
+cd $outputs_dir || exit 1
 bench=img_convert$suffix
 md5sum --check --quiet --status $hashes_dir/$bench.md5sum
 echo $bench $?

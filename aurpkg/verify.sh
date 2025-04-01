@@ -65,5 +65,6 @@ find "$directory" -maxdepth 1 -type f -name "*.txt" | while read -r file; do
 
     # echo "$package_name $match"
     # Because of fluctuations in the makepkg output, we will ignore the hash mismatch
+    # TODO check if this is a good idea
     echo "$package_name 0"
 done

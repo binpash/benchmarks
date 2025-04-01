@@ -16,10 +16,12 @@ for arg in "$@"; do
         img_convert_input="$input_dir/jpg_min/jpg"
         to_mp3_input="$input_dir/wav_min"
         suffix=".min"
+        break
     elif [ "$arg" = "--small" ]; then
         img_convert_input="$input_dir/jpg_small/jpg"
         to_mp3_input="$input_dir/wav_small"
         suffix=".small"
+        break
     fi
 done
 

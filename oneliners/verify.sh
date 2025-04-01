@@ -18,11 +18,10 @@ for arg in "$@"; do
         generate=true
         continue
     fi
-    if [ "$arg" = "--small" ]; then
-        hash_folder="hashes/small"
-    elif [ "$arg" = "--min" ]; then
-        hash_folder="hashes/min"
-    fi
+    case "$arg" in
+        --small) hash_folder="hashes/small" ;;
+        --min) hash_folder="hashes/min" ;;
+    esac
 done
 
 if $generate; then

@@ -39,6 +39,9 @@
     "vps-audit": {
         "scripts": ["vps-audit/scripts/*.sh"]
     },
+    "opt-parallel": {
+        "scripts": ["opt-parallel/scripts/*.sh"]
+    },
     "bio": {
 	    "scripts": ["bio/scripts/bio.sh"]
     },

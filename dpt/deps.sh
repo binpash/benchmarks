@@ -28,4 +28,5 @@ pip install \
     torchvision \
     Pillow \
     segment-anything \
-    tensorflow
+    tensorflow \
+    opencv-python

@@ -1,4 +1,9 @@
 #!/bin/bash
+source .venv/bin/activate
+
+echo "Python: $(which python)"
+echo "Python version: $(python --version)"
+echo "VIRTUAL_ENV: $VIRTUAL_ENV"
 
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/dpt"

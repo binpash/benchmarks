@@ -18,7 +18,7 @@ for arg in "$@"; do
     esac
 done
 
-export input_dir="${eval_dir}/input${suffix}/ChessData"
+export input_dir="${eval_dir}/inputs${suffix}/ChessData"
 
 echo "executing opt-parallel $(date)"
 mkdir -p "${SUITE_DIR}/outputs"

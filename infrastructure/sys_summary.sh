@@ -18,6 +18,7 @@ benchmarks=(
   "unix50"
   "vps-audit"
   "web-index"
+  "opt-parallel"
 )
 
 # Error handler

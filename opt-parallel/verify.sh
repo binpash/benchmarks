@@ -6,7 +6,7 @@
 cd "$(realpath "$(dirname "$0")")" || exit 1
 
 [ ! -d "outputs" ] && echo "Directory 'outputs' does not exist" && exit 1
-
+hash_folder="hashes"
 generate=false
 for arg in "$@"; do
     if [[ "$arg" == "--generate" ]]; then

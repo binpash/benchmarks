@@ -20,25 +20,38 @@ torch.backends.cudnn.benchmark = False
 
 BoundingBox = tuple[int, int, int, int]
 
-
 class Sam1Segmenter:
     def __init__(
         self,
-        checkpoint_path: str = os.path.dirname(os.path.realpath(__file__))
-        + "/models/sam_vit_h.pth",
+        checkpoint_path: str = None,
         model_type: str = "vit_h",
         bbox_margin: int = 3,
-        # Smaller masks included; big ones might still appear unless we filter them
         points_per_side: int = 16,
         pred_iou_thresh: float = 0.9,
         stability_score_thresh: float = 0.9,
         min_mask_region_area: int = 300,
-        # maximum area filter to exclude large combined masks
         max_mask_region_area: int = 5000,
     ):
         """
-        - max_mask_region_area: If set, any mask with area above this is discarded.
+        Args:
+            checkpoint_path (str): Path to SAM model checkpoint.
+            model_type (str): Type of SAM model to use (e.g., 'vit_h').
+            bbox_margin (int): Extra margin added to each side of the bounding boxes.
+            points_per_side (int): Grid density for mask generation.
+            pred_iou_thresh (float): IOU threshold for filtering masks.
+            stability_score_thresh (float): Stability threshold for filtering masks.
+            min_mask_region_area (int): Minimum mask area to keep.
+            max_mask_region_area (int): Maximum mask area to keep (filters out large masks).
         """
+        if checkpoint_path is None:
+            checkpoint_path = os.path.abspath(os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                "..",
+                "input",
+                "models",
+                "sam_vit_h.pth"
+            ))
+
         self.bbox_margin = bbox_margin
         self.max_mask_region_area = max_mask_region_area
 

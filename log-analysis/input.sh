@@ -6,9 +6,10 @@ set -e
 
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/log-analysis"
-input_dir="${eval_dir}/input"
+input_dir="${eval_dir}/inputs"
 
-mkdir -p $input_dir
+mkdir -p "$input_dir"
+#TODO add small and min versions
 
 url=https://atlas-group.cs.brown.edu/data/pcaps.zip
 zip_dst="$input_dir/pcaps.zip"
@@ -20,4 +21,4 @@ url=https://atlas-group.cs.brown.edu/data/nginx.zip
 zip_dst="$input_dir/nginx.zip"
 wget --no-check-certificate $url -O "$zip_dst"
 unzip "$zip_dst" -d "$input_dir"
-rm $zip_dst
+rm "$zip_dst"

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd "$(realpath $(dirname "$0"))"
+cd "$(realpath "$(dirname "$0")")" || exit 1
 mkdir -p inputs
-cd inputs
+cd inputs || exit 1
 
 if [ ! -f ./book_links.txt ]; then
     wget -O book_links.txt "https://atlas-group.cs.brown.edu/data/gutenberg/books.txt"
@@ -22,7 +22,7 @@ fi
 
 if [ ! -e ./pg ]; then
     mkdir pg
-    cd pg
+    cd pg || exit 1
     book_count=120
 
     head -n $book_count ../book_links.txt | while IFS= read -r line
@@ -37,8 +37,23 @@ fi
 
 if [ ! -e ./pg-small ]; then
     mkdir pg-small
-    cd pg-small
+    cd pg-small || exit 1
     book_count=10
+
+    head -n $book_count ../book_links.txt | while IFS= read -r line
+    do
+        full_url="https://atlas-group.cs.brown.edu/data/gutenberg/${line}"
+        echo "Downloading $full_url"
+        wget -q "$full_url"
+    done
+
+    cd ..
+fi
+
+if [ ! -e ./pg-min ]; then
+    mkdir pg-min
+    cd pg-min || exit 1
+    book_count=1
 
     head -n $book_count ../book_links.txt | while IFS= read -r line
     do

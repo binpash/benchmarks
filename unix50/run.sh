@@ -1,8 +1,9 @@
 #!/bin/bash
 
-export SUITE_DIR=$(realpath $(dirname "$0"))
+SUITE_DIR="$(realpath "$(dirname "$0")")"
+export SUITE_DIR
 export TIMEFORMAT=%R
-cd $SUITE_DIR
+cd "$SUITE_DIR" || exit 1
 
 scripts_inputs=(
 "1;1"
@@ -44,34 +45,36 @@ scripts_inputs=(
 )
 
 suffix=""
-
-if [[ "$@" == *"--small"* ]]; then
+if [[ " $* " == *" --small "* ]]; then
     suffix="_1M"
 else
     suffix="_3G"
 fi
 
-echo executing unix50 $(date)
+echo "executing unix50 $(date)"
 
 mkdir -p "outputs"
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 export BENCHMARK_CATEGORY="unix50"
 
-for script_input in ${scripts_inputs[@]};
-do
+for script_input in "${scripts_inputs[@]}"; do
     IFS=";" read -r -a parsed <<< "${script_input}"
 
     script=${parsed[0]}
     input=${parsed[1]}
 
     script_file="./scripts/$script.sh"
-    input_file="./inputs/$input$suffix.txt"
+    input_file="./inputs/${input}${suffix}.txt"
     output_file="./outputs/$script.out"
 
 
-    export BENCHMARK_SCRIPT="$(realpath "$script_file")"
-    export BENCHMARK_INPUT_FILE="$(realpath "$input_file"
+    BENCHMARK_SCRIPT="$(realpath "$script_file")"
+    export BENCHMARK_SCRIPT
+
+    BENCHMARK_INPUT_FILE="$(realpath "$input_file")"
+    export BENCHMARK_INPUT_FILE
+    
     echo "$script"
-    $BENCHMARK_SHELL $script_file $input_file > $output_file
+    $BENCHMARK_SHELL "$script_file" "$input_file" > "$output_file"
     echo $?
 done

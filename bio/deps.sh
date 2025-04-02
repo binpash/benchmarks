@@ -3,6 +3,9 @@
 # install dependencies
 required_version="1.7"
 
+#TODO check the version of samtools that is needed
+#FIXME temporary fix for the version of samtools
+sudo apt update && sudo apt install samtools -y
 # Check if Samtools is already installed and matches the required version
 if command -v samtools &>/dev/null; then
     installed_version=$(samtools --version | head -n 1 | awk '{print $2}')

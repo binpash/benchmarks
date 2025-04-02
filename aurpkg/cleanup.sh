@@ -1,8 +1,7 @@
 #!/bin/bash
 
-IN=input/
-OUT=outputs/
+IN="inputs"
+OUT="outputs"
 
-rm -rf ${IN}/packages
-rm -rf ${OUT}
-exit 
+rm -rf "${IN}/packages"
+rm -rf "${OUT}"

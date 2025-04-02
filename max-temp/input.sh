@@ -3,9 +3,7 @@
 REPO_TOP=$(git rev-parse --show-toplevel)
 
 eval_dir="${REPO_TOP}/max-temp"
-results_dir="${eval_dir}/results"
-scripts_dir="${eval_dir}/scripts"
-input_dir="${eval_dir}/input"
+input_dir="${eval_dir}/inputs"
 
 URL='https://www1.ncdc.noaa.gov/pub/data/noaa/'
 FROM=${FROM:-2015}
@@ -13,9 +11,9 @@ TO=${TO:-2015}
 sample_starting_index=1234
 sample_count=250
 
-mkdir -p "$input_dir"
+mkdir -p "${input_dir}"
 
-seq $FROM $TO |
+seq "$FROM" "$TO" |
   sed "s;^;$URL;" |
   sed 's;$;/;' |
   xargs -n1 -r curl --insecure |
@@ -24,7 +22,11 @@ seq $FROM $TO |
   tail -n +$sample_starting_index |
   head -n $sample_count |
   xargs -n1 curl --insecure |
-  gunzip > "$input_dir/temperatures.full.txt"
+  gunzip >"$input_dir/temperatures.full.txt"
 
 head -n 200 "$input_dir/temperatures.full.txt" \
-    > "$input_dir/temperatures.small.txt"
+  >"$input_dir/temperatures.small.txt"
+
+head -n 20 "$input_dir/temperatures.full.txt" \
+  >"$input_dir/temperatures.min.txt"
+#TODO add small and min versions in a repo to avoid downloading everything

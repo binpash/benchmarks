@@ -10,19 +10,27 @@ hash_audio_dir() {
 
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/media-conv"
-results_dir="${eval_dir}/results"
+outputs_dir="${eval_dir}/outputs"
 hashes_dir="${eval_dir}/hashes"
 
 suffix=".full"
-if [[ "$@" == *"--small"* ]]; then
-    suffix=".small"
-fi
+generate=false
+for arg in "$@"; do
+    if [[ "$arg" == "--generate" ]]; then
+        generate=true
+        continue
+    fi
+    case "$arg" in
+        --small) suffix=".small" ;;
+        --min) suffix=".min" ;;
+    esac
+done
 
-if [[ "$@" == *"--generate"* ]]; then
+if $generate; then
     bench=to_mp3$suffix
-    hash_audio_dir "$results_dir/$bench" > "$hashes_dir/$bench.md5sum"
+    hash_audio_dir "$outputs_dir/$bench" > "$hashes_dir/$bench.md5sum"
 
-    cd $results_dir
+    cd $outputs_dir || exit 1
     bench=img_convert$suffix
     md5sum $bench/* > "$hashes_dir/$bench.md5sum"
 
@@ -31,11 +39,10 @@ fi
 
 
 bench=to_mp3$suffix
-hash_audio_dir "$results_dir/$bench" | diff -q "$hashes_dir/$bench.md5sum" -
+hash_audio_dir "$outputs_dir/$bench" | diff -q "$hashes_dir/$bench.md5sum" -
 echo $bench $?
 
-cd $results_dir
+cd $outputs_dir || exit 1
 bench=img_convert$suffix
 md5sum --check --quiet --status $hashes_dir/$bench.md5sum
 echo $bench $?
-

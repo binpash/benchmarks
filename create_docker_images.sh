@@ -1,7 +1,15 @@
 #!/bin/bash
 
-export BENCHMARK=$(basename "$1")
+if [[ -z "${1:-}" ]]; then
+    echo "Usage: $0 <benchmark-name> [flags]"
+    exit 1
+fi
+BENCHMARK=$(basename "$1")
 shift
+export BENCHMARK
+
+BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+export BENCHMARK_SCRIPT
 
 if [[ -z "$BENCHMARK" ]]; then
     echo "Usage: $0 <benchmark-name> [flags]"
@@ -10,6 +18,7 @@ fi
 
 BENCHMARK_DIR="./$BENCHMARK"
 DOCKERFILE="$BENCHMARK_DIR/Dockerfile"
+IMAGE_NAME="koala-$BENCHMARK"
 
 if [[ ! -d "$BENCHMARK_DIR" ]]; then
     echo "Error: Benchmark directory '$BENCHMARK_DIR' not found."
@@ -19,25 +28,22 @@ fi
 echo "Generating Dockerfile for benchmark: $BENCHMARK"
 
 # Create a new Dockerfile
-cat <<EOF > "$DOCKERFILE"
+cat <<EOF >"$DOCKERFILE"
 FROM debian:12.7
 
 WORKDIR /benchmarks
-COPY ./$BENCHMARK /benchmarks/$BENCHMARK
-COPY ./.git /benchmarks/.git
+COPY ./$BENCHMARK/ /benchmarks/$BENCHMARK/
+COPY ./infrastructure/ /benchmarks/infrastructure/
 COPY ./main.sh /benchmarks/main.sh
-COPY ./infrastructure /benchmarks/infrastructure
+COPY ./.git /benchmarks/.git
 
 
 RUN apt update && apt install -y --no-install-recommends \\
     sudo \\
-    tcpdump \\
     curl \\
     wget \\
     unzip \\
-    bcftools \\
     python3-pip \\
-    vim \\
     git \\
     gpg
 
@@ -48,11 +54,13 @@ RUN useradd -m user && \\
 RUN git config --global --add safe.directory /benchmarks
 
 CMD ["bash"]
-
 EOF
 
-IMAGE_NAME="koala-$BENCHMARK"
 echo "Building Docker image: $IMAGE_NAME..."
-docker build -t "$IMAGE_NAME" -f "$DOCKERFILE" . || { echo "Docker build failed"; exit 1; }
+docker build -t "$IMAGE_NAME" -f "$DOCKERFILE" . || {
+    echo "Docker build failed"
+    exit 1
+}
+
 echo "Running Docker image: $IMAGE_NAME..."
-docker run --cap-add NET_ADMIN --cap-add NET_RAW --rm -it $IMAGE_NAME
+docker run --cap-add NET_ADMIN --cap-add NET_RAW --rm -it "$IMAGE_NAME"

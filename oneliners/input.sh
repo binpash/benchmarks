@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd "$(realpath $(dirname "$0"))"
+cd "$(realpath "$(dirname "$0")")" || exit 1
 mkdir -p inputs
-cd inputs
+cd inputs || exit 1
 
 input_files=("1M.txt" "1G.txt" "3G.txt" "all_cmds.txt" "all_cmdsx100.txt" "dict.txt")
 
@@ -46,6 +46,8 @@ fi
 # For uniq-ips
 if [ "$1" = "--small" ]; then
     N=4000 # 4K
+elif [ "$1" = "--min" ]; then
+    N=40
 else
     N=40000000 # 40M
 fi

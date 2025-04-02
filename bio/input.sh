@@ -1,34 +1,30 @@
 #!/bin/bash
 
-IN=inputs
-IN_NAME=input.txt
+cd "$(realpath "$(dirname "$0")")" || exit 1
 
-if [[ "$@" == *"--small"* ]]; then
-    IN_NAME=input_small.txt
-fi
+IN="inputs"
+IN_NAME="input.txt"
 
-if [[ "$@" == *"--min"* ]]; then
-    IN_NAME=input_min.txt
-fi
+for arg in "$@"; do
+    case "$arg" in
+        --small) IN_NAME="input_small.txt" ;;
+        --min)   IN_NAME="input_min.txt" ;;
+    esac
+done
 
-if [[ $1 == "-c" ]]; then
-    rm -rf *.bam
-    rm -rf *.sam
+if [[ "${1:-}" == "-c" ]]; then
+    rm -f ./*.bam ./*.sam
     rm -rf ../output
-    exit
+    exit 0
 fi
 
-cd "$(realpath $(dirname "$0"))"
+mkdir -p "${IN}" outputs
 
-mkdir -p inputs
-mkdir -p outputs
-
-cat ${IN_NAME} | while read s_line;
-	do
-    sample=$(echo $s_line |cut -d " " -f 2);
-    if [[ ! -f "inputs/$sample".bam ]]; then
-        pop=$(echo $s_line |cut -f 1 -d " ");
-        link=$(echo $s_line |cut -f 3 -d " ");
-        wget -O "${IN}/$sample".bam "$link"
+while IFS= read -r s_line; do
+    sample=$(echo "$s_line" | cut -d ' ' -f 2)
+    if [[ ! -f "$IN/$sample.bam" ]]; then
+        pop=$(echo "$s_line" | cut -d ' ' -f 1)
+        link=$(echo "$s_line" | cut -d ' ' -f 3)
+        wget -O "${IN}/$sample.bam" "$link"
     fi
-done;
+done < "$IN_NAME"

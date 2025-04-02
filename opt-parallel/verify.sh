@@ -3,18 +3,25 @@
 # Exit immediately if a command exits with a non-zero status
 # set -e
 
-cd "$(realpath $(dirname "$0"))"
-mkdir -p hashes/small
+cd "$(realpath "$(dirname "$0")")" || exit 1
 
 [ ! -d "outputs" ] && echo "Directory 'outputs' does not exist" && exit 1
 
-if [[ "$@" == *"--small"* ]]; then
-    hash_folder="hashes/small"
-else
-    hash_folder="hashes"
-fi
+generate=false
+for arg in "$@"; do
+    if [[ "$arg" == "--generate" ]]; then
+        generate=true
+        continue
+    fi
+    case "$arg" in
+    --small) hash_folder="hashes/small" ;;
+    --min) hash_folder="hashes/min" ;;
+    esac
+done
 
-if [[ "$@" == *"--generate"* ]]; then
+mkdir -p "$hash_folder"
+
+if $generate; then
     for file in outputs/*.out; do
         filename=$(basename "$file" .out)
         hash=$(shasum -a 256 "$file" | awk '{print $1}')

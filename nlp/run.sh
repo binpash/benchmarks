@@ -1,12 +1,17 @@
 #!/bin/bash --posix
 
-export SUITE_DIR=$(realpath $(dirname "$0"))
+SUITE_DIR="""$(realpath "$(dirname "$0")")"
+export SUITE_DIR
+
 export TIMEFORMAT=%R
-cd "$SUITE_DIR"
+cd "$SUITE_DIR" || exit 1
 
 if [[ "$1" == "--small" ]]; then
     export ENTRIES=10
     export IN="$SUITE_DIR/inputs/pg-small"
+elif [[ "$1" == "--min" ]]; then
+    export ENTRIES=1
+    export IN="$SUITE_DIR/inputs/pg-min"
 else
     export ENTRIES=120
     export IN="$SUITE_DIR/inputs/pg"
@@ -53,7 +58,8 @@ while IFS= read -r script; do
 
     mkdir -p "$output_dir"
 
-    export BENCHMARK_SCRIPT="$(realpath "$script_file")"
+    BENCHMARK_SCRIPT="$(realpath "$script_file")"
+    export BENCHMARK_SCRIPT
     echo "$script"
     $BENCHMARK_SHELL "$script_file" "$output_dir"
     echo "$?"

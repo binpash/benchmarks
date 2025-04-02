@@ -5,23 +5,24 @@ eval_dir="${REPO_TOP}/dpt"
 input_dir="${eval_dir}/input"
 mkdir -p "$input_dir"
 
-# dpt source images
-data_url="https://atlas-group.cs.brown.edu/data/dpt.zip"
-zip_dst="${input_dir}/images.zip"
-wget --no-check-certificate "$data_url" -O "$zip_dst"
-unzip "$zip_dst" -d "$input_dir"
-rm "$zip_dst"
+wget --no-check-certificate "https://atlas.cs.brown.edu/data/pl-01-PFW-20250401T083800Z-001.zip" -O "${input_dir}/full.zip"
+wget --no-check-certificate "https://atlas.cs.brown.edu/data/pl-06-P_F-A_N-20250401T083751Z-001.zip" -O "${input_dir}/small.zip"
+wget --no-check-certificate "https://atlas.cs.brown.edu/data/models.zip" -O "${input_dir}/models.zip"
 
 full_dir="${input_dir}/images_full"
 small_dir="${input_dir}/images_small"
-mkdir -p "$full_dir" "$small_dir"
+models_dir="${input_dir}/models"
 
-for i in {1..120}; do
-    cp --backup=numbered "$input_dir"/images/* "$full_dir"
-done
+mkdir -p "$full_dir" "$small_dir" "$models_dir"
 
-for i in {1..10}; do
-    cp --backup=numbered "$input_dir"/images/* "$small_dir"
-done
+unzip -q "${input_dir}/full.zip" -d "${input_dir}/tmp_full"
+mv "${input_dir}/tmp_full"/*/* "$full_dir"
+rm -r "${input_dir}/tmp_full" "${input_dir}/full.zip"
 
-rm -r "$input_dir/images"
+unzip -q "${input_dir}/small.zip" -d "${input_dir}/tmp_small"
+mv "${input_dir}/tmp_small"/*/* "$small_dir"
+rm -r "${input_dir}/tmp_small" "${input_dir}/small.zip"
+
+unzip -q "${input_dir}/models.zip" -d "${input_dir}/tmp_models"
+mv "${input_dir}/tmp_models"/models/* "$models_dir"
+rm -r "${input_dir}/tmp_models" "${input_dir}/models.zip"

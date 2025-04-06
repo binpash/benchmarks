@@ -21,6 +21,5 @@ for arg in "$@"; do
     esac
 done
 
-
 "$BENCHMARK_SHELL" "$main_script" "$@" "$NUM_COMMITS"
 echo $?

@@ -2,7 +2,7 @@ import os
 import random
 import csv
 
-output_dir = "ray-tracing/inputs"
+output_dir = "inputs"
 os.makedirs(output_dir, exist_ok=True)
 
 headers = ["pathID", "timestamp", "hop", "value"]

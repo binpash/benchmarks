@@ -46,3 +46,17 @@ export BENCHMARK_SCRIPT
 
 "$BENCHMARK_SHELL" "$scripts_dir/to_mp3.sh" "$to_mp3_input" "$outputs_dir/to_mp3$suffix" > "$outputs_dir/to_mp3$suffix.log"
 echo $?
+
+echo "thumbnail_generation"
+thumb_input_dir="$outputs_dir/img_convert${suffix}_thumb_input"
+mkdir -p "$thumb_input_dir"
+cp -r "$img_convert_input"/. "$thumb_input_dir"
+
+BENCHMARK_INPUT_FILE="$(realpath "$thumb_input_dir")"
+export BENCHMARK_INPUT_FILE
+
+BENCHMARK_SCRIPT="$(realpath "$scripts_dir/thumbnail_generation.sh")"
+export BENCHMARK_SCRIPT
+
+"$BENCHMARK_SHELL" "$scripts_dir/thumbnail_generation.sh" "$thumb_input_dir" "$outputs_dir/thumbnail$suffix" > "$outputs_dir/thumbnail$suffix.log"
+echo $?

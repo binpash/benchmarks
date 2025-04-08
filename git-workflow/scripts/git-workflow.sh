@@ -1,4 +1,5 @@
 #!/bin/bash
+# source: posh benchmark suite
 
 REPO_TOP=$(git rev-parse --show-toplevel)
 EVAL_DIR="${REPO_TOP}/git-workflow"

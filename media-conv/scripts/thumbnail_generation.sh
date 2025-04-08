@@ -1,4 +1,5 @@
 #!/bin/bash
+# source: posh benchmark suite
 
 src="$1"
 dest="$2"

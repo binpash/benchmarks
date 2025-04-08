@@ -35,6 +35,8 @@ if $generate; then
     exit 0
 fi
 
+all_ok=0
+
 ray_csv_file="$outputs_dir/ray.csv"
 ray_csv_hash=$(shasum -a 256 "$ray_csv_file" | awk '{ print $1 }')
 ray_csv_hash_file="$hash_folder/ray.csv.hash"

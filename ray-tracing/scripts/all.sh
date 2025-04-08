@@ -1,4 +1,5 @@
 #!/bin/bash
+# source: posh benchmark suite
 
 in_dir=$1
 out_dir=$2

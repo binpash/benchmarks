@@ -21,10 +21,10 @@ export BENCHMARK_SCRIPT="$scripts_dir/3.sh"
 $BENCHMARK_SHELL "$scripts_dir/3.sh" "$inputs_dir" "$outputs_dir"
 
 
-# export BENCHMARK_SCRIPT="$scripts_dir/4.sh"
-# $BENCHMARK_SHELL "$scripts_dir/4.sh" "$outputs_dir/rays.csv" > "$outputs_dir/query_pathid.log"
+export BENCHMARK_SCRIPT="$scripts_dir/4.sh"
+$BENCHMARK_SHELL "$scripts_dir/4.sh" "$outputs_dir/rays.csv" > "$outputs_dir/query_pathid.log"
 
-# export BENCHMARK_SCRIPT="$scripts_dir/5.sh"
-# $BENCHMARK_SHELL "$scripts_dir/5.sh" "$outputs_dir/rays.csv" > "$outputs_dir/query_max_hop.log"
+export BENCHMARK_SCRIPT="$scripts_dir/5.sh"
+$BENCHMARK_SHELL "$scripts_dir/5.sh" "$outputs_dir/rays.csv" > "$outputs_dir/query_max_hop.log"
 
-# echo $?
+echo $?

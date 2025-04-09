@@ -2,11 +2,7 @@
 
 set -e
 # 7zip
-pkgs='p7zip-full curl wget nodejs unzip npm' 
-if ! dpkg -s "$pkgs" >/dev/null 2>&1 ; then
-  sudo apt-get install "$pkgs" -y
-  echo 'Packages Installed'
-fi
+sudo apt-get install p7zip-full curl wget nodejs unzip npm
 
 if ! dpkg -s pandoc > /dev/null 2>&1 ; then
   # since pandoc v.2.2.1 does not support arm64, we use v.3.5

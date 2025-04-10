@@ -7,20 +7,13 @@ PROTOC_BIN="$PROTOBUF_DIR/src/protoc"
 PROTOBUF_LIB="$PROTOBUF_DIR/src/.libs/libprotobuf.so"
 INCLUDE_DIR="$PROTOBUF_DIR/src"
 
-# Check compiler and library
-if [ ! -x "$PROTOC_BIN" ]; then
-  echo "Protobuf verification failed: protoc compiler not found at $PROTOC_BIN"
+if [ ! -x "$PROTOC_BIN" ] || [ ! -f "$PROTOBUF_LIB" ]; then
+  echo riker/protobuf 1
   exit 1
 fi
 
-if [ ! -f "$PROTOBUF_LIB" ]; then
-  echo "Protobuf verification failed: protobuf library not found at $PROTOBUF_LIB"
-  exit 1
-fi
-
-# Create a temp build directory
-TMP_DIR=$(mktemp -d)
-cd "$TMP_DIR"
+TMP_DIR=$(mktemp -d) || { echo riker/protobuf 1; exit 1; }
+cd "$TMP_DIR" || { echo riker/protobuf 1; exit 1; }
 
 # Write test.proto
 cat <<EOF > test.proto
@@ -32,10 +25,12 @@ message TestMessage {
 EOF
 
 # Compile proto to C++
-"$PROTOC_BIN" --cpp_out=. test.proto
+"$PROTOC_BIN" --cpp_out=. test.proto > /dev/null 2>&1
 
 if [ ! -f "test.pb.cc" ] || [ ! -f "test.pb.h" ]; then
-  echo "Protobuf verification failed: Generated source files are missing"
+  echo riker/protobuf 1
+  cd .. >/dev/null 2>&1
+  rm -rf "$TMP_DIR" >/dev/null 2>&1
   exit 1
 fi
 
@@ -57,20 +52,21 @@ g++ test.cpp test.pb.cc -o test_program \
   -I. -I"$INCLUDE_DIR" \
   -L"$(dirname "$PROTOBUF_LIB")" \
   -Wl,-rpath,"$(dirname "$PROTOBUF_LIB")" \
-  -lprotobuf
+  -lprotobuf > /dev/null 2>&1
 
 # Run and check output
-OUTPUT=$(./test_program)
+OUTPUT=$(./test_program 2>/dev/null)
 EXPECTED_OUTPUT="Hello, Protobuf!"
 
 if [ "$OUTPUT" != "$EXPECTED_OUTPUT" ]; then
   echo riker/protobuf 1
-  cd ..
-  rm -rf "$TMP_DIR"
+  cd .. >/dev/null 2>&1
+  rm -rf "$TMP_DIR" >/dev/null 2>&1
   exit 1
 fi
 
-cd ..
-rm -rf "$TMP_DIR"
+cd .. >/dev/null 2>&1
+rm -rf "$TMP_DIR" >/dev/null 2>&1
 
-echo riker/protobuf $?
+echo riker/protobuf 0
+exit 0

@@ -22,7 +22,7 @@ all:
 EOF
 
 # Run make
-"$MAKE_BIN"
+"$MAKE_BIN" > /dev/null 2>&1
 
 # Check output
 if [ ! -f output.txt ]; then
@@ -42,4 +42,5 @@ fi
 cd ..
 rm -rf "$WORKDIR"
 
-echo riker/make $?
+echo riker/make 0
+exit 0

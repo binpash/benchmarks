@@ -18,8 +18,6 @@ for tool in $TOOLS; do
   fi
 done
 
-# Run functional checks
-
 # echo
 OUT=$("$COREUTILS_DIR/echo" "hello")
 [ "$OUT" = "hello" ] || { echo riker/coreutils 1; exit 1; }
@@ -37,11 +35,10 @@ OUT=$("$COREUTILS_DIR/head" -n 1 tmpfile.txt)
 OUT=$("$COREUTILS_DIR/tail" -n 1 tmpfile.txt)
 [ "$OUT" = "test" ] || { rm -f tmpfile.txt; echo riker/coreutils 1; exit 1; }
 
-# ls (just check that it runs and outputs something)
+# ls
 OUT=$("$COREUTILS_DIR/ls" .)
 [ -n "$OUT" ] || { rm -f tmpfile.txt; echo riker/coreutils 1; exit 1; }
 
-# Clean up
 rm -f tmpfile.txt
 
 echo coreutils/verify $?

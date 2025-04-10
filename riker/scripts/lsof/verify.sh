@@ -13,11 +13,11 @@ tail_pid=$!
 
 sleep 1
 
-"$lsof_bin" -p "$tail_pid" | grep "$tmp_file"
+"$lsof_bin" -p "$tail_pid" 2>/dev/null | grep "$tmp_file" > /dev/null 2>&1
 
 status=$?
-kill "$tail_pid"
-rm "$tmp_file"
+kill "$tail_pid" >/dev/null 2>&1
+rm "$tmp_file" >/dev/null 2>&1
 
 echo riker/lsof $status
 exit $status

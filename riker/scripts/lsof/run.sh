@@ -2,12 +2,9 @@
 
 REPO_TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${REPO_TOP}/riker"
+input_dir="${eval_dir}/input/scripts"
 scripts_dir="${eval_dir}/scripts"
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
-export BENCHMARK_CATEGORY="riker"
+(cd "$input_dir/lsof/dev" && $BENCHMARK_SHELL "$scripts_dir/lsof/build.sh")
 
-for bench in "$scripts_dir"/*; do
-    export BENCHMARK_SCRIPT="$bench/run.sh"
-    "$BENCHMARK_SHELL" "$bench/run.sh" "$@"
-done

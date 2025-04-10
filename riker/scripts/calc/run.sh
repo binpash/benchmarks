@@ -6,7 +6,8 @@ input_dir="${eval_dir}/input/scripts"
 scripts_dir="${eval_dir}/scripts"
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
-export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/vim/build.sh")"
-(cd "$input_dir/vim/dev" && $BENCHMARK_SHELL "$scripts_dir/vim/build.sh")
+BENCHMARK_SCRIPT="$(realpath "$scripts_dir/calc/build.sh")"
+export BENCHMARK_SCRIPT
+(cd "$input_dir/calc/dev" && $BENCHMARK_SHELL "$scripts_dir/calc/build.sh")
 
 

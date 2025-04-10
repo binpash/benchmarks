@@ -7,7 +7,6 @@ LLVM_BIN_DIR="$LLVM_BUILD_DIR/bin"
 LLVM_AS="$LLVM_BIN_DIR/llvm-as"
 LLVM_DIS="$LLVM_BIN_DIR/llvm-dis"
 LLC="$LLVM_BIN_DIR/llc"
-LLVM_VERSION="$LLVM_BIN_DIR/llvm-config --version"
 
 TMP_LL="test.ll"
 TMP_BC="test.bc"

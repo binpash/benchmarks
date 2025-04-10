@@ -7,7 +7,7 @@ MAKE_BIN="${REPO_TOP}/riker/input/scripts/make/dev/make"
 
 # Verify binary exists
 if [ ! -x "$MAKE_BIN" ]; then
-  echo "make binary not found at $MAKE_BIN"
+  echo riker/make 1
   exit 1
 fi
 
@@ -26,13 +26,15 @@ EOF
 
 # Check output
 if [ ! -f output.txt ]; then
-  echo "make verification failed: output.txt not created"
+  echo riker/make 1
   exit 1
 fi
 
 RESULT=$(cat output.txt | tr -d '[:space:]')
 if [ "$RESULT" != "hellofrommake" ]; then
-  echo "make verification failed: unexpected output '$RESULT'"
+  echo riker/make 1
+  cd ..
+  rm -rf "$WORKDIR"
   exit 1
 fi
 
@@ -40,4 +42,4 @@ fi
 cd ..
 rm -rf "$WORKDIR"
 
-echo make/verify $?
+echo riker/make $?

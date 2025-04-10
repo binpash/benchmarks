@@ -23,28 +23,28 @@ EOF
 
 "$LLVM_AS" "$TMP_LL" -o "$TMP_BC"
 if [ $? -ne 0 ]; then
-    echo "llvm-as failed"
+    echo riker/llvm 1
     exit 1
 fi
 
 "$LLVM_DIS" "$TMP_BC" -o /dev/null
 if [ $? -ne 0 ]; then
-    echo "llvm-dis failed"
+    echo riker/llvm 1
     exit 1
 fi
 
 "$LLC" "$TMP_BC" -o "$TMP_S"
 if [ $? -ne 0 ]; then
-    echo "llc failed"
+    echo riker/llvm 1
     exit 1
 fi
 
 "$LLVM_BIN_DIR/llvm-config" --version | grep -qE '^[0-9]+\.[0-9]+'
 if [ $? -ne 0 ]; then
-    echo "llvm-config version check failed"
+    echo riker/llvm 1
     exit 1
 fi
 
 rm -f "$TMP_LL" "$TMP_BC" "$TMP_S"
 
-exit 0
+echo riker/llvm $?

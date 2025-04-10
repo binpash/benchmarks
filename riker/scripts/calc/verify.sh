@@ -8,7 +8,7 @@ CALC_BIN="$CALC_BUILD_DIR/bin"
 CALC_BIN="./checkout/calc"
 
 if [ ! -x "$CALC_BIN" ]; then
-  echo "calc binary not found"
+  echo riker/calc 1
   exit 1
 fi
 
@@ -16,7 +16,7 @@ RAW_RESULT=$("$CALC_BIN" 3 + 4)
 RESULT=$(echo "$RAW_RESULT" | tr -d '[:space:]')
 
 if [ "$RESULT" != "7" ]; then
-  echo "calc verification failed: expected 7, got $RESULT"
+  echo riker/calc 1
   exit 1
 fi
 

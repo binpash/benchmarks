@@ -19,4 +19,5 @@ status=$?
 kill "$tail_pid"
 rm "$tmp_file"
 
+echo riker/lsof $status
 exit $status

@@ -64,11 +64,13 @@ OUTPUT=$(./test_program)
 EXPECTED_OUTPUT="Hello, Protobuf!"
 
 if [ "$OUTPUT" != "$EXPECTED_OUTPUT" ]; then
-  echo "Protobuf verification failed: Expected '$EXPECTED_OUTPUT', got '$OUTPUT'"
+  echo riker/protobuf 1
+  cd ..
+  rm -rf "$TMP_DIR"
   exit 1
 fi
 
-cd /
+cd ..
 rm -rf "$TMP_DIR"
 
-echo protobuf/verify $?
+echo riker/protobuf $?

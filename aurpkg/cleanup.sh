@@ -1,3 +1,5 @@
+#!/bin/bash
+
 IN=input/
 OUT=outputs/
 

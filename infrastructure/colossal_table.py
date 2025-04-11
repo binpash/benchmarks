@@ -37,7 +37,6 @@ benchmark_category_style = {
     'sklearn': ('Machine learning', 'Data analysis', '\\cite{scikit-learn}'),
     'unix50': ('Misc.', 'Text processing', '\\cite{bhandari2020solutions}'),
     'vps-audit': ('System admin', 'Data extraction', '\\cite{vpsaudit}'),
-    'vps-audit-negate': ('System admin', 'Data extraction', '\\cite{vpsaudit}'),
     'web-index': ('Misc.', 'Text processing', '\\cite{pash2021}'),
 
     'infrastructure/standards/100-files': ('XXX', 'XXX', 'XXX'),
@@ -85,7 +84,6 @@ benchmark_input_description = {
     'web-index': 'root webpages',
     'bio': '\\xxx',
     'vps-audit': None,
-    'vps-audit-negate': None,
     'makeself': None,
     'aurpkg': '\\xxx',
     'infrastructure/standards/100-files': '\\xxx',

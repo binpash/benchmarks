@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # create bam files with regions
 ################### 1KG SAMPLES
 IN=inputs

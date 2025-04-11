@@ -2,7 +2,6 @@
 
 REPO_TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${REPO_TOP}/riker"
-scripts_dir="${eval_dir}/scripts"
 input_dir="${eval_dir}/input"
 
 # Call compiled binary to write an empty file with a randomly chosen path.
@@ -12,10 +11,10 @@ input_dir="${eval_dir}/input"
 vim="$input_dir/scripts/vim/dev/src/vim"
 canary="$(mktemp --dry-run --tmpdir="$input_dir/scripts/vim")"
 
-test ! -f "$canary"
+test ! -f "$canary" > /dev/null 2>&1
 echo riker/vim/canary-did-not-exist $?
 
-"$vim" -u /dev/null -e -c "w $canary" -c quit
+"$vim" -u /dev/null -e -c "w $canary" -c quit > /dev/null 2>&1
 
-test -f "$canary"
+test -f "$canary" 2>&1
 echo riker/vim/created-canary-file $?

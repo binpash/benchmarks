@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # install dependencies
 required_version="1.7"
 

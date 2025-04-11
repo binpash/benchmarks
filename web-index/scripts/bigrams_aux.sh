@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ( mkfifo s2 > /dev/null ) ;
 ( mkfifo s3 > /dev/null ) ;
 

@@ -124,6 +124,10 @@ main() {
         wait $IO_PID $PIDSTAT_PID $BACKUP_PID 2>/dev/null || true
 
     elif $measure_time; then
+        if ! command -v /usr/bin/time &>/dev/null; then
+            echo "Installing /usr/bin/time..."
+            sudo apt-get update && sudo apt-get install -y time
+        fi
         echo "Timing benchmark: $BENCHMARK"
         /usr/bin/time -f "Runtime: %E (CPU: %P)" ./run.sh "${args[@]}" > "$BENCHMARK.out" 2> "$BENCHMARK.err" || error "Failed to run $BENCHMARK"
     else

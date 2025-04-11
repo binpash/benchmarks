@@ -4,8 +4,7 @@ REPO_TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${REPO_TOP}/riker"
 input_dir="${eval_dir}/input"
 CALC_BUILD_DIR="$input_dir/scripts/calc/dev"
-CALC_BIN="$CALC_BUILD_DIR/bin"
-CALC_BIN="./checkout/calc"
+CALC_BIN="$CALC_BUILD_DIR/calc"
 
 if [ ! -x "$CALC_BIN" ]; then
   echo riker/calc 1
@@ -20,4 +19,4 @@ if [ "$RESULT" != "7" ]; then
   exit 1
 fi
 
-echo calc $?
+echo riker/calc $?

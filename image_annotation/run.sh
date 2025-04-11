@@ -7,6 +7,7 @@ scripts_dir="$eval_dir/scripts"
 inputs_dir="$eval_dir/inputs"
 outputs_dir="$eval_dir/outputs"
 mkdir -p "$outputs_dir"
+source venv/bin/activate
 
 export BENCHMARK_CATEGORY="image-annotation"
 
@@ -19,7 +20,7 @@ for arg in "$@"; do
         --min) suffix=".min" ;;
     esac
 done
-inputs_dir="$inputs_dir$/jpg$suffix"
+inputs_dir="$inputs_dir/jpg$suffix"
 $BENCHMARK_SHELL "$scripts_dir/image_annotation.sh" "$inputs_dir" "$outputs_dir"
 
 echo $?

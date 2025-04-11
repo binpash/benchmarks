@@ -41,4 +41,4 @@ OUT=$("$COREUTILS_DIR/ls" .)
 
 rm -f tmpfile.txt
 
-echo coreutils/verify $?
+echo riker/coreutils $?

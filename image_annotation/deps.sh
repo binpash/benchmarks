@@ -15,5 +15,8 @@ pip install --upgrade pip
 pip install llm
 llm install llm-ollama
 curl -fsSL https://ollama.com/install.sh | sh
-ollama serve || true &
+nohup ollama serve > ollama_serve.log 2>&1 &
+SERVER_PID=$!
+echo "Ollama server started with PID $SERVER_PID."
+sleep 5
 ollama pull gemma3

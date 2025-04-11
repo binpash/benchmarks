@@ -12,8 +12,8 @@ python3 -m venv venv
 source venv/bin/activate
 
 pip install --upgrade pip
-pip install -r requirements.txt
-
+pip install llm
+llm install llm-ollama
 curl -fsSL https://ollama.com/install.sh | sh
-ollama serve || true
+ollama serve || true &
 ollama pull gemma3

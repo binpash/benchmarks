@@ -12,6 +12,14 @@ export BENCHMARK_CATEGORY="image-annotation"
 
 export BENCHMARK_SCRIPT="$scripts_dir/image_annotation.sh"
 
+suffix=""
+for arg in "$@"; do
+    case "$arg" in
+        --small) suffix=".small" ;;
+        --min) suffix=".min" ;;
+    esac
+done
+inputs_dir="$inputs_dir$/jpg$suffix"
 $BENCHMARK_SHELL "$scripts_dir/image_annotation.sh" "$inputs_dir" "$outputs_dir"
 
 echo $?

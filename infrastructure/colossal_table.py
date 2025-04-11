@@ -244,7 +244,7 @@ def main():
     embedding_df['embedding'] = embedding_df['embedding'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
     # Embedding is a list of numbers, turn them into columns
     embedding_df = pd.concat([embedding_df['benchmark'], embedding_df['embedding'].apply(pd.Series)], axis=1)
-    perform_pca_and_plot(big_bench, embedding_df, 'dual_analysis')
+    perform_pca_and_plot(big_bench, embedding_df, 'dual-analysis')
 
     # Calculate summary statistics
     agg_order = ['min', 'max', 'mean']

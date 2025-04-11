@@ -23,8 +23,13 @@
 | unix50       | Unix 50.                                                |
 | web-index    | Web index.                                              |
 
-## Docker Instructions
+## Instructions
+First, set the shell runtime to benchmark with the `$BENCHMARK_SHELL` shell variable.
+By default, this is set to `bash`.
+You can also pass in flags/options to use with the shell.
+For example, to benchmark PaSh with `--width 4`, run `export BENCHMARK_SHELL="$PASH_TOP/pa.sh --width 4"`.
 
+### Docker
 ```sh
 # Build the container
 $ docker build -t koala .

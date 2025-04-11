@@ -19,4 +19,4 @@ if [ "$RESULT" != "7" ]; then
   exit 1
 fi
 
-echo calc $?
+echo riker/calc $?

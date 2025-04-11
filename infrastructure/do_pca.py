@@ -52,16 +52,18 @@ def perform_pca_and_plot(dataframe1, dataframe2, name='row_analysis'):
     # Create a 2x2 grid for the plots
     fig, axes = plt.subplots(2, 2, figsize=(12, 12), constrained_layout=True)
 
+    big_size=22
+
     # Set the main titles for each dataset
-    axes[0, 0].set_title('PCA from collected metrics', fontsize=14, loc='left')
-    axes[1, 0].set_title('PCA from language model embeddings', fontsize=14, loc='left')
+    axes[0, 0].set_title('PCA from collected metrics', fontsize=big_size, loc='left')
+    axes[1, 0].set_title('PCA from language model embeddings', fontsize=big_size, loc='left')
 
     # Helper function to plot and annotate
     def plot_with_labels(ax, x, y, labels, title, secondary=False):
         scatter = ax.scatter(x, y, c='black', alpha=0.7)
         # ax.set_title(title, fontsize=14, loc='left')
-        ax.set_xlabel(f'Component {1 if not secondary else 3}', fontsize=14)
-        ax.set_ylabel(f'Component {2 if not secondary else 4}', fontsize=14)
+        ax.set_xlabel(f'Component {1 if not secondary else 3}', fontsize=big_size)
+        ax.set_ylabel(f'Component {2 if not secondary else 4}', fontsize=big_size)
         ax.grid(color='lightgray', linestyle='--', linewidth=0.5)
 
         # Add text annotations

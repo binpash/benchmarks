@@ -21,6 +21,17 @@ rm $inputs_dir/images-dataset.zip
 
 # declare -A used_names
 
+suffix=""
+size=100000000
+for arg in "$@"; do
+    case "$arg" in
+        --small) suffix=".small" ; size=100;;
+        --min) suffix=".min" ; size=10 ;;
+    esac
+done
+mkdir -p "$inputs_dir/images$suffix"
+
+counter=0
 for dir in $inputs_dir/data/*; do
     if [ -d "$dir" ]; then
         mogrify -format jpg "$dir"/*.png 2>/dev/null
@@ -39,7 +50,11 @@ for dir in $inputs_dir/data/*; do
 #                     break
 #                 fi
 #             done
-            mv -- "$file" "$inputs_dir/$(basename "$file")" 2>/dev/null
+            mv -- "$file" "$inputs_dir/images$suffix/$(basename "$file")" 2>/dev/null
+            ((counter++))
+            if [ $counter -ge $size ]; then
+                break
+            fi
         done
     fi
 done

@@ -5,7 +5,7 @@ eval_dir="${REPO_TOP}/image_annotation"
 outputs_dir="${eval_dir}/outputs"
 hashes_dir="${eval_dir}/hashes"
 
-suffix=".full"
+suffix=""
 generate=false
 for arg in "$@"; do
     if [[ "$arg" == "--generate" ]]; then
@@ -17,6 +17,8 @@ for arg in "$@"; do
         --min) suffix=".min" ;;
     esac
 done
+hashes_dir="${hashes_dir}${suffix}"
+mkdir -p "$hashes_dir"
 
 if $generate; then
     cd $outputs_dir || exit 1

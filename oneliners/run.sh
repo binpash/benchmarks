@@ -21,6 +21,7 @@ if [[ " $* " == *" --small "* ]]; then
         "set-diff;1M"
         "sort-sort;1M"
         "uniq-ips;logs-popcount-org"
+        "logs;1M"
     )
 else
     scripts_inputs=(
@@ -34,6 +35,7 @@ else
         "set-diff;3G"
         "sort-sort;3G"
         "uniq-ips;logs-popcount-org"
+        "logs;3G"
     )
 fi
 

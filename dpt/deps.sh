@@ -12,8 +12,13 @@ sudo apt install -y --no-install-recommends \
     zstd \
     ffmpeg \
     imagemagick \
-    parallel
+    parallel \
+    python3 \
+    python3-pip \
+    python3-venv \
 
+python3 -m venv venv
+source venv/bin/activate
 
 pip install --break-system-packages --upgrade pip
 

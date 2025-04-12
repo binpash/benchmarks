@@ -10,3 +10,4 @@ mkdir -p "$INPUT_DIR"
 # curl -o "$INPUT_DIR/1.INFO" <URL>
 # curl -o "$INPUT_DIR/2.INFO" <URL>
 echo "Expecting logs manually placed in $INPUT_DIR"
+python3 get_inputs.py

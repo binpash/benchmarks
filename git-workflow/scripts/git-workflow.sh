@@ -19,23 +19,33 @@ git checkout -b bench_branch
 git reset --hard
 git clean -fd
 
-total_commits=$((NUM_COMMITS + 1))
-commit_list=($(git rev-list --first-parent HEAD -n "$total_commits" | tac))
+commit_file="$COMMITS_DIR/commit_list.txt"
+git rev-list --first-parent HEAD -n "$NUM_COMMITS" | tac > "$commit_file"
 
-echo "${commit_list[0]}" > "$COMMITS_DIR/base_commit.txt"
+base_commit=$(head -n 1 "$commit_file")
+echo "$base_commit" > "$COMMITS_DIR/base_commit.txt"
 
-for i in $(seq 1 "$NUM_COMMITS"); do
-    prev="${commit_list[$((i - 1))]}"
-    curr="${commit_list[$i]}"
-    patchfile="$COMMITS_DIR/${i}-$((i - 1)).diff"
-    commitmsg="$COMMITS_DIR/$((i - 1)).commit"
+num_patches=$((NUM_COMMITS - 1))
+read -r base_commit < "$commit_file"
+prev_commit="$base_commit"
+i=1
 
-    git diff "$prev" "$curr" > "$patchfile"
-    git log -1 --pretty=%B "$curr" > "$commitmsg"
-done
+while read -r curr_commit; do
+    patch_upper=$(( num_patches - i + 1 ))
+    patch_lower=$(( patch_upper - 1 ))
+    
+    patchfile="$COMMITS_DIR/${patch_upper}-${patch_lower}.diff"
+    commitmsg="$COMMITS_DIR/${patch_upper}-${patch_lower}.commit"
+    
+    git diff "$prev_commit" "$curr_commit" > "$patchfile"
+    git log -1 --pretty=%B "$curr_commit" > "$commitmsg"
+    
+    prev_commit="$curr_commit"
+    i=$((i + 1))
+done < <(tail -n +2 "$commit_file")
 
-git reset --hard "${commit_list[0]}"
-git clean -fdx
+
+git add -A
 
 git status
 
@@ -47,15 +57,18 @@ else
     exit 1
 fi
 
-for i in $(seq "$NUM_COMMITS" -1 1); do
-    patchfile="$COMMITS_DIR/${i}-$((i - 1)).diff"
-    commitmsg="$COMMITS_DIR/$((i - 1)).commit"
-
-    # Apply the patch
-    patch -p1 < "$patchfile"
-
+for i in $(seq "$num_patches" -1 1); do
+    lower=$(( i - 1 ))
+    patchfile="$COMMITS_DIR/${i}-${lower}.diff"
+    commitmsg="$COMMITS_DIR/${i}-${lower}.commit"
+    
+    patch -p1 < "$patchfile" || { echo "Failed to apply $patchfile"; exit 1; }
     git status
 
     git add -A
-    git commit -F "$commitmsg"
+    git commit -F "$commitmsg" || { echo "Failed to commit with $commitmsg"; exit 1; }
 done
+
+
+# Final status check
+git status

@@ -49,18 +49,9 @@ for arg in "$@"; do
         exit 0
     elif [[ "$arg" == "--min" ]]; then
         #TODO min versions
-        data_url=https://atlas-group.cs.brown.edu/data/min/jpg.zip
-        zip_dst=$input_dir/jpg_min.zip
-        out_dir=$input_dir/jpg_min
-        wget --no-check-certificate $data_url -O $zip_dst || {
-            echo "Failed to download $data_url"
-            exit 1
-        }
-        unzip $zip_dst -d $out_dir || {
-            echo "Failed to unzip $zip_dst"
-            exit 1
-        }
-        rm "$zip_dst"
+        min_inputs="$eval_dir/min_inputs/"
+        mkdir -p "$input_dir"
+        cp -r "$min_inputs"/* "$input_dir/"
         exit 0
     fi
 done

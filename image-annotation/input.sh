@@ -1,7 +1,7 @@
 #!/bin/bash
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="$REPO_TOP/image_annotation"
+eval_dir="$REPO_TOP/image-annotation"
 inputs_dir="$eval_dir/inputs"
 
 mkdir -p "$inputs_dir"
@@ -25,7 +25,7 @@ for arg in "$@"; do
         exit 0
     elif [[ "$arg" == "--min" ]]; then
         min_inputs="$eval_dir/min_inputs/"
-        out_dir="$inputs_dir/jpg.min"
+        out_dir="$inputs_dir/jpg.min/jpg"
         mkdir -p "$out_dir"
         cp -r "$min_inputs"/* "$out_dir/"
         exit 0

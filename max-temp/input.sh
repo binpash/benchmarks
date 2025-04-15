@@ -13,6 +13,15 @@ sample_count=250
 
 mkdir -p "${input_dir}"
 
+for arg in "$@"; do
+    if [[ "$arg" == "--min" ]]; then
+      min_inputs="$eval_dir/min_inputs/"
+      mkdir -p "$input_dir"
+      cp -r "$min_inputs"/* "$input_dir/"
+      exit 0
+    fi
+done
+
 seq "$FROM" "$TO" |
   sed "s;^;$URL;" |
   sed 's;$;/;' |
@@ -29,4 +38,3 @@ head -n 200 "$input_dir/temperatures.full.txt" \
 
 head -n 20 "$input_dir/temperatures.full.txt" \
   >"$input_dir/temperatures.min.txt"
-#TODO add small and min versions in a repo to avoid downloading everything

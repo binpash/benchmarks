@@ -36,6 +36,10 @@ jobs:
       id-token: write
 
     steps:
+      - name: Install base tools
+        run: |
+          apt-get update
+          apt-get install -y curl git ca-certificates
       - name: Checkout repository
         uses: actions/checkout@v3
 

@@ -23,6 +23,20 @@ if [[ " $* " == *" --small "* ]]; then
         "uniq-ips;logs-popcount-org"
         "logs;1M"
     )
+elif [[ " $* " == *" --min "* ]]; then
+    scripts_inputs=(
+        "nfa-regex;1M"
+        "sort;1M"
+        "top-n;1M"
+        "wf;1M"
+        "spell;1M"
+        "diff;1M"
+        "bi-grams;1M"
+        "set-diff;1M"
+        "sort-sort;1M"
+        "uniq-ips;logs-popcount-org"
+        "log-search;1M" #TODO: change input
+    )
 else
     scripts_inputs=(
         "nfa-regex;1G"

@@ -13,20 +13,6 @@ if [ ! -f ./1M.txt ]; then
     dos2unix 1M.txt
 fi
 
-if [ ! -f ./1G.txt ]; then
-    touch 1G.txt
-    for (( i = 0; i < 1000; i++ )); do
-        cat 1M.txt >> 1G.txt
-    done
-fi
-
-if [ ! -f ./3G.txt ]; then
-    touch 3G.txt
-    for (( i = 0; i < 3; i++ )); do
-        cat 1G.txt >> 3G.txt
-    done
-fi
-
 if [ ! -f ./dict.txt ]; then
     wget -O - https://atlas-group.cs.brown.edu/data/dummy/dict.txt --no-check-certificate | sort > dict.txt
 fi
@@ -53,3 +39,25 @@ else
 fi
 
 ../scripts/gen_ips.py "$N" > logs-popcount-org.txt
+
+for arg in "$@"; do
+    if [[ "$arg" == "--small" ]]; then
+        exit 0
+    elif [[ "$arg" == "--min" ]]; then
+        exit 0
+    fi
+done
+
+if [ ! -f ./1G.txt ]; then
+    touch 1G.txt
+    for (( i = 0; i < 1000; i++ )); do
+        cat 1M.txt >> 1G.txt
+    done
+fi
+
+if [ ! -f ./3G.txt ]; then
+    touch 3G.txt
+    for (( i = 0; i < 3; i++ )); do
+        cat 1G.txt >> 3G.txt
+    done
+fi

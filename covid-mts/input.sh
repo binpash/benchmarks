@@ -8,8 +8,7 @@ mkdir -p "$input_dir"
 
 for arg in "$@"; do
     if [ "$arg" = "--min" ]; then
-        #TODO add repo
-        curl --insecure 'https://atlas-group.cs.brown.edu/data/covid-mts/in_min.csv.gz' | gunzip > "$input_dir/in_min.csv"
+        cp min_inputs/in_min.csv "$input_dir/in_min.csv"
         exit 0
     fi
     if [ "$arg" = "--small" ]; then

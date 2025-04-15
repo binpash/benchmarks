@@ -24,37 +24,10 @@ for arg in "$@"; do
         rm "$zip_dst"
         exit 0
     elif [[ "$arg" == "--min" ]]; then
-        size=10
-        data_url="https://atlas-group.cs.brown.edu/data/small/jpg.zip"
-        zip_dst="$inputs_dir/jpg.small.zip"
+        min_inputs="$eval_dir/min_inputs/"
         out_dir="$inputs_dir/jpg.min"
-
-        wget --no-check-certificate "$data_url" -O "$zip_dst" || {
-            echo "Failed to download $data_url"
-            exit 1
-        }
-
-        unzip "$zip_dst" -d "$out_dir" || {
-            echo "Failed to unzip $zip_dst"
-            exit 1
-        }
-        rm -f "$zip_dst"
-
-        # Create a secure temporary directory
-        temp_dir=$(mktemp -d)
-
-        # Copy the first $size .jpg files to the temp dir
-        find "$out_dir" -type f -iname "*.jpg" | head -n "$size" | while read -r img; do
-            cp "$img" "$temp_dir/"
-        done
-
-        # Clean the original directory
-        find "$out_dir" -type f -iname "*.jpg" -delete
-
-        # Move the selected files back
-        mv "$temp_dir"/* "$out_dir/"
-        rm -rf "$temp_dir"
-
+        mkdir -p "$out_dir"
+        cp -r "$min_inputs"/* "$out_dir/"
         exit 0
     fi
 done

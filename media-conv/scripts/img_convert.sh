@@ -12,6 +12,6 @@ pure_func () {
 export -f pure_func
 
 for i in "$src"/*; do
-    out="$2/$(basename -- $i)"
-    cat $i | pure_func > $out
+    out="$2/$(basename -- "$i")"
+    cat "$i" | pure_func > "$out"
 done

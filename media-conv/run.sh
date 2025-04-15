@@ -7,6 +7,8 @@ outputs_dir="${eval_dir}/outputs"
 scripts_dir="${eval_dir}/scripts"
 mkdir -p "$outputs_dir"
 
+export PATH=/opt/imagemagick-6.9.11-60/bin:$PATH
+
 img_convert_input="$input_dir/jpg_full/jpg"
 to_mp3_input="$input_dir/wav_full"
 suffix=".full"

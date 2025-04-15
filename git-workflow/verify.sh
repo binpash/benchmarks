@@ -6,14 +6,16 @@ REPO_PATH="${EVAL_DIR}/inputs/chromium"
 COMMITS_DIR="${EVAL_DIR}/inputs/commits"
 
 cd "$REPO_PATH" || { echo "Cannot cd into $REPO_PATH"; exit 1; }
-NUM_COMMITS=20
+NUM_COMMITS=21
 
 for arg in "$@"; do
     case "$arg" in
-        --min) NUM_COMMITS=1 ;;
-        --small) NUM_COMMITS=5 ;;
+        --min) NUM_COMMITS=2 ;;
+        --small) NUM_COMMITS=6 ;;
     esac
 done
+
+check_commits=$((NUM_COMMITS-1))
 
 branch=$(git rev-parse --abbrev-ref HEAD)
 if [ "$branch" != "bench_branch" ]; then
@@ -30,8 +32,8 @@ fi
 base_commit=$(cat "$base_commit_file")
 
 commit_count=$(git rev-list --count "$base_commit"..HEAD)
-if [ "$commit_count" -lt $NUM_COMMITS ]; then
-    echo "Expected at least $NUM_COMMITS new commits after base commit, found $commit_count"
+if [ "$commit_count" -lt $check_commits ]; then
+    echo "Expected at least $check_commits new commits after base commit, found $commit_count"
     exit 1
 fi
-echo "Verification successful: Found $commit_count commits after base commit."
+echo git-workflow 0

@@ -8,18 +8,17 @@ main_script="${scripts_dir}/git-workflow.sh"
 
 export BENCHMARK_CATEGORY="git-workflow"
 export BENCHMARK_SCRIPT="$main_script"
-export BENCHMARK_INPUT_FILE="${eval_dir}/inputs/commits"
+export BENCHMARK_INPUT_FILE="${eval_dir}/inputs"
 
 mkdir -p "${eval_dir}/outputs"
 
-NUM_COMMITS=20
+NUM_COMMITS=21
 
 for arg in "$@"; do
     case "$arg" in
-        --min) NUM_COMMITS=1 ;;
-        --small) NUM_COMMITS=5 ;;
+        --min) NUM_COMMITS=2 ;;
+        --small) NUM_COMMITS=6 ;;
     esac
 done
-
-"$BENCHMARK_SHELL" "$main_script" "$@" "$NUM_COMMITS"
+"$BENCHMARK_SHELL" "$main_script" "$NUM_COMMITS" "$@"
 echo $?

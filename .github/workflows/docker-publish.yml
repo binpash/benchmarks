@@ -26,6 +26,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    container:
+      image: debian:12.7
     permissions:
       contents: read
       packages: write

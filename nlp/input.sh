@@ -40,7 +40,7 @@ for arg in "$@"; do
         if [ ! -e ./pg-min ]; then
             mkdir pg-min
             cd pg-min || exit 1
-            book_count=10
+            book_count=1
 
             head -n $book_count ../book_links.txt | while IFS= read -r line
             do

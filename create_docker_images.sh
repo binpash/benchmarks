@@ -55,6 +55,7 @@ RUN git config --global --add safe.directory /benchmarks
 
 CMD ["bash"]
 EOF
+#TODO fix ownership issues ^^
 
 echo "Building Docker image: $IMAGE_NAME..."
 docker build -t "$IMAGE_NAME" -f "$DOCKERFILE" . || {
@@ -64,3 +65,16 @@ docker build -t "$IMAGE_NAME" -f "$DOCKERFILE" . || {
 
 echo "Running Docker image: $IMAGE_NAME..."
 docker run --cap-add NET_ADMIN --cap-add NET_RAW --rm -it "$IMAGE_NAME"
+"$IMAGE_NAME"
+
+echo "Docker image $IMAGE_NAME built and run successfully."
+echo "Cleaning up..."
+docker rmi "$IMAGE_NAME" || {
+    echo "Failed to remove Docker image $IMAGE_NAME"
+    exit 1
+}
+rm -f "$DOCKERFILE" || {
+    echo "Failed to remove Dockerfile $DOCKERFILE"
+    exit 1
+}
+echo "Docker image $IMAGE_NAME and $DOCKERFILE removed successfully."

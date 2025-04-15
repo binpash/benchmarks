@@ -22,9 +22,9 @@ done
 mkdir -p "$hash_folder"
 
 if $generate; then
-    ray_csv_file="$outputs_dir/ray.csv"
+    ray_csv_file="$outputs_dir/rays.csv"
     ray_csv_hash=$(shasum -a 256 "$ray_csv_file" | awk '{ print $1 }')
-    echo "$ray_csv_hash" > "$hash_folder/ray.csv.hash"
+    echo "$ray_csv_hash" > "$hash_folder/rays.csv.hash"
 
     for file in "$outputs_dir"/*.log; do
         filename=$(basename "$file" .log)
@@ -37,19 +37,19 @@ fi
 
 all_ok=0
 
-ray_csv_file="$outputs_dir/ray.csv"
+ray_csv_file="$outputs_dir/rays.csv"
 ray_csv_hash=$(shasum -a 256 "$ray_csv_file" | awk '{ print $1 }')
-ray_csv_hash_file="$hash_folder/ray.csv.hash"
+ray_csv_hash_file="$hash_folder/rays.csv.hash"
 if [[ ! -f "$ray_csv_hash_file" ]]; then
     echo "Missing hash file: $ray_csv_hash_file"
     all_ok=1
 else
     expected_hash=$(cat "$ray_csv_hash_file")
     if [[ "$ray_csv_hash" != "$expected_hash" ]]; then
-        echo "ray.csv 1"
+        echo "rays.csv 1"
         all_ok=1
     else
-        echo "ray.csv 0"
+        echo "rays.csv 0"
     fi
 fi
 

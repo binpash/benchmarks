@@ -57,6 +57,8 @@ mkdir -p "outputs"
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 export BENCHMARK_CATEGORY="unix50"
 
+export LC_ALL=C
+
 for script_input in "${scripts_inputs[@]}"; do
     IFS=";" read -r -a parsed <<< "${script_input}"
 

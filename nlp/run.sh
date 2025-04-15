@@ -51,6 +51,8 @@ mkdir -p "outputs"
 
 echo "Executing nlp $(date)"
 
+export LC_ALL=C
+
 # Loop through each script name from the variable
 while IFS= read -r script; do
     script_file="./scripts/$script.sh"

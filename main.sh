@@ -16,6 +16,8 @@ main() {
     shift
     export BENCHMARK
 
+    export LC_ALL=C
+
     measure_time=false
     measure_resources=false
     run_locally=false

@@ -3,6 +3,7 @@ set -e
 
 REPO_TOP=$(git rev-parse --show-toplevel)
 INPUT_DIR="${REPO_TOP}/ray-tracing/inputs"
+eval_dir="${REPO_TOP}/port-scan"
 mkdir -p "$INPUT_DIR"
 
 # TODO add inputs

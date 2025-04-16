@@ -2,7 +2,7 @@
 
 set -e
 # 7zip
-sudo apt-get install p7zip-full curl wget nodejs unzip npm
+sudo apt-get install p7zip-full curl wget nodejs unzip npm -y
 
 if ! dpkg -s pandoc > /dev/null 2>&1 ; then
   # since pandoc v.2.2.1 does not support arm64, we use v.3.5

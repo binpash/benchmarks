@@ -3,9 +3,11 @@
 # Exit immediately if a command exits with a non-zero status
 # set -e
 
-cd "$(realpath "$(dirname "$0")")" || exit 1
-
-[ ! -d "outputs" ] && echo "Directory 'outputs' does not exist" && exit 1
+REPO_TOP=$(git rev-parse --show-toplevel)
+eval_dir="${REPO_TOP}/opt-parallel"
+outputs_dir="${eval_dir}/outputs"
+hash_folder="${eval_dir}/hashes"
+[ ! -d "outputs" ] && echo "Directory '$outputs_dir' does not exist" && exit 1
 hash_folder="hashes"
 generate=false
 for arg in "$@"; do
@@ -22,7 +24,7 @@ done
 mkdir -p "$hash_folder"
 
 if $generate; then
-    for file in outputs/*.out; do
+    for file in $outputs_dir/*.out; do
         filename=$(basename "$file" .out)
         hash=$(shasum -a 256 "$file" | awk '{print $1}')
         echo "$hash" > "$hash_folder/$filename.hash"
@@ -31,7 +33,7 @@ if $generate; then
     exit 0
 fi
 
-for file in outputs/*.out; do
+for file in $outputs_dir/*.out; do
     filename=$(basename "$file" .out)
     hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
     echo "$hash" > "outputs/$filename.hash"

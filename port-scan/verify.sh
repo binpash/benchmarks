@@ -1,9 +1,10 @@
 #!/bin/bash
 
-cd "$(realpath "$(dirname "$0")")" || exit 1
+REPO_TOP=$(git rev-parse --show-toplevel)
+eval_dir="${REPO_TOP}/port-scan"
+outputs_dir="${eval_dir}/outputs"
+hash_folder="${eval_dir}/hashes"
 
-outputs_dir="outputs"
-hash_folder="hashes"
 generate=false
 
 [ ! -d "$outputs_dir" ] && echo "Directory '$outputs_dir' does not exist" && exit 1

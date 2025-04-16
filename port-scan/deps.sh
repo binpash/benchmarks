@@ -18,8 +18,12 @@ GO_VERSION=1.24.2
 
 # Download and extract to /usr/local
 curl -LO https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz
-rm -rf /usr/local/go && tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
-export PATH=$PATH:/usr/local/go/bin
+REPO_TOP=$(git rev-parse --show-toplevel)
+eval_dir="$REPO_TOP/port-scan"
+go_install_dir="${eval_dir}/go_install"
+mkdir -p $go_install_dir
+rm -rf /usr/local/go && tar -C $go_install_dir -xzf go${GO_VERSION}.linux-amd64.tar.gz
+export PATH=$PATH:/go_install/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 

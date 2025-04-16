@@ -11,8 +11,9 @@ mkdir -p "$outputs_dir"
 export BENCHMARK_CATEGORY="port-scan"
 export BENCHMARK_SCRIPT="$scripts_dir/port-scan.sh"
 export BENCHMARK_INPUT_FILE="$inputs_dir/port-scan.log"
+go_install_dir="${eval_dir}/go_install"
 
-export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/$go_install_dir/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 

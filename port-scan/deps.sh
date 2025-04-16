@@ -21,9 +21,9 @@ curl -LO https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="$REPO_TOP/port-scan"
 go_install_dir="${eval_dir}/go_install"
-mkdir -p $go_install_dir
-rm -rf /usr/local/go && tar -C $go_install_dir -xzf go${GO_VERSION}.linux-amd64.tar.gz
-export PATH=$PATH:/go_install/go/bin
+mkdir -p "$go_install_dir"
+rm -rf /usr/local/go && tar -C "$go_install_dir" -xzf go${GO_VERSION}.linux-amd64.tar.gz
+export PATH=$PATH:/$go_install_dir/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 

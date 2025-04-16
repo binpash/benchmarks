@@ -10,4 +10,4 @@ mkdir -p "$INPUT_DIR"
 # Simulate input fetch (replace with actual source)
 # curl -o "$INPUT_DIR/1.INFO" <URL>
 # curl -o "$INPUT_DIR/2.INFO" <URL>
-cp "$eval_dir/min_inputs" "$INPUT_DIR"
+cp $eval_dir/min_inputs/* "$INPUT_DIR"

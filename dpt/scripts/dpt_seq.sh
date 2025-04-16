@@ -28,6 +28,5 @@ export -f pure_func
 
 rm -f "$OUT"
 for img in "$IMG_DIR"/*.png; do
-    echo "Processing $img"
     pure_func "$img" >> "$OUT"
 done

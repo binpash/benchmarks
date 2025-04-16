@@ -15,7 +15,7 @@ sudo apt install -y --no-install-recommends \
     parallel \
     python3 \
     python3-pip \
-    python3-venv \
+    python3-venv
 
 python3 -m venv venv
 source venv/bin/activate

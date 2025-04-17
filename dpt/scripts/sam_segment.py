@@ -47,7 +47,7 @@ class Sam1Segmenter:
             checkpoint_path = os.path.abspath(os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
                 "..",
-                "input",
+                "inputs",
                 "models",
                 "sam_vit_h.pth"
             ))

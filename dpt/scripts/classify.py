@@ -21,8 +21,8 @@ CLASSIFIER_ROOT = os.path.dirname(os.path.realpath(__file__))
 class Classifier:
     def __init__(
         self,
-        model_path=os.path.join(CLASSIFIER_ROOT, "..", "input", "models", "model.h5"),
-        rdict_path=os.path.join(CLASSIFIER_ROOT, "..", "input", "models", "rdict.json"),
+        model_path=os.path.join(CLASSIFIER_ROOT, "..", "inputs", "models", "model.h5"),
+        rdict_path=os.path.join(CLASSIFIER_ROOT, "..", "inputs", "models", "rdict.json"),
     ) -> None:
         try:
             self.model = tf.keras.models.load_model(model_path, compile=False)

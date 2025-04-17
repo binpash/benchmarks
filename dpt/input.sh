@@ -2,7 +2,7 @@
 
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/dpt"
-input_dir="${eval_dir}/input"
+input_dir="${eval_dir}/inputs"
 mkdir -p "$input_dir"
 
 small=false
@@ -20,10 +20,10 @@ small_dir="${input_dir}/images_small"
 models_dir="${input_dir}/models"
 mkdir -p "$full_dir" "$small_dir" "$models_dir"
 
-wget --no-check-certificate "https://atlas.cs.brown.edu/data/models.zip" -O "${input_dir}/models.zip"
-unzip -q "${input_dir}/models.zip" -d "${input_dir}/tmp_models"
-mv "${input_dir}/tmp_models"/models/* "$models_dir"
-rm -r "${input_dir}/tmp_models" "${input_dir}/models.zip"
+# wget --no-check-certificate "https://atlas.cs.brown.edu/data/models.zip" -O "${input_dir}/models.zip"
+# unzip -q "${input_dir}/models.zip" -d "${input_dir}/tmp_models"
+# mv "${input_dir}/tmp_models"/models/* "$models_dir"
+# rm -r "${input_dir}/tmp_models" "${input_dir}/models.zip"
 
 if $small; then
     wget --no-check-certificate "https://atlas.cs.brown.edu/data/pl-06-P_F-A_N-20250401T083751Z-001.zip" -O "${input_dir}/small.zip"

@@ -6,7 +6,7 @@ echo "VIRTUAL_ENV: $VIRTUAL_ENV"
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="$REPO_TOP/dpt"
-input_dir="${eval_dir}/input"
+input_dir="${eval_dir}/inputs"
 outputs_dir="${eval_dir}/outputs"
 scripts_dir="${eval_dir}/scripts"
 mkdir -p "$outputs_dir"

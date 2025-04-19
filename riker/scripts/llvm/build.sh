@@ -1,0 +1,6 @@
+#!/bin/sh
+
+CMAKE_FLAGS="-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=X86 -DLLVM_ENABLE_BINDINGS=0"
+
+cmake $CMAKE_FLAGS llvm
+make # or make -j$(nproc)

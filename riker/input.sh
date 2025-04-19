@@ -5,6 +5,6 @@ eval_dir="${REPO_TOP}/riker"
 scripts_dir="${eval_dir}/scripts"
 
 for bench in "$scripts_dir"/*; do
-    "$bench/input.sh" $@
+    "$bench/input.sh" "$@"
 done
 

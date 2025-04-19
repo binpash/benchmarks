@@ -7,7 +7,6 @@ SRCDIR="$(dirname "$(dirname "${THISDIR}")")"
 SUT="${SRCDIR}/makeself.sh"
 WHAT="$(basename "${THIS}")"
 LOGFILE="${THISDIR}/test_results.log"
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 echo "Test results:" > "${LOGFILE}"
 
 log_result() {

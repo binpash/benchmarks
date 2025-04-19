@@ -4,7 +4,6 @@ THIS="$(readlink -f "$0")"
 THISDIR="$(dirname "${THIS}")"
 SUT="$(dirname "$(dirname "${THISDIR}")")/makeself.sh"
 LOGFILE="${THISDIR}/test_results.log"
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 
 echo "Test results:" > "${LOGFILE}"
 
@@ -141,7 +140,7 @@ create_sign_verify() {
     local archive_run="${archive_dir}.run"
     local output="${archive_run}.out"
 
-    if $BENCHMARK_SHELL "$SUT" --sign password123 "$@" "${archive_dir}" "${archive_run}" "signtest" ls >"${output}"; then
+    if "$SUT" --sign password123 "$@" "${archive_dir}" "${archive_run}" "signtest" ls >"${output}"; then
         grep -Exq 'Signature: [[:alnum:]+/]+' "${output}" || return 1
         eval "${archive_run}" --verify-sig "${keyid}" || return 1
     else

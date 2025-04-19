@@ -3,8 +3,10 @@
 # Exit immediately if a command exits with a non-zero status
 # set -e
 
-# run the Python script
-python3 verify.py
+if [[ "$1" == "--generate" ]]; then
+    python3 verify.py --generate
+else
+    python3 verify.py
+fi
 
-# check if the script ran successfully
 echo "vps-audit $?"

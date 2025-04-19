@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit 1
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+export BENCHMARK_CATEGORY="web-index"
+
 directory_path="inputs/articles"
 
 if [ ! -d "$directory_path" ]; then
@@ -17,14 +19,27 @@ export TMPDIR=$PWD/tmp
 INPUTS="$PWD/inputs"
 OUTPUT_BASE="$PWD/outputs/ngrams"
 
-if [[ "$@" == *"--small"* ]]; then
-    export INPUT_FILE="$INPUTS/index_small.txt"
-else
-    export INPUT_FILE="$INPUTS/index.txt"
-fi
+INPUT_FILE="$INPUTS/index.txt"
+for arg in "$@"; do
+    if [ "$arg" = "--small" ]; then
+        INPUT_FILE="$INPUTS/index_small.txt"
+        break
+    elif [ "$arg" = "--min" ]; then
+        INPUT_FILE="$INPUTS/index_min.txt"
+        break
+    fi
+done
+
+export INPUT_FILE
 
 mkdir -p "$OUTPUT_BASE"
 
 echo "web-index"
-$BENCHMARK_SHELL ./scripts/ngrams.sh "$OUTPUT_BASE"
+BENCHMARK_SCRIPT="$(realpath "./scripts/ngrams.sh")"
+export BENCHMARK_SCRIPT
+
+BENCHMARK_INPUT_FILE="$(realpath "$INPUT_FILE")"
+export BENCHMARK_INPUT_FILE
+
+"$BENCHMARK_SHELL" "./scripts/ngrams.sh" "$OUTPUT_BASE"
 echo $?

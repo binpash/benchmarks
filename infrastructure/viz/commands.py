@@ -47,7 +47,7 @@ def command_distribution(df, outdir=None):
             "font.family": "serif",
             "font.serif": ["Times New Roman"],  # Replace with your LaTeX font if different
         })
-        plt.savefig(os.path.join(outdir, 'bensh-cmd-distribution.pdf'), facecolor='none', edgecolor='none')
+        plt.savefig(os.path.join(outdir, 'koala-cmd-distribution.pdf'), facecolor='none', edgecolor='none')
     else:
         plt.show()
 

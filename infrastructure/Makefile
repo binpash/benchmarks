@@ -1,6 +1,9 @@
-STATIC_OUTPUTS = target/lines_of_code.csv target/nodes_in_scripts.csv target/scripts_to_benchmark.csv target/cyclomatic.csv target/shellmetrics.sh
+STATIC_OUTPUTS = target/lines_of_code.csv target/nodes_in_scripts.csv target/scripts_to_benchmark.csv target/cyclomatic.csv target/shellmetrics.sh target/dynamic_analysis.jsonl
 
 static: $(STATIC_OUTPUTS)
+
+target/dynamic_analysis.jsonl: dynamic_analysis.py
+	python3 $< | sort > $@
 
 target/scripts_to_benchmark.csv: scripts_to_benchmark.py
 	python3 $< | sort > $@
@@ -22,8 +25,6 @@ target/shellmetrics.sh:
 	chmod +x $@
 
 target/cyclomatic.csv: get_cyclomatic.py target/shellmetrics.sh
-	python3 get_cyclomatic.py > $@
+	python3 get_cyclomatic.py | sort > $@
 
-dynamic:
-
-.PHONY: static dynamic clean-static static-test
+.PHONY: static clean-static static-test

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 mkfifo {1,2,3}grams
 
 bigrams_aux()

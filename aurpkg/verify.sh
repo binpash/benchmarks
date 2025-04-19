@@ -3,25 +3,33 @@
 # Exit immediately if a command exits with a non-zero status
 # set -e
 
-cd "$(realpath $(dirname "$0"))"
-mkdir -p hashes/small
+cd "$(realpath "$(dirname "$0")")" || exit 1
+
+mkdir -p hashes/small hashes/min
 
 [ ! -d "outputs" ] && echo "Directory 'outputs' does not exist" && exit 1
 
-if [[ "$@" == *"--small"* ]]; then
-    hash_folder="hashes/small"
-else
-    hash_folder="hashes"
-fi
+hash_folder="hashes"
+generate=false
+
+for arg in "$@"; do
+    if [[ "$arg" == "--generate" ]]; then
+        generate=true
+        continue
+    fi
+    case "$arg" in
+        --min) hash_folder="hashes/min" ;;
+        --small) hash_folder="hashes/small" ;;
+    esac
+done
 
 directory="outputs"
 
-if [[ "$@" == *"--generate"* ]]; then
+if $generate; then
     # Directory to iterate over
 
     # Loop through all PKGBUILD files in the directory and its subdirectories
-    find "$directory" -maxdepth 1 -type f -name "*.txt" | while read -r file
-    do
+    find "$directory" -maxdepth 1 -type f -name "*.txt" | while read -r file; do
         # Extract the package name from the filepath, removing the .txt extension
         package_name=$(basename "$file" .txt)
 
@@ -29,18 +37,16 @@ if [[ "$@" == *"--generate"* ]]; then
         hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
 
         # Save the hash to a file with the package name
-        echo "$hash" > "$hash_folder/$package_name.hash"
+        echo "$hash" >"$hash_folder/$package_name.hash"
 
         # Print the filename and hash
         echo "$hash_folder/$package_name.hash $hash"
     done
-
     exit 0
 fi
 
 # Loop through all PKGBUILD files in the directory and its subdirectories
-find "$directory" -maxdepth 1 -type f -name "*.txt" | while read -r file
-do
+find "$directory" -maxdepth 1 -type f -name "*.txt" | while read -r file; do
     package_name=$(basename "$file" .txt)
 
     if [ ! -f "$hash_folder/$package_name.hash" ]; then
@@ -54,11 +60,11 @@ do
     # Read the stored hash
     stored_hash=$(cat "$hash_folder/$package_name.hash")
 
-    diff <(echo "$hash") <(echo "$stored_hash") > /dev/null
+    diff <(echo "$hash") <(echo "$stored_hash") >/dev/null
     match=$?
 
     # echo "$package_name $match"
     # Because of fluctuations in the makepkg output, we will ignore the hash mismatch
+    # TODO check if this is a good idea
     echo "$package_name 0"
-
 done

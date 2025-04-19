@@ -104,8 +104,8 @@ unix50/scripts/6.sh,unix50
 unix50/scripts/7.sh,unix50
 unix50/scripts/8.sh,unix50
 unix50/scripts/9.sh,unix50
-vps-audit-negate/scripts/vps-audit-negate.sh,vps-audit
 vps-audit/scripts/vps-audit.sh,vps-audit
+vps-audit/scripts/vps-audit-negate.sh,vps-audit
 web-index/scripts/bigrams_aux.sh,web-index
 web-index/scripts/extract_text.sh,web-index
 web-index/scripts/ngrams.sh,web-index

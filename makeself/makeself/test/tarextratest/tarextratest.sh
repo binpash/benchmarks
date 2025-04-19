@@ -4,7 +4,6 @@ THIS="$(readlink -f "$0")"
 THISDIR="$(dirname "${THIS}")"
 SUT="$(dirname "$(dirname "${THISDIR}")")/makeself.sh"
 LOGFILE="${THISDIR}/test_results.log"
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 
 echo "Test results:" > "${LOGFILE}"
 
@@ -31,7 +30,7 @@ testTarExtraOpts() {
     setupTests
 
     local tar_extra="--verbose --exclude .git"
-    if $BENCHMARK_SHELL "$SUT" --tar-extra "$tar_extra" src src.sh alabel startup.sh; then
+    if "$SUT" --tar-extra "$tar_extra" src src.sh alabel startup.sh; then
         log_result "testTarExtraOpts" "PASS"
     else
         log_result "testTarExtraOpts" "FAIL" "Tar extra options failed."

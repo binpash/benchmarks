@@ -5,7 +5,6 @@ THISDIR="$(dirname "${THIS}")"
 SRCDIR="$(dirname "$(dirname "${THISDIR}")")"
 SUT="${SRCDIR}/makeself.sh"
 LOGFILE="${THISDIR}/test_results.log"
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}" 
 
 echo "Test results:" > "${LOGFILE}"
 
@@ -22,7 +21,7 @@ setupTests() {
     cd "$temp_path"
     mkdir -p archive
     cp -a "$SRCDIR" archive/
-    if ! $BENCHMARK_SHELL "$SUT" "$@" archive makeself-test.run "Test $*" echo Testing --tar-extra="--exclude .git"; then
+    if ! "$SUT" "$@" archive makeself-test.run "Test $*" echo Testing --tar-extra="--exclude .git"; then
         log_result "setupTests" "FAIL" "Failed to create archive"
         exit 1
     fi
@@ -31,7 +30,7 @@ setupTests() {
 testExtraBytes() {
     setupTests --sha256
 
-    if $BENCHMARK_SHELL ./makeself-test.run --check; then
+    if ./makeself-test.run --check; then
         log_result "testExtraBytes: Initial Check" "PASS"
     else
         log_result "testExtraBytes: Initial Check" "FAIL"
@@ -40,7 +39,7 @@ testExtraBytes() {
 
     echo "Adding a bunch of random characters at the end!!" >> makeself-test.run
 
-    if ! $BENCHMARK_SHELL ./makeself-test.run --check; then
+    if ! ./makeself-test.run --check; then
         log_result "testExtraBytes: Corrupted Archive Check" "PASS"
     else
         log_result "testExtraBytes: Corrupted Archive Check" "FAIL"
@@ -51,7 +50,7 @@ testExtraBytes() {
 testTruncated() {
     setupTests --sha256
 
-    if $BENCHMARK_SHELL ./makeself-test.run --check; then
+    if ./makeself-test.run --check; then
         log_result "testTruncated: Initial Check" "PASS"
     else
         log_result "testTruncated: Initial Check" "FAIL"
@@ -60,7 +59,7 @@ testTruncated() {
 
     dd if=makeself-test.run of=truncated.run bs=1 count=34303
 
-    if ! $BENCHMARK_SHELL truncated.run --check; then
+    if ! truncated.run --check; then
         log_result "testTruncated: Truncated Archive Check" "PASS"
     else
         log_result "testTruncated: Truncated Archive Check" "FAIL"

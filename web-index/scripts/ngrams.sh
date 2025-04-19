@@ -1,3 +1,5 @@
+#!/bin/bash
+
 REPO_TOP=$(git rev-parse --show-toplevel)
 export TEST_BASE=$REPO_TOP/web-index
 export SCRIPT_DIR="$TEST_BASE"/scripts

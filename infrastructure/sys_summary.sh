@@ -17,8 +17,8 @@ benchmarks=(
   "sklearn"
   "unix50"
   "vps-audit"
-  "vps-audit-negate"
   "web-index"
+  "opt-parallel"
 )
 
 # Error handler

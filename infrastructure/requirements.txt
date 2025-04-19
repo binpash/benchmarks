@@ -5,3 +5,4 @@ libdash
 pandas
 seaborn
 matplotlib
+psutil

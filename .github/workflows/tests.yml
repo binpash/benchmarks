@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        benchmark: [nlp, file-enc, unix50, log-analysis, max-temp, media-conv, sklearn, covid-mts, riker, oneliners, web-index, vps-audit, makeself, ray-tracing, git-workflow, port-scan, opt-parallel]
+        benchmark: [nlp, file-enc, unix50, log-analysis, max-temp, media-conv, sklearn, covid-mts, riker, oneliners, web-index, vps-audit, makeself, ray-tracing, git-workflow, port-scan, opt-parallel, dpt]
 
     steps:
       - name: Checkout code

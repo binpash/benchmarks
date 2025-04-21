@@ -6,3 +6,4 @@ input_dir="${REPO_TOP}/dpt/inputs"
 
 rm -rf "$outputs_dir"
 rm -rf "$input_dir"
+rm -rf "${REPO_TOP}/dpt/venv"

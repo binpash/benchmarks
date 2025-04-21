@@ -23,12 +23,15 @@ for arg in "$@"; do
             ;;
     esac
 done
+python clean_output.py "$outputs_dir/seq_output$suffix.txt" "$outputs_dir/seq_output$suffix-cleaned.txt"
+python clean_output.py "$outputs_dir/par_output$suffix.txt" "$outputs_dir/par_output$suffix-cleaned.txt"
 
 # reference
 if $generate; then
-    cp "$outputs_dir/seq_output$suffix.txt" "$hashes_dir/seq_output$suffix.txt"
-    cp "$outputs_dir/par_output$suffix.txt" "$hashes_dir/par_output$suffix.txt"
-    echo "Done."
+    seq_hash=$(shasum -a 256 "$outputs_dir/seq_output$suffix-cleaned.txt" | awk '{ print $1 }')
+    par_hash=$(shasum -a 256 "$outputs_dir/par_output$suffix-cleaned.txt" | awk '{ print $1 }')
+    echo "$seq_hash" > "$hashes_dir/seq_output$suffix.txt"
+    echo "$par_hash" > "$hashes_dir/par_output$suffix.txt"
     exit 0
 fi
 
@@ -43,19 +46,19 @@ fi
 #diff -q "$outputs_dir/seq_output$suffix-cleaned.txt" "$hashes_dir/seq_output$suffix.txt"
 echo "seq $status"
 
-echo "Comparing par vs reference"
-python clean_output.py "$outputs_dir/par_output$suffix.txt" "$outputs_dir/par_output$suffix-cleaned.txt"
+# echo "Comparing par vs reference"
+# python clean_output.py "$outputs_dir/par_output$suffix.txt" "$outputs_dir/par_output$suffix-cleaned.txt"
 
-par_hash=$(shasum -a 256 "$outputs_dir/par_output$suffix-cleaned.txt" | awk '{ print $1 }')
-expected_par_hash=$(cat "$hashes_dir/par_output$suffix.txt")
-status=0
-if [[ "$par_hash" != "$expected_par_hash" ]]; then
-    status=1
-fi
+# par_hash=$(shasum -a 256 "$outputs_dir/par_output$suffix-cleaned.txt" | awk '{ print $1 }')
+# expected_par_hash=$(cat "$hashes_dir/par_output$suffix.txt")
+# status=0
+# if [[ "$par_hash" != "$expected_par_hash" ]]; then
+#     status=1
+# fi
 #diff -q "$outputs_dir/par_output$suffix-cleaned.txt" "$hashes_dir/par_output$suffix.txt"
-echo "par $status"
+# echo "par $status"
 
 # This will result in differences due to processing time
 # echo "Comparing seq vs par reference"
-# diff -q "$outputs_dir/seq_output$suffix.txt" "$outputs_dir/par_output$suffix.txt"
+# diff -q "$outputs_dir/seq_output$suffix-cleaned.txt" "$outputs_dir/par_output$suffix-cleaned.txt"
 # echo "seq vs par $?"

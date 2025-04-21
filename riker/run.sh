@@ -28,7 +28,7 @@ done
 
 if [ "$run_small" = true ]; then
     for bench in "${small_benchmark[@]}"; do
-        script_path="$scripts_dir/$bench/input.sh"
+        script_path="$scripts_dir/$bench/run.sh"
         if [ -x "$script_path" ]; then
             export BENCHMARK_SCRIPT="$script_path"
             "$script_path" "$@"

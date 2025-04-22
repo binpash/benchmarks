@@ -1,6 +1,10 @@
 #!/bin/bash
 
+<<<<<<< HEAD
 2=$(mktemp -u)
+=======
+s2=$(mktemp -u)
+>>>>>>> posh
 s3=$(mktemp -u)
 
 mkfifo $s2 $s3

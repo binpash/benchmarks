@@ -7,12 +7,33 @@ mkdir -p $RESOURCES_DIR
 
 cp stopwords.txt $RESOURCES_DIR # TODO: Grab this from the atlas server
 
-if [ "$1" = "--small" ]; then
+is_small=false
+is_min=false
+for arg in "$@"; do
+    if [ "$arg" = "--small" ]; then
+        is_small=true
+        break
+    fi
+	if [ "$arg" = "--min" ]; then
+		is_min=true
+		break
+	fi
+done
+
+if $is_small; then
 	if [[ ! -f "$RESOURCES_DIR/wikipedia-small.tar.gz" ]]; then
 		# 1000 entries
 		echo "Downloading the small dataset."
 		wget -O $RESOURCES_DIR/wikipedia-small.tar.gz https://atlas-group.cs.brown.edu/data/wikipedia/input_small/articles.tar.gz --no-check-certificate
 		wget -O $RESOURCES_DIR/index_small.txt https://atlas-group.cs.brown.edu/data/wikipedia/input_small/index.txt --no-check-certificate
+	fi
+elif $is_min; then
+#TODO add min version
+	if [[ ! -f "$RESOURCES_DIR/wikipedia-min.tar.gz" ]]; then
+		# 10 entries
+		echo "Downloading the min dataset."
+		wget -O $RESOURCES_DIR/wikipedia-min.tar.gz https://atlas-group.cs.brown.edu/data/wikipedia/input_min/articles.tar.gz --no-check-certificate
+		wget -O $RESOURCES_DIR/index_min.txt https://atlas-group.cs.brown.edu/data/wikipedia/input_min/index.txt --no-check-certificate
 	fi
 else
 	if [[ ! -f "$RESOURCES_DIR/wikipedia.tar.gz" ]]; then
@@ -24,10 +45,14 @@ else
 fi
 
 if [[ ! -d "$RESOURCES_DIR/articles" ]]; then
-	if [ "$1" = "--small" ]; then
+	if $is_small; then
 		# 1000 entries
 		echo "Extracting the small dataset."
 		tar -xf $RESOURCES_DIR/wikipedia-small.tar.gz -C $RESOURCES_DIR
+	elif $is_min; then
+		# 100 entries
+		echo "Extracting the min dataset."
+		tar -xf $RESOURCES_DIR/wikipedia-min.tar.gz -C $RESOURCES_DIR
 	else
 		# full dataset
 		echo "Extracting the full dataset. Caution!! Extracted size >200GB"

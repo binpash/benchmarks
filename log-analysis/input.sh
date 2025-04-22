@@ -6,9 +6,18 @@ set -e
 
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/log-analysis"
-input_dir="${eval_dir}/input"
+input_dir="${eval_dir}/inputs"
 
-mkdir -p $input_dir
+mkdir -p "$input_dir"
+#TODO add small and min versions
+
+for arg in "$@"; do
+    if [[ "$arg" == "--min" ]]; then
+        cp -r "${eval_dir}/min_inputs/nginx-logs" "$input_dir"
+        cp -r "${eval_dir}/min_inputs/pcaps" "$input_dir"
+        exit 0
+    fi
+done
 
 url=https://atlas-group.cs.brown.edu/data/pcaps.zip
 zip_dst="$input_dir/pcaps.zip"
@@ -20,4 +29,4 @@ url=https://atlas-group.cs.brown.edu/data/nginx.zip
 zip_dst="$input_dir/nginx.zip"
 wget --no-check-certificate $url -O "$zip_dst"
 unzip "$zip_dst" -d "$input_dir"
-rm $zip_dst
+rm "$zip_dst"

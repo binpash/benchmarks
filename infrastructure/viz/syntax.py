@@ -160,7 +160,7 @@ def node_heatmap(df, outdir=None):
             "font.family": "serif",
             "font.serif": ["Times New Roman"],  # Replace with your LaTeX font if different
         })
-        plt.savefig(os.path.join(outdir, 'bensh-stx-analysis.pdf'))
+        plt.savefig(os.path.join(outdir, 'koala-stx-analysis.pdf'))
     else:
         plt.show()
 

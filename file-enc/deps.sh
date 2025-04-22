@@ -2,8 +2,31 @@
 
 sudo apt-get update
 
-pkgs='ffmpeg unrtf imagemagick libarchive-tools libncurses5-dev libncursesw5-dev zstd liblzma-dev libbz2-dev zip unzip nodejs tcpdump'
+required_pkgs=(
+  ffmpeg
+  unrtf
+  imagemagick
+  libarchive-tools
+  libncurses5-dev
+  libncursesw5-dev
+  zstd
+  liblzma-dev
+  libbz2-dev
+  zip
+  unzip
+  nodejs
+  tcpdump
+)
 
-if ! dpkg -s $pkgs >/dev/null 2>&1 ; then
-    sudo apt-get install $pkgs -y
+missing_pkgs=()
+
+for pkg in "${required_pkgs[@]}"; do
+  if ! dpkg -s "$pkg" >/dev/null 2>&1; then
+    missing_pkgs+=("$pkg")
+  fi
+done
+
+if [ "${#missing_pkgs[@]}" -gt 0 ]; then
+  echo "Installing missing packages: ${missing_pkgs[*]}"
+  sudo apt-get install -y "${missing_pkgs[@]}"
 fi

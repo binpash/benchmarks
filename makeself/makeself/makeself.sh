@@ -614,8 +614,15 @@ if test "$QUIET" = "n"; then
 fi
 
 # See if we have GNU tar
-TAR=`exec <&- 2>&-; which gtar || command -v gtar || type gtar || which tar || command -v tar || type tar`
-test -x "$TAR" || TAR=`exec <&- 2>&-; which bsdtar || command -v bsdtar || type bsdtar`
+# Robust and portable TAR detection
+TAR=$(command -v gtar 2>/dev/null || command -v tar 2>/dev/null || command -v bsdtar 2>/dev/null || echo tar)
+
+# Verify it supports --mtime if needed
+if ! "$TAR" --help 2>/dev/null | grep -q -- '--mtime'; then
+  echo "Warning: '$TAR' does not support --mtime. Some options may fail (needs GNU tar)."
+fi
+
+test -x "$TAR" || TAR=$(exec <&- 2>&-; which bsdtar || command -v bsdtar || type bsdtar)
 test -x "$TAR" || TAR=tar
 
 tmparch="${TMPDIR:-/tmp}/mkself$$.tar"

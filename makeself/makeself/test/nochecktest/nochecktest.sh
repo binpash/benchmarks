@@ -4,7 +4,6 @@ THIS="$(readlink -f "$0")"
 THISDIR="$(dirname "${THIS}")"
 SUT="$(dirname "$(dirname "${THISDIR}")")/makeself.sh"
 LOGFILE="${THISDIR}/test_results.log"
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 
 echo "Test results:" > "${LOGFILE}"
 
@@ -27,7 +26,7 @@ testNoCheck() {
 
     # Create a self-extracting archive.
     file_name="$(mktemp -t file_name.XXXXXX)"
-    if $BENCHMARK_SHELL "${SUT}" --nox11 --sha256 "${archive_dir}" "${file_name}" "no check test" true; then
+    if "${SUT}" --nox11 --sha256 "${archive_dir}" "${file_name}" "no check test" true; then
         log_result "testNoCheck: Create Archive" "PASS"
     else
         log_result "testNoCheck: Create Archive" "FAIL"
@@ -38,7 +37,7 @@ testNoCheck() {
     # Archive verification enabled
     printf '\nArchive verification enabled:\n' >&2
     sync
-    if $BENCHMARK_SHELL "${file_name}" 2>&1 | grep -qF 'Verifying archive integrity...'; then
+    if "${file_name}" 2>&1 | grep -qF 'Verifying archive integrity...'; then
         log_result "testNoCheck: Verify Archive (Enabled)" "PASS"
     else
         log_result "testNoCheck: Verify Archive (Enabled)" "FAIL"
@@ -48,7 +47,7 @@ testNoCheck() {
 
     # Archive verification disabled
     printf '\nArchive verification disabled:\n' >&2
-    if SETUP_NOCHECK=1 $BENCHMARK_SHELL "${file_name}" 2>&1 | grep -qFv 'Verifying archive integrity...'; then
+    if SETUP_NOCHECK=1 "${file_name}" 2>&1 | grep -qFv 'Verifying archive integrity...'; then
         log_result "testNoCheck: Verify Archive (Disabled)" "PASS"
     else
         log_result "testNoCheck: Verify Archive (Disabled)" "FAIL"

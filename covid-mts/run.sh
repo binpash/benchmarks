@@ -2,23 +2,38 @@
 
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/covid-mts"
-input_dir="${eval_dir}/input"
+input_dir="${eval_dir}/inputs"
 outputs_dir="${eval_dir}/outputs"
 scripts_dir="${eval_dir}/scripts"
 
 suffix=""
-if [[ "$@" == *"--small"* ]]; then
-    suffix="_small"
-fi
+for arg in "$@"; do
+    if [ "$arg" = "--small" ]; then
+        suffix="_small"
+        break
+    fi
+    if [ "$arg" = "--min" ]; then
+        suffix="_min"
+        break
+    fi
+done
 
 input_file="$input_dir/in$suffix.csv"
 output_scoped="$outputs_dir/outputs$suffix"
 mkdir -p "$output_scoped"
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
+export BENCHMARK_SHELL
 
-$BENCHMARK_SHELL "$scripts_dir/1.sh" "$input_file" > "$output_scoped/1.out"
-$BENCHMARK_SHELL "$scripts_dir/2.sh" "$input_file" > "$output_scoped/2.out"
-$BENCHMARK_SHELL "$scripts_dir/3.sh" "$input_file" > "$output_scoped/3.out"
-$BENCHMARK_SHELL "$scripts_dir/4.sh" "$input_file" > "$output_scoped/4.out"
+BENCHMARK_CATEGORY="covid-mts"
+export BENCHMARK_CATEGORY
 
+BENCHMARK_INPUT_FILE="$(realpath "$input_file")"
+export BENCHMARK_INPUT_FILE
+
+for i in 1 2 3 4; do
+    script="$scripts_dir/$i.sh"
+    BENCHMARK_SCRIPT="$(realpath "$script")"
+    export BENCHMARK_SCRIPT
+    "$BENCHMARK_SHELL" "$script" "$input_file" > "$output_scoped/$i.out"
+done

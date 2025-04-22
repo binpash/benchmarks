@@ -11,7 +11,6 @@ def get_all_scripts(
 ) -> list[Path]:
     scripts = scripts_file.read_text()
     benchmark_data: dict[str, dict[str, any]] = json.loads(scripts)
-
     return {
         benchmark_name: [
             script

@@ -2,21 +2,38 @@
 
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/file-enc"
-input_dir="${eval_dir}/input"
-results_dir="${eval_dir}/results"
+input_dir="${eval_dir}/inputs"
+outputs_dir="${eval_dir}/outputs"
 scripts_dir="${eval_dir}/scripts"
-mkdir -p $results_dir
+mkdir -p "$outputs_dir"
 
-echo executing file-enc $(date)
+echo "Executing file-enc benchmark at $(date)"
 
 input_pcaps="$input_dir/pcaps"
 suffix=".full"
-if [[ "$1" == "--small" ]]; then
-    # TODO: prepare a smaller input
-    input_pcaps="$input_dir/pcaps"
-    suffix=".small"
-fi
+for arg in "$@"; do
+    case "$arg" in
+        --small)
+            suffix=".small"
+            ;;
+        --min)
+            suffix=".min"
+            ;;
+    esac
+done
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
-$BENCHMARK_SHELL $scripts_dir/compress_files.sh $input_pcaps $results_dir/compress_files$suffix
-$BENCHMARK_SHELL $scripts_dir/encrypt_files.sh $input_pcaps $results_dir/encrypt_files$suffix
+
+BENCHMARK_CATEGORY="file-enc"
+export BENCHMARK_CATEGORY
+
+BENCHMARK_INPUT_FILE="$(realpath "$input_pcaps")"
+export BENCHMARK_INPUT_FILE
+
+BENCHMARK_SCRIPT="$(realpath "$scripts_dir/compress_files.sh")"
+export BENCHMARK_SCRIPT
+$BENCHMARK_SHELL "$scripts_dir/compress_files.sh" "$input_pcaps" "$outputs_dir/compress_files$suffix"
+
+BENCHMARK_SCRIPT="$(realpath "$scripts_dir/encrypt_files.sh")"
+export BENCHMARK_SCRIPT
+$BENCHMARK_SHELL "$scripts_dir/encrypt_files.sh" "$input_pcaps" "$outputs_dir/encrypt_files$suffix"

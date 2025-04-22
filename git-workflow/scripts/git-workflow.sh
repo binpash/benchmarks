@@ -1,6 +1,16 @@
 #!/bin/bash
 # source: posh benchmark suite
 
+shopt -s expand_aliases
+
+alias g='git'
+alias gst='git status'
+alias gco='git checkout'
+alias grs='git reset --hard'
+alias gcl='git clean -fd'
+alias gci='git commit'
+alias gaa='git add -A'
+
 REPO_TOP=$(git rev-parse --show-toplevel)
 EVAL_DIR="${REPO_TOP}/git-workflow"
 REPO_PATH="${EVAL_DIR}/inputs/chromium"
@@ -11,18 +21,18 @@ mkdir -p "$COMMITS_DIR"
 
 cd "$REPO_PATH" || exit 1
 
-git config user.email "author@example.com"
-git config user.name "A U Thor"
+g config user.email "author@example.com"
+g config user.name "A U Thor"
 
-git stash
-git checkout main
-git branch -D bench_branch 2>/dev/null || true
-git checkout -b bench_branch
-git reset --hard
-git clean -fd
+g stash
+gco main
+g branch -D bench_branch 2>/dev/null || true
+gco -b bench_branch
+grs
+gcl
 
 commit_file="$COMMITS_DIR/commit_list.txt"
-git rev-list --first-parent HEAD -n "$NUM_COMMITS" | tac > "$commit_file"
+g rev-list --first-parent HEAD -n "$NUM_COMMITS" | tac > "$commit_file"
 
 base_commit=$(head -n 1 "$commit_file")
 echo "$base_commit" > "$COMMITS_DIR/base_commit.txt"
@@ -39,14 +49,14 @@ while read -r curr_commit; do
     patchfile="$COMMITS_DIR/${patch_upper}-${patch_lower}.diff"
     commitmsg="$COMMITS_DIR/${patch_upper}-${patch_lower}.commit"
     
-    git diff "$prev_commit" "$curr_commit" > "$patchfile"
-    git log -1 --pretty=%B "$curr_commit" > "$commitmsg"
+    g diff "$prev_commit" "$curr_commit" > "$patchfile"
+    g log -1 --pretty=%B "$curr_commit" > "$commitmsg"
     
     prev_commit="$curr_commit"
     i=$((i + 1))
 done < <(tail -n +2 "$commit_file")
 
-git status
+gst
 
 if [ -f "$COMMITS_DIR/base_commit.txt" ]; then
     git checkout bench_branch
@@ -63,15 +73,15 @@ for i in $(seq "$num_patches" -1 1); do
     
     if [ -s "$patchfile" ]; then
         #patch -p1 < "$patchfile" || { echo "Failed to apply $patchfile"; exit 1; }
-        git apply "$patchfile" || { echo "Failed to apply $patchfile"; exit 1; }
+        g apply "$patchfile" || { echo "Failed to apply $patchfile"; exit 1; }
 
-        git status
+        gst
 
-        git add -A
-        git commit --author="A U Thor <author@example.com>" -F "$commitmsg" || { echo "Failed to commit with $commitmsg"; exit 1; }
+        gaa
+        gci --author="A U Thor <author@example.com>" -F "$commitmsg" || { echo "Failed to commit with $commitmsg"; exit 1; }
     else
         echo "Patch file $patchfile is empty, skipping commit."
     fi
 done
 
-git status
+gst

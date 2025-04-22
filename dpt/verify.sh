@@ -33,7 +33,6 @@ if $generate; then
     exit 0
 fi
 
-echo "Comparing seq vs reference"
 python clean_output.py "$outputs_dir/seq_output$suffix.txt" "$outputs_dir/seq_output$suffix-cleaned.txt"
 seq_hash=$(shasum -a 256 "$outputs_dir/seq_output$suffix-cleaned.txt" | awk '{ print $1 }')
 expected_sec_hash=$(cat "$hashes_dir/seq_output$suffix.txt")

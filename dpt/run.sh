@@ -11,9 +11,8 @@ outputs_dir="${eval_dir}/outputs"
 scripts_dir="${eval_dir}/scripts"
 mkdir -p "$outputs_dir"
 source venv/bin/activate
-
+export LC_ALL=C
 export BENCHMARK_CATEGORY="dpt"
-export BENCHMARK_INPUT_FILE="$input_dir"
 img_input="${input_dir}/images_full"
 suffix=".full"
 
@@ -23,7 +22,7 @@ if [[ " $* " == *" --small "* ]]; then
 fi
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
-
+export BENCHMARK_INPUT_FILE="$img_input"
 echo "dpt sequential"
 $BENCHMARK_SHELL "$scripts_dir/dpt_seq.sh" "$img_input" "$outputs_dir/seq_output$suffix.txt"
 echo "$?"

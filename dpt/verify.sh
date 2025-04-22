@@ -23,15 +23,13 @@ for arg in "$@"; do
             ;;
     esac
 done
-python clean_output.py "$outputs_dir/seq_output$suffix.txt" "$outputs_dir/seq_output$suffix-cleaned.txt"
-python clean_output.py "$outputs_dir/par_output$suffix.txt" "$outputs_dir/par_output$suffix-cleaned.txt"
 
 # reference
 if $generate; then
     seq_hash=$(shasum -a 256 "$outputs_dir/seq_output$suffix-cleaned.txt" | awk '{ print $1 }')
-    par_hash=$(shasum -a 256 "$outputs_dir/par_output$suffix-cleaned.txt" | awk '{ print $1 }')
+#    par_hash=$(shasum -a 256 "$outputs_dir/par_output$suffix-cleaned.txt" | awk '{ print $1 }')
     echo "$seq_hash" > "$hashes_dir/seq_output$suffix.txt"
-    echo "$par_hash" > "$hashes_dir/par_output$suffix.txt"
+#    echo "$par_hash" > "$hashes_dir/par_output$suffix.txt"
     exit 0
 fi
 

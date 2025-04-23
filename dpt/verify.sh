@@ -36,8 +36,7 @@ fi
 python clean_output.py "$outputs_dir/seq_output$suffix.txt" "$outputs_dir/seq_output$suffix-cleaned.txt"
 seq_hash=$(shasum -a 256 "$outputs_dir/seq_output$suffix-cleaned.txt" | awk '{ print $1 }')
 expected_sec_hash=$(cat "$hashes_dir/seq_output$suffix.txt")
-echo "$seq_hash" >> dpt.out
-cat "$hashes_dir/seq_output$suffix-cleaned.txt" >> dpt.out
+
 status=0
 if [[ "$seq_hash" != "$expected_sec_hash" ]]; then
     status=1

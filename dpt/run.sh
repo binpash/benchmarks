@@ -27,7 +27,7 @@ echo "dpt sequential"
 $BENCHMARK_SHELL "$scripts_dir/dpt_seq.sh" "$img_input" "$outputs_dir/seq_output$suffix.txt"
 echo "$?"
 cat "$outputs_dir/seq_output$suffix.txt"
-echo "$(cat $outputs_dir/seq_output$suffix.txt)
+echo "$(cat "$outputs_dir/seq_output$suffix.txt")"
 # echo "dpt parallel"
 # $BENCHMARK_SHELL "$scripts_dir/dpt_par.sh" "$img_input" "$outputs_dir/par_output$suffix.txt"
 # echo "$?"

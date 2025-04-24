@@ -11,6 +11,12 @@ TO=${TO:-2015}
 sample_starting_index=1234
 sample_count=250
 
+
+if [[ -d "$input_dir" ]]; then
+  echo "Data already downloaded and extracted."
+  exit 0
+fi
+
 mkdir -p "${input_dir}"
 
 for arg in "$@"; do
@@ -21,11 +27,6 @@ for arg in "$@"; do
       exit 0
     fi
 done
-
-if [[ -d "$input_dir" ]]; then
-  echo "Data already downloaded and extracted."
-  exit 0
-fi
 
 seq "$FROM" "$TO" |
   sed "s;^;$URL;" |

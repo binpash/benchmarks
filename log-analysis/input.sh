@@ -13,12 +13,20 @@ mkdir -p "$input_dir"
 
 for arg in "$@"; do
     if [[ "$arg" == "--min" ]]; then
-        cp -r "${eval_dir}/min_inputs/nginx-logs" "$input_dir"
-        cp -r "${eval_dir}/min_inputs/pcaps" "$input_dir"
+        if [[ -d "$input_dir/nginx-logs-min" ]] && [[ -d "$input_dir/pcaps-min" ]]; then
+            echo "Data already downloaded and extracted."
+            exit 0
+        fi
+        cp -r "${eval_dir}/min_inputs/nginx-logs-min" "$input_dir"
+        cp -r "${eval_dir}/min_inputs/pcaps-min" "$input_dir"
         exit 0
     fi
 done
 
+if [[ -d "$input_dir/nginx-logs" ]] && [[ -d "$input_dir/pcaps" ]]; then
+    echo "Data already downloaded and extracted."
+    exit 0
+fi
 url=https://atlas-group.cs.brown.edu/data/pcaps.zip
 zip_dst="$input_dir/pcaps.zip"
 wget --no-check-certificate $url -O "$zip_dst"

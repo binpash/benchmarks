@@ -18,8 +18,8 @@ for arg in "$@"; do
         suffix=".small"
     fi
     if [ "$arg" = "--min" ]; then
-        nginx_input=$input_dir/nginx-logs
-        pcaps_input=$input_dir/pcaps
+        nginx_input=$input_dir/nginx-logs-min
+        pcaps_input=$input_dir/pcaps-min
         suffix=".min"
     fi
 done

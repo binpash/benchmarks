@@ -22,6 +22,11 @@ for arg in "$@"; do
     fi
 done
 
+if [[ -d "$input_dir" ]]; then
+  echo "Data already downloaded and extracted."
+  exit 0
+fi
+
 seq "$FROM" "$TO" |
   sed "s;^;$URL;" |
   sed 's;$;/;' |

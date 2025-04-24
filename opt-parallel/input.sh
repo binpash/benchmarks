@@ -19,6 +19,10 @@ for arg in "$@"; do
         exit 0
     fi
 done
+if [[ -d $inputs_dir/ChessData ]]; then
+    echo "Data already downloaded and extracted."
+    exit 0
+fi
 git clone https://github.com/rozim/ChessData.git
 
 # TODO: Add small inputs and link for download

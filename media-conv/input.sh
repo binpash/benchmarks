@@ -12,28 +12,34 @@ full_dir="$input_dir/wav_full"
 small_dir="$input_dir/wav_small"
 min_dir="$input_dir/wav_min"
 
-wget --no-check-certificate "$data_url" -O "$zip_dst"
-unzip "$zip_dst" -d "$input_dir"
-rm -rf "$full_dir" "$small_dir" "$min_dir"
-mkdir -p "$full_dir" "$small_dir" "$min_dir"
+if [[ ! -d "$full_dir" ]]; then
+    wget --no-check-certificate "$data_url" -O "$zip_dst"
+    unzip "$zip_dst" -d "$input_dir"
+    rm -rf "$full_dir" "$small_dir" "$min_dir"
+    mkdir -p "$full_dir" "$small_dir" "$min_dir"
 
-# copy `.wav`s to their final destinations.
-# Make sure we have the correct number of inputs
-# with numbered backups (do not overwrite inputs).
-for i in {1..120}; do
-    cp --backup=numbered $input_dir/wav/* "--target-directory=$full_dir"
-done
-for i in {1..10}; do
-    cp --backup=numbered $input_dir/wav/* "--target-directory=$small_dir"
-done
-for i in {1..2}; do
-    cp --backup=numbered $input_dir/wav/* "--target-directory=$min_dir"
-done
-rm -r "$zip_dst" "$input_dir/wav"
+    # copy `.wav`s to their final destinations.
+    # Make sure we have the correct number of inputs
+    # with numbered backups (do not overwrite inputs).
+    for i in {1..120}; do
+        cp --backup=numbered $input_dir/wav/* "--target-directory=$full_dir"
+    done
+    for i in {1..10}; do
+        cp --backup=numbered $input_dir/wav/* "--target-directory=$small_dir"
+    done
+    for i in {1..2}; do
+        cp --backup=numbered $input_dir/wav/* "--target-directory=$min_dir"
+    done
+    rm -r "$zip_dst" "$input_dir/wav"
+fi
 
 # if small flag
 for arg in "$@"; do
     if [[ "$arg" == "--small" ]]; then
+        if [[ -d "$input_dir/jpg_small" ]]; then
+            echo "Data already downloaded and extracted."
+            exit 0
+        fi
         data_url=https://atlas-group.cs.brown.edu/data/small/jpg.zip
         zip_dst=$input_dir/jpg_small.zip
         out_dir=$input_dir/jpg_small
@@ -49,6 +55,10 @@ for arg in "$@"; do
         exit 0
     elif [[ "$arg" == "--min" ]]; then
         #TODO min versions
+        if [[ -d "$input_dir/jpg_min" ]]; then
+            echo "Data already downloaded and extracted."
+            exit 0
+        fi
         min_inputs="$eval_dir/min_inputs/"
         mkdir -p "$input_dir"
         cp -r "$min_inputs"/* "$input_dir/"
@@ -56,6 +66,10 @@ for arg in "$@"; do
     fi
 done
 
+if [[ -d "$input_dir/jpg" ]]; then
+    echo "Data already downloaded and extracted."
+    exit 0
+fi
 data_url=https://atlas-group.cs.brown.edu/data/full/jpg.zip
 zip_dst="$input_dir/jpg_full.zip"
 out_dir="$input_dir/jpg_full"

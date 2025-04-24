@@ -76,23 +76,23 @@ Flags, apart from those referring to input sizes, can be combined freely (e.g. `
 
 ### Usage examples
 
-# 1. Plain correctness run (old behaviour)
+#### 1. Plain correctness run (old behaviour)
 ```bash
 ./main.sh unix50
 ```
-# 2. Run 10×, record runtimes only
+#### 2. Run 10×, record runtimes only
 ```bash
 ./main.sh unix50 -n 10 --time
 ```
-# 3. Heavy resource tracing inside Docker – 3 repetitions
+#### 3. Heavy resource tracing inside Docker – 3 repetitions
 ```bash
 ./main.sh unix50 -n 3 --resources
 ```
-# 4. Lightweight local resource logging (no Docker)
+#### 4. Lightweight local resource logging (no Docker)
 ```bash
 ./main.sh unix50 --resources --bare
 ```
-# 5. Combine timing + resources, forward extra args to benchmark's infrastructure scripts
+#### 5. Combine timing + resources, forward extra args to benchmark's infrastructure scripts
 ```bash
 ./main.sh unix50 -n 5 --resources --time -- --small --fast
 ```

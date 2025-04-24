@@ -97,7 +97,7 @@ Flags, apart from those referring to input sizes, can be combined freely (e.g. `
 ./main.sh unix50 -n 5 --resources --time -- --small --fast
 ```
 ### Anatomy of stats file
-
+```
 Benchmark Statistics
 ==================================================
 Benchmark: bio
@@ -108,7 +108,7 @@ Total IO bytes:        1 107 624 733
 Max Memory Usage:      17 235 968 bytes
 Total Input bytes:     2 456 789
 CPU time per input byte: 0.00272 sec/byte
-
+```
 Per-input-byte numbers are computed automatically: if `BENCHMARK_INPUT_FILE` points to a file or a directory, the harness figures out its byte size.
 
 Local (`--bare`) and Docker-based stats share the exact same format, so they aggregate seamlessly.

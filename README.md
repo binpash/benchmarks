@@ -49,7 +49,7 @@ For example, to benchmark PaSh with `--width 4`, run `export BENCHMARK_SHELL="$P
 | Flag / Option                         | Effect                                                                                                              | Typical use-case                                   |
 |---------------------------------------|---------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
 | **`-n <N>` / `--runs <N>`**           | Execute the benchmark **N** times (default = 1).                                                                    | Measure variance, warm-up caches, find flaky runs. |
-| **`--resources`**                     | Collect CPU/RAM/I/O stats.<br>Writes `*_stats_run<i>.txt` for every run **and** a roll-up `*_stats_aggregated.txt`. | Profiling, optimisation, capacity planning.        |
+| **`--resources`**                     | Collect CPU/RAM/I/O stats.<br>Writes `*_stats_run<i>.txt` for every run **and** a summary `*_stats_aggregated.txt`. | Profiling, optimisation, capacity planning.        |
 | **`--bare`**                          | Use the lightweight local logger instead of the Docker-based tracer.                                                | When Docker isn’t available or is too heavy.       |
 | **`-t` / `--time`**                   | Measure wall-clock runtime with `/usr/bin/time`.<br>Produces `{benchmark}_times_aggregated.txt` when `-n > 1`.      | Quick speed checks, perf regression testing.       |
 | **`--small`**                         | Run the benchmark with a reduced (small) input set.                                                                 | Fast experiments, small-scale characterisation.    |
@@ -67,7 +67,7 @@ Flags, apart from those referring to input sizes, can be combined freely (e.g. `
 | `<prefix>_stats_run<i>.txt`                   | Human-readable CPU/RAM/I/O summary for run *i*.                                                    | Only with **`--resources`**                                   |
 | `<benchmark>_time_run<i>.val`                 | Single wall-clock number (seconds) for run *i*.                                                    | Only with **`--time`**                                        |
 
-### Roll-ups produced when **`-n <N>`** > 1
+### Extra files produced when **`-n <N>`** > 1
 
 | File (aggregated)                     | Description                                             | Requires flag |
 |---------------------------------------|---------------------------------------------------------|---------------|

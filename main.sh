@@ -26,7 +26,6 @@ main() {
     runs=1
     stats_prefix="${BENCHMARK}_stats"
     time_values=()
-    time_logs=()
     stats_files=()
     args=()
     while [[ $# -gt 0 ]]; do

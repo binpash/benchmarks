@@ -46,7 +46,7 @@ else
         exit 1
     }
 
-    docker run --rm --cap-add NET_ADMIN --cap-add NET_RAW -v "$(pwd):$BENCHMARKS_DIR" -it "$IMAGE_NAME" "$BENCHMARK_SHELL" -c '
+    docker run --rm --cap-add NET_ADMIN --cap-add NET_RAW -v "$(pwd):$BENCHMARKS_DIR" -it "$IMAGE_NAME" $BENCHMARK_SHELL -c '
         chmod +x /benchmarks/run_all_docker.sh
         /benchmarks/run_all_docker.sh "$@"
     ' _ "${args[@]}"

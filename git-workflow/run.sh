@@ -20,5 +20,5 @@ for arg in "$@"; do
         --small) NUM_COMMITS=6 ;;
     esac
 done
-"$BENCHMARK_SHELL" "$main_script" "$NUM_COMMITS" "$@"
+$BENCHMARK_SHELL "$main_script" "$NUM_COMMITS" "$@"
 echo $?

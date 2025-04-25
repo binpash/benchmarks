@@ -24,4 +24,4 @@ export BENCHMARK_SCRIPT
 BENCHMARK_INPUT_FILE="$(realpath "$IN_NAME")"
 export BENCHMARK_INPUT_FILE
 
-"$BENCHMARK_SHELL" "$script_file" "$IN" "$IN_NAME" "$OUT"
+$BENCHMARK_SHELL "$script_file" "$IN" "$IN_NAME" "$OUT"

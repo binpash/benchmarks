@@ -21,5 +21,5 @@ BENCHMARK_INPUT_FILE="$(realpath "$IN")"
 export BENCHMARK_INPUT_FILE
 
 echo "$SCRIPT"
-"$BENCHMARK_SHELL" "$SCRIPT" "$IN" "$OUT"
+$BENCHMARK_SHELL "$SCRIPT" "$IN" "$OUT"
 echo "$?"

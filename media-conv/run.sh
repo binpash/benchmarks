@@ -38,7 +38,7 @@ export BENCHMARK_INPUT_FILE
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/img_convert.sh")"
 export BENCHMARK_SCRIPT
 
-"$BENCHMARK_SHELL" "$scripts_dir/img_convert.sh" "$img_convert_input" "$outputs_dir/img_convert$suffix" > "$outputs_dir/img_convert$suffix.log"
+$BENCHMARK_SHELL "$scripts_dir/img_convert.sh" "$img_convert_input" "$outputs_dir/img_convert$suffix" > "$outputs_dir/img_convert$suffix.log"
 echo $?
  
 echo "to_mp3"
@@ -47,7 +47,7 @@ export BENCHMARK_INPUT_FILE
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/to_mp3.sh")"
 export BENCHMARK_SCRIPT
 
-"$BENCHMARK_SHELL" "$scripts_dir/to_mp3.sh" "$to_mp3_input" "$outputs_dir/to_mp3$suffix" > "$outputs_dir/to_mp3$suffix.log"
+$BENCHMARK_SHELL "$scripts_dir/to_mp3.sh" "$to_mp3_input" "$outputs_dir/to_mp3$suffix" > "$outputs_dir/to_mp3$suffix.log"
 echo $?
 
 echo "thumbnail_generation"
@@ -61,5 +61,5 @@ export BENCHMARK_INPUT_FILE
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/thumbnail_generation.sh")"
 export BENCHMARK_SCRIPT
 
-"$BENCHMARK_SHELL" "$scripts_dir/thumbnail_generation.sh" "$thumb_input_dir" "$outputs_dir/thumbnail$suffix" > "$outputs_dir/thumbnail$suffix.log"
+$BENCHMARK_SHELL "$scripts_dir/thumbnail_generation.sh" "$thumb_input_dir" "$outputs_dir/thumbnail$suffix" > "$outputs_dir/thumbnail$suffix.log"
 echo $?

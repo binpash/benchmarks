@@ -42,5 +42,5 @@ fi
 
 for bench in "$scripts_dir"/*; do
     export BENCHMARK_SCRIPT="$bench/run.sh"
-    "$BENCHMARK_SHELL" "$bench/run.sh" "$@"
+    $BENCHMARK_SHELL "$bench/run.sh" "$@"
 done

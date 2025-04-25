@@ -73,6 +73,6 @@ do
     BENCHMARK_SCRIPT="$(realpath "$script_file")"
     export BENCHMARK_SCRIPT
     
-    "$BENCHMARK_SHELL" "$script_file" "$input_file" > "$output_file"
+    $BENCHMARK_SHELL "$script_file" "$input_file" > "$output_file"
     echo "$?"
 done

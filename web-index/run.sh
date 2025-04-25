@@ -41,5 +41,5 @@ export BENCHMARK_SCRIPT
 BENCHMARK_INPUT_FILE="$(realpath "$INPUT_FILE")"
 export BENCHMARK_INPUT_FILE
 
-"$BENCHMARK_SHELL" "./scripts/ngrams.sh" "$OUTPUT_BASE"
+$BENCHMARK_SHELL "./scripts/ngrams.sh" "$OUTPUT_BASE"
 echo $?

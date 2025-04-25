@@ -16,4 +16,4 @@ main_script="${scripts_dir}/opt-parallel.sh"
 BENCHMARK_SCRIPT="$(realpath "$main_script")"
 export BENCHMARK_SCRIPT
 
-"$BENCHMARK_SHELL" "$main_script" "$input_dir" > "${outputs_dir}/opt-parallel.out"
+$BENCHMARK_SHELL "$main_script" "$input_dir" > "${outputs_dir}/opt-parallel.out"

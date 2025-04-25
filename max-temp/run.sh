@@ -35,4 +35,4 @@ export BENCHMARK_INPUT_FILE
 BENCHMARK_SCRIPT="$(realpath "${scripts_dir}/temp-analytics.sh")"
 export BENCHMARK_SCRIPT
 
-"$BENCHMARK_SHELL" "$scripts_dir/temp-analytics.sh"
+$BENCHMARK_SHELL "$scripts_dir/temp-analytics.sh"

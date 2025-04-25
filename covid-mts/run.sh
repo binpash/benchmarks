@@ -35,5 +35,5 @@ for i in 1 2 3 4; do
     script="$scripts_dir/$i.sh"
     BENCHMARK_SCRIPT="$(realpath "$script")"
     export BENCHMARK_SCRIPT
-    "$BENCHMARK_SHELL" "$script" "$input_file" > "$output_scoped/$i.out"
+    $BENCHMARK_SHELL "$script" "$input_file" > "$output_scoped/$i.out"
 done

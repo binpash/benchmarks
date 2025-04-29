@@ -213,7 +213,7 @@ EOF
 
             echo "Timing benchmark: $BENCHMARK  (run #$i)"
 
-            time_val_file="${BENCHMARK}_time_run${i}.val"
+            time_val_file="${BENCHMARK}_time_run${i}.txt"
             rm -f "$time_val_file"
 
             /usr/bin/time -f "%e" -o "$time_val_file" \

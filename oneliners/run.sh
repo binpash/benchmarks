@@ -1,12 +1,15 @@
 #!/bin/bash
 
-export SUITE_DIR=$(realpath $(dirname "$0"))
+SUITE_DIR="$(realpath "$(dirname "$0")")"
+export SUITE_DIR
+cd "$SUITE_DIR" || exit 1
+
 export TIMEFORMAT=%R
-cd $SUITE_DIR
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+export BENCHMARK_CATEGORY="oneliners"
 
-if [[ "$@" == *"--small"* ]]; then
+if [[ " $* " == *" --small "* ]]; then
     scripts_inputs=(
         "nfa-regex;1M"
         "sort;1M"
@@ -18,6 +21,21 @@ if [[ "$@" == *"--small"* ]]; then
         "set-diff;1M"
         "sort-sort;1M"
         "uniq-ips;logs-popcount-org"
+        "log-search;1M"
+    )
+elif [[ " $* " == *" --min "* ]]; then
+    scripts_inputs=(
+        "nfa-regex;1M"
+        "sort;1M"
+        "top-n;1M"
+        "wf;1M"
+        "spell;1M"
+        "diff;1M"
+        "bi-grams;1M"
+        "set-diff;1M"
+        "sort-sort;1M"
+        "uniq-ips;logs-popcount-org"
+        "log-search;1M" #TODO: change input
     )
 else
     scripts_inputs=(
@@ -31,14 +49,17 @@ else
         "set-diff;3G"
         "sort-sort;3G"
         "uniq-ips;logs-popcount-org"
+        "log-search;3G"
     )
 fi
 
 mkdir -p "outputs"
 
-echo executing oneliners $(date)
+export LC_ALL=C
 
-for script_input in ${scripts_inputs[@]}
+echo "executing oneliners $(date)"
+
+for script_input in "${scripts_inputs[@]}"
 do
     IFS=";" read -r -a parsed <<< "${script_input}"
     script_file="./scripts/${parsed[0]}.sh"
@@ -46,6 +67,12 @@ do
     output_file="./outputs/${parsed[0]}.out"
 
     echo "$script_file"
+    BENCHMARK_INPUT_FILE="$(realpath "$input_file")"
+    export BENCHMARK_INPUT_FILE
+
+    BENCHMARK_SCRIPT="$(realpath "$script_file")"
+    export BENCHMARK_SCRIPT
+    
     $BENCHMARK_SHELL "$script_file" "$input_file" > "$output_file"
     echo "$?"
 done

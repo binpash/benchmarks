@@ -5,7 +5,7 @@ eval_dir="${REPO_TOP}/riker"
 scripts_dir="${eval_dir}/scripts"
 
 tz="America/New_York"
-sudo echo "$tz" > /etc/timezone 
+echo "$tz" | sudo tee /etc/timezone > /dev/null
 sudo rm -f /etc/localtime
 sudo ln -s "/usr/share/zoneinfo/$tz" /etc/localtime
 
@@ -13,7 +13,40 @@ sudo apt update
 
 sudo apt install -y build-essential
 
-for bench in "$scripts_dir"/*; do
-    "$bench/deps.sh" $@
+small_benchmark=(
+    "lua"
+    "memcached"
+    "redis"
+    "sqlite"
+    "vim"
+    "xz"
+    "xz-clang"
+)
+
+run_small=false
+
+for arg in "$@"; do
+    if [ "$arg" = "--small" ]; then
+        run_small=true
+        break
+    fi
 done
+
+if [ "$run_small" = true ]; then
+    for bench in "${small_benchmark[@]}"; do
+        script_path="$scripts_dir/$bench/deps.sh"
+        if [ -x "$script_path" ]; then
+            "$script_path" "$@"
+        else
+            echo "Error: $script_path not found or not executable."
+            exit 1
+        fi
+    done
+    exit 0
+fi
+
+for bench in "$scripts_dir"/*; do
+    "$bench/deps.sh" "$@"
+done
+
 

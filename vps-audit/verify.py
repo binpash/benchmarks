@@ -6,15 +6,18 @@ import hashlib
 import os
 import sys
 
-
-input_file = "vps-audit.out"
+input_file = "vps-audit-report.txt"
+input_file_2 = "vps-audit-negate-report.txt"
 error_file = "vps-audit.err"
 output_file = "vps-audit-processed.out"
+output_file_2 = "vps-audit-negate-processed.out"
 hash_folder = "hash"
 
 ansi_escape = re.compile(r'\x1b\[[0-9;]*m')
 
 audit_markers = [
+    "Current uptime",
+    "System up since",
     "System Uptime",
     "System Restart",
     "SSH Root Login",
@@ -44,6 +47,8 @@ sys_info_markers = [
     "Hostname",
     "Operating System",
     "Kernel Version",
+    "Kernel",
+    "OS",
     "Uptime",
     "CPU Model",
     "CPU Cores",
@@ -62,6 +67,7 @@ def clean_line(line):
     line = re.sub(r"^Starting audit at [^\x1b]+", "Starting audit at", line)
 
     line = re.sub(r'vps-audit-report-\S+', '', line)
+    line = re.sub(r'vps-audit-negate-report-\S+', '', line)
 
     if ':' in line and any(marker in line for marker in sys_info_markers):
         line = line.split(':', 1)[0] + ':'
@@ -127,10 +133,13 @@ if __name__ == "__main__":
     os.makedirs(hash_folder, exist_ok=True)
 
     process_file(input_file, output_file)
+    process_file(input_file_2, output_file_2)
 
     if args.generate:
         print("Generate mode enabled. Hashes will be generated.")
         generate_hash(output_file, hash_folder)
+        generate_hash(output_file_2, hash_folder)
     else:
         print("Comparison mode enabled. Hashes will be compared.")
         compare_hashes(output_file, hash_folder)
+        compare_hashes(output_file_2, hash_folder)

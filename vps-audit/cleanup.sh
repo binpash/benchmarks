@@ -1,4 +1,4 @@
 #!/bin/bash
-
-rm *.txt
-rm vps-audit-processed.out
+REPO_TOP=$(git rev-parse --show-toplevel)
+eval_dir="${REPO_TOP}/vps-audit"
+rm ${eval_dir}/*.txt

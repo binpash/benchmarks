@@ -3,9 +3,7 @@
 REPO_TOP=$(git rev-parse --show-toplevel)
 
 eval_dir="${REPO_TOP}/max-temp"
-results_dir="${eval_dir}/results"
-scripts_dir="${eval_dir}/scripts"
-input_dir="${eval_dir}/input"
+input_dir="${eval_dir}/inputs"
 
 URL='https://www1.ncdc.noaa.gov/pub/data/noaa/'
 FROM=${FROM:-2015}
@@ -13,9 +11,24 @@ TO=${TO:-2015}
 sample_starting_index=1234
 sample_count=250
 
-mkdir -p "$input_dir"
 
-seq $FROM $TO |
+if [[ -d "$input_dir" ]]; then
+  echo "Data already downloaded and extracted."
+  exit 0
+fi
+
+mkdir -p "${input_dir}"
+
+for arg in "$@"; do
+    if [[ "$arg" == "--min" ]]; then
+      min_inputs="$eval_dir/min_inputs/"
+      mkdir -p "$input_dir"
+      cp -r "$min_inputs"/* "$input_dir/"
+      exit 0
+    fi
+done
+
+seq "$FROM" "$TO" |
   sed "s;^;$URL;" |
   sed 's;$;/;' |
   xargs -n1 -r curl --insecure |
@@ -24,7 +37,10 @@ seq $FROM $TO |
   tail -n +$sample_starting_index |
   head -n $sample_count |
   xargs -n1 curl --insecure |
-  gunzip > "$input_dir/temperatures.full.txt"
+  gunzip >"$input_dir/temperatures.full.txt"
 
 head -n 200 "$input_dir/temperatures.full.txt" \
-    > "$input_dir/temperatures.small.txt"
+  >"$input_dir/temperatures.small.txt"
+
+head -n 20 "$input_dir/temperatures.full.txt" \
+  >"$input_dir/temperatures.min.txt"

@@ -2,11 +2,7 @@
 
 set -e
 # 7zip
-pkgs='p7zip-full curl wget nodejs unzip npm' 
-if ! dpkg -s $pkgs >/dev/null 2>&1 ; then
-  sudo apt-get install $pkgs -y
-  echo 'Packages Installed'
-fi
+sudo apt-get install p7zip-full curl wget nodejs unzip npm -y
 
 if ! dpkg -s pandoc > /dev/null 2>&1 ; then
   # since pandoc v.2.2.1 does not support arm64, we use v.3.5
@@ -21,8 +17,8 @@ if ! dpkg -s nodejs > /dev/null 2>&1 ; then
     sudo apt-get install -y nodejs
 fi
 
-cd $(dirname $0)/scripts || exit 1
+cd "$(dirname "$0")/scripts" || exit 1
 npm install
 # Install the npm packages
 npm install natural
-cd -
+cd - 

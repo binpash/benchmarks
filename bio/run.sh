@@ -1,13 +1,27 @@
+#!/bin/bash
+
 # create bam files with regions
 ################### 1KG SAMPLES
-IN=inputs
-IN_NAME=input.txt
-OUT=outputs
+IN="inputs"
+IN_NAME="input.txt"
+OUT="outputs"
 
-if [[ "$@" == *"--small"* ]]; then
-    IN_NAME=input_small.txt
-fi
+for arg in "$@"; do
+    case "$arg" in
+        --small) IN_NAME="input_small.txt" ;;
+        --min)   IN_NAME="input_min.txt" ;;
+    esac
+done
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
+export BENCHMARK_CATEGORY="bio"
+export BENCHMARK_SHELL
 
-"$BENCHMARK_SHELL" ./scripts/bio.sh "$IN" "$IN_NAME" "$OUT"
+script_file="./scripts/bio.sh"
+BENCHMARK_SCRIPT="$(realpath "$script_file")"
+export BENCHMARK_SCRIPT
+
+BENCHMARK_INPUT_FILE="$(realpath "$IN_NAME")"
+export BENCHMARK_INPUT_FILE
+
+$BENCHMARK_SHELL "$script_file" "$IN" "$IN_NAME" "$OUT"

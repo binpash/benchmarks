@@ -1,8 +1,8 @@
 #!/bin/bash
 
 REPO_TOP=$(git rev-parse --show-toplevel)
-results_dir="${REPO_TOP}/log-analysis/input"
-results_dir="${REPO_TOP}/log-analysis/results"
+input_dir="${REPO_TOP}/log-analysis/inputs"
+outputs_dir="${REPO_TOP}/log-analysis/outputs"
 
-rm -rf $input_dir
-rm -rf $results_dir
+rm -rf "$input_dir"
+rm -rf "$outputs_dir"

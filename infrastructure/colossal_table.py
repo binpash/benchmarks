@@ -37,9 +37,8 @@ benchmark_category_style = {
     'sklearn': ('Machine learning', 'Data analysis', '\\cite{scikit-learn}'),
     'unix50': ('Misc.', 'Text processing', '\\cite{bhandari2020solutions}'),
     'vps-audit': ('System admin', 'Data extraction', '\\cite{vpsaudit}'),
-    'vps-audit-negate': ('System admin', 'Data extraction', '\\cite{vpsaudit}'),
     'web-index': ('Misc.', 'Text processing', '\\cite{pash2021}'),
-
+    'opt-parallel': ('Misc.', 'Data extraction', '\\cite{adamdrake}'), # TODO: add citation
     'infrastructure/standards/100-files': ('XXX', 'XXX', 'XXX'),
     'infrastructure/standards/read-write': ('XXX', 'XXX', 'XXX'),
     'infrastructure/standards/shell-memory': ('XXX', 'XXX', 'XXX'),
@@ -85,8 +84,8 @@ benchmark_input_description = {
     'web-index': 'root webpages',
     'bio': '\\xxx',
     'vps-audit': None,
-    'vps-audit-negate': None,
     'makeself': None,
+    'opt-parallel': 'pgn files',
     'aurpkg': '\\xxx',
     'infrastructure/standards/100-files': '\\xxx',
     'infrastructure/standards/read-write': '\\xxx',
@@ -116,6 +115,7 @@ scripts_to_include = [
     'web-index/scripts/ngrams.sh',
     'vps-audit/scripts/vps-audit.sh',
     'makeself/makeself/test/lsmtest/lsmtest.sh'
+    'opt-parallel/scripts/opt-parallel.sh',
 ]
 
 def script_name(script):

@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        benchmark: [nlp, file-enc, unix50, log-analysis, max-temp, uniq-ips, media-conv, sklearn, covid-mts, riker, oneliners, web-index, vps-audit, vps-audit-negate, makeself]
+        benchmark: [nlp, file-enc, unix50, log-analysis, max-temp, media-conv, sklearn, covid-mts, riker, oneliners, web-index, vps-audit, makeself, ray-tracing, git-workflow, port-scan, opt-parallel, dpt]
 
     steps:
       - name: Checkout code
@@ -26,8 +26,19 @@ jobs:
       - name: Set execute permissions for main.sh
         run: chmod +x main.sh
 
-      - name: Run Benchmark for ${{ matrix.benchmark }}
-        run: ./main.sh ${{ matrix.benchmark }} --small
+      - name: Build benchmark Docker image
+        run: |
+          docker build -t benchmark-env -f Dockerfile .
+          
+      - name: Run Benchmark ${{ matrix.benchmark }}
+        run: |
+          docker run --rm \
+            --cap-add NET_ADMIN \
+            --cap-add NET_RAW \
+            -v ${{ github.workspace }}:/benchmarks \
+            -w /benchmarks \
+            benchmark-env \
+            bash -c "chmod +x main.sh && ./main.sh ${{ matrix.benchmark }} --small"
 
       - name: Upload .out and .err files
         uses: actions/upload-artifact@v4

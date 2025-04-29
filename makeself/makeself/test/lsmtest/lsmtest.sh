@@ -4,7 +4,6 @@ THIS="$(readlink -f "$0")"
 THISDIR="$(dirname "${THIS}")"
 SUT="$(dirname "$(dirname "${THISDIR}")")/makeself.sh"
 LOGFILE="${THISDIR}/test_results.log"
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 
 echo "Test results:" > "${LOGFILE}"
 
@@ -20,7 +19,7 @@ withlsm() {
     (
         cd "${THISDIR}"
         mkdir -p lsmtest
-        if ! $BENCHMARK_SHELL "${SUT}" $options ./lsmtest ./lsmtest.run lsmtest ls -lah > /dev/null 2>&1; then
+        if ! "${SUT}" $options ./lsmtest ./lsmtest.run lsmtest ls -lah > /dev/null 2>&1; then
             log_result "withlsm" "FAIL" "Failed to create archive"
             return 1
         fi

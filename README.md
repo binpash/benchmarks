@@ -50,10 +50,10 @@ For example, to benchmark PaSh with `--width 4`, run `export BENCHMARK_SHELL="$P
 $ docker build -t koala .
 
 # Run the container
-$ docker run --cap-add NET_ADMIN --cap-add NET_RAW -it koala
+$ docker run -it koala
 
 # For development, mount the benchmarks directory
-$ docker run --cap-add NET_ADMIN --cap-add NET_RAW -it -v "$(pwd):/benchmarks" koala
+$ docker run -it -v "$(pwd):/benchmarks" koala
 ```
 
 ### Core options

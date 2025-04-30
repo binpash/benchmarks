@@ -8,7 +8,6 @@ mkdir -p "${IN}"
 
 if [ ! -f "${IN}/packages" ]; then
   wget https://atlas.cs.brown.edu/data/packages --no-check-certificate -O "${IN}/packages"
-  echo "Package dataset downloaded"
 fi
 
 for arg in "$@"; do

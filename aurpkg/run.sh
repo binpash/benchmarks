@@ -8,8 +8,6 @@ SCRIPT="./scripts/pacaur.sh"
 
 mkdir -p "${OUT}"
 
-# Switch to user "user" to avoid permission issues
-
 # Set environment variables
 BENCHMARK_CATEGORY="aurpkg"
 export BENCHMARK_CATEGORY

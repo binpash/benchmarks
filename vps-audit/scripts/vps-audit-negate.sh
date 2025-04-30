@@ -166,12 +166,6 @@ check_firewall_status() {
         else
             check_security "Firewall Status (firewalld)" "PASS" "Firewalld is active and protecting your system"
         fi
-    elif command -v iptables >/dev/null 2>&1; then
-        if ! sudo iptables -L | grep -q "Chain INPUT"; then
-            check_security "Firewall Status (iptables)" "FAIL" "No active iptables rules found - your system may be exposed"
-        else
-            check_security "Firewall Status (iptables)" "PASS" "iptables rules are active and protecting your system"
-        fi
     elif command -v nft >/dev/null 2>&1; then
         if ! nft list ruleset | grep -q "table"; then
             check_security "Firewall Status (nftables)" "FAIL" "No active nftables rules found - your system may be exposed"

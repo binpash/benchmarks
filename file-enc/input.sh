@@ -24,15 +24,13 @@ for arg in "$@"; do
 done
 
 if [ ! -d "$input_dir/pcaps" ]; then
-    mkdir -p "$input_dir"/pcaps
+    curl --insecure $DATA_LINK/pcaps.zip -o "$input_dir/pcaps.zip"
+    unzip "$input_dir/pcaps.zip" -d "$input_dir"
+    rm "$input_dir/pcaps.zip"
 
     wget --no-check-certificate "$DATA_LINK"/pcaps_large.zip -O "$ZIP_DST"
     unzip "$ZIP_DST" -d "$input_dir"/pcaps
     rm "$ZIP_DST"
-
-    curl --insecure $DATA_LINK/pcaps.zip -o "$input_dir/pcaps.zip"
-    unzip "$input_dir/pcaps.zip" -d "$input_dir"
-    rm "$input_dir/pcaps.zip"
 else
     echo "pcaps already exists. Skipping download."
 fi

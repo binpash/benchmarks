@@ -22,7 +22,7 @@ fi
 
 for arg in "$@"; do
     if [[ "$arg" == "--small" ]]; then
-        if [ ! -e ./pg-min ]; then
+        if [ ! -e ./pg-small ]; then
             mkdir pg-small
             cd pg-small || exit 1
             book_count=3000

@@ -16,7 +16,7 @@ for arg in "$@"; do
         exit 0
     fi
     if [ "$arg" = "--small" ]; then
-        curl --insecure $DATA_LINK/pcaps.zip -o "$input_dir/pcaps.zip"
+        wget --no-check-certificate $DATA_LINK/pcaps.zip -O "$input_dir/pcaps.zip"
         unzip "$input_dir/pcaps.zip" -d "$input_dir"
         rm "$input_dir/pcaps.zip"
         exit 0
@@ -24,7 +24,7 @@ for arg in "$@"; do
 done
 
 if [ ! -d "$input_dir/pcaps" ]; then
-    curl --insecure $DATA_LINK/pcaps.zip -o "$input_dir/pcaps.zip"
+    wget --no-check-certificate $DATA_LINK/pcaps.zip -O "$input_dir/pcaps.zip"
     unzip "$input_dir/pcaps.zip" -d "$input_dir"
     rm "$input_dir/pcaps.zip"
 

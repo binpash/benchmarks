@@ -6,7 +6,7 @@ input_dir="${eval_dir}/inputs"
 
 mkdir -p "$input_dir"
 
-DATA_LINK="https://atlas-group.cs.brown.edu/data/pcaps.zip"
+DATA_LINK="https://atlas-group.cs.brown.edu/data"
 ZIP_DST="$input_dir/pcaps.zip"
 
 for arg in "$@"; do
@@ -16,13 +16,15 @@ for arg in "$@"; do
         exit 0
     fi
     if [ "$arg" = "--small" ]; then
-        # curl --insecure 'https://atlas-group.cs.brown.edu/data/file-enc/in_small.csv.gz' | gunzip > "$input_dir/in_small.csv"
-        continue
+        curl --insecure $DATA_LINK/pcaps.zip -o "$input_dir/pcaps.zip"
+        unzip "$input_dir/pcaps.zip" -d "$input_dir"
+        rm "$input_dir/pcaps.zip"
+        exit 0
     fi
 done
 
 if [ ! -d "$input_dir/pcaps" ]; then
-    wget --no-check-certificate "$DATA_LINK" -O "$ZIP_DST"
+    wget --no-check-certificate "$DATA_LINK"/pcaps_full.zip -O "$ZIP_DST"
     unzip "$ZIP_DST" -d "$input_dir"
     rm "$ZIP_DST"
 else

@@ -5,12 +5,6 @@ cd "$(realpath "$(dirname "$0")")" || exit 1
 IN="inputs"
 IN_NAME="input.txt"
 
-if [[ "${1:-}" == "-c" ]]; then
-    rm -f ./*.bam ./*.sam
-    rm -rf ../output
-    exit 0
-fi
-
 for arg in "$@"; do
     case "$arg" in
         --small) IN_NAME="input_small.txt" ;;

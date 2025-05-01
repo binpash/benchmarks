@@ -58,7 +58,6 @@ done
 if [ ! -e ./pg ]; then
     mkdir pg
     cd pg || exit 1
-    book_count=120
 
     while IFS= read -r line
     do

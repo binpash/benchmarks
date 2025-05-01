@@ -6,16 +6,11 @@ eval_dir="${REPO_TOP}/max-temp"
 input_dir="${eval_dir}/inputs"
 
 URL='https://www1.ncdc.noaa.gov/pub/data/noaa/'
-FROM=${FROM:-2015}
-TO=${TO:-2015}
-sample_starting_index=1234
-sample_count=250
+FROM=2000
+TO=2015
 
-
-if [[ -d "$input_dir" ]]; then
-  echo "Data already downloaded and extracted."
-  exit 0
-fi
+n_samples=99999
+suffix="full"
 
 mkdir -p "${input_dir}"
 
@@ -26,6 +21,12 @@ for arg in "$@"; do
       cp -r "$min_inputs"/* "$input_dir/"
       exit 0
     fi
+    if [[ "$arg" == "--small" ]]; then
+      FROM=2000
+      TO=2000
+      n_samples=1
+      suffix="small"
+    fi
 done
 
 seq "$FROM" "$TO" |
@@ -34,13 +35,6 @@ seq "$FROM" "$TO" |
   xargs -n1 -r curl --insecure |
   grep gz |
   sed "s;.*\"\(.*\)\(20[0-9][0-9]\).gz\".*;$URL\2/\1\2.gz;" |
-  tail -n +$sample_starting_index |
-  head -n $sample_count |
+  head -n "$n_samples" |
   xargs -n1 curl --insecure |
-  gunzip >"$input_dir/temperatures.full.txt"
-
-head -n 200 "$input_dir/temperatures.full.txt" \
-  >"$input_dir/temperatures.small.txt"
-
-head -n 20 "$input_dir/temperatures.full.txt" \
-  >"$input_dir/temperatures.min.txt"
+  gunzip >"$input_dir/temperatures.$suffix.txt"

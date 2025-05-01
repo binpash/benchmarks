@@ -24,8 +24,9 @@ for arg in "$@"; do
 done
 
 if [ ! -d "$input_dir/pcaps" ]; then
-    wget --no-check-certificate "$DATA_LINK"/pcaps_full.zip -O "$ZIP_DST"
-    unzip "$ZIP_DST" -d "$input_dir"
+    wget --no-check-certificate "$DATA_LINK"/pcaps_large.zip -O "$ZIP_DST"
+    mkdir -p "$input_dir"/pcaps
+    unzip "$ZIP_DST" -d "$input_dir"/pcaps
     rm "$ZIP_DST"
 else
     echo "pcaps already exists. Skipping download."

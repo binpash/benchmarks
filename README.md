@@ -6,7 +6,7 @@
 
 | Benchmark    | Description                                             |
 | ---------    | -----------                                             |
-| aurpkg       |                                                         |
+| aurpkg       | AUR package builds.                                     |
 | bio          | Bioinformatics.                                         |
 | covid-mts    | COVID-19 multivariate time series.                      |
 | file-enc     | File encoding.                                          |
@@ -16,7 +16,7 @@
 | media-conv   | Media conversion.                                       |
 | nlp          | Natural language processing.                            |
 | oneliners    | One-liners.                                             |
-| riker        |                                                         |
+| riker        | Incremental builds.                                     |
 | sklearn      | Machine learning.                                       |
 | teraseq      |                                                         |
 | uniq-ips     | Unique IPs.                                             |
@@ -24,15 +24,17 @@
 | web-index    | Web index.                                              |
 
 ## Instructions
-First, set the shell runtime to benchmark with the `$BENCHMARK_SHELL` shell variable.
-By default, this is set to `bash`.
-You can also pass in flags/options to use with the shell.
-For example, to benchmark PaSh with `--width 4`, run `export BENCHMARK_SHELL="$PASH_TOP/pa.sh --width 4"`.
+First, set the shell runtime that will execute the benchmark via the `$BENCHMARK_SHELL` shell variable (default `bash`).
+You may append flags or options for the chosen shell.
+For example, to benchmark PaSh with `--width 4`, run:
+```bash
+export BENCHMARK_SHELL="$PASH_TOP/pa.sh --width 4"
+```
 
 `main.sh` is the one-stop harness for downloading dependencies and inputs, running, profiling and verifying a **single benchmark** in this suite.
 
 ```bash
-./main.sh <BENCHMARK_NAME> [OPTIONS] [-- args passed to run.sh …]
+./main.sh <BENCHMARK_NAME> [OPTIONS] [-- <args passed to run.sh>]
 ```
 
 `run_all.sh` runs the `main.sh` script for all benchmarks inside a Docker container or locally if the `--bare` flag is used.
@@ -56,14 +58,14 @@ $ docker run -it -v "$(pwd):/benchmarks" koala
 ```
 
 ### Core options
-| Flag / Option                         | Effect                                                                                                              | Typical use-case                                   |
-|---------------------------------------|---------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
-| **`-n <N>` / `--runs <N>`**           | Execute the benchmark **N** times (default = 1).                                                                    | Measure variance, warm-up caches, find flaky runs. |
-| **`--resources`**                     | Collect CPU/RAM/I/O stats.<br>Writes `*_stats_run<i>.txt` for every run **and** a summary `*_stats_aggregated.txt`. | Profiling, optimisation, capacity planning.        |
-| **`--bare`**                          | Use the lightweight local logger instead of the Docker-based tracer.                                                | When Docker isn’t available or is too heavy.       |
-| **`-t` / `--time`**                   | Measure wall-clock runtime with `/usr/bin/time`.<br>Produces `{benchmark}_times_aggregated.txt` when `-n > 1`.      | Quick speed checks, perf regression testing.       |
-| **`--small`**                         | Run the benchmark with a reduced (small) input set.                                                                 | Fast experiments, small-scale characterisation.    |
-| **`--min`**                           | Run the benchmark with the absolute minimum inputs.                                                                 | Suite-level sanity checks.                         |
+| Flag / Option                         | Effect                                                                                                              | Typical use-case                                     |
+|---------------------------------------|---------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
+| **`-n <N>` / `--runs <N>`**           | Execute the benchmark **N** times (default = 1).                                                                    | Measure variance, warm-up caches, detect flaky runs. |
+| **`--resources`**                     | Collect CPU/RAM/I/O stats.<br>Writes `*_stats_run<i>.txt` for every run **and** a summary `*_stats_aggregated.txt`. | Profiling, optimisation, capacity planning.          |
+| **`--bare`**                          | Use the lightweight local logger instead of the Docker-based tracer.                                                | When Docker isn’t available or is too heavy.         |
+| **`-t` / `--time`**                   | Measure wall-clock runtime with `/usr/bin/time`.<br>Produces `{benchmark}_times_aggregated.txt` when `-n > 1`.      | Quick speed checks, perf regression testing.         |
+| **`--small`**                         | Run the benchmark with a reduced (small) input set.                                                                 | Fast experiments, small-scale characterization.      |
+| **`--min`**                           | Run the benchmark with the absolute minimum inputs.                                                                 | Suite-level sanity checks.                           |
 
 Flags, apart from those referring to input sizes, can be combined freely (e.g. `--resources --bare -n 5`).
 
@@ -84,7 +86,7 @@ Flags, apart from those referring to input sizes, can be combined freely (e.g. `
 
 ### Usage examples
 
-#### 1. Plain correctness run (old behaviour)
+#### 1. Plain correctness run
 ```bash
 ./main.sh unix50
 ```
@@ -115,8 +117,8 @@ You can also **run the dynamic analysis independently** of the main harness. Thi
 1. **Install dependencies**:
    ```bash
    sudo apt-get install -y autoconf automake libtool build-essential cloc
-   ```
-   `pip install --break-system-packages -r "infrastructure/requirements.txt"`
+   pip install --break-system-packages -r "infrastructure/requirements.txt"
+    ```
 
 2. **Run the analysis script manually**:
     ```bash
@@ -126,7 +128,7 @@ You can also **run the dynamic analysis independently** of the main harness. Thi
     ```bash
     infrastructure/target/process-logs/
 
-3. **(If using Docker):**  
+3. **(If using Docker)**:  
    Copy the log files from the container to your host system in order to generate plots. The requirements will need to be installed in your host machine as well.  
    If you'd prefer not to copy files, you can instead run the visualizer with the `--text` flag to produce textual output directly:
 

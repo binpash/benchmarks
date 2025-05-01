@@ -10,7 +10,6 @@ var rl = readline.createInterface({
 });
 
 rl.on('line', function (line) {
-  //console.log(natural.PorterStemmer.stem(line));
   console.log(natural.LancasterStemmer.stem(line));
 });
 

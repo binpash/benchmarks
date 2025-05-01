@@ -44,8 +44,19 @@ For example, to benchmark PaSh with `--width 4`, run `export BENCHMARK_SHELL="$P
 
 `run_all.sh` runs the `main.sh` script for all benchmarks inside a Docker container or locally if the `--bare` flag is used.
 
-### Core options
+### Docker
+```sh
+# Build the container
+$ docker build -t koala .
 
+# Run the container
+$ docker run -it koala
+
+# For development, mount the benchmarks directory
+$ docker run -it -v "$(pwd):/benchmarks" koala
+```
+
+### Core options
 | Flag / Option                         | Effect                                                                                                              | Typical use-case                                   |
 |---------------------------------------|---------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
 | **`-n <N>` / `--runs <N>`**           | Execute the benchmark **N** times (default = 1).                                                                    | Measure variance, warm-up caches, find flaky runs. |
@@ -58,7 +69,6 @@ For example, to benchmark PaSh with `--width 4`, run `export BENCHMARK_SHELL="$P
 Flags, apart from those referring to input sizes, can be combined freely (e.g. `--resources --bare -n 5`).
 
 ### Files produced per run
-
 | File (per-run)                                | Contents / Purpose                                                                                 | Generated when …                                              |
 |-----------------------------------------------|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
 | `<benchmark>.out` / `<benchmark>.err`         | Stdout / stderr from `run.sh`.                                                                     | **Always**                                                    |
@@ -68,7 +78,6 @@ Flags, apart from those referring to input sizes, can be combined freely (e.g. `
 | `<benchmark>_time_run<i>.val`                 | Single wall-clock number (seconds) for run *i*.                                                    | Only with **`--time`**                                        |
 
 ### Extra files produced when **`-n <N>`** > 1
-
 | File (aggregated)                     | Description                                             | Requires flag |
 |---------------------------------------|---------------------------------------------------------|---------------|
 | `<prefix>_stats_aggregated.txt`       | Mean / min / max of every numeric resource metric.      | `--resources` |
@@ -96,7 +105,53 @@ Flags, apart from those referring to input sizes, can be combined freely (e.g. `
 ```bash
 ./main.sh unix50 -n 5 --resources --time -- --small --fast
 ```
-### Anatomy of stats file
+
+### Dynamic Characterization & Analysis
+When you run a benchmark with the `--resources` flag, existing process logs in  
+`infrastructure/target/process-logs/` are automatically moved to  
+`infrastructure/target/backup-process-logs/`.  
+This ensures clean output when collecting new resource statistics. The new logs are then used to generate dynamic analysis visualizations.
+
+#### Running the Dynamic Analysis Separately
+You can also **run the dynamic analysis independently** of the main harness.  
+This is useful for manually generating plots and debugging, while only having to execute each benchmark and avoiding the full setup and cleanup process.
+
+#### Step-by-step:
+1. **Install dependencies**:
+   ```bash
+   sudo apt-get install -y autoconf automake libtool build-essential cloc
+   ```
+   `pip install --break-system-packages -r "infrastructure/requirements.txt"`
+
+2. **Run the analysis script manually:**:
+    `./infrastructure/run_dynamic.py benchmark_name`
+    This generates new process logs in:
+    `infrastructure/target/process-logs/`
+
+3. **(If using Docker):**  
+   Copy the log files from the container to your host system in order to generate plots. The requirements will need to be installed in your host machine as well.  
+   If you'd prefer not to copy files, you can instead run the visualizer with the `--text` flag to produce textual output directly:
+
+   ```bash
+   infrastructure/viz/dynamic.py --text
+   ```
+
+4. **Navigate to the infrastructure directory**:
+    `cd infrastructure`
+
+5. **Delete previous analysis output**:
+    `rm -f target/dynamic_analysis.csv`
+
+6. **Regenerate the analysis CSV**:
+    `make target/dynamic_analysis.csv`
+
+7. **Generate the visualizations**:
+    `python infrastructure/viz/dynamic.py /path/to/output`
+
+This produces benchmark-specific performance plots, showing shell vs command time,
+CPU usage, I/O throughput, and memory footprint, for all benchmarks that have logs present in `infrastructure/target/process-logs/`
+
+#### Anatomy of stats file
 ```
 Benchmark Statistics
 ==================================================
@@ -116,14 +171,40 @@ Per-input-byte numbers are computed automatically: if `BENCHMARK_INPUT_FILE` poi
 
 Local (`--bare`) and Docker-based stats share the exact same format, so they aggregate seamlessly.
 
-### Docker
-```sh
-# Build the container
-$ docker build -t koala .
+### Syntactic Characterization & Analysis
 
-# Run the container
-$ docker run --cap-add NET_ADMIN --cap-add NET_RAW -it koala
+We use [`libdash`](https://github.com/binpash/libdash) to parse and analyze both the shell portion of each benchmark, and the portions of components called into by the shell and which often implement the kernel of a computation: for the shell portion, we count the total occurrences of every AST node; for the command portion, we analyze only AST nodes counting commands, built-ins, and functions—noting that the results are conservative, as they do not count dynamic commands.
 
-# For development, mount the benchmarks directory
-$ docker run --cap-add NET_ADMIN --cap-add NET_RAW -it -v "$(pwd):/benchmarks" koala
-```
+The analysis produces CSV summaries and heatmaps across the benchmark suite, highlighting the use of each shell construct.
+
+1. **Install dependencies**:
+   ```bash
+   sudo apt-get install -y autoconf automake libtool build-essential cloc
+   pip install --break-system-packages -r infrastructure/requirements.txt
+
+2. **Register the benchmark script**:  
+   Add the new benchmark’s script pattern to:
+   `infrastructure/data/script-globs.json`
+   > **Note:** Syntactic analysis only works for **POSIX-compliant** scripts.
+
+3. **Remove previous analysis artifacts**:
+    ```bash
+    rm -f infrastructure/target/cyclomatic.csv
+    rm -f infrastructure/target/lines_of_code.csv
+    rm -f infrastructure/target/nodes_in_scripts.csv
+    rm -f infrastructure/target/scripts_to_benchmark.csv
+    ```
+
+4. **Navigate to the infrastructure directory**:
+    `cd infrastructure`
+
+5. **Regenerate the syntactic analysis artifacts**:
+    `make`
+
+6. **Generate visualizations**:
+    ```
+    python infrastructure/viz/syntax.py output_dir
+    python infrastructure/viz/commands.py output_dir
+    ```
+
+These will produce plots summarizing shell syntax usage and external command invocation patterns for all registered benchmarks in the specified `output_dir`.

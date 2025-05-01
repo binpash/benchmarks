@@ -182,7 +182,8 @@ The analysis produces CSV summaries and heatmaps across the benchmark suite, hig
    ```bash
    sudo apt-get install -y autoconf automake libtool build-essential cloc
    pip install --break-system-packages -r infrastructure/requirements.txt
-
+   ```
+   
 2. **Register the benchmark script**:  
    Add the new benchmark’s script pattern to:
    `infrastructure/data/script-globs.json`

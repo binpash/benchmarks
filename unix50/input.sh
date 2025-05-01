@@ -26,6 +26,9 @@ do
         for (( i = 0; i < iteration_limit; i++ )); do
             cat "${input}.txt" >> "${input}_1M.txt"
         done
+        for (( i = 0; i < 30; i++ )); do
+            cat "${input}_1M.txt" >> "${input}_30M.txt"
+        done
     fi
 
     # Skip the 3G file if the --small flag is present

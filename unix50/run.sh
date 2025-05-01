@@ -46,7 +46,7 @@ scripts_inputs=(
 
 suffix=""
 if [[ " $* " == *" --small "* ]]; then
-    suffix="_1M"
+    suffix="_30M"
 elif [[ " $* " == *" --min "* ]]; then
     suffix=""
 else

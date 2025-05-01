@@ -86,15 +86,9 @@ var re_weburl = new RegExp(
     let r = line.match(nregex());
     if (r) {
       for (let i = 0; i < r.length; i++) {
-        //console.error(i);// (r[i]);
         console.log(r[i]);
       };
     } else {
       console.log("pizza");
     }
-  //  if (r) {
-  //    console.log(r.join('\n'));
-  //  }
   });
-  
-  // console.log('foo http://github.com bar //google.com'.match(nregex()));

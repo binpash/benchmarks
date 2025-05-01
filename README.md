@@ -9,23 +9,16 @@
 | aurpkg       |                                                         |
 | bio          | Bioinformatics.                                         |
 | covid-mts    | COVID-19 multivariate time series.                      |
-| dpt          | Hieroglyph classification benchmark.                    |
 | file-enc     | File encoding.                                          |
-| git-workflow | A Git workflow.                                         |
-| llm          | Various benchmarks using llms.                          |
 | log-analysis | Log analysis.                                           |
 | makeself     | Make self-extractable archives on Unix                  |
 | max-temp     | Maximum temperature.                                    |
 | media-conv   | Media conversion.                                       |
 | nlp          | Natural language processing.                            |
 | oneliners    | One-liners.                                             |
-| opt-parallel | Fast map-reduce equivalent.                             |
-| port-scan    | Port-scan processing.                                   |
-| ray-tracing  | Ray-tracing log processing.                             |
 | riker        |                                                         |
 | sklearn      | Machine learning.                                       |
 | teraseq      |                                                         |
-| tuft-weather | Tuft weather.                                           |
 | uniq-ips     | Unique IPs.                                             |
 | unix50       | Unix 50.                                                |
 | web-index    | Web index.                                              |
@@ -44,7 +37,13 @@ For example, to benchmark PaSh with `--width 4`, run `export BENCHMARK_SHELL="$P
 
 `run_all.sh` runs the `main.sh` script for all benchmarks inside a Docker container or locally if the `--bare` flag is used.
 
-### Docker
+### Environment & Setup Notes
+
+**Note:** The setup scripts in this suite are designed for **Debian-based systems**.  
+To ensure portability and a consistent execution environment, we provide a **Docker image**.  
+It is **recommended** to run the benchmark suite inside this Docker container, especially when working on non-Debian systems.
+
+To build and run the Docker image:
 ```sh
 # Build the container
 $ docker build -t koala .
@@ -107,14 +106,10 @@ Flags, apart from those referring to input sizes, can be combined freely (e.g. `
 ```
 
 ### Dynamic Characterization & Analysis
-When you run a benchmark with the `--resources` flag, existing process logs in  
-`infrastructure/target/process-logs/` are automatically moved to  
-`infrastructure/target/backup-process-logs/`.  
-This ensures clean output when collecting new resource statistics. The new logs are then used to generate dynamic analysis visualizations.
+When you run a benchmark with the `--resources` flag, existing process logs in `infrastructure/target/process-logs/` are automatically moved to `infrastructure/target/backup-process-logs/`. This ensures clean output when collecting new resource statistics. The new logs are then used to generate dynamic analysis visualizations.
 
 #### Running the Dynamic Analysis Separately
-You can also **run the dynamic analysis independently** of the main harness.  
-This is useful for manually generating plots and debugging, while only having to execute each benchmark and avoiding the full setup and cleanup process.
+You can also **run the dynamic analysis independently** of the main harness. This is useful for manually generating plots and debugging, while only having to execute each benchmark and avoiding the full setup and cleanup process.
 
 #### Step-by-step:
 1. **Install dependencies**:
@@ -123,10 +118,13 @@ This is useful for manually generating plots and debugging, while only having to
    ```
    `pip install --break-system-packages -r "infrastructure/requirements.txt"`
 
-2. **Run the analysis script manually:**:
-    `./infrastructure/run_dynamic.py benchmark_name`
+2. **Run the analysis script manually**:
+    ```bash
+    ./infrastructure/run_dynamic.py benchmark_name
+    ```
     This generates new process logs in:
-    `infrastructure/target/process-logs/`
+    ```bash
+    infrastructure/target/process-logs/
 
 3. **(If using Docker):**  
    Copy the log files from the container to your host system in order to generate plots. The requirements will need to be installed in your host machine as well.  
@@ -134,19 +132,22 @@ This is useful for manually generating plots and debugging, while only having to
 
    ```bash
    infrastructure/viz/dynamic.py --text
-   ```
 
 4. **Navigate to the infrastructure directory**:
-    `cd infrastructure`
+    ```bash
+    cd infrastructure
 
 5. **Delete previous analysis output**:
-    `rm -f target/dynamic_analysis.csv`
+    ```bash
+    rm -f target/dynamic_analysis.csv`
 
 6. **Regenerate the analysis CSV**:
-    `make target/dynamic_analysis.csv`
+    ```bash
+    make target/dynamic_analysis.csv`
 
 7. **Generate the visualizations**:
-    `python infrastructure/viz/dynamic.py /path/to/output`
+    ```bash
+    python infrastructure/viz/dynamic.py /path/to/output`
 
 This produces benchmark-specific performance plots, showing shell vs command time,
 CPU usage, I/O throughput, and memory footprint, for all benchmarks that have logs present in `infrastructure/target/process-logs/`

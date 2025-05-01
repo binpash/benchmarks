@@ -29,9 +29,6 @@ echo "MAX_SQ_SUM: $MAX_SQ_SUM" >&2
 echo "WARM_COEF: $WARM_COEF" >&2
 echo "C_: $C_" >&2
 
-# TODO: Try this out on a larger dataset
-# TODO: Benchmark each phase
-
 # Generating model & samples
 $PYTHON $SCRIPTS/gen_model.py 100
 $PYTHON $SCRIPTS/gen_samples.py
@@ -46,7 +43,6 @@ $PYTHON $SCRIPTS/classes.py $MODEL $y # This should return a classes with just t
 echo "$PYTHON $SCRIPTS/check_multiclass.py $MODEL" >&2
 multiclass=$($PYTHON $SCRIPTS/check_multiclass.py $MODEL)
 echo "------" >&2
-# TODO: Benchmark each step of the pipeline
 # Make a modified pipeline where each step writes its output to a file
 
 # Calculations functions

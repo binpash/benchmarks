@@ -47,6 +47,8 @@ scripts_inputs=(
 suffix=""
 if [[ " $* " == *" --small "* ]]; then
     suffix="_1M"
+elif [[ " $* " == *" --min "* ]]; then
+    suffix=""
 else
     suffix="_3G"
 fi

@@ -7,7 +7,7 @@ pure_func() {
 }
 export -f pure_func
 
-for item in $1/*.pcapng;
+for item in $1/*;
 do
     output_name="$2/$(basename $item).enc"
     cat $item | pure_func > $output_name

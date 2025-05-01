@@ -24,7 +24,7 @@ for arg in "$@"; do
     if [[ "$arg" == "--small" ]]; then
       FROM=2000
       TO=2000
-      n_samples=1000
+      n_samples=700
       suffix="small"
     fi
 done

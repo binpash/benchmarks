@@ -16,14 +16,12 @@ for arg in "$@"; do
             curl --insecure 'https://atlas-group.cs.brown.edu/data/covid-mts/in_small.csv.gz' | gunzip > "$input_dir/in_small.csv"
             exit 0
         else
-            echo "Input file already exists. Skipping download."
             exit 0
         fi
     fi
 done
 
 if [ -f "$input_dir/in.csv" ]; then
-    echo "Input file already exists. Skipping download."
     exit 0
 fi
 curl --insecure 'https://atlas-group.cs.brown.edu/data/covid-mts/in.csv.gz' | gunzip > "$input_dir/in.csv"

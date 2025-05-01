@@ -1,1 +1,5 @@
 CHS HG00614 ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/HG00614/cg_data/HG00614_lcl_SRR821831.mapped.COMPLETE_GENOMICS.CGworkflow2_2_evidenceOnly.CHS.high_coverage.20130401.bam 
+CHS HG00559 ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/HG00559/cg_data/HG00559_lcl_SRR820426.mapped.COMPLETE_GENOMICS.CGworkflow2_2_evidenceOnly.CHS.high_coverage.20130401.bam 
+CHS HG00421 ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/HG00421/cg_data/HG00421_lcl_SRR826543.mapped.COMPLETE_GENOMICS.CGworkflow2_2_evidenceOnly.CHS.high_coverage.20130401.bam 
+PEL HG01941 ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/HG01941/cg_data/HG01941_blood_SRR800383.mapped.COMPLETE_GENOMICS.CGworkflow2_2_evidenceOnly.PEL.high_coverage.20130401.bam 
+PEL HG01920 ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/HG01920/cg_data/HG01920_blood_SRR800327.mapped.COMPLETE_GENOMICS.CGworkflow2_2_evidenceOnly.PEL.high_coverage.20130401.bam 

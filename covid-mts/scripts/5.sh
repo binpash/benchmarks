@@ -2,7 +2,7 @@
 # Hours each bus is active each day
 
 # Records are day, hour, line, bus
-<in.csv sed 's/T\(..\):..:../,\1/' | awk -F, '
+sed 's/T\(..\):..:../,\1/' "$1" | awk -F, '
 !seen[$1 $2 $4] { seen[$1 $2 $4] = 1; hours[$1 $4]++; bus[$4] = 1; day[$1] = 1; }
 END {
    PROCINFO["sorted_in"] = "@ind_str_asc"
@@ -15,4 +15,4 @@ END {
        printf("\t%s", hours[d b]);
      printf("\n");
    }
-}' > out
+}'

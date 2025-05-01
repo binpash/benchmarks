@@ -31,7 +31,7 @@ export BENCHMARK_CATEGORY
 BENCHMARK_INPUT_FILE="$(realpath "$input_file")"
 export BENCHMARK_INPUT_FILE
 
-for i in 1 2 3 4; do
+for i in 1 2 3 4 5; do
     script="$scripts_dir/$i.sh"
     BENCHMARK_SCRIPT="$(realpath "$script")"
     export BENCHMARK_SCRIPT

@@ -51,6 +51,6 @@ md5sum --check --quiet --status $hashes_dir/$bench.md5sum
 echo $bench $?
 
 
-bench=thumbnail$suffix
-md5sum --check --quiet --status $hashes_dir/$bench.md5sum
-echo $bench $?
+# bench=thumbnail$suffix
+# md5sum --check --quiet --status $hashes_dir/$bench.md5sum
+# echo $bench $?

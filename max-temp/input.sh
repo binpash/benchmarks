@@ -7,7 +7,7 @@ input_dir="${eval_dir}/inputs"
 
 URL='https://www1.ncdc.noaa.gov/pub/data/noaa/'
 FROM=2000
-TO=2015
+TO=2024
 
 n_samples=99999
 suffix="full"

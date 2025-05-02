@@ -18,7 +18,6 @@
 | oneliners    | One-liners.                                             |
 | riker        | Incremental builds.                                     |
 | sklearn      | Machine learning.                                       |
-| teraseq      |                                                         |
 | uniq-ips     | Unique IPs.                                             |
 | unix50       | Unix 50.                                                |
 | web-index    | Web index.                                              |

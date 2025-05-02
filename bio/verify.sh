@@ -50,11 +50,8 @@ for file in "$directory"/*.bam; do
     filename=$(basename "$file" .bam)
 
     if [ ! -f "$hash_folder/$filename.hash" ]; then
-        # Generate SHA-256 hash
-        hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
-
-        # Save the hash to a file
-        echo "$hash" >"$hash_folder/$filename.hash"
+        echo "Error: Hash file for $filename does not exist in $hash_folder."
+        echo "Please generate the hash files first using --generate option."
     fi
 
     # Compare the hash with the hash in the hashes directory

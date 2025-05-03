@@ -7,7 +7,7 @@ sudo apt install -y \
     coreutils \
     curl \
     gzip \
-    awk \
+    gawk \
     sed \
     git
 

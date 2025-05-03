@@ -9,6 +9,7 @@ export TIMEFORMAT=%R
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 export BENCHMARK_CATEGORY="oneliners"
 
+export LC_ALL=C
 if [[ " $* " == *" --small "* ]]; then
     scripts_inputs=(
         "nfa-regex;10M"

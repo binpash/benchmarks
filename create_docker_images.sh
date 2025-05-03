@@ -53,6 +53,8 @@ RUN useradd -m user && \\
 
 RUN git config --global --add safe.directory /benchmarks
 
+RUN chmod +x /benchmarks/main.sh
+
 USER user
 
 CMD ["bash"]

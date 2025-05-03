@@ -30,6 +30,8 @@ RUN useradd -m user && \
 #TODO fix ownership issues
 RUN git config --global --add safe.directory /benchmarks
 
+RUN chmod +x /benchmarks/main.sh
+
 USER user
 
 CMD ["bash"]

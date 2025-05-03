@@ -27,11 +27,7 @@ RUN useradd -m user && \
     echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     chown -R user:user /benchmarks
 
-#TODO fix ownership issues
-RUN chmod +x /benchmarks/main.sh
-
-USER user
 RUN git config --global --add safe.directory /benchmarks
-
+#TODO fix ownership issues
 
 CMD ["bash"]

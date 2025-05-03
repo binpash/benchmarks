@@ -51,11 +51,7 @@ RUN useradd -m user && \\
     echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \\
     chown -R user:user /benchmarks
 
-
-RUN chmod +x /benchmarks/main.sh
-USER user
 RUN git config --global --add safe.directory /benchmarks
-
 
 CMD ["bash"]
 EOF

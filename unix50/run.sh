@@ -3,6 +3,8 @@
 SUITE_DIR="$(realpath "$(dirname "$0")")"
 export SUITE_DIR
 export TIMEFORMAT=%R
+export LC_ALL=C
+
 cd "$SUITE_DIR" || exit 1
 
 scripts_inputs=(

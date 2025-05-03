@@ -9,8 +9,8 @@ mkdir -p "$outputs_dir"
 
 echo "Executing file-enc benchmark at $(date)"
 
-input_pcaps="$input_dir/pcaps"
 size="full"
+input_pcaps="$input_dir/pcaps"
 for arg in "$@"; do
     case "$arg" in
         --small)
@@ -22,13 +22,7 @@ for arg in "$@"; do
     esac
 done
 
-if [ "$size" = "min" ]; then
-    input_pcaps="$input_dir/pcaps_$size"
-fi
-
-if [ "$size" = "small" ]; then
-    input_pcaps="$input_dir/pcaps_$size"
-fi
+input_pcaps="$input_dir/pcaps_$size"
 
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}

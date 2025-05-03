@@ -10,7 +10,7 @@ cat ${IN_NAME}|while read s_line;
   do
     sample=$(echo $s_line |cut -d " " -f 2);
     pop=$(echo $s_line |cut -f 1 -d " ");
-
+    [ -z "$pop" ] || [ -z "$sample" ] && continue
     # correcting labeling of chromosomes so that all are 1,2,3.. instead of chr1,chr2 or chromosome1 etc
     echo "Processing Sample $sample";
     # uniform the chromosomes in the file due to inconsistencies

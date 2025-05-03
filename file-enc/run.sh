@@ -10,17 +10,26 @@ mkdir -p "$outputs_dir"
 echo "Executing file-enc benchmark at $(date)"
 
 input_pcaps="$input_dir/pcaps"
-suffix=".full"
+size="full"
 for arg in "$@"; do
     case "$arg" in
         --small)
-            suffix=".small"
+            size="small"
             ;;
         --min)
-            suffix=".min"
+            size="min"
             ;;
     esac
 done
+
+if [ "$size" = "min" ]; then
+    input_pcaps="$input_dir/pcaps_$size"
+fi
+
+if [ "$size" = "small" ]; then
+    input_pcaps="$input_dir/pcaps_$size"
+fi
+
 
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
 
@@ -32,8 +41,8 @@ export BENCHMARK_INPUT_FILE
 
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/compress_files.sh")"
 export BENCHMARK_SCRIPT
-$BENCHMARK_SHELL "$scripts_dir/compress_files.sh" "$input_pcaps" "$outputs_dir/compress_files$suffix"
+$BENCHMARK_SHELL "$scripts_dir/compress_files.sh" "$input_pcaps" "$outputs_dir/compress_files_$size"
 
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/encrypt_files.sh")"
 export BENCHMARK_SCRIPT
-$BENCHMARK_SHELL "$scripts_dir/encrypt_files.sh" "$input_pcaps" "$outputs_dir/encrypt_files$suffix"
+$BENCHMARK_SHELL "$scripts_dir/encrypt_files.sh" "$input_pcaps" "$outputs_dir/encrypt_files_$size"

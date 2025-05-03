@@ -18,15 +18,16 @@ for arg in "$@"; do
 done
 
 if [ "$size" = "min" ]; then
-    mkdir -p "$input_dir/pcaps"
-    cp min_inputs/* "$input_dir/pcaps/"
+    mkdir -p "$input_dir/pcaps_$size"
+    cp min_inputs/* "$input_dir/pcaps_$size/"
     exit 0
 fi
 
 if [ "$size" = "small" ]; then
-    wget --no-check-certificate $URL/pcaps.zip -O "$input_dir/pcaps.zip"
-    unzip "$input_dir/pcaps.zip" -d "$input_dir"
-    rm "$input_dir/pcaps.zip"
+    wget --no-check-certificate $URL/pcaps.zip -O "$input_dir/pcaps_$size.zip"
+    unzip "$input_dir/pcaps_$size.zip" -d "$input_dir"
+    mv "$input_dir/pcaps/" "$input_dir/pcaps_$size/"
+    rm "$input_dir/pcaps_$size.zip"
     exit 0
 fi
 

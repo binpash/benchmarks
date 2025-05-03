@@ -25,6 +25,7 @@ if [ "$size" = "small" ]; then
         exit 0
     fi
     curl --insecure "$URL"/covid-mts/in_small.csv.gz | gunzip > "$input_dir/in_small.csv"
+    exit 0
 fi
 
 if [ -f "$input_dir/in.csv" ]; then

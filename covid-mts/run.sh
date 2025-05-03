@@ -5,6 +5,7 @@ eval_dir="${REPO_TOP}/covid-mts"
 input_dir="${eval_dir}/inputs"
 outputs_dir="${eval_dir}/outputs"
 scripts_dir="${eval_dir}/scripts"
+export LC_ALL=C
 
 suffix=""
 for arg in "$@"; do

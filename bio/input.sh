@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd "$(realpath "$(dirname "$0")")" || exit 1
-URL='https://atlas.cs.brown.edu/data/bio'
+URL='https://atlas.cs.brown.edu/data'
 
 IN="inputs"
 IN_NAME="input.txt"
@@ -42,7 +42,7 @@ while IFS= read -r s_line; do
 
     if [[ ! -f "$out_file" ]]; then
         tmp_file="${out_file}.tmp"
-        link="${URL}/${size}/${sample}.bam"
+        link="${URL}/bio/${size}/${sample}.bam"
         if wget -O "$tmp_file" --no-check-certificate "$link"; then
             mv "$tmp_file" "$out_file"
         else

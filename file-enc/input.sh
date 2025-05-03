@@ -24,9 +24,9 @@ if [ "$size" = "min" ]; then
 fi
 
 if [ "$size" = "small" ]; then
-    wget --no-check-certificate $URL/pcaps.zip -O "$input_dir/pcaps_$size.zip"
-    unzip "$input_dir/pcaps_$size.zip" -d "$input_dir"
-    mv "$input_dir/pcaps/" "$input_dir/pcaps_$size/"
+    mkdir -p "$input_dir/pcaps_$size"
+    wget --no-check-certificate "$URL/pcaps.zip" -O "$input_dir/pcaps_$size.zip"
+    unzip "$input_dir/pcaps_$size.zip" -d "$input_dir/pcaps_$size"
     rm "$input_dir/pcaps_$size.zip"
     exit 0
 fi

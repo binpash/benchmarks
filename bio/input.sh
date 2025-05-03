@@ -1,14 +1,20 @@
 #!/bin/bash
 
 cd "$(realpath "$(dirname "$0")")" || exit 1
+URL='https://atlas.cs.brown.edu/data/bio'
 
 IN="inputs"
 IN_NAME="input.txt"
-
+size="large"
 for arg in "$@"; do
     case "$arg" in
-        --small) IN_NAME="input_small.txt" ;;
-        --min)   IN_NAME="input_min.txt" ;;
+        --small)
+            IN_NAME="input_small.txt"
+            size="medium"
+            ;;
+        --min)
+            IN_NAME="input_min.txt"
+            ;;
     esac
 done
 
@@ -31,12 +37,12 @@ fi
 
 while IFS= read -r s_line; do
     sample=$(echo "$s_line" | cut -d ' ' -f 2)
-    link=$(echo "$s_line" | cut -d ' ' -f 3)
 
     out_file="$IN/$sample.bam"
 
     if [[ ! -f "$out_file" ]]; then
         tmp_file="${out_file}.tmp"
+        link="${URL}/${size}/${sample}.bam"
         if wget -O "$tmp_file" --no-check-certificate "$link"; then
             mv "$tmp_file" "$out_file"
         else

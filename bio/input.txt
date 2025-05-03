@@ -1,10 +1,10 @@
-CHS HG00408 https://atlas.cs.brown.edu/data/bio/large/HG00408.bam
-CHS HG00476 https://atlas.cs.brown.edu/data/bio/large/HG00476.bam
-CHS HG00690 https://atlas.cs.brown.edu/data/bio/large/HG00690.bam
-PJL HG02605 https://atlas.cs.brown.edu/data/bio/large/HG02605.bam
-PJL HG02729 https://atlas.cs.brown.edu/data/bio/large/HG02729.bam
-PJL HG02787 https://atlas.cs.brown.edu/data/bio/large/HG02787.bam
-CEU NA12155 https://atlas.cs.brown.edu/data/bio/large/NA12155.bam
-CEU NA12546 https://atlas.cs.brown.edu/data/bio/large/NA12546.bam
-CEU NA12707 https://atlas.cs.brown.edu/data/bio/large/NA12707.bam
-CEU NA12818 https://atlas.cs.brown.edu/data/bio/large/NA12818.bam
+CHS HG00408
+CHS HG00476
+CHS HG00690
+PJL HG02605
+PJL HG02729
+PJL HG02787
+CEU NA12155
+CEU NA12546
+CEU NA12707
+CEU NA12818

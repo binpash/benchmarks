@@ -7,8 +7,8 @@ sudo apt install -y --no-install-recommends \
     curl \
     wget \
     unzip \
-    python3-pip \
-    vim \
-    ffmpeg unrtf imagemagick libarchive-tools libncurses5-dev libncursesw5-dev zstd liblzma-dev libbz2-dev zip unzip nodejs tcpdump \
+    gzip \
+    coreutils \
+    ffmpeg unrtf imagemagick zstd \
     git \
     xz-utils

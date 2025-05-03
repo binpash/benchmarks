@@ -309,11 +309,11 @@ else
 fi
 
 # Check sudo configuration
-if grep -q "^Defaults.*logfile" /etc/sudoers; then
-    check_security "Sudo Logging" "PASS" "Sudo commands are being logged for audit purposes"
-else
-    check_security "Sudo Logging" "FAIL" "Sudo commands are not being logged - reduces audit capability"
-fi
+# if grep -q "^Defaults.*logfile" /etc/sudoers; then
+#     check_security "Sudo Logging" "PASS" "Sudo commands are being logged for audit purposes"
+# else
+#     check_security "Sudo Logging" "FAIL" "Sudo commands are not being logged - reduces audit capability"
+# fi
 
 # Check password policy
 if [ -f "/etc/security/pwquality.conf" ]; then

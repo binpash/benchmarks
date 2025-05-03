@@ -2,8 +2,6 @@ FROM debian:12.7
 
 WORKDIR /benchmarks
 
-COPY . .
-
 RUN apt update && apt install -y --no-install-recommends \
     sudo \
     tcpdump \
@@ -19,15 +17,20 @@ RUN apt update && apt install -y --no-install-recommends \
     git \
     gpg
 
-RUN pip3 install --break-system-packages \
-    scikit-learn \
-    kaggle
-
 RUN useradd -m user && \
-    echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-    chown -R user:user /benchmarks
+    echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+COPY . .
 
+RUN pip3 install --break-system-packages \
+scikit-learn \
+kaggle
+
+RUN chown -R user:user /benchmarks
 RUN git config --global --add safe.directory /benchmarks
 #TODO fix ownership issues
+RUN chmod +x /benchmarks/main.sh
+USER user
+
+RUN git config --global --add safe.directory /benchmarks
 
 CMD ["bash"]

@@ -33,12 +33,10 @@ jobs:
       - name: Run Benchmark ${{ matrix.benchmark }}
         run: |
           docker run --rm \
-            --cap-add NET_ADMIN \
-            --cap-add NET_RAW \
             -v ${{ github.workspace }}:/benchmarks \
             -w /benchmarks \
             benchmark-env \
-            bash -c "chmod +x main.sh && ./main.sh ${{ matrix.benchmark }} --small"
+            bash -c "sudo chown -R user:user /benchmarks && sudo -u user ./main.sh ${{ matrix.benchmark }} --small"
 
       - name: Upload .out and .err files
         uses: actions/upload-artifact@v4

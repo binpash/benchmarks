@@ -32,11 +32,6 @@ cat <<EOF >"$DOCKERFILE"
 FROM debian:12.7
 
 WORKDIR /benchmarks
-COPY ./$BENCHMARK/ /benchmarks/$BENCHMARK/
-COPY ./infrastructure/ /benchmarks/infrastructure/
-COPY ./main.sh /benchmarks/main.sh
-COPY ./.git /benchmarks/.git
-
 
 RUN apt update && apt install -y --no-install-recommends \\
     sudo \\
@@ -48,8 +43,14 @@ RUN apt update && apt install -y --no-install-recommends \\
     gpg
 
 RUN useradd -m user && \\
-    echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \\
-    chown -R user:user /benchmarks
+    echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+COPY ./$BENCHMARK/ /benchmarks/$BENCHMARK/
+COPY ./infrastructure/ /benchmarks/infrastructure/
+COPY ./main.sh /benchmarks/main.sh
+COPY ./.git /benchmarks/.git
+
+RUN chown -R user:user /benchmarks
 
 RUN git config --global --add safe.directory /benchmarks
 

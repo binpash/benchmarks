@@ -11,14 +11,14 @@
 | covid-mts    | COVID-19 multivariate time series.                      |
 | file-enc     | File encoding.                                          |
 | log-analysis | Log analysis.                                           |
-| makeself     | Make self-extractable archives on Unix                  |
+| makeself     | Make self-extractable archives on Unix.                 |
 | max-temp     | Maximum temperature.                                    |
 | media-conv   | Media conversion.                                       |
 | nlp          | Natural language processing.                            |
 | oneliners    | One-liners.                                             |
 | riker        | Incremental builds.                                     |
 | sklearn      | Machine learning.                                       |
-| uniq-ips     | Unique IPs.                                             |
+| vps-audit    | Audit a Linux machine.                                  |
 | unix50       | Unix 50.                                                |
 | web-index    | Web index.                                              |
 

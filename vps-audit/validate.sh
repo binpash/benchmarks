@@ -10,9 +10,9 @@ for arg in "$@"; do
 done
 
 if [[ "$GENERATE" == true ]]; then
-    python3 verify.py --generate
+    python3 validate.py --generate
 else
-    python3 verify.py
+    python3 validate.py
 fi
 
 echo "vps-audit $?"

@@ -23,9 +23,10 @@ for arg in "$@"; do
     fi
 done
 
+
 if [ "$run_small" = true ]; then
     for bench in "${small_benchmark[@]}"; do
-        script_path="$scripts_dir/$bench/verify.sh"
+        script_path="$scripts_dir/$bench/fetch.sh"
         if [ -x "$script_path" ]; then
             "$script_path" "$@"
         else
@@ -37,6 +38,6 @@ if [ "$run_small" = true ]; then
 fi
 
 for bench in "$scripts_dir"/*; do
-    "$bench/verify.sh" "$@"
+    "$bench/fetch.sh" "$@"
 done
 

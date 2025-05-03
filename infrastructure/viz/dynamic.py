@@ -139,13 +139,13 @@ def plot_time_vs_wall(df, ax):
     ax.set_ylabel('CPU time / wall time')
 
 dynamic_analysis_script_translations = {
-    "riker/scripts/vim/run.sh": "riker/scripts/vim/build.sh",
-    "riker/scripts/xz/run.sh": "riker/scripts/xz/build.sh",
-    "riker/scripts/redis/run.sh": "riker/scripts/redis/build.sh",
-    "riker/scripts/xz-clang/run.sh": "riker/scripts/xz-clang/build.sh",
-    "riker/scripts/lua/run.sh": "riker/scripts/lua/build.sh",
-    "riker/scripts/memcached/run.sh": "riker/scripts/memcached/build.sh",
-    "riker/scripts/sqlite/run.sh": "riker/scripts/sqlite/build.sh"
+    "riker/scripts/vim/execute.sh": "riker/scripts/vim/build.sh",
+    "riker/scripts/xz/execute.sh": "riker/scripts/xz/build.sh",
+    "riker/scripts/redis/execute.sh": "riker/scripts/redis/build.sh",
+    "riker/scripts/xz-clang/execute.sh": "riker/scripts/xz-clang/build.sh",
+    "riker/scripts/lua/execute.sh": "riker/scripts/lua/build.sh",
+    "riker/scripts/memcached/execute.sh": "riker/scripts/memcached/build.sh",
+    "riker/scripts/sqlite/execute.sh": "riker/scripts/sqlite/build.sh"
 }
 
 def read_data():

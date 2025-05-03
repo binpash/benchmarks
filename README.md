@@ -33,7 +33,7 @@ export BENCHMARK_SHELL="$PASH_TOP/pa.sh --width 4"
 `main.sh` is the one-stop harness for downloading dependencies and inputs, running, profiling and verifying a **single benchmark** in this suite.
 
 ```bash
-./main.sh <BENCHMARK_NAME> [OPTIONS] [-- <args passed to run.sh>]
+./main.sh <BENCHMARK_NAME> [OPTIONS] [-- <args passed to execute.sh>]
 ```
 
 `run_all.sh` runs the `main.sh` script for all benchmarks inside a Docker container or locally if the `--bare` flag is used.
@@ -71,8 +71,8 @@ Flags, apart from those referring to input sizes, can be combined freely (e.g. `
 ### Files produced per run
 | File (per-run)                                | Contents / Purpose                                                                                 | Generated when …                                              |
 |-----------------------------------------------|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| `<benchmark>.out` / `<benchmark>.err`         | Stdout / stderr from `run.sh`.                                                                     | **Always**                                                    |
-| `benchmark.hash`                              | Pass/fail hashes written by `verify.sh` – indicates whether the run was correct.                   | **Always**                                                    |
+| `<benchmark>.out` / `<benchmark>.err`         | Stdout / stderr from `execute.sh`.                                                                 | **Always**                                                    |
+| `benchmark.hash`                              | Pass/fail hashes written by `validate.sh` – indicates whether the run was correct.                 | **Always**                                                    |
 | `logs/…` (folder)                             | Raw monitors: `*.pidstat`, `*.io`, `*.cpu`, `*.mem`, `*.time`, `*.val`.                            | Only with (**`--resources`** or **`--time`**) &&  **`--bare`**|
 | `<prefix>_stats_run<i>.txt`                   | Human-readable CPU/RAM/I/O summary for run *i*.                                                    | Only with **`--resources`**                                   |
 | `<benchmark>_time_run<i>.val`                 | Single wall-clock number (seconds) for run *i*.                                                    | Only with **`--time`**                                        |

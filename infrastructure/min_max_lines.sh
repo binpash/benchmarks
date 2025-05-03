@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Find all run.sh files and calculate LOC for each
-results=$(find . -name "run.sh" -exec wc -l {} + | head -n -1)
+# Find all execute.sh files and calculate LOC for each
+results=$(find . -name "execute.sh" -exec wc -l {} + | head -n -1)
 
-# Check if any run.sh files were found
+# Check if any execute.sh files were found
 if [ -z "$results" ]; then
-  echo "No run.sh files found in the directory."
+  echo "No execute.sh files found in the directory."
   exit 1
 fi
 

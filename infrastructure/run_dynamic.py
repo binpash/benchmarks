@@ -21,7 +21,7 @@ def get_parser():
         description='runs the dynamic analysis',
     )
     parser.add_argument('bench', type=str)
-    parser.add_argument('forward', nargs=argparse.REMAINDER, help='pass these arguments to run.sh')
+    parser.add_argument('forward', nargs=argparse.REMAINDER, help='pass these arguments to execute.sh')
     return parser
 
 def get_environment(root: Path, start_time: str, bench: str, data_log: str, mortem_log: str):
@@ -51,12 +51,12 @@ if __name__ == '__main__':
         mortem_log = root / 'infrastructure' / 'target' / 'process-logs' / f'{bench_id}.mortem'
         env = get_environment(root=root, start_time=start_time, bench=bench, data_log=data_log, mortem_log=mortem_log)
         # write to an uncompressed file because it is faster
-        #run([root / bench / 'run.sh', *args.forward], env=env, cwd=root / bench)
+        #run([root / bench / 'execute.sh', *args.forward], env=env, cwd=root / bench)
         output_file = root / bench / f"{bench}.out"
         error_file = root / bench / f"{bench}.err"
 
         with open(output_file, "w") as out, open(error_file, "w") as err:
-            run([root / bench / 'run.sh', *args.forward], env=env, cwd=root / bench, stdout=out, stderr=err)
+            run([root / bench / 'execute.sh', *args.forward], env=env, cwd=root / bench, stdout=out, stderr=err)
 
         compressed_data_log = root / 'infrastructure' / 'target' / 'process-logs' / f'{bench_id}.jsonl.xz'
         with compressed_data_log.open('w') as stdout:

@@ -39,13 +39,13 @@ for benchmark in "${benchmarks[@]}"; do
         continue
     fi
 
-    strace -c -o "$strace_output" ./run.sh --small || {
+    strace -c -o "$strace_output" ./execute.sh --small || {
         echo "$benchmark [fail]: strace failed" >> "$output_file"
         cd - > /dev/null
         continue
     }
 
-    ./run.sh --small &
+    ./execute.sh --small &
     pid=$!
 
     sleep 1

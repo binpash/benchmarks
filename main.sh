@@ -63,12 +63,12 @@ main() {
     for ((i = 1; i <= runs; i++)); do
         # Download dependencies
         if ((i == 1)); then
-            ./deps.sh "${args[@]}" ||
+            ./install.sh "${args[@]}" ||
                 error "Failed to download dependencies for $BENCHMARK"
         fi
         # Fetch inputs
         if ((i == 1)) || [[ "$BENCHMARK" == "riker" ]]; then
-            ./input.sh "${args[@]}" ||
+            ./fetch.sh "${args[@]}" ||
                 error "Failed to fetch inputs for $BENCHMARK"
         fi
 
@@ -142,7 +142,7 @@ main() {
 
             time_fmt=$'USER=%U\nSYS=%S\nELAPSED=%e\nMAXRSS=%M\nIOIN=%I\nIOOUT=%O'
             /usr/bin/time -f "$time_fmt" -o "$time_log" \
-                ./run.sh "${args[@]}" \
+                ./execute.sh "${args[@]}" \
                 1>"${BENCHMARK}.out" \
                 2>"${BENCHMARK}.err"
             CMD_STATUS=$?
@@ -217,7 +217,7 @@ EOF
             rm -f "$time_val_file"
 
             /usr/bin/time -f "%e" -o "$time_val_file" \
-                ./run.sh "${args[@]}" \
+                ./execute.sh "${args[@]}" \
                 1>"${BENCHMARK}.out" \
                 2>"${BENCHMARK}.err"
             CMD_STATUS=$?
@@ -233,15 +233,15 @@ EOF
             [[ $CMD_STATUS -ne 0 ]] && error "Failed to run $BENCHMARK"
 
         else
-            ./run.sh "${args[@]}" >"$BENCHMARK.out" 2>"$BENCHMARK.err" || error "Failed to run $BENCHMARK"
+            ./execute.sh "${args[@]}" >"$BENCHMARK.out" 2>"$BENCHMARK.err" || error "Failed to run $BENCHMARK"
         fi
 
         # Verify output
-        ./verify.sh "${args[@]}" >"$BENCHMARK.hash" || error "Failed to verify output for $BENCHMARK"
+        ./validate.sh "${args[@]}" >"$BENCHMARK.hash" || error "Failed to verify output for $BENCHMARK"
 
         # Cleanup outputs
         if ((i == runs)); then
-            ./cleanup.sh "${args[@]}"
+            ./clean.sh "${args[@]}"
         fi
 
         if correct; then

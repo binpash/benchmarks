@@ -67,7 +67,7 @@ riker/scripts/sqlite/build.sh,riker
 riker/scripts/vim/build.sh,riker
 riker/scripts/xz-clang/build.sh,riker
 riker/scripts/xz/build.sh,riker
-sklearn/scripts/run.sh,sklearn
+sklearn/scripts/execute.sh,sklearn
 unix50/scripts/1.sh,unix50
 unix50/scripts/10.sh,unix50
 unix50/scripts/11.sh,unix50

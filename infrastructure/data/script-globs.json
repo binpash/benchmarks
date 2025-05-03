@@ -21,7 +21,7 @@
         "scripts": ["oneliners/scripts/*.sh"]
     },
     "sklearn": {
-        "scripts": ["sklearn/scripts/run.sh"]
+        "scripts": ["sklearn/scripts/execute.sh"]
     },
     "riker": {
         "scripts": ["riker/scripts/*/build.sh"]

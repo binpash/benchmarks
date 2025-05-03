@@ -76,7 +76,7 @@ riker/scripts/sqlite/build.sh,1.0
 riker/scripts/vim/build.sh,1.0
 riker/scripts/xz/build.sh,1.0
 riker/scripts/xz-clang/build.sh,1.0
-sklearn/scripts/run.sh,1.0
+sklearn/scripts/execute.sh,1.0
 unix50/scripts/10.sh,1.0
 unix50/scripts/11.sh,1.0
 unix50/scripts/12.sh,1.0

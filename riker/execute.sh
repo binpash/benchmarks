@@ -4,6 +4,9 @@ REPO_TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${REPO_TOP}/riker"
 scripts_dir="${eval_dir}/scripts"
 
+BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+export BENCHMARK_CATEGORY="riker"
+
 small_benchmark=(
     "lua"
     "memcached"
@@ -23,11 +26,11 @@ for arg in "$@"; do
     fi
 done
 
-
 if [ "$run_small" = true ]; then
     for bench in "${small_benchmark[@]}"; do
-        script_path="$scripts_dir/$bench/input.sh"
+        script_path="$scripts_dir/$bench/execute.sh"
         if [ -x "$script_path" ]; then
+            export BENCHMARK_SCRIPT="$script_path"
             "$script_path" "$@"
         else
             echo "Error: $script_path not found or not executable."
@@ -38,6 +41,6 @@ if [ "$run_small" = true ]; then
 fi
 
 for bench in "$scripts_dir"/*; do
-    "$bench/input.sh" "$@"
+    export BENCHMARK_SCRIPT="$bench/execute.sh"
+    $BENCHMARK_SHELL "$bench/execute.sh" "$@"
 done
-

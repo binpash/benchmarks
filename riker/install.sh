@@ -4,8 +4,14 @@ REPO_TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${REPO_TOP}/riker"
 scripts_dir="${eval_dir}/scripts"
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
-export BENCHMARK_CATEGORY="riker"
+tz="America/New_York"
+echo "$tz" | sudo tee /etc/timezone > /dev/null
+sudo rm -f /etc/localtime
+sudo ln -s "/usr/share/zoneinfo/$tz" /etc/localtime
+
+sudo apt update
+
+sudo apt install -y build-essential
 
 small_benchmark=(
     "lua"
@@ -28,9 +34,8 @@ done
 
 if [ "$run_small" = true ]; then
     for bench in "${small_benchmark[@]}"; do
-        script_path="$scripts_dir/$bench/run.sh"
+        script_path="$scripts_dir/$bench/install.sh"
         if [ -x "$script_path" ]; then
-            export BENCHMARK_SCRIPT="$script_path"
             "$script_path" "$@"
         else
             echo "Error: $script_path not found or not executable."
@@ -41,6 +46,7 @@ if [ "$run_small" = true ]; then
 fi
 
 for bench in "$scripts_dir"/*; do
-    export BENCHMARK_SCRIPT="$bench/run.sh"
-    $BENCHMARK_SHELL "$bench/run.sh" "$@"
+    "$bench/install.sh" "$@"
 done
+
+

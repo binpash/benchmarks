@@ -7,6 +7,8 @@ outputs_dir="${eval_dir}/outputs"
 scripts_dir="${eval_dir}/scripts"
 input_dir="${eval_dir}/inputs"
 
+export LC_ALL=C
+
 suffix=.full
 for arg in "$@"; do
     if [ "$arg" = "--small" ]; then

@@ -5,7 +5,8 @@ REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/max-temp"
 input_dir="${eval_dir}/inputs"
 
-URL='https://www1.ncdc.noaa.gov/pub/data/noaa/'
+URL='https://atlas.cs.brown.edu/data'
+URL=$URL/max-temp/noaa
 FROM=2000
 TO=2024
 

@@ -1,8 +1,7 @@
 #!/bin/bash
 
 TOP=$(git rev-parse --show-toplevel)
-eval_dir="${TOP}/covid-mts"
-input_dir="${eval_dir}/inputs"
+input_dir="${TOP}/covid-mts/inputs"
 URL='https://atlas.cs.brown.edu/data/'
 
 mkdir -p "$input_dir"

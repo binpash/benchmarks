@@ -6,6 +6,14 @@ OUT="${OUT:-$REPO_TOP/aurpkg/outputs}"
 BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 SCRIPT="./scripts/pacaur.sh"
 
+for arg in "$@"; do
+  if [ "$arg" = "--small" ]; then
+    IN="$REPO_TOP/aurpkg/inputs/packages_small"
+  elif [ "$arg" = "--min" ]; then
+    IN="$REPO_TOP/aurpkg/inputs/packages_min"
+  fi
+done
+
 test "$UID" -gt 0 || { echo "Don't run this as root!"; exit 1; } 
 
 mkdir -p "${OUT}"

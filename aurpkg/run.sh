@@ -6,6 +6,8 @@ OUT="${OUT:-$REPO_TOP/aurpkg/outputs}"
 BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
 SCRIPT="./scripts/pacaur.sh"
 
+test "$UID" -gt 0 || { echo "Don't run this as root!"; exit 1; } 
+
 mkdir -p "${OUT}"
 
 # Set environment variables

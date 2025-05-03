@@ -2,7 +2,7 @@
 
 TOP=$(git rev-parse --show-toplevel)
 IN="$TOP/aurpkg/inputs"
-URL='https://atlas.cs.brown.edu/data/'
+URL='https://atlas.cs.brown.edu/data'
 
 cd "$TOP" || exit 1
 mkdir -p "${IN}"

@@ -65,7 +65,8 @@ docker build -t "$IMAGE_NAME" -f "$DOCKERFILE" . || {
 }
 
 echo "Running Docker image: $IMAGE_NAME..."
-docker run --cap-add NET_ADMIN --cap-add NET_RAW --rm -it "$IMAGE_NAME"
+docker run --rm -it "$IMAGE_NAME"
+#docker run -it -v "$(pwd):/benchmarks" "$IMAGE_NAME"
 
 echo "Docker image $IMAGE_NAME built and run successfully."
 echo "Cleaning up..."

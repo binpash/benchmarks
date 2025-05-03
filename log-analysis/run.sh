@@ -9,20 +9,19 @@ mkdir -p "$outputs_dir"
 
 nginx_input=$input_dir/nginx-logs
 pcaps_input=$input_dir/pcaps
-suffix=".full"
+size="full"
 for arg in "$@"; do
     if [ "$arg" = "--small" ]; then
         # TODO: vary input size
-        nginx_input=$input_dir/nginx-logs
-        pcaps_input=$input_dir/pcaps
-        suffix=".small"
+        size="small"
     fi
     if [ "$arg" = "--min" ]; then
-        nginx_input=$input_dir/nginx-logs-min
-        pcaps_input=$input_dir/pcaps-min
-        suffix=".min"
+        size="min"
     fi
 done
+
+nginx_input=$input_dir/nginx-logs_$size
+pcaps_input=$input_dir/pcaps_$size
 
 export BENCHMARK_CATEGORY="log-analysis"
 BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
@@ -33,7 +32,7 @@ export BENCHMARK_INPUT_FILE
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/nginx.sh")"
 export BENCHMARK_SCRIPT
 
-$BENCHMARK_SHELL $scripts_dir/nginx.sh $nginx_input $outputs_dir/nginx$suffix 
+$BENCHMARK_SHELL $scripts_dir/nginx.sh $nginx_input $outputs_dir/nginx_$size 
 echo $?
  
 echo "pcaps"
@@ -43,5 +42,5 @@ export BENCHMARK_INPUT_FILE
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/pcaps.sh")"
 export BENCHMARK_SCRIPT
 
-$BENCHMARK_SHELL $scripts_dir/pcaps.sh $pcaps_input $outputs_dir/pcaps$suffix 
+$BENCHMARK_SHELL $scripts_dir/pcaps.sh $pcaps_input $outputs_dir/pcaps_$size
 echo $?

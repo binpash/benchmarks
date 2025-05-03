@@ -53,6 +53,8 @@ RUN useradd -m user && \\
 
 RUN git config --global --add safe.directory /benchmarks
 
+USER user
+
 CMD ["bash"]
 EOF
 #TODO fix ownership issues ^^

@@ -1,9 +1,15 @@
 #!/bin/bash
 
-# Exit immediately if a command exits with a non-zero status
-# set -e
+GENERATE=false
 
-if [[ "$1" == "--generate" ]]; then
+for arg in "$@"; do
+    if [[ "$arg" == "--generate" ]]; then
+        GENERATE=true
+        break
+    fi
+done
+
+if [[ "$GENERATE" == true ]]; then
     python3 verify.py --generate
 else
     python3 verify.py

@@ -54,7 +54,6 @@ for arg in "$@"; do
         rm "$zip_dst"
         exit 0
     elif [[ "$arg" == "--min" ]]; then
-        #TODO min versions
         if [[ -d "$input_dir/jpg_min" ]]; then
             echo "Data already downloaded and extracted."
             exit 0

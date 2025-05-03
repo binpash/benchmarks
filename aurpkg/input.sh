@@ -1,13 +1,14 @@
 #!/bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-IN="$REPO_TOP/aurpkg/inputs"
+TOP=$(git rev-parse --show-toplevel)
+IN="$TOP/aurpkg/inputs"
+URL='https://atlas.cs.brown.edu/data/'
 
-cd "$REPO_TOP" || exit 1
+cd "$TOP" || exit 1
 mkdir -p "${IN}"
 
 if [ ! -f "${IN}/packages" ]; then
-  wget https://atlas.cs.brown.edu/data/packages --no-check-certificate -O "${IN}/packages"
+  wget "$URL"/packages --no-check-certificate -O "${IN}/packages"
 fi
 
 for arg in "$@"; do

@@ -4,12 +4,12 @@ REPO_TOP=$(git rev-parse --show-toplevel)
 export TEST_BASE=$REPO_TOP/web-index
 export SCRIPT_DIR="$TEST_BASE"/scripts
 export WEB_INDEX_DIR="$TEST_BASE"/inputs
-export WIKI="$TEST_BASE"/inputs/articles
 
 cd $(dirname "$0") || exit 1
 
 output_base="$1"
-
+articles_dir="$2"
+export WIKI="$TEST_BASE"/$articles_dir
 rm -f {1,2,3}grams
 mkfifo {1,2,3}grams
 

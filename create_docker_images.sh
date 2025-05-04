@@ -54,6 +54,8 @@ RUN chown -R user:user /benchmarks
 
 RUN git config --global --add safe.directory /benchmarks
 
+RUN /benchmarks/$BENCHMARK/install.sh
+
 CMD ["bash"]
 EOF
 #TODO fix ownership issues ^^

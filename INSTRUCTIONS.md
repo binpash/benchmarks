@@ -15,7 +15,7 @@ To "kick the tires" of this artifact:
 
 The KOALA benchmark suite is:
 
-* Permanently hosted at: [https://github.com/blind/koala](https://github.com/blind/koala)
+* Permanently hosted at: [https://github.com/binpash/koala](https://github.com/binpash/koala)
 * MIT-licensed and open-source
 * Includes containerized and bare-metal support
 
@@ -90,6 +90,7 @@ The artifact supports evaluation of:
 ```bash
 ./main.sh         # full-size inputs
 ./main.sh --small # smaller scale inputs
+./main.sh --min   # minimal inputs
 ```
 
 Execution may take several hours depending on hardware. Reports are auto-generated.

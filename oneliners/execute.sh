@@ -22,7 +22,6 @@ if [[ " $* " == *" --small "* ]]; then
         "set-diff;30M"
         "sort-sort;30M"
         "uniq-ips;logs-popcount-org"
-        #"log-search;1M"
     )
 elif [[ " $* " == *" --min "* ]]; then
     scripts_inputs=(
@@ -36,7 +35,6 @@ elif [[ " $* " == *" --min "* ]]; then
         "set-diff;1M"
         "sort-sort;1M"
         "uniq-ips;logs-popcount-org"
-        #"log-search;1M" #TODO: change input
     )
 else
     scripts_inputs=(
@@ -50,7 +48,6 @@ else
         "set-diff;3G"
         "sort-sort;3G"
         "uniq-ips;logs-popcount-org"
-        #"log-search;3G"
     )
 fi
 

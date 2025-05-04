@@ -21,7 +21,7 @@ The KOALA benchmark suite is:
 
 To download and execute the minimal version on your machine:
 
-```bash
+```sh
 curl -s koala-blind | sh && ./main.sh --min --bare
 ```
 
@@ -50,17 +50,39 @@ benchmarks/<name>/
 └── clean.sh        # Cleans temporary files (input and output files)
 ```
 
-Top-level:
+To manually execute a single benchmark: 
+
+```sh
+cd benchmarks/<name>
+
+./install.sh
+
+# This will place input data in the `benchmarks/<name>/inputs` folder
+./fetch.sh
+
+# This will run one by one all scripts inside `benchmarks/<name>/scripts/` folder
+# Any output files produced will be placed in the `benchmarks/<name>/outputs` folder
+./execute.sh
+
+# This will check the output files against the expected hashes, and print the results
+# For benchmarks that do not produce output files, specialized validation logic is used
+./validate.sh
+
+# This will remove all temporary files created by the benchmark
+# By default, it will remove both inputs and outputs, returning the benchmark folder in its original state
+./clean.sh
+```
+
+The harness which automates this process and collects/displays metrics is `main.sh`:
 
 ```
-main.sh              # Drives all benchmarks
+benchmarks/main.sh              # Drives all benchmarks
 ```
 
 Configuration options (via env or CLI):
 
 * `KOALA_SHELL`: shell interpreter (default: `sh`)
 * `KOALA_INFO`: metrics to collect (e.g., time, memory)
-
 
 ### Benchmark Suite
 
@@ -80,7 +102,7 @@ At a high level, the paper claims the following contributions (p. 2):
 
 **Quickstart (minimal test):**
 
-```bash
+```sh
 curl -s koala-blind | sh
 cd benchmarks
 ./main.sh --min --bare
@@ -90,20 +112,20 @@ Expected time: ~2.5 minutes. Runs all benchmarks with synthetic inputs and check
 
 **Benchmark-specific example (nlp):**
 
-```bash
+```sh
 cd benchmarks
 ./main.sh --small nlp
 ```
 
 **Configurable system integration:**
 
-```bash
+```sh
 KOALA_SHELL=./your_system.sh ./main.sh --small max-temp
 ```
 
 **Containerized run:**
 
-```bash
+```sh
 docker build -t koala .
 docker run -v $(pwd):/koala -it koala /koala/main.sh --small
 ```
@@ -117,7 +139,7 @@ The artifact supports evaluation of:
 
 **Reproducing full results (optional):**
 
-```bash
+```sh
 ./main.sh         # full-size inputs
 ./main.sh --small # smaller scale inputs
 ./main.sh --min   # minimal inputs

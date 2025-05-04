@@ -1,12 +1,13 @@
 #!/bin/bash
 
 REPO_TOP=$(git rev-parse --show-toplevel)
+URL='https://atlas-group.cs.brown.edu/data'
 eval_dir="${REPO_TOP}/media-conv"
 input_dir="${eval_dir}/inputs"
 
 mkdir -p "$input_dir"
 
-data_url=https://atlas-group.cs.brown.edu/data/wav.zip
+data_url=$URL/wav.zip
 zip_dst=$input_dir/wav.zip
 full_dir="$input_dir/wav_full"
 small_dir="$input_dir/wav_small"
@@ -40,7 +41,7 @@ for arg in "$@"; do
             echo "Data already downloaded and extracted."
             exit 0
         fi
-        data_url=https://atlas-group.cs.brown.edu/data/small/jpg.zip
+        data_url=${URL}/small/jpg.zip
         zip_dst=$input_dir/jpg_small.zip
         out_dir=$input_dir/jpg_small
         wget --no-check-certificate $data_url -O $zip_dst || {
@@ -69,7 +70,7 @@ if [[ -d "$input_dir/jpg" ]]; then
     echo "Data already downloaded and extracted."
     exit 0
 fi
-data_url=https://atlas-group.cs.brown.edu/data/full/jpg.zip
+data_url=${URL}/full/jpg.zip
 zip_dst="$input_dir/jpg_full.zip"
 out_dir="$input_dir/jpg_full"
 wget --no-check-certificate $data_url -O $zip_dst

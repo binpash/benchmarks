@@ -25,7 +25,11 @@ main() {
     measure_resources=false
     run_locally=false
     runs=1
-    stats_prefix="${KOALA_SHELL%% *}_${BENCHMARK}_stats"
+    shell_word=${KOALA_SHELL%% *}
+    shell_word=${shell_word##*/}
+    shell_safe=${shell_word//[^A-Za-z0-9_.-]/_}
+    echo "Using shell: $KOALA_SHELL"
+    stats_prefix="${BENCHMARK}_${shell_safe}_stats"
     time_values=()
     stats_files=()
     args=()
@@ -210,7 +214,7 @@ EOF
 
             echo "Timing benchmark: $BENCHMARK  (run #$i)"
 
-            time_val_file="${BENCHMARK}_time_run${i}.txt"
+            time_val_file="${BENCHMARK}_${shell_safe}_time_run${i}.txt"
             rm -f "$time_val_file"
 
             /usr/bin/time -f "%e" -o "$time_val_file" \

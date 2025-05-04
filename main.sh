@@ -9,9 +9,18 @@ correct() { [ "$(cut -d' ' -f 2 <"$BENCHMARK.hash" | grep -c 1)" -eq 0 ]; }
 
 is_integer() { [[ $1 =~ ^[0-9]+$ && $1 -gt 0 ]]; }
 
+usage() {
+    echo "Usage: $0 BENCHMARK_NAME [--time|--resources|--bare|args...]"
+    echo "  --time, -t       Measure wall-clock time"
+    echo "  --resources      Measure resource usage"
+    echo "  --bare           Run locally without Docker"
+    echo "  --runs, -n N     Number of runs (default: 1)"
+}
+
 main() {
     if [[ $# -lt 1 ]]; then
-        error "Usage: $0 BENCHMARK_NAME [--time|--resources|--bare|args...]"
+        usage
+        exit 1
     fi
 
     BENCHMARK=$(basename "$1")
@@ -35,6 +44,10 @@ main() {
     args=()
     while [[ $# -gt 0 ]]; do
         case "$1" in
+        --help | -h) 
+            usage
+            exit 0
+            ;;
         --time | -t)
             measure_time=true
             shift

@@ -17,7 +17,7 @@ for test_script in "${TESTS_DIR}"/*/*.sh; do
     echo "Running test: ${test_name}" >> "${LOGFILE}"
     BENCHMARK_SCRIPT="$(realpath "$test_script")"
     export BENCHMARK_SCRIPT
-    if "${KOALA_SHELL}" "${test_script}" >> "${test_log}" 2>&1; then
+    if $KOALA_SHELL "${test_script}" >> "${test_log}" 2>&1; then
         echo "PASS: ${test_name}" >> "${LOGFILE}"
     else
         echo "FAIL: ${test_name}" >> "${LOGFILE}"

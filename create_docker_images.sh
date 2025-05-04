@@ -9,7 +9,7 @@ shift
 export BENCHMARK
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
-export BENCHMARK_SCRIPT
+export KOALA_SHELL
 
 if [[ -z "$BENCHMARK" ]]; then
     echo "Usage: $0 <benchmark-name> [flags]"
@@ -66,8 +66,10 @@ docker build -t "$IMAGE_NAME" -f "$DOCKERFILE" . || {
 }
 
 echo "Running Docker image: $IMAGE_NAME..."
-docker run --rm -it "$IMAGE_NAME"
-#docker run -it -v "$(pwd):/benchmarks" "$IMAGE_NAME"
+echo "Mounting current directory to /benchmarks"
+echo "Shell is $KOALA_SHELL"
+#docker run --rm -it "$IMAGE_NAME"
+docker run -it -e KOALA_SHELL="$KOALA_SHELL" -v "$(pwd):/benchmarks" "$IMAGE_NAME"
 
 echo "Docker image $IMAGE_NAME built and run successfully."
 echo "Cleaning up..."

@@ -19,12 +19,13 @@ main() {
     export BENCHMARK
 
     export LC_ALL=C
-
+    KOALA_SHELL=${KOALA_SHELL:-bash}
+    export KOALA_SHELL
     measure_time=false
     measure_resources=false
     run_locally=false
     runs=1
-    stats_prefix="${BENCHMARK}_stats"
+    stats_prefix="${KOALA_SHELL%% *}_${BENCHMARK}_stats"
     time_values=()
     stats_files=()
     args=()
@@ -73,10 +74,6 @@ main() {
         fi
 
         if [[ "$measure_resources" == true && "$run_locally" == false ]]; then
-            #! for some reason some benchmark results are being tainted when they are ran through the dynamic analysis
-            #! resourse stats look good though
-            #!TODO check why this is happening
-
             echo "[*] Running dynamic resource analysis for $BENCHMARK"
             sudo apt-get install -y autoconf automake libtool build-essential cloc
             pip install --break-system-packages -r "$REPO_TOP/infrastructure/requirements.txt"

@@ -58,7 +58,6 @@ RUN /benchmarks/$BENCHMARK/install.sh
 
 CMD ["bash"]
 EOF
-#TODO fix ownership issues ^^
 
 echo "Building Docker image: $IMAGE_NAME..."
 docker build -t "$IMAGE_NAME" -f "$DOCKERFILE" . || {

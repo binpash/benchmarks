@@ -112,12 +112,7 @@ def compare_hashes(file_path, hash_folder):
         hashes = [line.strip() for line in hash_file.readlines() if line.strip()]
     
     # Check if the current hash matches any of the hashes in the file
-    if current_hash in hashes:
-        print(f"{file_path} Verification Success")
-    else:
-        print(f"{file_path} Verification Failed")
-        print(f"Computed hash: {current_hash}")
-        print(f"Stored hashes: {hashes}")
+    if current_hash not in hashes:
         sys.exit(1)
 
 
@@ -136,10 +131,8 @@ if __name__ == "__main__":
     process_file(input_file_2, output_file_2)
 
     if args.generate:
-        print("Generate mode enabled. Hashes will be generated.")
         generate_hash(output_file, hash_folder)
         generate_hash(output_file_2, hash_folder)
     else:
-        print("Comparison mode enabled. Hashes will be compared.")
         compare_hashes(output_file, hash_folder)
         compare_hashes(output_file_2, hash_folder)

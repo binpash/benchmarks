@@ -38,9 +38,10 @@ fi
 status=0
 if ! md5sum --check --quiet "$hashes_dir/encrypt_files$suffix.md5sum"; then
     status=1
-    echo "encrypt_files $status"
 fi
+echo "encrypt_files $status"
+status=0
 if ! md5sum --check --quiet "$hashes_dir/compress_files$suffix.md5sum"; then
     status=1
-    echo "compress_files $status"
 fi
+echo "compress_files $status"

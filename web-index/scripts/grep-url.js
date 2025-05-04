@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-// TODO: use node's URL to parse and emit a URL in normal form
 // URL validation as a stream transformer
 //
 // Contains code by Diego Perini, as compared in  

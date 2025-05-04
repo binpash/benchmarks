@@ -26,7 +26,10 @@ def get_input_sizes_df(df):
         total = 0
         for file in row['all_input_files']:
             file_path = file
-            file = Path(file).relative_to(row['category'])
+            try:
+                file = Path(file).relative_to(row['category'])
+            except ValueError:
+                continue
             file_rest = str(Path(*file.parts[1:]))
             relevant = sizes_df[(sizes_df['path'] == file_rest) & (sizes_df['category'] == row['category'])]
             if relevant.empty:

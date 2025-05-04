@@ -35,8 +35,8 @@ makeself/makeself/test/variabletest/variabletest.sh,9.0
 max-temp/scripts/temp-analytics.sh,1.0
 media-conv/scripts/img_convert.sh,3.0
 media-conv/scripts/to_mp3.sh,3.0
-nlp/scripts/bigrams_appear_twice.sh,3.0
 nlp/scripts/bigrams.sh,3.0
+nlp/scripts/bigrams_appear_twice.sh,3.0
 nlp/scripts/compare_exodus_genesis.sh,3.0
 nlp/scripts/count_consonant_seq.sh,2.0
 nlp/scripts/count_morphs.sh,2.0
@@ -63,8 +63,8 @@ oneliners/scripts/bi-grams.sh,1.0
 oneliners/scripts/diff.sh,1.0
 oneliners/scripts/nfa-regex.sh,1.0
 oneliners/scripts/set-diff.sh,1.0
-oneliners/scripts/sort.sh,1.0
 oneliners/scripts/sort-sort.sh,1.0
+oneliners/scripts/sort.sh,1.0
 oneliners/scripts/spell.sh,1.0
 oneliners/scripts/top-n.sh,1.0
 oneliners/scripts/uniq-ips.sh,1.0
@@ -74,9 +74,10 @@ riker/scripts/memcached/build.sh,2.0
 riker/scripts/redis/build.sh,1.0
 riker/scripts/sqlite/build.sh,1.0
 riker/scripts/vim/build.sh,1.0
-riker/scripts/xz/build.sh,1.0
 riker/scripts/xz-clang/build.sh,1.0
+riker/scripts/xz/build.sh,1.0
 sklearn/scripts/execute.sh,1.0
+unix50/scripts/1.sh,1.0
 unix50/scripts/10.sh,1.0
 unix50/scripts/11.sh,1.0
 unix50/scripts/12.sh,1.0
@@ -87,7 +88,7 @@ unix50/scripts/16.sh,1.0
 unix50/scripts/17.sh,1.0
 unix50/scripts/18.sh,1.0
 unix50/scripts/19.sh,1.0
-unix50/scripts/1.sh,1.0
+unix50/scripts/2.sh,1.0
 unix50/scripts/20.sh,1.0
 unix50/scripts/21.sh,1.0
 unix50/scripts/23.sh,1.0
@@ -96,7 +97,7 @@ unix50/scripts/25.sh,1.0
 unix50/scripts/26.sh,1.0
 unix50/scripts/28.sh,1.0
 unix50/scripts/29.sh,1.0
-unix50/scripts/2.sh,1.0
+unix50/scripts/3.sh,1.0
 unix50/scripts/30.sh,1.0
 unix50/scripts/31.sh,1.0
 unix50/scripts/32.sh,1.0
@@ -104,15 +105,14 @@ unix50/scripts/33.sh,1.0
 unix50/scripts/34.sh,1.0
 unix50/scripts/35.sh,1.0
 unix50/scripts/36.sh,1.0
-unix50/scripts/3.sh,1.0
 unix50/scripts/4.sh,1.0
 unix50/scripts/5.sh,1.0
 unix50/scripts/6.sh,1.0
 unix50/scripts/7.sh,1.0
 unix50/scripts/8.sh,1.0
 unix50/scripts/9.sh,1.0
-vps-audit/scripts/vps-audit-negate.sh,39.0
-vps-audit/scripts/vps-audit.sh,42.0
+vps-audit/scripts/vps-audit-negate.sh,38.0
+vps-audit/scripts/vps-audit.sh,41.0
 web-index/scripts/bigrams_aux.sh,1.0
 web-index/scripts/extract_text.sh,2.0
 web-index/scripts/ngrams.sh,1.0

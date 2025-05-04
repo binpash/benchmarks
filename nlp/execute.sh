@@ -7,13 +7,13 @@ export TIMEFORMAT=%R
 cd "$SUITE_DIR" || exit 1
 
 if [[ "$1" == "--small" ]]; then
-    export ENTRIES=10
+    export ENTRIES=3000
     export IN="$SUITE_DIR/inputs/pg-small"
 elif [[ "$1" == "--min" ]]; then
     export ENTRIES=1
     export IN="$SUITE_DIR/inputs/pg-min"
 else
-    export ENTRIES=120
+    export ENTRIES=115916
     export IN="$SUITE_DIR/inputs/pg"
 fi
 

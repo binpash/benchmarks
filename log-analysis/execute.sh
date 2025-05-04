@@ -9,15 +9,12 @@ mkdir -p "$outputs_dir"
 
 nginx_input=$input_dir/nginx-logs
 pcaps_input=$input_dir/pcaps
-size="full"
+size=full
 for arg in "$@"; do
-    if [ "$arg" = "--small" ]; then
-        # TODO: vary input size
-        size="small"
-    fi
-    if [ "$arg" = "--min" ]; then
-        size="min"
-    fi
+    case "$arg" in
+        --small) size=small ;;
+        --min)   size=min ;;
+    esac
 done
 
 nginx_input=$input_dir/nginx-logs_$size

@@ -23,7 +23,7 @@ if model.solver in ["sag", "saga"]:
 else:
     prefer = "processes"
 
-# TODO: Refactor this to avoid joblib parallelism entirely when doing binary
+# Note: One could avoid joblib parallelism entirely when doing binary
 # and multinomial multiclass classification and use joblib only for the
 # one-vs-rest multiclass case.
 if (

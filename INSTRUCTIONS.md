@@ -36,6 +36,36 @@ KOALA includes documentation and reproducibility support:
 * Container support via `Dockerfile`
 * Benchmarks include realistic input sizes hosted on institutional servers and archival storage
 
+### Benchmark Structure
+
+Each benchmark directory contains:
+
+```
+benchmarks/<name>/
+├── scripts/        # Benchmark scripts (e.g., *.sh)
+├── install.sh      # Installs dependencies
+├── fetch.sh        # Fetches input data
+├── execute.sh      # Runs benchmark
+├── validate.sh     # Validates output via hashes
+└── clean.sh        # Cleans temporary files (input and output files)
+```
+
+Top-level:
+
+```
+main.sh              # Drives all benchmarks
+```
+
+Configuration options (via env or CLI):
+
+* `KOALA_SHELL`: shell interpreter (default: `sh`)
+* `KOALA_INFO`: metrics to collect (e.g., time, memory)
+
+
+### Benchmark Suite
+
+The suite contains 15 benchmarks. 
+
 ## Completeness
 
 At a high level, the paper claims the following contributions (p. 2):
@@ -94,32 +124,6 @@ The artifact supports evaluation of:
 ```
 
 Execution may take several hours depending on hardware. Reports are auto-generated.
-
-# Infrastructure Overview
-
-Each benchmark directory contains:
-
-```
-benchmarks/<name>/
-├── scripts/        # Benchmark scripts (e.g., *.sh)
-├── install.sh      # Installs dependencies
-├── fetch.sh        # Fetches input data
-├── execute.sh      # Runs benchmark
-├── validate.sh     # Validates output via hashes
-└── clean.sh        # Cleans temporary files
-```
-
-Top-level:
-
-```
-main.sh              # Drives all benchmarks
-Dockerfile           # Container support
-```
-
-Configuration options (via env or CLI):
-
-* `KOALA_SHELL`: shell interpreter (default: `sh`)
-* `KOALA_INFO`: metrics to collect (e.g., time, memory)
 
 # Contact
 

@@ -5,7 +5,7 @@ TOP=$(git rev-parse --show-toplevel)
 input_dir="${TOP}/file-enc/inputs"
 mkdir -p "$input_dir"
 
-URL="https://atlas-group.cs.brown.edu/data"
+URL="https://atlas.cs.brown.edu/data"
 ZIP_DST="$input_dir/pcaps.zip"
 
 size=full

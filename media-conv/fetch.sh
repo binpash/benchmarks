@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPO_TOP=$(git rev-parse --show-toplevel)
-URL='https://atlas-group.cs.brown.edu/data'
+URL='https://atlas.cs.brown.edu/data'
 eval_dir="${REPO_TOP}/media-conv"
 input_dir="${eval_dir}/inputs"
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TOP=$(git rev-parse --show-toplevel)
-URL="https://atlas-group.cs.brown.edu/data"
+URL="https://atlas.cs.brown.edu/data"
 
 input_dir="${TOP}/unix50/inputs"
 mkdir -p "$input_dir"

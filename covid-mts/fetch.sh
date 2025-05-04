@@ -31,4 +31,4 @@ if [ -f "$input_dir/in.csv" ]; then
     exit 0
 fi
 
-curl --insecure 'https://atlas-group.cs.brown.edu/data/covid-mts/in_full.csv.gz' | gunzip > "$input_dir/in.csv"
+curl --insecure "${URL}/covid-mts/in_full.csv.gz" | gunzip > "$input_dir/in.csv"

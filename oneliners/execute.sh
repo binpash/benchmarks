@@ -6,7 +6,7 @@ cd "$SUITE_DIR" || exit 1
 
 export TIMEFORMAT=%R
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="oneliners"
 
 export LC_ALL=C
@@ -74,6 +74,6 @@ do
     BENCHMARK_SCRIPT="$(realpath "$script_file")"
     export BENCHMARK_SCRIPT
     
-    $BENCHMARK_SHELL "$script_file" "$input_file" > "$output_file"
+    $KOALA_SHELL "$script_file" "$input_file" > "$output_file"
     echo "$?"
 done

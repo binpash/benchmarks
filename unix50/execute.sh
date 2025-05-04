@@ -58,7 +58,7 @@ fi
 echo "executing unix50 $(date)"
 
 mkdir -p "outputs"
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="unix50"
 
 export LC_ALL=C
@@ -81,6 +81,6 @@ for script_input in "${scripts_inputs[@]}"; do
     export BENCHMARK_INPUT_FILE
     
     echo "$script"
-    $BENCHMARK_SHELL "$script_file" "$input_file" > "$output_file"
+    $KOALA_SHELL "$script_file" "$input_file" > "$output_file"
     echo $?
 done

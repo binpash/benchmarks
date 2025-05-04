@@ -24,7 +24,7 @@ nginx_input=$input_dir/nginx-logs_$size
 pcaps_input=$input_dir/pcaps_$size
 
 export BENCHMARK_CATEGORY="log-analysis"
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 
 echo "nginx"
 BENCHMARK_INPUT_FILE="$(realpath "$nginx_input")"
@@ -32,7 +32,7 @@ export BENCHMARK_INPUT_FILE
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/nginx.sh")"
 export BENCHMARK_SCRIPT
 
-$BENCHMARK_SHELL $scripts_dir/nginx.sh $nginx_input $outputs_dir/nginx_$size 
+$KOALA_SHELL $scripts_dir/nginx.sh $nginx_input $outputs_dir/nginx_$size 
 echo $?
  
 echo "pcaps"
@@ -42,5 +42,5 @@ export BENCHMARK_INPUT_FILE
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/pcaps.sh")"
 export BENCHMARK_SCRIPT
 
-$BENCHMARK_SHELL $scripts_dir/pcaps.sh $pcaps_input $outputs_dir/pcaps_$size
+$KOALA_SHELL $scripts_dir/pcaps.sh $pcaps_input $outputs_dir/pcaps_$size
 echo $?

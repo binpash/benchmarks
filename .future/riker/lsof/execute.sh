@@ -5,7 +5,7 @@ eval_dir="${REPO_TOP}/riker"
 input_dir="${eval_dir}/input/scripts"
 scripts_dir="${eval_dir}/scripts"
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/lsof/build.sh")"
-(cd "$input_dir/lsof/dev" && $BENCHMARK_SHELL "$scripts_dir/lsof/build.sh")
+(cd "$input_dir/lsof/dev" && $KOALA_SHELL "$scripts_dir/lsof/build.sh")
 

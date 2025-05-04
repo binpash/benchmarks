@@ -8,7 +8,7 @@ BENCHMARK=$(basename "$1")
 shift
 export BENCHMARK
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_SCRIPT
 
 if [[ -z "$BENCHMARK" ]]; then

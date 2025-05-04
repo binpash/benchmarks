@@ -25,7 +25,7 @@ done
 input_pcaps="$input_dir/pcaps_$size"
 
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 
 BENCHMARK_CATEGORY="file-enc"
 export BENCHMARK_CATEGORY
@@ -35,8 +35,8 @@ export BENCHMARK_INPUT_FILE
 
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/compress_files.sh")"
 export BENCHMARK_SCRIPT
-$BENCHMARK_SHELL "$scripts_dir/compress_files.sh" "$input_pcaps" "$outputs_dir/compress_files_$size"
+$KOALA_SHELL "$scripts_dir/compress_files.sh" "$input_pcaps" "$outputs_dir/compress_files_$size"
 
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/encrypt_files.sh")"
 export BENCHMARK_SCRIPT
-$BENCHMARK_SHELL "$scripts_dir/encrypt_files.sh" "$input_pcaps" "$outputs_dir/encrypt_files_$size"
+$KOALA_SHELL "$scripts_dir/encrypt_files.sh" "$input_pcaps" "$outputs_dir/encrypt_files_$size"

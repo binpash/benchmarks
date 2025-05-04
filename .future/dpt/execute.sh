@@ -3,7 +3,7 @@ echo "Python: $(which python3)"
 echo "Python version: $(python3 --version)"
 echo "VIRTUAL_ENV: $VIRTUAL_ENV"
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="$REPO_TOP/dpt"
 input_dir="${eval_dir}/inputs"
@@ -21,12 +21,12 @@ if [[ " $* " == *" --small "* ]]; then
     suffix=".small"
 fi
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_INPUT_FILE="$img_input"
 echo "dpt sequential"
-$BENCHMARK_SHELL "$scripts_dir/dpt_seq.sh" "$img_input" "$outputs_dir/seq_output$suffix.txt"
+$KOALA_SHELL "$scripts_dir/dpt_seq.sh" "$img_input" "$outputs_dir/seq_output$suffix.txt"
 echo "$?"
 
 # echo "dpt parallel"
-# $BENCHMARK_SHELL "$scripts_dir/dpt_par.sh" "$img_input" "$outputs_dir/par_output$suffix.txt"
+# $KOALA_SHELL "$scripts_dir/dpt_par.sh" "$img_input" "$outputs_dir/par_output$suffix.txt"
 # echo "$?"

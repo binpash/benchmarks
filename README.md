@@ -23,11 +23,11 @@
 | web-index    | Web index.                                              |
 
 ## Instructions
-First, set the shell runtime that will execute the benchmark via the `$BENCHMARK_SHELL` shell variable (default `bash`).
+First, set the shell runtime that will execute the benchmark via the `$KOALA_SHELL` shell variable (default `bash`).
 You may append flags or options for the chosen shell.
 For example, to benchmark PaSh with `--width 4`, run:
 ```bash
-export BENCHMARK_SHELL="$PASH_TOP/pa.sh --width 4"
+export KOALA_SHELL="$PASH_TOP/pa.sh --width 4"
 ```
 
 `main.sh` is the one-stop harness for downloading dependencies and inputs, running, profiling and verifying a **single benchmark** in this suite.

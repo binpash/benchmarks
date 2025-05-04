@@ -4,7 +4,7 @@ REPO_TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${REPO_TOP}/riker"
 scripts_dir="${eval_dir}/scripts"
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="riker"
 
 small_benchmark=(
@@ -42,5 +42,5 @@ fi
 
 for bench in "$scripts_dir"/*; do
     export BENCHMARK_SCRIPT="$bench/execute.sh"
-    $BENCHMARK_SHELL "$bench/execute.sh" "$@"
+    $KOALA_SHELL "$bench/execute.sh" "$@"
 done

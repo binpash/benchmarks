@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="$REPO_TOP/port-scan"
 scripts_dir="$eval_dir/scripts"
@@ -17,6 +17,6 @@ export PATH=$PATH:/$go_install_dir/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
-$BENCHMARK_SHELL "$scripts_dir/port-scan.sh" "$inputs_dir/port-scan.log" "$inputs_dir/routeviews.mrt" "$outputs_dir"
+$KOALA_SHELL "$scripts_dir/port-scan.sh" "$inputs_dir/port-scan.log" "$inputs_dir/routeviews.mrt" "$outputs_dir"
 
 echo $?

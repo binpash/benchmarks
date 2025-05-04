@@ -9,11 +9,11 @@ suffix=""
 
 export input_dir="${eval_dir}/inputs/ChessData"
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="opt-parallel"
 
 main_script="${scripts_dir}/opt-parallel.sh"
 BENCHMARK_SCRIPT="$(realpath "$main_script")"
 export BENCHMARK_SCRIPT
 
-$BENCHMARK_SHELL "$main_script" "$input_dir" > "${outputs_dir}/opt-parallel.out"
+$KOALA_SHELL "$main_script" "$input_dir" > "${outputs_dir}/opt-parallel.out"

@@ -2,7 +2,7 @@
 
 cd "$(dirname "$0")" || exit 1
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="web-index"
 
 # ensure a local ./tmp directory exists for sorting
@@ -42,5 +42,5 @@ export BENCHMARK_SCRIPT
 BENCHMARK_INPUT_FILE="$(realpath "$INPUT_FILE")"
 export BENCHMARK_INPUT_FILE
 
-$BENCHMARK_SHELL "./scripts/ngrams.sh" "$OUTPUT_BASE" "$directory_path"
+$KOALA_SHELL "./scripts/ngrams.sh" "$OUTPUT_BASE" "$directory_path"
 echo $?

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="$REPO_TOP/image-annotation"
 scripts_dir="$eval_dir/scripts"
@@ -25,6 +25,6 @@ inputs_dir="$inputs_dir/jpg$suffix"
 BENCHMARK_INPUT_FILE="$(realpath "$inputs_dir")"
 export BENCHMARK_INPUT_FILE
 
-$BENCHMARK_SHELL "$scripts_dir/image-annotation.sh" "$inputs_dir" "$outputs_dir"
+$KOALA_SHELL "$scripts_dir/image-annotation.sh" "$inputs_dir" "$outputs_dir"
 
 echo $?

@@ -13,9 +13,9 @@ for arg in "$@"; do
     esac
 done
 
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
+KOALA_SHELL="${KOALA_SHELL:-bash}"
 export BENCHMARK_CATEGORY="bio"
-export BENCHMARK_SHELL
+export KOALA_SHELL
 
 script_file="./scripts/bio.sh"
 BENCHMARK_SCRIPT="$(realpath "$script_file")"
@@ -24,4 +24,4 @@ export BENCHMARK_SCRIPT
 BENCHMARK_INPUT_FILE="$(realpath "$IN_NAME")"
 export BENCHMARK_INPUT_FILE
 
-$BENCHMARK_SHELL "$script_file" "$IN" "$IN_NAME" "$OUT"
+$KOALA_SHELL "$script_file" "$IN" "$IN_NAME" "$OUT"

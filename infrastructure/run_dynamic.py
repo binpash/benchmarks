@@ -29,7 +29,7 @@ def get_environment(root: Path, start_time: str, bench: str, data_log: str, mort
     dynamic_shell = root / 'infrastructure' / 'run_dynamic_shell.py'
     io_shell = root / 'infrastructure' / 'io_shell.py'
     env['BENCHMARK_IO_SHELL'] = str(io_shell)
-    env['BENCHMARK_SHELL'] = str(dynamic_shell)
+    env['KOALA_SHELL'] = str(dynamic_shell)
     env['BENCHMARK_EXPERIMENT_START'] = start_time
     env['BENCHMARK_PROCESS_LOG'] = data_log
     env['BENCHMARK_MORTEM_LOG'] = mortem_log

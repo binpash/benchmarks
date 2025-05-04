@@ -17,7 +17,7 @@ else
     export IN="$SUITE_DIR/inputs/pg"
 fi
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="nlp"
 
 mkdir -p "outputs"
@@ -63,6 +63,6 @@ while IFS= read -r script; do
     BENCHMARK_SCRIPT="$(realpath "$script_file")"
     export BENCHMARK_SCRIPT
     echo "$script"
-    $BENCHMARK_SHELL "$script_file" "$output_dir"
+    $KOALA_SHELL "$script_file" "$output_dir"
     echo "$?"
 done <<< "$script_names"

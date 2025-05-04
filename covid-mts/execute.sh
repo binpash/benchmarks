@@ -23,8 +23,8 @@ input_file="$input_dir/in$suffix.csv"
 output_scoped="$outputs_dir/outputs$suffix"
 mkdir -p "$output_scoped"
 
-BENCHMARK_SHELL="${BENCHMARK_SHELL:-bash}"
-export BENCHMARK_SHELL
+KOALA_SHELL="${KOALA_SHELL:-bash}"
+export KOALA_SHELL
 
 BENCHMARK_CATEGORY="covid-mts"
 export BENCHMARK_CATEGORY
@@ -36,5 +36,5 @@ for i in 1 2 3 4 5; do
     script="$scripts_dir/$i.sh"
     BENCHMARK_SCRIPT="$(realpath "$script")"
     export BENCHMARK_SCRIPT
-    $BENCHMARK_SHELL "$script" "$input_file" > "$output_scoped/$i.out"
+    $KOALA_SHELL "$script" "$input_file" > "$output_scoped/$i.out"
 done

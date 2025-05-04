@@ -2,7 +2,7 @@
 BENCHMARKS_DIR="/benchmarks"
 EXCLUDE_DIR="infrastructure"
 SCRIPT_NAME="main.sh"
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 
 args=("$@")
 

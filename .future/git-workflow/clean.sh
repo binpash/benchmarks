@@ -1,5 +1,5 @@
 #!/bin/bash
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/git-workflow"
 INPUT_DIR="${eval_dir}/inputs"

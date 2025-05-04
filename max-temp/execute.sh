@@ -26,7 +26,7 @@ export statistics_dir="$outputs_dir/statistics$suffix"
 
 mkdir -p "$statistics_dir"
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 
 BENCHMARK_CATEGORY="max-temp"
 export BENCHMARK_CATEGORY
@@ -37,4 +37,4 @@ export BENCHMARK_INPUT_FILE
 BENCHMARK_SCRIPT="$(realpath "${scripts_dir}/temp-analytics.sh")"
 export BENCHMARK_SCRIPT
 
-$BENCHMARK_SHELL "$scripts_dir/temp-analytics.sh"
+$KOALA_SHELL "$scripts_dir/temp-analytics.sh"

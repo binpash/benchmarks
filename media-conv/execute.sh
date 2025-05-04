@@ -25,7 +25,7 @@ for arg in "$@"; do
     fi
 done
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="media-conv"
  
 echo "img_convert"
@@ -35,7 +35,7 @@ export BENCHMARK_INPUT_FILE
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/img_convert.sh")"
 export BENCHMARK_SCRIPT
 
-$BENCHMARK_SHELL "$scripts_dir/img_convert.sh" "$img_convert_input" "$outputs_dir/img_convert$suffix" > "$outputs_dir/img_convert$suffix.log"
+$KOALA_SHELL "$scripts_dir/img_convert.sh" "$img_convert_input" "$outputs_dir/img_convert$suffix" > "$outputs_dir/img_convert$suffix.log"
 echo $?
  
 echo "to_mp3"
@@ -44,5 +44,5 @@ export BENCHMARK_INPUT_FILE
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/to_mp3.sh")"
 export BENCHMARK_SCRIPT
 
-$BENCHMARK_SHELL "$scripts_dir/to_mp3.sh" "$to_mp3_input" "$outputs_dir/to_mp3$suffix" > "$outputs_dir/to_mp3$suffix.log"
+$KOALA_SHELL "$scripts_dir/to_mp3.sh" "$to_mp3_input" "$outputs_dir/to_mp3$suffix" > "$outputs_dir/to_mp3$suffix.log"
 echo $?

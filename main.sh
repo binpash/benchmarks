@@ -199,7 +199,7 @@ Total Input bytes:     ${INPUT_BYTES}
 CPU time per input byte: ${cpu_per_byte} sec/byte
 Memory per input byte:  ${mem_per_byte} bytes/byte
 IO per input byte:      ${io_per_byte} bytes/byte
-Time in Shell: 0.00 sec
+Time in Shell: 0.00 sec (not measured with --bare flag)
 Time in Commands: ${cpu_total} sec
 ==================================================
 EOF
@@ -240,7 +240,7 @@ EOF
         ./validate.sh "${args[@]}" >"$BENCHMARK.hash" || error "Failed to verify output for $BENCHMARK"
 
         # Cleanup outputs
-        if ((i == runs)); then
+        if (( i == runs )) || [[ "$BENCHMARK" == "riker" ]]; then
             ./clean.sh "${args[@]}"
         fi
 

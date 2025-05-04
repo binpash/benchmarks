@@ -23,24 +23,6 @@ main() {
         exit 1
     fi
 
-    BENCHMARK=$(basename "$1")
-    shift
-    export BENCHMARK
-
-    export LC_ALL=C
-    KOALA_SHELL=${KOALA_SHELL:-bash}
-    export KOALA_SHELL
-    measure_time=false
-    measure_resources=false
-    run_locally=false
-    runs=1
-    shell_word=${KOALA_SHELL%% *}
-    shell_word=${shell_word##*/}
-    shell_safe=${shell_word//[^A-Za-z0-9_.-]/_}
-    echo "Using shell: $KOALA_SHELL"
-    stats_prefix="${BENCHMARK}_${shell_safe}_stats"
-    time_values=()
-    stats_files=()
     args=()
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -73,6 +55,25 @@ main() {
             ;;
         esac
     done
+
+    BENCHMARK=$(basename "${args[0]}")
+    shift
+    export BENCHMARK
+
+    export LC_ALL=C
+    KOALA_SHELL=${KOALA_SHELL:-bash}
+    export KOALA_SHELL
+    measure_time=false
+    measure_resources=false
+    run_locally=false
+    runs=1
+    shell_word=${KOALA_SHELL%% *}
+    shell_word=${shell_word##*/}
+    shell_safe=${shell_word//[^A-Za-z0-9_.-]/_}
+    echo "Using shell: $KOALA_SHELL"
+    stats_prefix="${BENCHMARK}_${shell_safe}_stats"
+    time_values=()
+    stats_files=()
 
     REPO_TOP=$(git rev-parse --show-toplevel)
 

@@ -1,15 +1,18 @@
 #!/bin/bash
 
-cd "$(realpath "$(dirname "$0")")" || exit 1
-mkdir -p inputs
-cd inputs || exit 1
+TOP=$(git rev-parse --show-toplevel)
+URL="https://atlas-group.cs.brown.edu/data"
+
+input_dir="${TOP}/unix50/inputs"
+mkdir -p "$input_dir"
+cd "$input_dir" || exit 1
 
 inputs=(1 2 3 4 5 6 7 8 9.1 9.2 9.3 9.4 9.5 9.6 9.7 9.8 9.9 10 11 12)
 
 for input in "${inputs[@]}"
 do
     if [ ! -f "${input}.txt" ]; then
-        wget --no-check-certificate "http://atlas-group.cs.brown.edu/data/unix50/${input}.txt" -q || exit 1
+        wget --no-check-certificate "${URL}/unix50/${input}.txt" || exit 1
     fi
 
     # Skip the 1M file if the --min flag is present

@@ -16,6 +16,11 @@ for arg in "$@"; do
     esac
 done
 
+if [ -d "$input_dir/pcaps_$size" ]; then
+    echo "Directory $input_dir/pcaps_$size already exists. Skipping download."
+    exit 0
+fi
+
 if [ "$size" = "min" ]; then
     mkdir -p "$input_dir/pcaps_$size"
     cp min_inputs/* "$input_dir/pcaps_$size/"

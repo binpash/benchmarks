@@ -77,7 +77,7 @@ main() {
                 error "Failed to fetch inputs for $BENCHMARK"
         fi
 
-        if [[ "$measure_resources" == true && "$run_locally" == false ]]; then
+        if [[ "$measure_resources" == true ]]; then
             echo "[*] Running dynamic resource analysis for $BENCHMARK"
             sudo apt-get install -y autoconf automake libtool build-essential cloc
             pip install --break-system-packages -r "$REPO_TOP/infrastructure/requirements.txt"
@@ -100,111 +100,6 @@ main() {
                 "$REPO_TOP/$BENCHMARK/${stats_prefix}.txt"
 
             cd "$REPO_TOP/$BENCHMARK" || exit 1
-
-        elif [[ "$measure_resources" == true && "$run_locally" == true ]]; then
-            echo "Running local resource monitoring for $BENCHMARK"
-            interval=0.1
-
-            if ! command -v pidstat &>/dev/null; then
-                echo "Installing pidstat..."
-                sudo apt-get update && sudo apt-get install -y sysstat
-            fi
-
-            if ! command -v /usr/bin/time &>/dev/null; then
-                echo "Installing /usr/bin/time..."
-                sudo apt-get update && sudo apt-get install -y time
-            fi
-
-            mkdir -p logs
-            pidstat_log="logs/${BENCHMARK}.pidstat"
-            io_log="logs/${BENCHMARK}.io"
-            mem_log="logs/${BENCHMARK}.mem"
-            cpu_log="logs/${BENCHMARK}.cpu"
-            time_log="logs/${BENCHMARK}.time"
-
-            # Start monitoring tools
-            (while true; do
-                cat /proc/diskstats >>"$io_log"
-                sleep "$interval"
-            done) &
-            IO_PID=$!
-
-            (pidstat -rud -h "$interval" >"$pidstat_log" 2>/dev/null) &
-            PIDSTAT_PID=$!
-
-            (while true; do
-                cat /proc/stat >>"$cpu_log"
-                cat /proc/meminfo >>"$mem_log"
-                sleep "$interval"
-            done) &
-            BACKUP_PID=$!
-
-            trap 'kill -TERM $IO_PID $PIDSTAT_PID $BACKUP_PID 2>/dev/null' EXIT
-
-            time_fmt=$'USER=%U\nSYS=%S\nELAPSED=%e\nMAXRSS=%M\nIOIN=%I\nIOOUT=%O'
-            /usr/bin/time -f "$time_fmt" -o "$time_log" \
-                ./execute.sh "${args[@]}" \
-                1>"${BENCHMARK}.out" \
-                2>"${BENCHMARK}.err"
-            CMD_STATUS=$?
-
-            kill -TERM $IO_PID $PIDSTAT_PID $BACKUP_PID 2>/dev/null || true
-            wait $IO_PID $PIDSTAT_PID $BACKUP_PID 2>/dev/null || true
-
-            while IFS='=' read -r k v; do declare "$k=$v"; done <"$time_log"
-
-            cpu_total=$(awk -v u="$USER" -v s="$SYS" 'BEGIN{printf "%.2f", u+s}')
-            io_bytes=$(awk -v io_in="$IOIN" -v io_out="$IOOUT" 'BEGIN{print (io_in + io_out) * 1024}')
-            mem_bytes=$((MAXRSS * 1024))
-
-            get_size() {
-                local p=$1
-                if [[ -f $p ]]; then
-                    stat -c%s -- "$p"
-                elif [[ -d $p ]]; then
-                    du -sb -- "$p" | awk '{print $1}'
-                else
-                    return 1
-                fi
-            }
-            if [[ -n $BENCHMARK_INPUT_FILE ]]; then
-                if INPUT_BYTES=$(get_size "$BENCHMARK_INPUT_FILE"); then
-                    : # success
-                else
-                    echo "Warning: $BENCHMARK_INPUT_FILE not found; byte metrics = 0" >&2
-                    INPUT_BYTES=0
-                fi
-            else
-                INPUT_BYTES=0
-            fi
-
-            cpu_per_byte=$(awk -v c="$cpu_total" -v b="$INPUT_BYTES" \
-                'BEGIN{printf "%.6f", (b?c/b:0)}')
-            mem_per_byte=$(awk -v m="$mem_bytes" -v b="$INPUT_BYTES" \
-                'BEGIN{printf "%.6f", (b?m/b:0)}')
-            io_per_byte=$(awk -v i="$io_bytes" -v b="$INPUT_BYTES" \
-                'BEGIN{printf "%.6f", (b?i/b:0)}')
-
-            stats_file="${stats_prefix}.txt"
-            cat >"$stats_file" <<EOF
-Benchmark Statistics
-==================================================
-
-Benchmark: $BENCHMARK
---------------------------------------------------
-Total CPU time:        ${cpu_total} sec
-Total Wall time:       ${ELAPSED} sec
-Total IO bytes:        ${io_bytes}
-Max Memory Usage:      ${mem_bytes} bytes
-Total Input bytes:     ${INPUT_BYTES}
-CPU time per input byte: ${cpu_per_byte} sec/byte
-Memory per input byte:  ${mem_per_byte} bytes/byte
-IO per input byte:      ${io_per_byte} bytes/byte
-Time in Shell: 0.00 sec (not measured with --bare flag)
-Time in Commands: ${cpu_total} sec
-==================================================
-EOF
-            echo "Saved local stats to $stats_file"
 
         elif $measure_time; then
             if ! command -v /usr/bin/time &>/dev/null; then

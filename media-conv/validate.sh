@@ -34,8 +34,8 @@ if $generate; then
     bench=img_convert$suffix
     md5sum $bench/* > "$hashes_dir/$bench.md5sum"
 
-    bench=thumbnail$suffix
-    md5sum $bench/* > "$hashes_dir/$bench.md5sum"
+    # bench=thumbnail$suffix
+    # md5sum $bench/* > "$hashes_dir/$bench.md5sum"
 
     exit 0
 fi

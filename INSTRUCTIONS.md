@@ -92,7 +92,7 @@ The suite contains 15 benchmarks.
 
 At a high level, the paper claims the following contributions (p. 2):
 
-1. A set of real-world shell programs across domains (CI, ML, SysAdmin, etc.)
+1. A set of real-world shell programs that span a variety of domains
 2. Accompanying inputs under three tiers: `--min`, `--small`, and `--full`
 3. Automation of dependency setup, input validation, and correctness checking
 4. Infrastructure for static and dynamic analysis and characterization of the benchmark suite
@@ -103,9 +103,10 @@ At a high level, the paper claims the following contributions (p. 2):
 **Quickstart (minimal test):**
 
 ```sh
-curl -s koala-blind | sh
+git clone https://github.com/binpash/benchmarks
 cd benchmarks
-./main.sh --min --bare
+chmod +x kick-tires.sh
+./kick-tires.sh
 ```
 
 Expected time: ~2.5 minutes. Runs all benchmarks with synthetic inputs and checks output hashes.
@@ -118,6 +119,9 @@ cd benchmarks
 ```
 
 **Configurable system integration:**
+
+To run each of the benchmarks on a system that acts as a shell interpreter, you
+can set the `KOALA_SHELL` environment variable.
 
 ```sh
 KOALA_SHELL=./your_system.sh ./main.sh --small max-temp

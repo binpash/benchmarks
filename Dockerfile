@@ -20,7 +20,8 @@ RUN chmod +x /benchmarks/main.sh
 USER user
 
 # Fake sudo for install scripts — makes it a no-op
-RUN echo -e '#!/bin/sh\nexec "$@"' > /usr/local/bin/sudo && chmod +x /usr/local/bin/sudo
+RUN echo -e '#!/bin/sh\nexec "$@"' > /tmp/sudo && chmod +x /tmp/sudo
+ENV PATH="/tmp:$PATH"
 
 # Run install.sh for each benchmark
 RUN set -eux; \

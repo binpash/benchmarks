@@ -5,66 +5,61 @@
 
 cd "$(realpath "$(dirname "$0")")" || exit 1
 
-mkdir -p hashes/small hashes/min
-
 [ ! -d "outputs" ] && echo "Directory 'outputs' does not exist" && exit 1
 
 hash_folder="hashes"
-generate=false
 
+size="full"
+generate=false
 for arg in "$@"; do
-    if [[ "$arg" == "--generate" ]]; then
-        generate=true
-        continue
-    fi
     case "$arg" in
-        --min) hash_folder="hashes/min" ;;
-        --small) hash_folder="hashes/small" ;;
+        --generate) generate=true ;;
+        --small)    size="small"  ;;
+        --min)      size="min"    ;;
     esac
 done
-
 directory="outputs"
 
+input="inputs/packages"
+if [ "$size" = "small" ]; then
+    input="inputs/packages_small"
+elif [ "$size" = "min" ]; then
+    input="inputs/packages_min"
+fi
+
+mkdir -p "$hash_folder/$size"
+
 if $generate; then
-    # Directory to iterate over
+    while IFS= read -r pkg || [ -n "$pkg" ]; do
+        [ -z "$pkg" ] && continue
 
-    # Loop through all PKGBUILD files in the directory and its subdirectories
-    find "$directory" -maxdepth 1 -type f -name "*.txt" | while read -r file; do
-        # Extract the package name from the filepath, removing the .txt extension
-        package_name=$(basename "$file" .txt)
+        file="$directory/$pkg.txt"
 
-        # Generate SHA-256 hash
-        hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
+        hash=$(shasum -a 256 "$file" | awk '{print $1}')
 
-        # Save the hash to a file with the package name
-        echo "$hash" >"$hash_folder/$package_name.hash"
+        echo "$hash" >"$hash_folder/$size/$pkg.hash"
 
-        # Print the filename and hash
-        echo "$hash_folder/$package_name.hash $hash"
-    done
+        echo "$hash_folder/$size/$pkg.hash $hash"
+    done <"$input"
     exit 0
 fi
 
-# Loop through all PKGBUILD files in the directory and its subdirectories
-find "$directory" -maxdepth 1 -type f -name "*.txt" | while read -r file; do
-    package_name=$(basename "$file" .txt)
+status=0
+while IFS= read -r pkg || [ -n "$pkg" ]; do
+    [ -z "$pkg" ] && continue
 
-    if [ ! -f "$hash_folder/$package_name.hash" ]; then
-        echo "Hash file for $package_name does not exist."
+    log="$directory/$pkg.txt"
+    ref="$hash_folder/$size/$pkg.hash"
+
+    if [ ! -f "$log" ] || [ ! -f "$ref" ]; then
+        status=1
         continue
     fi
 
-    # Generate SHA-256 hash
-    hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
+    cur=$(shasum -a 256 "$log" | awk '{print $1}')
+    stored=$(cat "$ref")
 
-    # Read the stored hash
-    stored_hash=$(cat "$hash_folder/$package_name.hash")
+    [ "$cur" = "$stored" ] || status=1
+done <"$input"
 
-    diff <(echo "$hash") <(echo "$stored_hash") >/dev/null
-    match=$?
-
-    # echo "$package_name $match"
-    # Because of fluctuations in the makepkg output, we will ignore the hash mismatch
-    # TODO check if this is a good idea
-    echo "$package_name 0"
-done
+echo "aurpkg $status"

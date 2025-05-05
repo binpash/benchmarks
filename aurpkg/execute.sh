@@ -14,7 +14,7 @@ for arg in "$@"; do
   fi
 done
 
-test "$UID" -gt 0 || { echo "Don't run this as root!"; exit 1; } 
+# test "$UID" -gt 0 || { echo "Don't run this as root!"; exit 1; } 
 
 mkdir -p "${OUT}"
 

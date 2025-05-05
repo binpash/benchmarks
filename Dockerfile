@@ -19,6 +19,9 @@ RUN chown -R user:user /benchmarks
 RUN chmod +x /benchmarks/main.sh
 USER user
 
+# Fake sudo for install scripts — makes it a no-op
+RUN echo -e '#!/bin/sh\nexec "$@"' > /usr/local/bin/sudo && chmod +x /usr/local/bin/sudo
+
 # Run install.sh for each benchmark
 RUN set -eux; \
     for bench in /benchmarks/*; do \

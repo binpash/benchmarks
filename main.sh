@@ -50,14 +50,16 @@ main() {
             shift
             ;;
         *)
-            args+=("$1")
+            if [[ "$1" != -* ]]; then
+                BENCHMARK="$1"
+            else
+                args+=("$1")
+            fi
             shift
             ;;
         esac
     done
 
-    BENCHMARK=$(basename "${args[0]}")
-    shift
     export BENCHMARK
 
     export LC_ALL=C

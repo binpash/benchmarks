@@ -64,7 +64,7 @@ main() {
 
         *)
             if [[ "$1" != -* ]]; then
-                BENCHMARK="$1"
+                BENCHMARK="$(basename $1)"
             else
                 args+=("$1")
             fi

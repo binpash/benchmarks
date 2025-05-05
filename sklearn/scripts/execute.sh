@@ -31,7 +31,7 @@ echo "C_: $C_" >&2
 
 # Generating model & samples
 $PYTHON $SCRIPTS/gen_model.py 100
-$PYTHON $SCRIPTS/gen_samples.py
+$PYTHON $SCRIPTS/gen_samples.py "$@"
 
 # Validity checking functions
 # These functions just check to make sure that the input is valid. 

@@ -5,7 +5,7 @@ error() {
     exit 1
 }
 
-correct() { [ "$(cut -d' ' -f 2 <"$BENCHMARK.hash" | grep -c 1)" -eq 0 ]; }
+correct() { [ "$(cut -d' ' -f 2 <"$BENCHMARK.hash" | grep -vc 0)" -eq 0 ]; }
 
 is_integer() { [[ $1 =~ ^[0-9]+$ && $1 -gt 0 ]]; }
 

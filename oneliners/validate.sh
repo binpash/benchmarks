@@ -24,6 +24,8 @@ for arg in "$@"; do
     esac
 done
 
+mkdir -p "$hash_folder"
+
 if $generate; then
     # Directory to iterate over
     directory="outputs"

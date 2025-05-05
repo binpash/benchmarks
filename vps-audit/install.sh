@@ -9,3 +9,5 @@ for pkg in $pkgs; do
         sudo apt-get install -y "$pkg"
     fi
 done
+
+export PATH="$PATH:/sbin:/usr/sbin"

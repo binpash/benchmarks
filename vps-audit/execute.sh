@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# For sysctl
+export PATH="$PATH:/sbin:/usr/sbin"
+
 KOALA_SHELL=${KOALA_SHELL:-bash}
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/vps-audit"

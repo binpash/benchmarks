@@ -100,13 +100,29 @@ At a high level, the paper claims the following contributions (p. 2):
 
 ## Exercisability
 
-**Quickstart (minimal test):**
+**Quickstart:**
 
 ```sh
 git clone https://github.com/binpash/benchmarks
 cd benchmarks
 chmod +x kick-tires.sh
 ./kick-tires.sh
+```
+
+**Quickstart w/ Docker:**
+
+```sh
+docker pull ghcr.io/binpash/benchmarks:latest
+docker run -it --rm -v "$(pwd)":/mnt ghcr.io/binpash/benchmarks:latest bash
+```
+
+**Quickstart w/ Docker (build):**
+
+```sh
+git clone https://github.com/binpash/benchmarks
+cd benchmarks
+docker build -t benchmarks .
+docker run -it --rm -v "$(pwd)":/benchmarks benchmarks bash
 ```
 
 Expected time: ~2.5 minutes. Runs all benchmarks with synthetic inputs and checks output hashes.

@@ -17,19 +17,21 @@ jobs:
       fail-fast: false
       matrix:
         benchmark:
+          - aurpkg
           - bio
-          - nlp
+          - covid-mts
           - file-enc
-          - unix50
           - log-analysis
+          - makeself
           - max-temp
           - media-conv
-          - sklearn
-          - covid-mts
-          - riker
+          - nlp
           - oneliners
+          - riker
+          - sklearn
+          - unix50
           - vps-audit
-          - makeself
+          - web-index
 
     steps:
       - name: Checkout code

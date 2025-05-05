@@ -26,7 +26,4 @@ cat ${IN_NAME}|while read s_line;
     echo 'Indexing Sample '$pop'_'${OUT}/$sample' ';
     samtools index -b "${OUT}/$pop"_"$sample"_"$chr".bam;
   done;
-  #rm "${OUT}/$sample"_corrected.bam;
-  #rm "${OUT}/$sample"_corrected.bam.bai;
-  #rm "${OUT}/$sample".bam
 done;

@@ -114,8 +114,8 @@ chmod +x kick-tires.sh
 The following lines will download the latest version of the benchmarks and run them in a containerized environment.
 In addition, it will mount the current working directory to the container, allowing you to access the benchmark results.
 ```sh
-docker pull ghcr.io/binpash/benchmarks:main
-docker run -it --rm -v "$(pwd)":/mnt ghcr.io/binpash/benchmarks:main bash
+docker pull ghcr.io/binpash/benchmarks:latest
+docker run -it --rm -v "$(pwd)":/mnt ghcr.io/binpash/benchmarks:latest bash
 ```
 
 **Quickstart w/ Docker (build):**

@@ -11,16 +11,14 @@ RUN apt update && apt install -y --no-install-recommends \
     git \
     gpg
 
-RUN useradd -m user && \
-    echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 COPY . .
-
-RUN chown -R user:user /benchmarks
 RUN chmod +x /benchmarks/main.sh
 
 # Fake sudo for install scripts — makes it a no-op
 RUN printf '#!/bin/sh\nexec "$@"\n' > /tmp/sudo && chmod +x /tmp/sudo
 ENV PATH="/tmp:$PATH"
+
+RUN git config --global --add safe.directory /benchmarks
 
 # Run install.sh for each benchmark
 RUN set -eux; \
@@ -31,7 +29,5 @@ RUN set -eux; \
             bash "$bench/install.sh"; \
         fi; \
     done
-
-RUN git config --global --add safe.directory /benchmarks
 
 CMD ["bash"]

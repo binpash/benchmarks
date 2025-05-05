@@ -11,5 +11,18 @@ cd "$eval_dir" || exit 1 # scripts/execute.sh references PWD
  
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/execute.sh")"
 export BENCHMARK_SCRIPT
-$KOALA_SHELL "$scripts_dir/execute.sh" "$@"
+
+for arg in "$@"; do
+  case "$arg" in
+  #ignore
+    --small)
+        shift
+        ;;
+    --min)
+        shift
+        ;;
+  esac
+done
+
+$KOALA_SHELL "$scripts_dir/execute.sh" # "$@"
 

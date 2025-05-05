@@ -64,7 +64,7 @@ main() {
 
         *)
             if [[ "$1" != -* ]]; then
-                BENCHMARK="$(basename $1)"
+                BENCHMARK="$(basename "$1")"
             else
                 args+=("$1")
             fi
@@ -165,7 +165,7 @@ main() {
         ./validate.sh "${args[@]}" >"$BENCHMARK.hash" || error "Failed to verify output for $BENCHMARK"
 
         # Cleanup outputs
-        rm -r outputs
+        [ -d outputs ] && rm -r outputs
 
         # if flag is used run cleanup script
         if (( i == runs && run_cleanup )) || [[ "$BENCHMARK" == "riker" ]]; then

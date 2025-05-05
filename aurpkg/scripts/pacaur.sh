@@ -30,7 +30,6 @@ run_tests() {
     #info "fetch required pgp keys from PKGBUILD"
     gpg --recv-keys $(sed -n "s:^validpgpkeys=('\([0-9A-Fa-fx]\+\)').*$:\1:p" PKGBUILD)
     # Some failure is expected here, so we ignore the return code
-    #makedeb -d >>"../$pkg.txt" 2>&1 || true
     {
         printf '[convert] %s -> pacscript\n' "$pkg"
 

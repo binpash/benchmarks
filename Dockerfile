@@ -2,7 +2,7 @@ FROM debian:12.7
 
 WORKDIR /benchmarks
 
-RUN apt update && apt install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo \
     curl \
     wget \

@@ -1,13 +1,11 @@
 #!/bin/bash
 
-sudo apt update 
+sudo apt-get update 
 
-sudo apt install -y \
-    sudo \
-    coreutils \
-    curl \
-    gzip \
-    gawk \
-    sed \
-    git
+pkgs="coreutils curl gzip gawk sed git"
 
+for pkg in $pkgs; do
+    if ! dpkg -s "$pkg" &> /dev/null; then
+        sudo apt install -y "$pkg"
+    fi
+done

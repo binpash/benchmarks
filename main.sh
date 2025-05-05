@@ -15,6 +15,7 @@ usage() {
     echo "  --resources      Measure resource usage"
     echo "  --bare           Run locally without Docker"
     echo "  --runs, -n N     Number of runs (default: 1)"
+    echo "  --clean, -c      Run cleanup script"
 }
 
 main() {
@@ -22,6 +23,13 @@ main() {
         usage
         exit 1
     fi
+
+
+    measure_time=false
+    measure_resources=false
+    run_locally=false
+    run_cleanup=false
+    runs=1
 
     args=()
     while [[ $# -gt 0 ]]; do
@@ -49,6 +57,11 @@ main() {
             runs="$1"
             shift
             ;;
+        --clean | -c)
+            run_cleanup=true
+            shift
+            ;;
+
         *)
             if [[ "$1" != -* ]]; then
                 BENCHMARK="$1"
@@ -65,10 +78,7 @@ main() {
     export LC_ALL=C
     KOALA_SHELL=${KOALA_SHELL:-bash}
     export KOALA_SHELL
-    measure_time=false
-    measure_resources=false
-    run_locally=false
-    runs=1
+
     shell_word=${KOALA_SHELL%% *}
     shell_word=${shell_word##*/}
     shell_safe=${shell_word//[^A-Za-z0-9_.-]/_}
@@ -95,8 +105,15 @@ main() {
 
         if [[ "$measure_resources" == true ]]; then
             echo "[*] Running dynamic resource analysis for $BENCHMARK"
-            sudo apt-get install -y autoconf automake libtool build-essential cloc
-            pip install --break-system-packages -r "$REPO_TOP/infrastructure/requirements.txt"
+            # check if deps are installed
+            if ! command -v cloc &>/dev/null || ! command -v autoconf &>/dev/null || command -v automake &>/dev/null || ! command -v libtool &>/dev/null || ! command -v build-essential &>/dev/null || ! command -v python3 &>/dev/null; then
+                echo "Please run setup.sh first to install dependencies."
+                exit 1
+            fi
+            if ! pip install --dry-run -r requirements.txt &> /dev/null; then
+                echo "Please run setup.sh first to install dependencies."
+                exit 1
+            fi
 
             mkdir -p "$REPO_TOP/infrastructure/target/process-logs"
             mkdir -p "$REPO_TOP/infrastructure/target/backup-process-logs"
@@ -118,9 +135,9 @@ main() {
             cd "$REPO_TOP/$BENCHMARK" || exit 1
 
         elif $measure_time; then
-            if ! command -v /usr/bin/time &>/dev/null; then
-                echo "Installing /usr/bin/time and gawk..."
-                sudo apt-get update && sudo apt-get install -y time gawk
+            if ! command -v /usr/bin/time &>/dev/null || ! command -v gawk &>/dev/null; then
+                echo "Please run setup.sh first to install dependencies."
+                exit 1
             fi
 
             echo "Timing benchmark: $BENCHMARK  (run #$i)"
@@ -152,7 +169,10 @@ main() {
         ./validate.sh "${args[@]}" >"$BENCHMARK.hash" || error "Failed to verify output for $BENCHMARK"
 
         # Cleanup outputs
-        if (( i == runs )) || [[ "$BENCHMARK" == "riker" ]]; then
+        rm -r outputs
+
+        # if flag is used run cleanup script
+        if (( i == runs && run_cleanup )) || [[ "$BENCHMARK" == "riker" ]]; then
             ./clean.sh "${args[@]}"
         fi
 

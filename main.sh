@@ -106,11 +106,7 @@ main() {
         if [[ "$measure_resources" == true ]]; then
             echo "[*] Running dynamic resource analysis for $BENCHMARK"
             # check if deps are installed
-            if ! command -v cloc &>/dev/null || ! command -v autoconf &>/dev/null || command -v automake &>/dev/null || ! command -v libtool &>/dev/null || ! command -v build-essential &>/dev/null || ! command -v python3 &>/dev/null; then
-                echo "Please run setup.sh first to install dependencies."
-                exit 1
-            fi
-            if ! pip install --dry-run -r requirements.txt &> /dev/null; then
+            if ! command -v cloc &>/dev/null || ! command -v python3 &>/dev/null; then
                 echo "Please run setup.sh first to install dependencies."
                 exit 1
             fi

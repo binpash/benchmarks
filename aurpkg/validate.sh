@@ -33,7 +33,7 @@ if $generate; then
     while IFS= read -r pkg || [ -n "$pkg" ]; do
         [ -z "$pkg" ] && continue
 
-        file="$directory/$pkg.txt"
+        file="$directory/$pkg/$pkg.pacscript"
 
         hash=$(shasum -a 256 "$file" | awk '{print $1}')
 
@@ -48,7 +48,7 @@ status=0
 while IFS= read -r pkg || [ -n "$pkg" ]; do
     [ -z "$pkg" ] && continue
 
-    log="$directory/$pkg.txt"
+    log="$directory/$$pkg/$pkg.pacscript"
     ref="$hash_folder/$size/$pkg.hash"
 
     if [ ! -f "$log" ] || [ ! -f "$ref" ]; then

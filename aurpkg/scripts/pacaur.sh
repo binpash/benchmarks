@@ -49,7 +49,6 @@ run_tests() {
         [ -n "$homepage" ] || homepage="https://aur.archlinux.org/packages/$pkgname"
 
         cat >"${pkg}.pacscript" <<EOF
-# Auto-generated on $(TZ=UTC date '+%Y-%m-%dT%H:%MZ')
 pkgname=$pkgname
 pkgver=$pkgver
 pkgdesc="$pkgdesc"
@@ -70,7 +69,7 @@ package() {
 }
 EOF
         printf '[convert] pacscript saved as %s.pacscript\n' "$pkg"
-    } >>"../${pkg}.txt" 2>&1 || echo "Failed to convert $pkg"
+    } > "../${pkg}.txt" 2>&1 || echo "Failed to convert $pkg"
 
     cd "$ORIG_DIR" || exit 1
 }

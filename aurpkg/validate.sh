@@ -48,7 +48,7 @@ status=0
 while IFS= read -r pkg || [ -n "$pkg" ]; do
     [ -z "$pkg" ] && continue
 
-    log="$directory/$$pkg/$pkg.pacscript"
+    log="$directory/$pkg/$pkg.pacscript"
     ref="$hash_folder/$size/$pkg.hash"
 
     if [ ! -f "$log" ] || [ ! -f "$ref" ]; then

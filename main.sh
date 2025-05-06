@@ -164,7 +164,7 @@ main() {
             [[ $CMD_STATUS -ne 0 ]] && error "Failed to run $BENCHMARK"
 
         else
-            ./execute.sh "${args[@]}" >"$BENCHMARK.out" 2>"$BENCHMARK.err" || error "Failed to run $BENCHMARK"
+            ./execute.sh "${args[@]}" 2>>"$BENCHMARK.err" | tee -a "$BENCHMARK.out" || error "Failed to run $BENCHMARK"
         fi
 
         # Verify output

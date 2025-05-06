@@ -2,8 +2,7 @@
 
 REPO_TOP=$(git rev-parse --show-toplevel)
 URL='https://atlas.cs.brown.edu/data'
-eval_dir="${REPO_TOP}/media-conv"
-input_dir="${eval_dir}/inputs"
+input_dir="${REPO_TOP}/media-conv/inputs"
 
 mkdir -p "$input_dir"
 
@@ -23,13 +22,13 @@ if [[ ! -d "$full_dir" ]]; then
     # Make sure we have the correct number of inputs
     # with numbered backups (do not overwrite inputs).
     for i in {1..120}; do
-        cp --backup=numbered $input_dir/wav/* "--target-directory=$full_dir"
+        cp --backup=numbered "$input_dir"/wav/* "--target-directory=$full_dir"
     done
     for i in {1..10}; do
-        cp --backup=numbered $input_dir/wav/* "--target-directory=$small_dir"
+        cp --backup=numbered "$input_dir"/wav/* "--target-directory=$small_dir"
     done
     for i in {1..2}; do
-        cp --backup=numbered $input_dir/wav/* "--target-directory=$min_dir"
+        cp --backup=numbered "$input_dir"/wav/* "--target-directory=$min_dir"
     done
     rm -r "$zip_dst" "$input_dir/wav"
 fi
@@ -59,7 +58,7 @@ for arg in "$@"; do
             echo "Data already downloaded and extracted."
             exit 0
         fi
-        min_inputs="$eval_dir/min_inputs/"
+        min_inputs="${REPO_TOP}/media-conv/min_inputs/"
         mkdir -p "$input_dir"
         cp -r "$min_inputs"/* "$input_dir/"
         exit 0

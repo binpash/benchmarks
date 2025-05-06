@@ -16,6 +16,7 @@ usage() {
     echo "  --bare           Run locally without Docker"
     echo "  --runs, -n N     Number of runs (default: 1)"
     echo "  --clean, -c      Run cleanup script"
+    echo "  --keep,  -k      Keep outputs"
 }
 
 main() {
@@ -29,6 +30,7 @@ main() {
     measure_resources=false
     run_locally=false
     run_cleanup=false
+    keep_outputs=false
     runs=1
 
     args=()
@@ -61,7 +63,10 @@ main() {
             run_cleanup=true
             shift
             ;;
-
+        --keep | -k)
+            keep_outputs=true
+            shift
+            ;;
         *)
             if [[ "$1" != -* ]]; then
                 BENCHMARK="$(basename "$1")"
@@ -165,7 +170,9 @@ main() {
         ./validate.sh "${args[@]}" >"$BENCHMARK.hash" || error "Failed to verify output for $BENCHMARK"
 
         # Cleanup outputs
-        [ -d outputs ] && rm -r outputs
+        if [[ $keep_outputs == false ]]; then
+            [ -d outputs ] && rm -r outputs
+        fi
 
         # if flag is used run cleanup script
         if (( i == runs && run_cleanup )) || [[ "$BENCHMARK" == "riker" ]]; then

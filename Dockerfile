@@ -14,6 +14,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY . .
 RUN chmod +x /benchmarks/main.sh
 
+ENV LC_ALL=C
+
 # Fake sudo for install scripts — makes it a no-op
 RUN printf '#!/bin/sh\nexec "$@"\n' > /tmp/sudo && chmod +x /tmp/sudo
 ENV PATH="/tmp:$PATH"

@@ -24,11 +24,11 @@ if [ ! -f ./book_links.txt ]; then
 fi
 
 if [ ! -f ./genesis ]; then
-    curl -sf ${URL}/gutenberg/8/0/0/8001/8001.txt > genesis
+    curl --insecure -sf ${URL}/gutenberg/8/0/0/8001/8001.txt > genesis
 fi 
 
 if [ ! -f ./exodus ]; then
-    curl -sf ${URL}/gutenberg/3/3/4/2/33420/33420-0.txt > exodus
+    curl --insecure -sf ${URL}/gutenberg/3/3/4/2/33420/33420-0.txt > exodus
 fi
 
 if [[ "$size" == "small" ]]; then
@@ -56,7 +56,7 @@ elif [[ "$size" == "min" ]]; then
         do
             full_url="${URL}/gutenberg/${line}"
             echo "Downloading $full_url"
-            wget -q "$full_url"
+            wget --no-check-certificate -q "$full_url"
         done
 
         cd ..

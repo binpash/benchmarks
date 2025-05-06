@@ -44,8 +44,8 @@ if [[ "$size" == "small" ]]; then
             wget --no-check-certificate -q "$full_url"
         done
         cd ..
-        exit 0
     fi
+    exit 0
 elif [[ "$size" == "min" ]]; then
     if [ ! -e ./pg-min ]; then
         mkdir pg-min
@@ -60,8 +60,8 @@ elif [[ "$size" == "min" ]]; then
         done
 
         cd ..
-        exit 0
     fi
+    exit 0
 fi
 
 if [ ! -e ./pg ]; then

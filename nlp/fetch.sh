@@ -16,7 +16,7 @@ for arg in "$@"; do
 done
 
 if [ ! -f ./book_links.txt ]; then
-    wget -O book_links.txt "${URL}/gutenberg/books.txt"
+    wget --no-check-certificate -O book_links.txt "${URL}/gutenberg/books.txt"
     if [ ! -f book_links.txt ]; then
         echo "Failed to download book_links.txt"
         exit 1
@@ -41,7 +41,7 @@ if [[ "$size" == "small" ]]; then
         do
             full_url="${URL}/gutenberg/${line}"
             echo "Downloading $full_url"
-            wget -q "$full_url"
+            wget --no-check-certificate -q "$full_url"
         done
         cd ..
         exit 0
@@ -72,7 +72,7 @@ if [ ! -e ./pg ]; then
     do
         full_url="${URL}/gutenberg/${line}"
         echo "Downloading $full_url"
-        wget -q "$full_url"
+        wget --no-check-certificate -q "$full_url"
     done < ../book_links.txt
 
     cd ..

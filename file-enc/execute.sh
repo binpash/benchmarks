@@ -7,8 +7,6 @@ outputs_dir="${eval_dir}/outputs"
 scripts_dir="${eval_dir}/scripts"
 mkdir -p "$outputs_dir"
 
-echo "Executing file-enc benchmark at $(date)"
-
 size="full"
 input_pcaps="$input_dir/pcaps"
 for arg in "$@"; do

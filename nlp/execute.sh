@@ -49,8 +49,6 @@ words_no_vowels"
 
 mkdir -p "outputs"
 
-echo "Executing nlp $(date)"
-
 export LC_ALL=C
 
 # Loop through each script name from the variable

@@ -16,7 +16,7 @@ usage() {
     echo "  --bare           Run locally without Docker"
     echo "  --runs, -n N     Number of runs (default: 1)"
     echo "  --clean, -c      Run cleanup script"
-    echo "  --keep,  -k      Keep outputs"
+    echo "  --keep, -k      Keep outputs"
 }
 
 main() {

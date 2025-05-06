@@ -108,6 +108,7 @@ main() {
                 error "Failed to fetch inputs for $BENCHMARK"
         fi
 
+        echo "Executing $BENCHMARK $(date) (run #$i/$runs)"
         if [[ "$measure_resources" == true ]]; then
             echo "[*] Running dynamic resource analysis for $BENCHMARK"
             # check if deps are installed

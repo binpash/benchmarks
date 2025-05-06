@@ -1,7 +1,8 @@
+# parsing
 shasta
 libdash
 
-# for visualiztion
+# visualiztion
 pandas
 seaborn
 matplotlib

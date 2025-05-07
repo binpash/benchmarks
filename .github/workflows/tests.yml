@@ -54,14 +54,6 @@ jobs:
       - name: Set execute permissions for main.sh
         run: chmod +x main.sh
 
-      - name: Run Benchmark ${{ matrix.benchmark }} (small)
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/benchmarks \
-            -w /benchmarks \
-            benchmark-env \
-            bash -c "./main.sh ${{ matrix.benchmark }} --small"
-
       - name: Run Benchmark ${{ matrix.benchmark }} (min)
         run: |
           docker run --rm \
@@ -69,6 +61,14 @@ jobs:
             -w /benchmarks \
             benchmark-env \
             bash -c "./main.sh ${{ matrix.benchmark }} --min"
+
+      - name: Run Benchmark ${{ matrix.benchmark }} (small)
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/benchmarks \
+            -w /benchmarks \
+            benchmark-env \
+            bash -c "./main.sh ${{ matrix.benchmark }} --small"
 
       - name: Upload logs
         if: always()

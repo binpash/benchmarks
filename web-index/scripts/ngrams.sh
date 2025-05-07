@@ -17,6 +17,7 @@ extract_text="$SCRIPT_DIR/extract_text.sh"
 bigrams_aux="$SCRIPT_DIR/bigrams_aux.sh"
 trigrams_aux="$SCRIPT_DIR/trigrams_aux.sh"
 
+echo "Processing text from $INPUT_FILE"
 cat "$INPUT_FILE" |
   sed "s#^#$WIKI/#" |
   $extract_text |
@@ -26,11 +27,13 @@ cat "$INPUT_FILE" |
   "$SCRIPT_DIR/stem-words.js" |
   tee 3grams 2grams 1grams > /dev/null &
 
+echo "Processing 1-grams"
 cat 1grams |
     sort |
     uniq -c |
     sort -rn > "$output_base/1-grams.txt" &
 
+echo "Processing 2-grams"
 cat 2grams |
     tr -cs A-Za-z '\n' |
     tr A-Z a-z |
@@ -39,6 +42,7 @@ cat 2grams |
     uniq -c |
     sort -rn > "$output_base/2-grams.txt" &
 
+echo "Processing 3-grams"
 cat 3grams |
     tr -cs A-Za-z '\n' |
     tr A-Z a-z |

@@ -44,8 +44,8 @@ if $generate; then
     exit 0
 fi
 
-status=0
 while IFS= read -r pkg || [ -n "$pkg" ]; do
+    status=0
     [ -z "$pkg" ] && continue
 
     log="$directory/$pkg/$pkg.pacscript"
@@ -60,6 +60,7 @@ while IFS= read -r pkg || [ -n "$pkg" ]; do
     stored=$(cat "$ref")
 
     [ "$cur" = "$stored" ] || status=1
+    echo "$pkg" "$status"
 done <"$input"
 
 echo "aurpkg $status"

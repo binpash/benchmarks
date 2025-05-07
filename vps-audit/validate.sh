@@ -11,8 +11,8 @@ done
 
 if [[ "$GENERATE" == true ]]; then
     python3 validate.py --generate
+    exit 0
 else
     python3 validate.py
+    echo "vps-audit $?"
 fi
-
-echo "vps-audit $?"

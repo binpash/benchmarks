@@ -49,11 +49,6 @@ if [[ ! -d "$RESOURCES_DIR/articles$suffix" ]]; then
 			echo "Extracting the full dataset."
 			tar -xf $RESOURCES_DIR/wikipedia$suffix.tar.gz -C $RESOURCES_DIR
 			mv $RESOURCES_DIR/articles10g $RESOURCES_DIR/articles$suffix
-			# echo "Downloading the full dataset. Caution!! Extracted size >200GB"
-			# wget -O $RESOURCES_DIR/wikipedia.tar.gz https://atlas-group.cs.brown.edu/data/wikipedia/input/articles.tar.gz --no-check-certificate
-			# wget -O $RESOURCES_DIR/index.txt https://atlas-group.cs.brown.edu/data/wikipedia/input/index.txt --no-check-certificate
-			# echo "Extracting the full dataset. Caution!! Extracted size >200GB"
-			# tar -xf $RESOURCES_DIR/wikipedia.tar.gz -C $RESOURCES_DIR
 		fi
 	else
 		echo "Extracting dataset."
@@ -61,5 +56,4 @@ if [[ ! -d "$RESOURCES_DIR/articles$suffix" ]]; then
 	fi
 else
 	echo "Dataset already exists."
-	echo "Please rm -r $RESOURCES_DIR/articles manually and rerun this script."
 fi

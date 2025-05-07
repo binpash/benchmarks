@@ -26,9 +26,9 @@ INPUT_FILE="$INPUTS/index$suffix.txt"
 
 export INPUT_FILE
 
-directory_path="inputs/articles$suffix"
+input_path="inputs/articles$suffix"
 
-if [ ! -d "$directory_path" ]; then
+if [ ! -d "$input_path" ]; then
 	    echo "Error: Directory does not exist."
       exit 1
 fi
@@ -42,5 +42,5 @@ export BENCHMARK_SCRIPT
 BENCHMARK_INPUT_FILE="$(realpath "$INPUT_FILE")"
 export BENCHMARK_INPUT_FILE
 
-$KOALA_SHELL "./scripts/ngrams.sh" "$OUTPUT_BASE" "$directory_path"
+$KOALA_SHELL "./scripts/ngrams.sh" "$OUTPUT_BASE" "$input_path"
 echo $?

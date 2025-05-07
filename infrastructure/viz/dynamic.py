@@ -201,38 +201,38 @@ def read_data():
 def main(output_dir=None, text_mode=False):
     _, df = read_data()
 
-    if text_mode:
-        stats_filename = os.path.join(output_dir, "benchmark_stats.txt") if output_dir else "benchmark_stats.txt"
+    # if text_mode:
+    stats_filename = os.path.join(output_dir, "benchmark_stats.txt") if output_dir else "benchmark_stats.txt"
 
-        with open(stats_filename, "w") as f:
-            f.write("Benchmark Statistics\n")
+    with open(stats_filename, "w") as f:
+        f.write("Benchmark Statistics\n")
+        f.write("=" * 50 + "\n")
+
+        for benchmark in df["benchmark"].unique():
+            bench_df = df[df["benchmark"] == benchmark]
+            f.write(f"\nBenchmark: {benchmark}\n")
+            f.write("-" * 50 + "\n")
+            f.write(f"Total CPU time: {bench_df['time'].sum():.2f} sec\n")
+            f.write(f"Total Wall time: {bench_df['wall_time'].sum():.2f} sec\n")
+            f.write(f"Total IO bytes: {bench_df['io_chars'].sum():.2f}\n")
+            f.write(f"Max Memory Usage: {bench_df['max_unique_set_size'].max():.2f} bytes\n")
+                
+            input_size_sum = bench_df['input_size'].sum()
+
+            if input_size_sum > 0:
+                f.write(f"CPU time per input byte: {bench_df['time'].sum() / input_size_sum:.6f} sec/byte\n")
+                f.write(f"Memory per input byte: {bench_df['max_unique_set_size'].sum() / input_size_sum:.6f} bytes/byte\n")
+                f.write(f"IO per input byte: {bench_df['io_chars'].sum() / input_size_sum:.6f} bytes/byte\n")
+            else:
+                f.write("CPU time per input byte: N/A (no input bytes recorded)\n")
+                f.write("Memory per input byte: N/A (no input bytes recorded)\n")
+                f.write("IO per input byte: N/A (no input bytes recorded)\n")
+
+            f.write(f"Time in Shell: {bench_df['time_in_shell'].sum():.2f} sec\n")
+            f.write(f"Time in Commands: {bench_df['time_in_commands'].sum():.2f} sec\n")
             f.write("=" * 50 + "\n")
 
-            for benchmark in df["benchmark"].unique():
-                bench_df = df[df["benchmark"] == benchmark]
-                f.write(f"\nBenchmark: {benchmark}\n")
-                f.write("-" * 50 + "\n")
-                f.write(f"Total CPU time: {bench_df['time'].sum():.2f} sec\n")
-                f.write(f"Total Wall time: {bench_df['wall_time'].sum():.2f} sec\n")
-                f.write(f"Total IO bytes: {bench_df['io_chars'].sum():.2f}\n")
-                f.write(f"Max Memory Usage: {bench_df['max_unique_set_size'].max():.2f} bytes\n")
-                
-                input_size_sum = bench_df['input_size'].sum()
-
-                if input_size_sum > 0:
-                    f.write(f"CPU time per input byte: {bench_df['time'].sum() / input_size_sum:.6f} sec/byte\n")
-                    f.write(f"Memory per input byte: {bench_df['max_unique_set_size'].sum() / input_size_sum:.6f} bytes/byte\n")
-                    f.write(f"IO per input byte: {bench_df['io_chars'].sum() / input_size_sum:.6f} bytes/byte\n")
-                else:
-                    f.write("CPU time per input byte: N/A (no input bytes recorded)\n")
-                    f.write("Memory per input byte: N/A (no input bytes recorded)\n")
-                    f.write("IO per input byte: N/A (no input bytes recorded)\n")
-
-                f.write(f"Time in Shell: {bench_df['time_in_shell'].sum():.2f} sec\n")
-                f.write(f"Time in Commands: {bench_df['time_in_commands'].sum():.2f} sec\n")
-                f.write("=" * 50 + "\n")
-
-        print(f"Benchmark stats written to {stats_filename}")
+    print(f"Benchmark stats written to {stats_filename}")
 
 
     def name(str):

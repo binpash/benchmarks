@@ -129,11 +129,12 @@ main() {
 
             cd "$REPO_TOP/infrastructure" || exit 1
             make target/dynamic_analysis.jsonl
-            python3 viz/dynamic.py "$REPO_TOP/$BENCHMARK" --text
+            python3 viz/dynamic.py "$REPO_TOP/$BENCHMARK" # --text
             cat "$REPO_TOP/$BENCHMARK/benchmark_stats.txt"
             mv -f "$REPO_TOP/$BENCHMARK/benchmark_stats.txt" \
                 "$REPO_TOP/$BENCHMARK/${stats_prefix}.txt"
-
+            find "$REPO_TOP/infrastructure/target/backup-process-logs" -type f \
+                -exec mv {} "$REPO_TOP/infrastructure/target/process-logs/" \; || true
             cd "$REPO_TOP/$BENCHMARK" || exit 1
 
         elif $measure_time; then

@@ -15,7 +15,7 @@ run_benchmarks() {
         fi
 
         echo "Running benchmark: $BENCH_NAME"
-        "$BENCHMARKS_DIR/$SCRIPT_NAME" "$BENCH_NAME" "${args[@]}" || echo "Benchmark $BENCH_NAME failed!"
+        $BENCHMARKS_DIR/$SCRIPT_NAME "$BENCH_NAME" "${args[@]}" || echo "Benchmark $BENCH_NAME failed!"
     done
 }
 

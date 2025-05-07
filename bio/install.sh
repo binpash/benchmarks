@@ -6,7 +6,6 @@ required_version="1.7"
 if command -v samtools &>/dev/null; then
     installed_version=$(samtools --version | head -n 1 | awk '{print $2}')
     if [[ "$installed_version" == "$required_version" ]]; then
-        echo "install: $installed_version"
         echo "Samtools version $required_version is already installed."
         exit 0
     fi

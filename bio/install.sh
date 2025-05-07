@@ -17,7 +17,7 @@ pkgs="build-essential libncurses5-dev libncursesw5-dev libbz2-dev liblzma-dev li
 
 for pkg in $pkgs; do
     if ! dpkg -s $pkg; then
-        apt-get install -y $pkg
+        sudo apt-get install -y $pkg
     fi
 done
 

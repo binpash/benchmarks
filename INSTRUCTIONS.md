@@ -10,7 +10,7 @@ This artifact targets the following badges:
 To "kick the tires" of this artifact:
 
 * skim this README for structure and setup paths (~2 minutes)
-* jump to [Exercisability](#exercisability) for a quick demo (~3 minutes)
+* jump to [Exercisability](#exercisability) for a quick demo (~20 minutes)
 
 # Artifact Available
 
@@ -113,22 +113,6 @@ At a high level, the paper claims the following contributions (p. 2):
 
 ## Exercisability
 
-**Quickstart w/ Docker:**
-
-The following lines will download the latest version of the benchmarks and run them in a containerized environment.
-In addition, it will mount the current working directory to the container, allowing you to access the benchmark results.
-```sh
-git clone https://github.com/binpash/benchmarks
-cd benchmarks
-sudo docker pull ghcr.io/binpash/benchmarks:latest
-sudo docker tag ghcr.io/binpash/benchmarks:latest koala
-sudo docker run -it -v "$(pwd)":/benchmarks koala /bin/bash -c "cd /benchmarks && ./kick-tires.sh"
-```
-
-Expected time: ~2 -- 20 minutes, depending on hardware.
-Runs all benchmarks with minimal inputs and checks output hashes.
-Most of the time will be spent on downloading inputs.
-
 
 **Quickstart:**
 
@@ -143,7 +127,9 @@ sudo docker tag ghcr.io/binpash/benchmarks:latest koala
 sudo docker run -it --rm -v "$(pwd)":/benchmarks koala /bin/bash -c "cd /benchmarks && ./kick-tires.sh"
 ```
 
-Expected time: ~20 minutes. Runs all benchmarks with minimal inputs.
+Expected time: ~2 -- 20 minutes, depending on hardware.
+Runs all benchmarks with minimal inputs.
+Most of the time will be spent on downloading inputs.
 
 **Benchmark-specific example (nlp):**
 

@@ -15,8 +15,8 @@ usage() {
     echo "  --resources      Measure resource usage"
     echo "  --bare           Run locally without Docker"
     echo "  --runs, -n N     Number of runs (default: 1)"
-    echo "  --clean, -c      Run cleanup script"
-    echo "  --keep, -k      Keep outputs"
+    echo "  --clean, -c      Run the full cleanup script (both inputs and outputs)"
+    echo "  --keep, -k       Keep outputs"
 }
 
 main() {
@@ -107,6 +107,9 @@ main() {
             ./fetch.sh "${args[@]}" ||
                 error "Failed to fetch inputs for $BENCHMARK"
         fi
+
+        # Delete outputs before each run
+        [ -d outputs ] && rm -r outputs/*
 
         echo "Executing $BENCHMARK $(date) ($i/$runs)"
         if [[ "$measure_resources" == true ]]; then

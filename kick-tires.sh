@@ -12,10 +12,9 @@ if [[ $EUID -ne 0 ]] && ! sudo -v &> /dev/null; then
   exit 1
 fi
 
-
 log "Running ./main.sh --min for each benchmark"
 
-# STEP 1: Run ./main.sh --min in each benchmark directory
+# Run ./main.sh --min in each benchmark directory
 for bench in $benchmarks; do
   log "Running benchmark: $bench"
   ./main.sh --min "$bench" || {
@@ -23,3 +22,7 @@ for bench in $benchmarks; do
     exit 1
   }
 done
+
+log "-----------------------------------------------------"
+log "Everything seems to be working fine. You can proceed!"
+log "-----------------------------------------------------"

@@ -169,9 +169,9 @@ def read_data():
     df = df.merge(map_df, on='script')
 
     # report any benchmarks where the wall time is not approximately equal to the sum of user and system time
-    for _, row in df.iterrows():
-        if abs(row['wall_time'] - (row['user_time'] + row['system_time'])) > 0.1:
-            print(f"Wall time for benchmark {row['benchmark']} maybe suspicious: {row['wall_time']} vs (u{row['user_time']} + s{row['system_time']})", file=stderr)
+    # for _, row in df.iterrows():
+    #     if abs(row['wall_time'] - (row['user_time'] + row['system_time'])) > 0.1:
+    #         print(f"Wall time for benchmark {row['benchmark']} maybe suspicious: {row['wall_time']} vs (u{row['user_time']} + s{row['system_time']})", file=stderr)
 
     # merge the read and write_chars
     df['io_chars'] = df['read_chars'] + df['write_chars']

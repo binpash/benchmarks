@@ -6,7 +6,7 @@ set -o pipefail
 REPO_TOP=$(git rev-parse --show-toplevel)
 pushd "$REPO_TOP"/infrastructure
 
-apt-get update && apt-get install -y \
+sudo apt-get update && apt-get install -y \
     git \
     python3 python3-pip python3-venv \
     build-essential libtool m4 automake cloc

@@ -31,8 +31,13 @@ chmod +x "$REPO_TOP/$SCRIPT_NAME"
 run_benchmarks
 
 rm -f "$REPO_TOP"/infrastructure/target/dynamic_analysis.jsonl
+rm -f "$REPO_TOP"/infrastructure/target/*.csv
 cd "$REPO_TOP/infrastructure" || exit 1
-make target/dynamic_analysis.jsonl
+make
+
+python3 viz/syntax.py "$OUTPUT_PATH"
+echo "Syntactic analysis plots saved to $OUTPUT_PATH"
+
 python3 viz/dynamic.py "$OUTPUT_PATH"
 cat "$OUTPUT_PATH/benchmark_stats.txt"
 echo "Dynamic analysis plots saved to $OUTPUT_PATH"

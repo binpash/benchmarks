@@ -1,6 +1,7 @@
-# Getting Started Instructions
+# Overview
 
-The structure of this document mirrors the [USENIX ATC '25 artifact evaluation process](https://www.usenix.org/conference/atc25/call-for-artifacts). At a glance:
+The structure of this document mirrors the [USENIX ATC '25 artifact evaluation process](https://www.usenix.org/conference/atc25/call-for-artifacts).
+This artifact targets the following badges:
 
 * [ ] [Artifact available](#artifact-available): Hosted on GitHub with container support
 * [ ] [Artifact functional](#artifact-functional): Modular design, complete infrastructure, and usability across environments
@@ -19,17 +20,29 @@ The KOALA benchmark suite is:
 * MIT-licensed and open-source
 * Includes containerized and bare-metal support
 
-To download and execute the minimal version on your machine:
-
-```sh
-curl -s koala-blind | sh && ./main.sh --min --bare
-```
-
 # Artifact Functional
 
 ## Documentation
 
-KOALA includes documentation and reproducibility support:
+[Repo README](https://github.com/binpash/benchmarks)
+
+Per-benchmark documentation is available within each benchmark directory, it
+contains information about the computation, input data, and expected output.
+- [aurpkg](https://github.com/binpash/benchmarks/tree/main/aurpkg)
+- [bio](https://github.com/binpash/benchmarks/tree/main/bio)
+- [covid-mts](https://github.com/binpash/benchmarks/tree/main/covid-mts)
+- [file-enc](https://github.com/binpash/benchmarks/tree/main/file-enc)
+- [log-analysis](https://github.com/binpash/benchmarks/tree/main/log-analysis)
+- [makeself](https://github.com/binpash/benchmarks/tree/main/makeself)
+- [max-temp](https://github.com/binpash/benchmarks/tree/main/max-temp)
+- [media-conv](https://github.com/binpash/benchmarks/tree/main/media-conv)
+- [nlp](https://github.com/binpash/benchmarks/tree/main/nlp)
+- [oneliners](https://github.com/binpash/benchmarks/tree/main/oneliners)
+- [riker](https://github.com/binpash/benchmarks/tree/main/riker)
+- [sklearn](https://github.com/binpash/benchmarks/tree/main/sklearn)
+- [unix50](https://github.com/binpash/benchmarks/tree/main/unix50)
+- [vps-audit](https://github.com/binpash/benchmarks/tree/main/vps-audit)
+- [web-index](https://github.com/binpash/benchmarks/tree/main/web-index)
 
 * Each benchmark follows a modular layout: `install.sh`, `fetch.sh`, `execute.sh`, `validate.sh`, `clean.sh`
 * Top-level driver: `main.sh` orchestrates execution
@@ -118,16 +131,7 @@ sudo docker pull ghcr.io/binpash/benchmarks:latest
 sudo docker run -it --rm -v "$(pwd)":/mnt ghcr.io/binpash/benchmarks:latest bash
 ```
 
-**Quickstart w/ Docker (build):**
-
-```sh
-git clone https://github.com/binpash/benchmarks
-cd benchmarks
-docker build -t benchmarks .
-docker run -it --rm -v "$(pwd)":/benchmarks benchmarks bash
-```
-
-Expected time: ~2.5 minutes. Runs all benchmarks with synthetic inputs and checks output hashes.
+Expected time: ~2.5 minutes. Runs all benchmarks with minimal inputs and checks output hashes.
 
 **Benchmark-specific example (nlp):**
 

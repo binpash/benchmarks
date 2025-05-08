@@ -65,20 +65,21 @@ Similalary, a team developing a distributed shell can modify the script to:
 hdfs dfs -cat file.txt | dsh --pipe grep "foo" | wc -l
 ```
 
-For systems that act as a drop-in replacement for the shell can also use Koala's
+For systems that act as a drop-in replacement for the shell can simply use Koala's
 benchmarks by overriding the `$KOALA_SHELL` variable to point to their system.
 For example, to apply the PaSh system to the Koala benchmarks, one can do:
 
-```
-export KOALA_SHELL="./pa.sh --width 4"
-./main.sh example-benchmark
+```sh
+$ export KOALA_SHELL="./pa.sh --width 4"
+$ ./main.sh example-benchmark
 ```
 
 ### Environment & Setup Notes
 
-**Note:** The setup scripts in this suite are designed for **Debian-based systems**.  
-To ensure portability and a consistent execution environment, we provide a **Docker image**.  
-It is **recommended** to run the benchmark suite inside this Docker container, especially when working on non-Debian systems.
+**Note:** The setup scripts in this suite are designed for **Debian-based
+systems**.  We provide a **Docker image**.  It is **recommended** to run the
+benchmark suite inside this Docker container, especially when working on
+non-Debian systems.
 
 To build and run the Docker image:
 ```sh

@@ -1,9 +1,18 @@
 #!/bin/bash
 
+while getopts "f" opt; do
+  case $opt in
+    f) force=true ;;
+  esac
+done
+
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/bio"
 outputs_dir="${eval_dir}/outputs"
 input_dir="${eval_dir}/inputs"
 
 rm -rf "$outputs_dir"
-rm -rf "$input_dir"
+
+if [ "$force" = true ]; then
+    rm -rf "$input_dir"
+fi

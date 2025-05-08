@@ -109,7 +109,7 @@ main() {
         fi
 
         # Delete outputs before each run
-        [ -d outputs ] && rm -r outputs/*
+        ./clean.sh "${args[@]}"
 
         echo "Executing $BENCHMARK $(date) ($i/$runs)"
         if [[ "$measure_resources" == true ]]; then
@@ -168,20 +168,19 @@ main() {
             [[ $CMD_STATUS -ne 0 ]] && error "Failed to run $BENCHMARK"
 
         else
-            ./execute.sh "${args[@]}" 2>>"$BENCHMARK.err" | tee -a "$BENCHMARK.out" || error "Failed to run $BENCHMARK"
+            ./execute.sh "${args[@]}" 2>"$BENCHMARK.err" | tee "$BENCHMARK.out" || error "Failed to run $BENCHMARK"
         fi
 
         # Verify output
         ./validate.sh "${args[@]}" >"$BENCHMARK.hash" || error "Failed to verify output for $BENCHMARK"
 
         # Cleanup outputs
-        if [[ $keep_outputs == false ]]; then
-            [ -d outputs ] && rm -r outputs
-        fi
-
-        # if flag is used run cleanup script
-        if (( i == runs && run_cleanup )) || [[ "$BENCHMARK" == "riker" ]]; then
-            ./clean.sh "${args[@]}"
+        if [ "$keep_outputs" = false ] && [ "$i" -eq "$runs" ]; then
+            if [ "$run_cleanup" = true ]; then
+                ./clean.sh -f "${args[@]}"
+            else
+                ./clean.sh "${args[@]}"
+            fi
         fi
 
         if correct; then

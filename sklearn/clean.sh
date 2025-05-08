@@ -1,6 +1,16 @@
 #!/bin/bash
 
 cd "$(realpath "$(dirname "$0")")" || exit 1
-# rm -rf ./inputs
+
+while getopts "f" opt; do
+  case $opt in
+    f) force=true ;;
+  esac
+done
+
 rm -rf ./result
-rm -rf ./tmp
+
+if [ "$force" = true ]; then
+    rm -rf ./tmp
+    rm -rf ./inputs
+fi

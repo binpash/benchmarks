@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-pkgs="p7zip-full curl wget unzip"
+pkgs="p7zip-full curl wget unzip npm"
 
 sudo apt-get update
 for pkg in $pkgs; do
@@ -29,10 +29,10 @@ if ! command -v node > /dev/null 2>&1 ; then
   echo "Node.js installation failed."
   exit 1
 fi
-if ! command -v npm > /dev/null 2>&1 ; then
-  echo "npm installation failed."
-  exit 1
-fi
+# if ! command -v npm > /dev/null 2>&1 ; then
+#   echo "npm installation failed."
+#   exit 1
+# fi
 
 if ! dpkg -s nodejs > /dev/null 2>&1 ; then
     # node version 18+ does not need external npm

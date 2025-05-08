@@ -138,10 +138,12 @@ Note that the scripts *assume* some basic dependencies that very minimal system 
 ```sh
 git clone https://github.com/binpash/benchmarks
 cd benchmarks
-chmod +x kick-tires.sh
-./kick-tires.sh
+sudo docker pull ghcr.io/binpash/benchmarks:latest
+sudo docker tag ghcr.io/binpash/benchmarks:latest koala
+sudo docker run -it --rm -v "$(pwd)":/benchmarks koala /bin/bash -c "cd /benchmarks && ./kick-tires.sh"
 ```
 
+Expected time: ~20 minutes. Runs all benchmarks with minimal inputs.
 
 **Benchmark-specific example (nlp):**
 

@@ -113,7 +113,27 @@ At a high level, the paper claims the following contributions (p. 2):
 
 ## Exercisability
 
+**Quickstart w/ Docker:**
+
+The following lines will download the latest version of the benchmarks and run them in a containerized environment.
+In addition, it will mount the current working directory to the container, allowing you to access the benchmark results.
+```sh
+git clone https://github.com/binpash/benchmarks
+cd benchmarks
+sudo docker pull ghcr.io/binpash/benchmarks:latest
+sudo docker tag ghcr.io/binpash/benchmarks:latest koala
+sudo docker run -it -v "$(pwd)":/benchmarks koala /bin/bash -c "cd /benchmarks && ./kick-tires.sh"
+```
+
+Expected time: ~2 -- 20 minutes, depending on hardware.
+Runs all benchmarks with minimal inputs and checks output hashes.
+Most of the time will be spent on downloading inputs.
+
+
 **Quickstart:**
+
+To run the benchmarks directly on your machine, without containerization, use the following lines.
+Note that the scripts *assume* some basic dependencies that very minimal system setups may not already have (e.g. `git`).
 
 ```sh
 git clone https://github.com/binpash/benchmarks
@@ -122,17 +142,6 @@ chmod +x kick-tires.sh
 ./kick-tires.sh
 ```
 
-**Quickstart w/ Docker:**
-
-The following lines will download the latest version of the benchmarks and run them in a containerized environment.
-In addition, it will mount the current working directory to the container, allowing you to access the benchmark results.
-```sh
-sudo docker pull ghcr.io/binpash/benchmarks:latest
-sudo docker tag ghcr.io/binpash/benchmarks:latest koala
-sudo docker run -it --rm -v "$(pwd)":/benchmarks koala /bin/bash -c "cd /benchmarks && ./kick-tires.sh"
-```
-
-Expected time: ~2.5 minutes. Runs all benchmarks with minimal inputs and checks output hashes.
 
 **Benchmark-specific example (nlp):**
 

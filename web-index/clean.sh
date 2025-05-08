@@ -1,9 +1,9 @@
 #!/bin/bash
 
-while getopts "f" opt; do
-  case $opt in
-    f) force=true ;;
-  esac
+for arg in "$@"; do
+    case "$arg" in
+        "-f") force=true ;;
+    esac
 done
 
 rm -r outputs

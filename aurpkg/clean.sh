@@ -2,10 +2,10 @@
 
 cd "$(realpath "$(dirname "$0")")" || exit 1
 
-while getopts "f" opt; do
-  case $opt in
-    f) force=true ;;
-  esac
+for arg in "$@"; do
+    case "$arg" in
+        "-f") force=true ;;
+    esac
 done
 
 IN="inputs"

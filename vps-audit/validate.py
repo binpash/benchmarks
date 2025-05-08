@@ -9,8 +9,8 @@ import sys
 input_file = "vps-audit-report.txt"
 input_file_2 = "vps-audit-negate-report.txt"
 error_file = "vps-audit.err"
-output_file = "vps-audit-processed.out"
-output_file_2 = "vps-audit-negate-processed.out"
+output_file = "vps-audit-processed.txt"
+output_file_2 = "vps-audit-negate-processed.txt"
 hash_folder = "hash"
 
 ansi_escape = re.compile(r'\x1b\[[0-9;]*m')

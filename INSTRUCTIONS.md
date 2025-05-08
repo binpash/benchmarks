@@ -166,22 +166,28 @@ docker build -t koala .
 docker run -v $(pwd):/benchmarks -it koala /benchmarks/main.sh --small max-temp
 ```
 
-# Results Reproducible
+## Plots
 
-The artifact supports evaluation of:
+These instructions outline how to generate the plots for:
+- Static characterization
+- Dynamic characterization
 
-* Correctness: `validate.sh` uses output hashes to ensure functional correctness
-* Performance: timings and metrics collected via `/proc` and `psutil`
+Since the dynamic characterization requires elevated privileges, the analysis needs to run inside the provided docker container.
 
-**Reproducing full results (optional):**
-
-```sh
-./main.sh         # full-size inputs
-./main.sh --small # smaller scale inputs
-./main.sh --min   # minimal inputs
+```
+sudo docker pull ghcr.io/binpash/benchmarks:latest
+sudo docker run -it --rm -v "$(pwd)":/mnt ghcr.io/binpash/benchmarks:latest bash
 ```
 
-Execution may take several hours depending on hardware. Reports are auto-generated.
+Then, inside the container run:
+
+```
+./generate-plots.sh
+```
+
+The plots should be inside the `/mnt` directory in the container, and
+the `pwd` directory on the host system.
+
 
 # Contact
 

@@ -154,7 +154,7 @@ KOALA_SHELL=./your_system.sh ./main.sh --small max-temp
 
 ```sh
 docker build -t koala .
-docker run -v $(pwd):/koala -it koala /koala/main.sh --small
+docker run -v $(pwd):/benchmarks -it koala /benchmarks/main.sh --small max-temp
 ```
 
 # Results Reproducible

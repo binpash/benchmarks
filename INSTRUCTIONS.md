@@ -128,7 +128,8 @@ The following lines will download the latest version of the benchmarks and run t
 In addition, it will mount the current working directory to the container, allowing you to access the benchmark results.
 ```sh
 sudo docker pull ghcr.io/binpash/benchmarks:latest
-sudo docker run -it --rm -v "$(pwd)":/mnt ghcr.io/binpash/benchmarks:latest bash
+sudo docker tag ghcr.io/binpash/benchmarks:latest koala
+sudo docker run -it --rm -v "$(pwd)":/benchmarks koala /bin/bash -c "cd /benchmarks && ./kick-tires.sh"
 ```
 
 Expected time: ~2.5 minutes. Runs all benchmarks with minimal inputs and checks output hashes.

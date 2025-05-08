@@ -2,6 +2,11 @@
 
 > _It's a suite that has benchmarks in it._
 
+Koala is a benchmark suite aimed at the characterization of
+performance-oriented research targeting the POSIX shell. It combines a
+systematic collection of diverse shell programs collected from tasks found out
+in the wild, various real inputs to these programs.
+
 ## Benchmarks
 
 | Benchmark    | Description                                             |
@@ -23,20 +28,51 @@
 | web-index    | Web index.                                              |
 
 ## Instructions
-First, set the shell runtime that will execute the benchmark via the `$KOALA_SHELL` shell variable (default `bash`).
-You may append flags or options for the chosen shell.
-For example, to benchmark PaSh with `--width 4`, run:
-```bash
-export KOALA_SHELL="$PASH_TOP/pa.sh --width 4"
-```
-
 `main.sh` is the one-stop harness for downloading dependencies and inputs, running, profiling and verifying a **single benchmark** in this suite.
 
 ```bash
-./main.sh <BENCHMARK_NAME> [OPTIONS] [-- <args passed to execute.sh>]
+./main.sh <BENCHMARK_NAME> [OPTIONS] [<args passed to execute.sh>]
 ```
 
-`run_all.sh` runs the `main.sh` script for all benchmarks inside a Docker container or locally if the `--bare` flag is used.
+## Usage Philosophy
+
+To support the diverse landscape of shell programs and shell-related research,
+the Koala benchmark suite is designed with flexibility and simplicity in mind.
+
+Its infrastructure is deliberately minimal and easy to modify, making it
+adaptable to a wide variety of systems and use cases. As it cannot anticipate
+all potential applications, Koala encourages users to modify any part of the
+infrastructure to better suit their needs.
+
+For example, given the following (example) benchmark:
+
+```sh
+# example-benchmark/scripts/x.sh
+cat file.txt | grep "foo" | wc -l
+```
+
+Developers of GNU parallel of the suite can (and should!) modify the script to the following:
+
+```sh
+# example-benchmark/scripts/x.sh
+cat file.txt | parallel --pipe grep "foo" | wc -l
+```
+
+Similalary, a team developing a distributed shell can modify the script to:
+
+```sh
+# example-benchmark/scripts/x.sh
+hdfs dfs -cat file.txt | dsh --pipe grep "foo" | wc -l
+```
+
+For systems that act as a drop-in replacement for the shell can also use Koala's
+benchmarks by overriding the `$KOALA_SHELL` variable to point to their system.
+For example, to apply the PaSh system to the Koala benchmarks, one can do:
+
+```
+export KOALA_SHELL="./pa.sh --width 4"
+./main.sh example-benchmark
+```
 
 ### Environment & Setup Notes
 
@@ -57,14 +93,14 @@ $ docker run -it -v "$(pwd):/benchmarks" koala
 ```
 
 ### Core options
-| Flag / Option                         | Effect                                                                                                              | Typical use-case                                     |
-|---------------------------------------|---------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
-| **`-n <N>` / `--runs <N>`**           | Execute the benchmark **N** times (default = 1).                                                                    | Measure variance, warm-up caches, detect flaky runs. |
-| **`--resources`**                     | Collect CPU/RAM/I/O stats.<br>Writes `*_stats_run<i>.txt` for every run **and** a summary `*_stats_aggregated.txt`. | Profiling, optimisation, capacity planning.          |
-| **`--bare`**                          | Use the lightweight local logger instead of the Docker-based tracer.                                                | When Docker isn’t available or is too heavy.         |
-| **`-t` / `--time`**                   | Measure wall-clock runtime with `/usr/bin/time`.<br>Produces `{benchmark}_times_aggregated.txt` when `-n > 1`.      | Quick speed checks, perf regression testing.         |
-| **`--small`**                         | Run the benchmark with a reduced (small) input set.                                                                 | Fast experiments, small-scale characterization.      |
-| **`--min`**                           | Run the benchmark with the absolute minimum inputs.                                                                 | Suite-level sanity checks.                           |
+| Flag / Option                     | Effect                                                                                                              | Typical use-case                                     |
+|-----------------------------------|---------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
+| `-n <N>` / `--runs <N>`           | Execute the benchmark N times (default = 1).                                                                        | Measure variance, warm-up caches, detect flaky runs. |
+| `--resources`                     | Collect CPU/RAM/IO stats. Writes `*_stats_run<i>.txt` for every run and a summary `*_stats_aggregated.txt`.         | Profiling, optimisation, capacity planning.          |
+| `--bare`                          | Use the lightweight local logger instead of the Docker-based tracer.                                                | When Docker isn’t available or is too heavy.         |
+| `-t` / `--time`                   | Measure wall-clock runtime with `/usr/bin/time`.<br>Produces `{benchmark}_times_aggregated.txt` when `-n > 1`.      | Quick speed checks, perf regression testing.         |
+| `--small`                         | Run the benchmark with a reduced (small) input set.                                                                 | Fast experiments, small-scale characterization.      |
+| `--min`                           | Run the benchmark with the absolute minimum inputs.                                                                 | Suite-level sanity checks.                           |
 
 Flags, apart from those referring to input sizes, can be combined freely (e.g. `--resources --bare -n 5`).
 
@@ -85,23 +121,23 @@ Flags, apart from those referring to input sizes, can be combined freely (e.g. `
 
 ### Usage examples
 
-#### 1. Plain correctness run
+1. Plain correctness run
 ```bash
 ./main.sh unix50
 ```
-#### 2. Run 10×, record runtimes only
+2. Run 10×, record runtimes only
 ```bash
 ./main.sh unix50 -n 10 --time
 ```
-#### 3. Heavy resource tracing inside Docker – 3 repetitions
+3. Heavy resource tracing inside Docker – 3 repetitions
 ```bash
 ./main.sh unix50 -n 3 --resources
 ```
-#### 4. Lightweight local resource logging (no Docker)
+4. Lightweight local resource logging (no Docker)
 ```bash
 ./main.sh unix50 --resources --bare
 ```
-#### 5. Combine timing + resources, forward extra args to benchmark's infrastructure scripts
+5. Combine timing + resources, forward extra args to benchmark's infrastructure scripts
 ```bash
 ./main.sh unix50 -n 5 --resources --time -- --small --fast
 ```
@@ -211,3 +247,7 @@ The analysis produces CSV summaries and heatmaps across the benchmark suite, hig
     ```
 
 These will produce plots summarizing shell syntax usage and external command invocation patterns for all registered benchmarks in the specified `output_dir`.
+
+## License
+
+The Koala Benchmarks are licensed under the MIT License. See the LICENSE file for more information.

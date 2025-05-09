@@ -86,14 +86,16 @@ Follow the instructions below:
 
 **Quickstart:**
 
-To run the benchmarks directly on your machine, without containerization, use the following lines.
-Note that the scripts *assume* some basic dependencies that very minimal system setups may not already have (e.g. `git`).
+To run the benchmarks in a docker container, use the following lines, which will download a container image, set up, and execute the benchmarks therein.
+Note that the scripts *assume* some basic dependencies on the *host system* that very minimal system setups may not already have (e.g. `git`).
+The scripts also assume a docker executable in the PATH, which can be configured with the `KOALA_CONTAINER_CMD`.
 
 ```sh
 git clone https://github.com/binpash/benchmarks
 cd benchmarks
 ./kick-tires.sh
 ```
+
 Expected time: ~2 -- 20 minutes, depending on hardware and network speed.
 Runs all benchmarks with minimal inputs (most of the time will be spent on downloading dependencies).
 

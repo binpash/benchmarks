@@ -24,7 +24,7 @@ Confirm that the benchmark programs, their inputs, and automation scripts are al
 
 3. Data are available on _permanent_ (i.e., archival-level durable, but slow) and _scalable_ (i.e., fast, but not archival-level durable) storage:
 
-    * Permanent arvhival storage on Zenodo, split across multiple DOIs due to Zenodo's max 50GB limit (AEC Reviewers: _this is slow, do not try to download_—just confirm their existence): [`small` inputs](https://zenodo.org/records/15361083); `full` in 5 parts:
+    * Permanent archival storage on Zenodo, split across multiple DOIs due to Zenodo's max 50GB limit (AEC Reviewers: _this is slow, do not try to download_—just confirm their existence): [`small` inputs](https://zenodo.org/records/15361083); `full` in 5 parts:
    [1](https://zenodo.org/records/15367723),
    [2](https://zenodo.org/records/15368074)
    [3](https://zenodo.org/records/15368508),
@@ -122,7 +122,7 @@ To run a benchmark directly on your machine, without containerization, use the f
 ./main.sh --min --bare max-temp
 ```
 
-**Small inputs:**
+**Small inputs (Optional):**
 
 To run the benchmarks with small inputs, use the following lines.
 
@@ -138,24 +138,38 @@ The main results presented in the paper are:
 3. Results of PCA analysis of (1) the dynamic characterization and (2) the benchmark source code
 4. Results of the application of the benchmark suite to a set of prior shell optimization tools
 
+**Preparation:**
+
+It's best to run all of the analyses in a container, and for the dynamic analysis it's **required**, as the analysis requires elevated privileges.
+
+```sh
+mkdir -p /tmp/plots
+sudo docker pull ghcr.io/binpash/benchmarks:latest
+sudo docker run -it --rm -v "/tmp/plots":/tmp/plots ghcr.io/binpash/benchmarks:latest bash
+```
+
+Then, inside the container run the setup script:
+
+```sh
+./setup.sh
+```
+
 ## Static Characterization
 
 To generate the static characterization, run the following commands:
 
+
+Then, inside the container, run:
+
 ```sh
-# TODO
+./infrastructure/static-analysis.sh /tmp/plots
 ```
 
-
-```
-mkdir -p /tmp/plots
-sudo docker pull ghcr.io/binpash/benchmarks:latest
-sudo docker run -it --rm -v "/tmp/plots":/mnt ghcr.io/binpash/benchmarks:latest bash
-```
+This will place the static analysis heatmap in the `/tmp/plots` directory on the host system.
 
 Then, inside the container run:
 
-```
+```sh
 ./infrastructure/generate-plots.sh
 ```
 

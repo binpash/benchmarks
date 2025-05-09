@@ -8,7 +8,7 @@ EXCLUDE_DIR="infrastructure"
 SCRIPT_NAME="main.sh"
 KOALA_SHELL=${KOALA_SHELL:-bash}
 if [[ "$1" =~ ^- ]]; then
-    OUTPUT_PATH="${REPO_TOP}/dynamic_analysis"
+    OUTPUT_PATH="${REPO_TOP}/infrastructure/dynamic_analysis"
 else
     OUTPUT_PATH="$1"
     shift

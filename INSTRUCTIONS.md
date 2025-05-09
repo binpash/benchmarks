@@ -168,11 +168,11 @@ sudo docker run -it --rm -v "$(pwd)":/mnt ghcr.io/binpash/benchmarks:latest bash
 Then, inside the container run:
 
 ```
-./generate-plots.sh
+.infrastructure/generate-plots.sh
 ```
 
 The plots should be inside the `/mnt` directory in the container, and
-the `pwd` directory on the host system.
+the `pwd` directory on the host system. Syntax analysis heatmap will be located at infrastructure/plots/koala-stx-analysis.pdf and dynamic analysis plots will be located in infrastructure/plots/dynamic_analysis.
 
 
 # Contact

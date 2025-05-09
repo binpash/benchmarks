@@ -6,6 +6,8 @@ IN="$1"
 IN_NAME="$2"
 OUT="$3"
 
+mkdir -p "${OUT}"
+
 cat ${IN_NAME}|while read s_line;
   do
     sample=$(echo $s_line |cut -d " " -f 2);

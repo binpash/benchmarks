@@ -29,7 +29,7 @@ log "Running ./main.sh --min for each benchmark"
 for bench in $benchmarks; do
   log "Running benchmark: $bench"
   ./main.sh "$size" "$bench" || {
-    echo "Failed to run --min for $bench"
+    echo "Failed to run $size for $bench"
     exit 1
   }
 done

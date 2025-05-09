@@ -39,12 +39,10 @@ Confirm that the benchmark programs, their inputs, and automation scripts are al
 
 # Artifact Functional (20 minutes, optionally 3 hours)
 
-## Documentation
+Confirm sufficient documentation, key components as described in the paper, and execution with min inputs (about 20 minutes):
 
-[Repo README](https://github.com/binpash/benchmarks)
-
-Per-benchmark documentation is available within each benchmark directory, it
-contains information about the computation, input data, and expected output:
+* Documentation: [Repo README](https://github.com/binpash/benchmarks) and benchmark-specific documentation available within each benchmark directory,
+contains information about each computation, input data, and expected output:
 [aurpkg](https://github.com/binpash/benchmarks/tree/main/aurpkg),
 [bio](https://github.com/binpash/benchmarks/tree/main/bio),
 [covid-mts](https://github.com/binpash/benchmarks/tree/main/covid-mts),
@@ -61,9 +59,7 @@ contains information about the computation, input data, and expected output:
 [vps-audit](https://github.com/binpash/benchmarks/tree/main/vps-audit),
 [web-index](https://github.com/binpash/benchmarks/tree/main/web-index).
 
-## Completeness
-
-All 15 benchmarks outlined in the paper are available:
+* Key components: 15 benchmarks (i.e.,
 [aurpkg](https://github.com/binpash/benchmarks/tree/main/aurpkg),
 [bio](https://github.com/binpash/benchmarks/tree/main/bio),
 [covid-mts](https://github.com/binpash/benchmarks/tree/main/covid-mts),
@@ -78,57 +74,30 @@ All 15 benchmarks outlined in the paper are available:
 [sklearn](https://github.com/binpash/benchmarks/tree/main/sklearn),
 [unix50](https://github.com/binpash/benchmarks/tree/main/unix50),
 [vps-audit](https://github.com/binpash/benchmarks/tree/main/vps-audit),
-[web-index](https://github.com/binpash/benchmarks/tree/main/web-index).
+[web-index](https://github.com/binpash/benchmarks/tree/main/web-index)) and several scripts in [`infrastructure/`](https://github.com/binpash/benchmarks/tree/main/infrastructure).
 
-## Exercisability
+* Exercisability: Instructions below set up an Debian-based container and run _all_ benchmarks on `min` inputs (`quickrun.sh`) or run specific benchmarks.
 
-Follow the instructions below:
+> At this point, run `git clone https://github.com/binpash/benchmarks` and `cd benchmarks`.
 
-**Quickstart:**
-
-To run the benchmarks in a docker container, use the following lines, which will download a container image, set up, and execute the benchmarks therein.
-Note that the scripts *assume* some basic dependencies on the *host system* that very minimal system setups may not already have (e.g. `git`).
-The scripts also assume a docker executable in the PATH, which can be configured with the `KOALA_CONTAINER_CMD`.
+**Quickstart: Running a single benchmark (e.g., `nlp`):** To quickly execute a specific benchmark such as `nlp`, invoke the top-level `koala.sh` script—which will set up a Debian-based container image, install dependencies, download benchmark-specific `min` inputs, and execute the benchmark (2 minutes):
 
 ```sh
-git clone https://github.com/binpash/benchmarks
-cd benchmarks
-./kick-tires.sh
+./run.sh nlp
 ```
 
-Expected time: ~2 -- 20 minutes, depending on hardware and network speed.
-Runs all benchmarks with minimal inputs (most of the time will be spent on downloading dependencies).
+The reason this is easier to evaluate in a container is that some scripts *assume* that some dependencies on the *host system* (e.g. `git`). The scripts also assume a docker executable in the PATH, which can be configured with the `KOALA_CONTAINER_CMD`.
 
-**Benchmark-specific example (nlp):**
+**Complete run: Running all benchmarks:** To execute the full set of benchmarks, invoke the top-level `all.sh` script—which essentially runs the previous command in a loop (20 minutes):
 
 ```sh
 cd benchmarks
-./main.sh --min nlp
+./all.sh
 ```
 
-**Configurable system integration:**
-
-To run each of the benchmarks on a system that acts as a shell interpreter, you
-can set the `KOALA_SHELL` environment variable.
-
-```sh
-KOALA_SHELL="bash --posix" ./main.sh --min max-temp
-```
-
-**Bare run:**
-To run a benchmark directly on your machine, without containerization, use the following lines.
-
-```
-./main.sh --min --bare max-temp
-```
-
-**Small inputs (Optional):**
-
-To run the benchmarks with small inputs, use the following lines.
-
-```sh
-./kick-tires.sh --small
-```
+> **Not recommended on the first run:**  
+> Both scripts above take additional optional parameters: Using `--small` will execute the benchmark(s) with the `small` inputs (about 3 hours) and `--bare` will execute the benchmarks on the host system (which might not satisfy dependencies). To replace the shell interpreter, `set` the `KOALA_SHELL` variable — e.g., `KOALA_SHELL="bash --posix"`.
+> 
 
 # Results Reproducible
 

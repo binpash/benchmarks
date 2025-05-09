@@ -125,7 +125,9 @@ main() {
         fi
 
         # Delete outputs before each run
-        ./clean.sh "${args[@]}"
+        if [ "$BENCHMARK" != "riker" ]; then
+            ./clean.sh "${args[@]}"
+        fi
 
         echo "Executing $BENCHMARK $(date) ($i/$runs)"
         if [[ "$measure_resources" == true ]]; then

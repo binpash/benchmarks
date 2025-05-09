@@ -148,17 +148,13 @@ The plots should be inside the `/mnt` directory in the container, and
 the `/tmp/plots` directory on the host system.
 Syntax analysis heatmap will be located at `infrastructure/plots/koala-stx-analysis.pdf` and dynamic analysis plots will be located in `infrastructure/plots/dynamic_analysis`.
 
-## Dynamic Characterization
-
-To generate the dynamic characterization, run the following commands:
+**Dynamic Characterization:** To generate the dynamic characterization, run the following commands:
 
 ```sh
 # TODO
 ```
 
-## PCA Analysis
-
-The second part of the PCA analysis involves sending the source code of the benchmarks to a remote embedding model using OpenAI's API.
+**PCA Analysis:** The second part of the PCA analysis involves sending the source code of the benchmarks to a remote embedding model using OpenAI's API.
 For convenience and cost concerns, we provide the results the embedding model in the `infrastructure/plots/pca` directory.
 
 ```sh

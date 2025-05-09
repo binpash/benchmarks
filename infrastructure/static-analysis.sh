@@ -4,6 +4,8 @@ set -e
 set -o pipefail
 
 REPO_TOP=$(git rev-parse --show-toplevel)
+OUTPUT_PATH="$1"
+shift
 pushd "$REPO_TOP"/infrastructure
 
 sudo apt-get update && apt-get install -y \
@@ -44,5 +46,7 @@ checked_command "target/cyclomatic.csv" python3 get_cyclomatic.py | sort > targe
 
 checked_command "plots/koala-stx-analysis.pdf" python3 viz/syntax.py plots
 
-echo "Static analysis complete, all targets generated successfully. Syntax analysis heatmap is located at infrastructure/plots/koala-stx-analysis.pdf"
+mv plots/koala-stx-analysis.pdf "$OUTPUT_PATH"
+
+echo "Static analysis complete, all targets generated successfully. Syntax analysis heatmap is located at $OUTPUT_PATH/koala-stx-analysis.pdf"
 popd

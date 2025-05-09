@@ -93,6 +93,18 @@ main() {
     stats_files=()
 
     REPO_TOP=$(git rev-parse --show-toplevel)
+    if ! $run_locally; then
+        DOCKER_IMAGE=${KOALA_DOCKER_IMAGE:-ghcr.io/binpash/benchmarks:latest}
+        echo "Launching KOALA in Docker container ($DOCKER_IMAGE)"
+        docker pull "$DOCKER_IMAGE"
+        docker run --rm \
+            -v "$REPO_TOP":/benchmarks \
+            -w "/benchmarks" \
+            -e KOALA_SHELL="$KOALA_SHELL" \
+            "$DOCKER_IMAGE" \
+            ./main.sh "$BENCHMARK" ${args[*]} --bare 
+        exit $?
+    fi
 
     cd "$(dirname "$0")/$BENCHMARK" || error "Could not cd into benchmark folder"
 

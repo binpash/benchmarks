@@ -7,7 +7,6 @@ import viz.dynamic as dyn
 import sys
 import ast
 
-from all_scripts import get_all_scripts, benchmark_rename_map
 from project_root import get_project_root
 from do_pca import perform_pca_and_plot
 

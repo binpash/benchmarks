@@ -7,6 +7,14 @@ This artifact targets the following badges:
 * [ ] [Artifact functional](#artifact-functional): Modular design, complete infrastructure, and usability across environments
 * [ ] [Results reproducible](#results-reproducible): Correctness checks, benchmark suite execution, and reporting
 
+At a high level, the paper claims the following contributions (p. 2):
+
+1. A set of real-world shell programs that span a variety of domains
+2. Accompanying inputs under three tiers: `--min`, `--small`, and `--full`
+3. Automation of dependency setup, input validation, and correctness checking
+4. Infrastructure for static and dynamic analysis and characterization of the benchmark suite
+5. Application of the benchmark suite to a set of prior shell optimization tools
+
 To "kick the tires" of this artifact:
 
 * skim this README for structure and setup paths (~2 minutes)
@@ -110,14 +118,6 @@ Configuration options (via env or CLI):
 The suite contains 15 benchmarks. 
 
 ## Completeness
-
-At a high level, the paper claims the following contributions (p. 2):
-
-1. A set of real-world shell programs that span a variety of domains
-2. Accompanying inputs under three tiers: `--min`, `--small`, and `--full`
-3. Automation of dependency setup, input validation, and correctness checking
-4. Infrastructure for static and dynamic analysis and characterization of the benchmark suite
-5. Application of the benchmark suite to a set of prior shell optimization tools
 
 ## Exercisability
 

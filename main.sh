@@ -83,6 +83,7 @@ main() {
     export BENCHMARK
 
     export LC_ALL=C
+    export TZ=UTC
     KOALA_SHELL=${KOALA_SHELL:-bash}
     export KOALA_SHELL
 

@@ -15,6 +15,7 @@ COPY . .
 RUN chmod +x /benchmarks/main.sh
 
 ENV LC_ALL=C
+ENV TC=UTC
 
 # Fake sudo for install scripts — makes it a no-op
 RUN printf '#!/bin/sh\nexec "$@"\n' > /tmp/sudo && chmod +x /tmp/sudo

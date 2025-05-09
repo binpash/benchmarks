@@ -18,23 +18,26 @@ This artifact targets the following badges:
 
 # Artifact Available (10 minutes)
 
-The KOALA benchmark suite is:
+Confirm that the benchmark programs, their inputs, and automation scripts are all publicly available:
 
 1. The benchmark code is permanently hosted at: [https://github.com/binpash/benchmarks](https://github.com/binpash/benchmarks)
-2. Data are available on _permanent_ (i.e., archival-level durable, but slow) and _scalable_ (i.e., fast, but not archival-level durable) storage:
-    1. Permanent arvhival storage on Zenodo, split across multiple DOIs due to Zenodo's max 50GB limit (AEC Reviewers: this is slow, do not try to download---just confirm their existence):
-        - [Small-size inputs](https://zenodo.org/records/15361083)
-        - [Full inputs (1/5)](https://zenodo.org/records/15367723)
-        - [Full inputs (2/5)](https://zenodo.org/records/15368074)
-        - [Full inputs (3/5)](https://zenodo.org/records/15368508)
-        - [Full inputs (4/5)](https://zenodo.org/records/15368510)
-        - [Full inputs (5/5)](https://zenodo.org/records/15368512)
-    2. Scalable storage on a Brown University cluster (additional clusters being set up at Stevens and UCLA), accessible via `https://atlas.cs.brown.edu/data`.
-3. All scripts required to reproduce the results are available in the [`infrastructure/`](https://github.com/binpash/benchmarks/tree/main/infrastructure) directory of the benchmark repository.
 
-**Please use the Brown links for testing and evaluation, as the Zenodo links take a long time to download.**
+3. Data are available on _permanent_ (i.e., archival-level durable, but slow) and _scalable_ (i.e., fast, but not archival-level durable) storage:
 
-# Artifact Functional
+    * Permanent arvhival storage on Zenodo, split across multiple DOIs due to Zenodo's max 50GB limit (AEC Reviewers: _this is slow, do not try to download_—just confirm their existence): [`small` inputs](https://zenodo.org/records/15361083); `full` in 5 parts:
+   [1](https://zenodo.org/records/15367723),
+   [2](https://zenodo.org/records/15368074)
+   [3](https://zenodo.org/records/15368508),
+   [4](https://zenodo.org/records/15368510),
+   [5](https://zenodo.org/records/15368512).
+
+* Scalable storage on a Brown University cluster (additional clusters being set up at Stevens and UCLA), accessible via `https://atlas.cs.brown.edu/data`.
+
+3. Additional scripts are available in the [`infrastructure/`](https://github.com/binpash/benchmarks/tree/main/infrastructure) directory of the repository.
+
+> AEC REviewers: From this point on, scripts use the Brown links, as Zenodo is significantly slower.
+
+# Artifact Functional (20 minutes, optionally 3 hours)
 
 ## Documentation
 

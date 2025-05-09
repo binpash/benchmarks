@@ -1,13 +1,6 @@
 # Overview
 
-The structure of this document mirrors the [USENIX ATC '25 artifact evaluation process](https://www.usenix.org/conference/atc25/call-for-artifacts).
-This artifact targets the following badges:
-
-* [ ] [Artifact available](#artifact-available): Hosted on GitHub with container support
-* [ ] [Artifact functional](#artifact-functional): Modular design, complete infrastructure, and usability across environments
-* [ ] [Results reproducible](#results-reproducible): Correctness checks, benchmark suite execution, and reporting
-
-At a high level, the paper claims the following contributions (p. 2):
+The paper claims the following contributions (pg. 2):
 
 1. A set of real-world shell programs that span a variety of domains
 2. Accompanying inputs under three tiers: `--min`, `--small`, and `--full`
@@ -15,17 +8,19 @@ At a high level, the paper claims the following contributions (p. 2):
 4. Infrastructure for static and dynamic analysis and characterization of the benchmark suite
 5. Application of the benchmark suite to a set of prior shell optimization tools
 
-To "kick the tires" of this artifact:
+The structure of this document mirrors the [USENIX ATC '25 artifact evaluation process](https://www.usenix.org/conference/atc25/call-for-artifacts).
+This artifact targets the following badges:
 
-* skim this README for structure and setup paths (~2 minutes)
-* jump to [Exercisability](#exercisability) for a quick demo (~20 minutes)
+* [ ] [Artifact available](#artifact-available): Programs, inputs, and scripts to reproduce results are all available.
+* [ ] [Artifact functional](#artifact-functional): You can run the benchmarks with minimal (20 minutes), and small (3 hours) inputs. You will not test with full inputs as this will take 20+ hours and requires over 300Gb of disk space.
+* [ ] [Results reproducible](#results-reproducible): You will reproduce the results of sections 3, 5, 6, and 7 of the paper.
 
 # Artifact Available
 
 The KOALA benchmark suite is:
 
-* Permanently hosted at: [https://github.com/binpash/koala](https://github.com/binpash/koala)
-* All data and dependencies are available in two tiered storage:
+1. The benchmark code is permanently hosted at: [https://github.com/binpash/benchmarks](https://github.com/binpash/benchmarks)
+2. All data and dependencies are available in two tiered storage:
     1. Hosted on a Brown University cluster, accessible via http at `https://atlas.cs.brown.edu/data`.
     2. Hosted on permanent arvhival storage on Zenodo.
         - [Small-size inputs](https://zenodo.org/records/15361083)
@@ -34,7 +29,9 @@ The KOALA benchmark suite is:
         - [Full inputs (3/5)](https://zenodo.org/records/15368508)
         - [Full inputs (4/5)](https://zenodo.org/records/15368510)
         - [Full inputs (5/5)](https://zenodo.org/records/15368512)
+3. All scripts required to reproduce the results are available in the [`infrastructure`](https://github.com/binpash/benchmarks/tree/main/infrastructure) directory of the benchmark repository.
 
+**Please use the Brown links for testing and evaluation, as the Zenodo links take a long time to download.**
 
 # Artifact Functional
 
@@ -43,84 +40,45 @@ The KOALA benchmark suite is:
 [Repo README](https://github.com/binpash/benchmarks)
 
 Per-benchmark documentation is available within each benchmark directory, it
-contains information about the computation, input data, and expected output.
-- [aurpkg](https://github.com/binpash/benchmarks/tree/main/aurpkg)
-- [bio](https://github.com/binpash/benchmarks/tree/main/bio)
-- [covid-mts](https://github.com/binpash/benchmarks/tree/main/covid-mts)
-- [file-enc](https://github.com/binpash/benchmarks/tree/main/file-enc)
-- [log-analysis](https://github.com/binpash/benchmarks/tree/main/log-analysis)
-- [makeself](https://github.com/binpash/benchmarks/tree/main/makeself)
-- [max-temp](https://github.com/binpash/benchmarks/tree/main/max-temp)
-- [media-conv](https://github.com/binpash/benchmarks/tree/main/media-conv)
-- [nlp](https://github.com/binpash/benchmarks/tree/main/nlp)
-- [oneliners](https://github.com/binpash/benchmarks/tree/main/oneliners)
-- [riker](https://github.com/binpash/benchmarks/tree/main/riker)
-- [sklearn](https://github.com/binpash/benchmarks/tree/main/sklearn)
-- [unix50](https://github.com/binpash/benchmarks/tree/main/unix50)
-- [vps-audit](https://github.com/binpash/benchmarks/tree/main/vps-audit)
-- [web-index](https://github.com/binpash/benchmarks/tree/main/web-index)
-
-* Each benchmark follows a modular layout: `install.sh`, `fetch.sh`, `execute.sh`, `validate.sh`, `clean.sh`
-* Top-level driver: `main.sh` orchestrates execution
-* Container support via `Dockerfile`
-* Benchmarks include realistic input sizes hosted on institutional servers and archival storage
-
-### Benchmark Structure
-
-Each benchmark directory contains:
-
-```
-benchmarks/<name>/
-├── scripts/        # Benchmark scripts (*.sh)
-├── install.sh      # Installs dependencies
-├── fetch.sh        # Fetches input data
-├── execute.sh      # Runs benchmark
-├── validate.sh     # Validates output via hashes
-└── clean.sh        # Cleans temporary files (input and output files)
-```
-
-To manually execute a single benchmark: 
-
-```sh
-cd benchmarks/<name>
-
-./install.sh
-
-# This will place input data in the `benchmarks/<name>/inputs` folder
-./fetch.sh
-
-# This will run one by one all scripts inside `benchmarks/<name>/scripts/` folder
-# Any output files produced will be placed in the `benchmarks/<name>/outputs` folder
-./execute.sh
-
-# This will check the output files against the expected hashes, and print the results
-# For benchmarks that do not produce output files, specialized validation logic is used
-./validate.sh
-
-# This will remove all temporary files created by the benchmark
-# By default, it will remove both inputs and outputs, returning the benchmark folder in its original state
-./clean.sh
-```
-
-The harness which automates this process and collects/displays metrics is `main.sh`:
-
-```
-benchmarks/main.sh              # Drives all benchmarks
-```
-
-Configuration options (via env or CLI):
-
-* `KOALA_SHELL`: shell interpreter (default: `sh`)
-* `KOALA_INFO`: metrics to collect (e.g., time, memory)
-
-### Benchmark Suite
-
-The suite contains 15 benchmarks. 
+contains information about the computation, input data, and expected output:
+[aurpkg](https://github.com/binpash/benchmarks/tree/main/aurpkg),
+[bio](https://github.com/binpash/benchmarks/tree/main/bio),
+[covid-mts](https://github.com/binpash/benchmarks/tree/main/covid-mts),
+[file-enc](https://github.com/binpash/benchmarks/tree/main/file-enc),
+[log-analysis](https://github.com/binpash/benchmarks/tree/main/log-analysis),
+[makeself](https://github.com/binpash/benchmarks/tree/main/makeself),
+[max-temp](https://github.com/binpash/benchmarks/tree/main/max-temp),
+[media-conv](https://github.com/binpash/benchmarks/tree/main/media-conv),
+[nlp](https://github.com/binpash/benchmarks/tree/main/nlp),
+[oneliners](https://github.com/binpash/benchmarks/tree/main/oneliners),
+[riker](https://github.com/binpash/benchmarks/tree/main/riker),
+[sklearn](https://github.com/binpash/benchmarks/tree/main/sklearn),
+[unix50](https://github.com/binpash/benchmarks/tree/main/unix50),
+[vps-audit](https://github.com/binpash/benchmarks/tree/main/vps-audit),
+[web-index](https://github.com/binpash/benchmarks/tree/main/web-index).
 
 ## Completeness
 
+All 15 benchmarks outlined in the paper are available:
+[aurpkg](https://github.com/binpash/benchmarks/tree/main/aurpkg),
+[bio](https://github.com/binpash/benchmarks/tree/main/bio),
+[covid-mts](https://github.com/binpash/benchmarks/tree/main/covid-mts),
+[file-enc](https://github.com/binpash/benchmarks/tree/main/file-enc),
+[log-analysis](https://github.com/binpash/benchmarks/tree/main/log-analysis),
+[makeself](https://github.com/binpash/benchmarks/tree/main/makeself),
+[max-temp](https://github.com/binpash/benchmarks/tree/main/max-temp),
+[media-conv](https://github.com/binpash/benchmarks/tree/main/media-conv),
+[nlp](https://github.com/binpash/benchmarks/tree/main/nlp),
+[oneliners](https://github.com/binpash/benchmarks/tree/main/oneliners),
+[riker](https://github.com/binpash/benchmarks/tree/main/riker),
+[sklearn](https://github.com/binpash/benchmarks/tree/main/sklearn),
+[unix50](https://github.com/binpash/benchmarks/tree/main/unix50),
+[vps-audit](https://github.com/binpash/benchmarks/tree/main/vps-audit),
+[web-index](https://github.com/binpash/benchmarks/tree/main/web-index).
+
 ## Exercisability
 
+Follow the instructions below:
 
 **Quickstart:**
 
@@ -130,20 +88,16 @@ Note that the scripts *assume* some basic dependencies that very minimal system 
 ```sh
 git clone https://github.com/binpash/benchmarks
 cd benchmarks
-sudo docker pull ghcr.io/binpash/benchmarks:latest
-sudo docker tag ghcr.io/binpash/benchmarks:latest koala
-sudo docker run -it --rm -v "$(pwd)":/benchmarks koala /bin/bash -c "cd /benchmarks && ./kick-tires.sh"
+./kick-tires.sh
 ```
-
-Expected time: ~2 -- 20 minutes, depending on hardware.
-Runs all benchmarks with minimal inputs.
-Most of the time will be spent on downloading inputs.
+Expected time: ~2 -- 20 minutes, depending on hardware and network speed.
+Runs all benchmarks with minimal inputs (most of the time will be spent on downloading dependencies).
 
 **Benchmark-specific example (nlp):**
 
 ```sh
 cd benchmarks
-./main.sh --small nlp
+./main.sh --min nlp
 ```
 
 **Configurable system integration:**
@@ -152,38 +106,56 @@ To run each of the benchmarks on a system that acts as a shell interpreter, you
 can set the `KOALA_SHELL` environment variable.
 
 ```sh
-KOALA_SHELL=./your_system.sh ./main.sh --small max-temp
+KOALA_SHELL="bash --posix" ./main.sh --min max-temp
 ```
 
-**Containerized run:**
+**Bare run:**
+To run a benchmark directly on your machine, without containerization, use the following lines.
+
+```
+./main.sh --min --bare max-temp
+```
+
+**Small inputs:**
+
+To run the benchmarks with small inputs, use the following lines.
 
 ```sh
-docker build -t koala .
-docker run -v $(pwd):/benchmarks -it koala /benchmarks/main.sh --small max-temp
+./kick-tires.sh --small
 ```
 
-## Plots
+# Results Reproducible
 
-These instructions outline how to generate the plots for:
-- Static characterization
-- Dynamic characterization
+The main results presented in the paper are:
+1. Results of the static characterization of the benchmarks
+2. Results of the dynamic characterization of the benchmarks
+3. Results of PCA analysis of (1) the dynamic characterization and (2) the benchmark source code
+4. Results of the application of the benchmark suite to a set of prior shell optimization tools
 
-Since the dynamic characterization requires elevated privileges, the analysis needs to run inside the provided docker container.
+## Static Characterization
 
-```
-sudo docker pull ghcr.io/binpash/benchmarks:latest
-sudo docker run -it --rm -v "$(pwd)":/mnt ghcr.io/binpash/benchmarks:latest bash
-```
+To generate the static characterization, run the following commands:
 
-Then, inside the container run:
-
-```
-./infrastructure/generate-plots.sh
+```sh
+# TODO
 ```
 
-The plots should be inside the `/mnt` directory in the container, and
-the `pwd` directory on the host system. Syntax analysis heatmap will be located at infrastructure/plots/koala-stx-analysis.pdf and dynamic analysis plots will be located in infrastructure/plots/dynamic_analysis.
+## Dynamic Characterization
 
+To generate the dynamic characterization, run the following commands:
+
+```sh
+# TODO
+```
+
+## PCA Analysis
+
+The second part of the PCA analysis involves sending the source code of the benchmarks to a remote embedding model using OpenAI's API.
+For convenience and cost concerns, we provide the results the embedding model in the `infrastructure/plots/pca` directory.
+
+```sh
+# TODO
+```
 
 # Contact
 

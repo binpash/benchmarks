@@ -74,6 +74,53 @@ $ export KOALA_SHELL="./pa.sh --width 4"
 $ ./main.sh example-benchmark
 ```
 
+### Benchmark Structure
+
+Each benchmark directory contains:
+
+```
+benchmarks/<name>/
+├── scripts/        # Benchmark scripts (*.sh)
+├── install.sh      # Installs dependencies
+├── fetch.sh        # Fetches input data
+├── execute.sh      # Runs benchmark
+├── validate.sh     # Validates output via hashes
+└── clean.sh        # Cleans temporary files (input and output files)
+```
+
+To manually execute a single benchmark: 
+
+```sh
+cd benchmarks/<name>
+
+./install.sh
+
+# This will place input data in the `benchmarks/<name>/inputs` folder
+./fetch.sh
+
+# This will run one by one all scripts inside `benchmarks/<name>/scripts/` folder
+# Any output files produced will be placed in the `benchmarks/<name>/outputs` folder
+./execute.sh
+
+# This will check the output files against the expected hashes, and print the results
+# For benchmarks that do not produce output files, specialized validation logic is used
+./validate.sh
+
+# This will remove all temporary files created by the benchmark
+# By default, it will remove both inputs and outputs, returning the benchmark folder in its original state
+./clean.sh
+```
+
+The harness which automates this process and collects/displays metrics is `main.sh`:
+
+```
+benchmarks/main.sh              # Drives all benchmarks
+```
+
+Configuration options (via env or CLI):
+To control the shell interpreter used to run the benchmarks, you can set the
+`KOALA_SHELL` environment variable.
+
 ### Environment & Setup Notes
 
 **Note:** The setup scripts in this suite are designed for **Debian-based

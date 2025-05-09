@@ -58,8 +58,6 @@ mkdir -p "outputs"
 
 export LC_ALL=C
 
-echo "executing oneliners $(date)"
-
 for script_input in "${scripts_inputs[@]}"
 do
     IFS=";" read -r -a parsed <<< "${script_input}"

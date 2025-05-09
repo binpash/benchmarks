@@ -1,0 +1,150 @@
+#!/bin/sh
+
+export PASH_SPEC_TOP=${PASH_SPEC_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
+
+export WINDOW=${WINDOW:-15}
+export DOCKER_TMP=${DOCKER_TMP:-/tmp}
+cleantmp() {
+	sudo rm -rf /tmp/pash_*
+	sudo rm -rf /tmp/tmp.*
+}
+cleandockertmp() {
+	sudo rm -rf ${DOCKER_TMP}/pash_*
+	sudo rm -rf ${DOCKER_TMP}/tmp.*
+}
+
+mkdir -p "$PASH_SPEC_TOP"/report/output
+rm -rf "$PASH_SPEC_TOP"/report/output/*
+
+# build base hs image
+docker build -t hs "$PASH_SPEC_TOP"
+
+# fully_seq
+echo "--- running fully_seq ---"
+"$PASH_SPEC_TOP"/report/benchmarks/fully_seq/run --target both --window $WINDOW
+cleantmp
+
+# micro
+echo "--- running micro ---"
+"$PASH_SPEC_TOP"/report/benchmarks/micro/run --target both --window $WINDOW
+cleantmp
+
+# wicked_cool_shell_scripts - requires docker
+echo "--- running wicked-cool-shell-scripts ---"
+"$PASH_SPEC_TOP"/report/benchmarks/wicked_cool_shell_scripts/setup
+docker run --name hs-wicked-cool-shell-scripts-bench --init --privileged --cgroupns=host -v ${DOCKER_TMP}:/tmp -e window=$WINDOW hs/wicked-cool-shell-scripts /bin/bash -c "sh run.sh"
+mkdir -p "$PASH_SPEC_TOP"/report/output/wicked_cool_shell_scripts
+docker cp hs-wicked-cool-shell-scripts-bench:/srv/hs/report/output/wicked_cool_shell_scripts/. "$PASH_SPEC_TOP"/report/output/wicked_cool_shell_scripts/.
+docker rm hs-wicked-cool-shell-scripts-bench
+cleandockertmp
+
+# dgsh
+echo "--- running dgsh ---"
+"$PASH_SPEC_TOP"/report/benchmarks/dgsh/setup
+"$PASH_SPEC_TOP"/report/benchmarks/dgsh/run --target both --window $WINDOW
+cleantmp
+
+# unix_50
+echo "--- running unix_50 ---"
+"$PASH_SPEC_TOP"/report/benchmarks/unix_50/setup
+"$PASH_SPEC_TOP"/report/benchmarks/unix_50/run --target both --window $WINDOW
+cleantmp
+
+# max_temp
+echo "--- running max_temp ---"
+"$PASH_SPEC_TOP"/report/benchmarks/max_temp/setup
+"$PASH_SPEC_TOP"/report/benchmarks/max_temp/run --target both --window $WINDOW
+cleantmp
+
+# bio-ex - requires docker
+echo "--- running bio-ex ---"
+"$PASH_SPEC_TOP"/report/benchmarks/bio-ex/setup
+"$PASH_SPEC_TOP"/report/benchmarks/bio-ex/run
+cleandockertmp
+
+# bio-ex-tryoverhead - requires docker
+echo "--- running bio-ex-overhead ---"
+"$PASH_SPEC_TOP"/report/benchmarks/bio-ex-tryoverhead/setup
+"$PASH_SPEC_TOP"/report/benchmarks/bio-ex-tryoverhead/run
+cleandockertmp
+
+# bio4
+echo "--- running bio4 ---"
+"$PASH_SPEC_TOP"/report/benchmarks/bio4/setup small
+"$PASH_SPEC_TOP"/report/benchmarks/bio4/setup medium
+"$PASH_SPEC_TOP"/report/benchmarks/bio4/setup large
+"$PASH_SPEC_TOP"/report/benchmarks/bio4/run --target both --window $WINDOW --input-size small
+"$PASH_SPEC_TOP"/report/benchmarks/bio4/run --target both --window $WINDOW --input-size medium
+"$PASH_SPEC_TOP"/report/benchmarks/bio4/run --target both --window $WINDOW --input-size large
+cleantmp
+
+# bio4-tryoverhead
+echo "--- running bio4-tryoverhead ---"
+"$PASH_SPEC_TOP"/report/benchmarks/bio4-tryoverhead/setup small
+"$PASH_SPEC_TOP"/report/benchmarks/bio4-tryoverhead/setup medium
+"$PASH_SPEC_TOP"/report/benchmarks/bio4-tryoverhead/setup large
+"$PASH_SPEC_TOP"/report/benchmarks/bio4-tryoverhead/runner.sh --target both --window $WINDOW --input-size small
+"$PASH_SPEC_TOP"/report/benchmarks/bio4-tryoverhead/runner.sh --target both --window $WINDOW --input-size medium
+"$PASH_SPEC_TOP"/report/benchmarks/bio4-tryoverhead/runner.sh --target both --window $WINDOW --input-size large
+cleantmp
+
+# riker - requires docker
+echo "--- running riker ---"
+"$PASH_SPEC_TOP"/report/benchmarks/riker/setup
+mkdir -p "$PASH_SPEC_TOP"/report/output/riker
+"$PASH_SPEC_TOP"/report/benchmarks/riker/run > "$PASH_SPEC_TOP"/report/output/riker/result
+cleandockertmp
+ 
+# sklearn
+echo "--- running sklearn ---"
+"$PASH_SPEC_TOP"/report/benchmarks/sklearn/setup.sh
+"$PASH_SPEC_TOP"/report/benchmarks/sklearn/inputs.sh
+"$PASH_SPEC_TOP"/report/benchmarks/sklearn/run --target both --window $WINDOW
+cleantmp
+
+# sklearn_large
+echo "--- running sklearn_large ---"
+"$PASH_SPEC_TOP"/report/benchmarks/sklearn_large/setup.sh
+"$PASH_SPEC_TOP"/report/benchmarks/sklearn_large/inputs.sh
+"$PASH_SPEC_TOP"/report/benchmarks/sklearn_large/run --target both --window $WINDOW
+cleantmp
+ 
+# bus-analytics
+echo "--- running bus-analytics ---"
+"$PASH_SPEC_TOP"/report/benchmarks/bus-analytics/setup
+"$PASH_SPEC_TOP"/report/benchmarks/bus-analytics/run --target both --window $WINDOW
+cleantmp
+
+# nlp
+echo "--- running nlp ---"
+"$PASH_SPEC_TOP"/report/benchmarks/nlp/inputs.sh
+"$PASH_SPEC_TOP"/report/benchmarks/nlp/run --target both --window $WINDOW
+cleantmp
+
+# log-analysis
+echo "--- running log-analysis ---"
+"$PASH_SPEC_TOP"/report/benchmarks/log-analysis/wc/setup.sh
+"$PASH_SPEC_TOP"/report/benchmarks/log-analysis/wc/run --target both --window $WINDOW
+cleantmp
+
+# web-index
+echo "--- running web-index ---"
+"$PASH_SPEC_TOP"/report/benchmarks/web-index/setup.sh
+"$PASH_SPEC_TOP"/report/benchmarks/web-index/input.sh
+"$PASH_SPEC_TOP"/report/benchmarks/web-index/web-index/run --target both --window $WINDOW
+cleantmp
+
+# git-tests
+echo "--- running git-tests ---"
+"$PASH_SPEC_TOP"/report/benchmarks/git-tests/setup
+docker run --name hs-git-tests-bench --init --privileged --cgroupns=host -v ${DOCKER_TMP}:/tmp hs/git-tests /srv/hs/report/benchmarks/git-tests/run --target both --window $WINDOW
+mkdir -p "$PASH_SPEC_TOP"/report/output/git-tests
+docker cp hs-git-tests-bench:/srv/hs/report/output/git-tests/. "$PASH_SPEC_TOP"/report/output/git-tests/.
+docker rm hs-git-tests-bench
+cleandockertmp
+ 
+# teraseq - requires docker and takes long time
+echo "--- running teraseq ---"
+"$PASH_SPEC_TOP"/report/benchmarks/teraseq/setup.sh
+"$PASH_SPEC_TOP"/report/benchmarks/teraseq/run
+cleandockertmp

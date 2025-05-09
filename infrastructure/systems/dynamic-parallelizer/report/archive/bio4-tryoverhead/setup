@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -z $1 ] || ! ([ $1 = "small" ] || [ $1 = "medium" ] || [ $1 = "large" ])
+then
+	echo "please input a size: [small, medium, large]" >&2
+	exit 1
+fi
+
+echo "downloading for $1"
+export PASH_SPEC_TOP=${PASH_SPEC_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
+export BIODIR="${PASH_SPEC_TOP}/report/benchmarks/bio4"
+
+"$BIODIR"/setup.sh $1/list

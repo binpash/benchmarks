@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export PASH_SPEC_TOP=${PASH_SPEC_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
+
+echo please ensure you build the Dockerfile at the root of the repo with the tag hs
+for experiment in ex1 ex2 ex2-accelerated; do
+    sudo docker build -t hs/$experiment "$PASH_SPEC_TOP"/report/benchmarks/bio-ex/$experiment
+done

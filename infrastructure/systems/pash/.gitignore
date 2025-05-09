@@ -1,0 +1,58 @@
+*.swp
+*.html
+*.swo
+.DS_Store
+*-blx.bib
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
+*.run.xml
+*.bcf
+*.sty
+.#*
+revision.tex
+*.ent
+**/.idea
+*~
+*.dump
+
+## Ocaml
+*.cmi
+*.cmo
+*.cmx
+*.native
+*.byte
+*.o
+
+# Node.js
+node_modules
+
+python_pkgs
+
+# local directory w/ related work
+bib.to
+pldi/draft.synctex.gz
+pldi/draft.synctex.gz(busy)
+
+*.class
+
+notes.txt
+
+# python
+**/__pycache__/*
+
+#testing and plotting
+scripts/test_eval/*.png
+tmp*
+compiler/1-grams.txt
+compiler/2-grams.txt
+runtime/dgsh-tee
+*.res
+
+# IDE files
+.vscode/*
+.idea/*
+.vs/*

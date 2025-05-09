@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+from subprocess import run, PIPE
+from pathlib import Path
+
+parser = argparse.ArgumentParser(description="Run benchmark")
+parser.add_argument('--window', default=0, type=int, help='window size to run hs with')
+parser.add_argument('--target', choices=['baseline', 'hs-only', 'all'],
+                    help='to run with sh or hs')
+parser.add_argument('--log', choices=['enable', 'disable'], default="enable",
+                    help='whether to enable logging for hs')
+
+env = os.environ.copy()
+
+docker_cmd = ["sudo", "docker", "run", "--init", "--privileged", "--cgroupns=host", "--rm", "-v", f"{env.get('DOCKER_TMP','/tmp')}:/tmp", "hs/autoconf:latest", "/bin/bash", "-c"]
+
+def convert_time_to_float(time):
+    time = time.split("m")
+    return float(time[0]) * 60 + float(time[1][:-1])
+
+def do_baseline_run(env):
+    result = run(docker_cmd + ["time sh ./autoconf_build.sh"], stdout=PIPE, stderr=PIPE, env=env)
+    time = result.stderr.decode().split("\n")[-4].split("\t")[1]
+    return convert_time_to_float(time)
+
+def do_strace_run(env):
+    result = run(docker_cmd + ["time strace -y -f --seccomp-bpf --trace=fork,clone,%file -o strace_trace bash -c \"./autoconf_build.sh\""], stdout=PIPE, stderr=PIPE, env=env)
+    time = result.stderr.decode().split("\n")[-4].split("\t")[1]
+    return convert_time_to_float(time)
+
+def do_hs_run(window, log, env):
+    result = run(docker_cmd + [f"time /srv/hs/pash-spec.sh {'-d 2' if log else ''} --window {window} /root/autoconf-2.69/autoconf_build.sh &> hs_trace"], stdout=PIPE, stderr=PIPE, env=env)
+    time = result.stderr.decode().split("\n")[-4].split("\t")[1]
+    return convert_time_to_float(time), result.stderr.decode()
+
+def do_riker_run(env):
+    result = run(docker_cmd + ["time rkr --log ir &> riker_trace"], stdout=PIPE, stderr=PIPE, env=env)
+    time = result.stderr.decode().split("\n")[-4].split("\t")[1]
+    return convert_time_to_float(time)
+
+if __name__ == "__main__":
+    args = parser.parse_args()
+    test_base = Path(__file__).parent.resolve()
+
+    if (args.log == "enable"):
+        log = True
+    else:
+        log = False
+
+    run_all = args.target == "all"
+    run_hs = args.target == "hs-only"
+    run_baseline = args.target == "baseline"
+
+    if not run_hs and not run_all and not run_baseline:
+        raise("Not running anything, add --target argument")
+    if not "PASH_SPEC_TOP" in os.environ:
+        raise("PASH_SPEC_TOP is not set")
+
+    output_base = Path(os.path.expandvars("$PASH_SPEC_TOP/report/output/" + os.sep.join(test_base.parts[-1:])))
+    output_base.mkdir(parents=True, exist_ok=True)
+
+    if run_all:
+        baseline_time = do_baseline_run(env)
+        strace_time = do_strace_run(env)
+        riker_time = do_riker_run(env)
+        hs_time, hs_log = do_hs_run(args.window, log, env)
+
+        print(f"baseline time: {baseline_time}")
+        print(f"strace time: {strace_time}")
+        print(f"Riker time: {riker_time}")
+        print(f"hs time: {hs_time}")
+
+        with open(output_base / 'baseline_time', 'w') as file:
+            file.write(str(baseline_time))
+        with open(output_base / 'strace_time', 'w') as file:
+            file.write(str(strace_time))
+        with open(output_base / 'riker_time', 'w') as file:
+            file.write(str(riker_time))
+        with open(output_base / 'hs_time', 'w') as file:
+            file.write(str(hs_time))
+        if log:
+            with open(output_base / 'hs_log', 'w') as file:
+                file.write(hs_log)
+    elif run_hs:
+        hs_time, hs_log = do_hs_run(args.window, log, env)
+        print(f"hs time: {hs_time}")
+        with open(output_base / 'hs_time', 'w') as file:
+            file.write(str(hs_time))
+        if log:
+            with open(output_base / 'hs_log', 'w') as file:
+                file.write(hs_log)
+    elif run_baseline:
+        baseline_time = do_baseline_run(env)
+        print(f"baseline time: {baseline_time}")
+        with open(output_base / 'baseline_time', 'w') as file:
+            file.write(str(baseline_time))
+    else:
+        raise("Not running anything, add --target argument")

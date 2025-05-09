@@ -1,0 +1,8 @@
+[submodule "deps/pash"]
+	path = deps/pash
+	url = https://github.com/binpash/pash.git
+	branch = spec_future
+[submodule "deps/try"]
+	path = deps/try
+	url = https://github.com/binpash/try.git
+	branch = hs

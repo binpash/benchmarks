@@ -1,0 +1,49 @@
+#!/bin/python3
+
+import os
+import subprocess
+import time
+import shutil
+
+# Benchmark number
+BENCHMARK_NO = "7"
+
+# Base directories
+HS_BASE = subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).decode("utf-8").strip()
+TEST_BASE = os.path.join(HS_BASE, "report/benchmarks/dgsh", f"{BENCHMARK_NO}-1000x")
+TEST_UPPER = os.path.join(HS_BASE, "report")
+RESOURCE_DIR = os.path.join(HS_BASE, "report/resources/dgsh")
+TRY = os.path.join(HS_BASE, "deps/try/try")
+
+# Script to run
+SCRIPT_NAME = f"{BENCHMARK_NO}.sh"
+
+# Environment variables
+os.environ["INPUT_FILE"] = os.path.join(RESOURCE_DIR, "1000x-weblog.log")
+os.environ["TRY"] = TRY
+os.environ["OUTPUT_DIR"] = os.path.join(HS_BASE, "report/output/dgsh", f"{BENCHMARK_NO}-1000x")
+
+# Timing the script
+script_path = os.path.join(TEST_BASE, SCRIPT_NAME)
+
+# Save the timing to try_time.sh
+output_dir = os.environ["OUTPUT_DIR"]
+
+shutil.rmtree(output_dir, ignore_errors=True)
+os.makedirs(output_dir, exist_ok=True) 
+start_time = time.time()
+try:
+    # Execute the script
+    subprocess.run([TRY, "-y", script_path], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+except subprocess.CalledProcessError as e:
+    print(f"Error executing the script: {e}")
+
+elapsed_time = time.time() - start_time
+
+timing_file = os.path.join(output_dir, "try_time")
+
+with open(timing_file, "w") as f:
+    f.write(f"{elapsed_time:.6f}")
+
+print(f"TRY time: {elapsed_time:.6f} seconds")
+print(f"Timing saved to: {timing_file}")

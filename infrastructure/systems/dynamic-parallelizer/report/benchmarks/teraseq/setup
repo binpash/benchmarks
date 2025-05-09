@@ -1,0 +1,6 @@
+#!/bin/bash
+
+this_path=$(realpath -se "$0")
+
+cd $(dirname $this_path)
+./inner/setup.sh

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#set -e
+
+# Setting environment variables
+export PATH=$PATH:$HOME/.local/bin
+export PASH_SPEC_TOP=${PASH_SPEC_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
+export PASH_TOP=${PASH_TOP:-$PASH_SPEC_TOP/deps/pash}
+
+# Directory configurations
+resource_dir="$PASH_SPEC_TOP/report/resources"
+download_dir="$resource_dir/unix_50"
+mkdir -p "$download_dir"
+cd "$download_dir"
+
+# Define inputs
+inputs=(
+1 10 11 12 2 3 4 5 6 7 8 9.1 9.2 9.3 9.4 9.5 9.6 9.7 9.8 9.9
+)
+
+echo "Preparing unix_50 datasets..."
+
+inflate="python3 $PASH_SPEC_TOP/report/util/inflate.py"
+
+echo "Downloading unix_50 datasets..."
+wget -r -np -nH --cut-dirs=3 -R "index.html*, robots.txt" https://atlas-group.cs.brown.edu/data/unix50/
+
+for i in ${inputs[@]}; do
+    $inflate "$i.txt" 10M
+    $inflate "$i.txt" 100M 
+    $inflate "$i.txt" 1G 
+done

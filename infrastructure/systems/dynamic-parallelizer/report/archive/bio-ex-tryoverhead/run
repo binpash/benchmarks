@@ -1,0 +1,11 @@
+#!/bin/sh
+
+export PASH_SPEC_TOP=${PASH_SPEC_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
+WINDOW=${WINDOW:-15}
+
+for t in $(find "$PASH_SPEC_TOP"/report/benchmarks/bio-ex-tryoverhead -mindepth 1 -type d)
+do
+	echo $(basename $t)
+	"$t"/run --target both --window $WINDOW
+done
+

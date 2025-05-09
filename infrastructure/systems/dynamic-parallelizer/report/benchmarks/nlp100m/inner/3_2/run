@@ -1,0 +1,28 @@
+#!/bin/bash
+
+SUB_BENCHMARK=3_2
+
+# Base directories
+HS_BASE="$(git rev-parse --show-toplevel)"
+TEST_BASE="$HS_BASE/report/benchmarks/nlp100m/$SUB_BENCHMARK"
+TEST_UPPER="$HS_BASE/report"
+RESOURCE_DIR="$HS_BASE/report/resources/nlp100m"
+OUTPUT_DIR="$TEST_UPPER/output/nlp100m/$SUB_BENCHMARK"
+
+# Script to run
+SCRIPT_NAME="$SUB_BENCHMARK.sh"
+
+ENV_VARS=(
+    "INPUT_FILE=$RESOURCE_DIR/pg"
+    "WEB_INDEX_DIR=$TEST_BASE/.."
+    "SUITE_DIR=$TEST_BASE"
+    "OUTPUT_DIR=$OUTPUT_DIR"
+)
+
+# Pass arguments to the global script
+python3 "$TEST_UPPER/run_benchmark.py" \
+    --script_name "$SCRIPT_NAME" \
+    --test_base "$TEST_BASE" \
+    --hs_base "$HS_BASE" \
+    --env_vars "${ENV_VARS[@]}" \
+    "$@"

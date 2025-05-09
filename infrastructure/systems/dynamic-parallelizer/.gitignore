@@ -1,0 +1,11 @@
+scripts/vars.sh
+*__pycache__*
+.DS_Store
+*~
+\#*\#
+.\#*
+report/resources/
+report/output/
+test/output_bash/
+test/output_orch/
+test/results/

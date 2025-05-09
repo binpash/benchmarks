@@ -1,0 +1,25 @@
+#!/bin/bash
+
+BENCHMARK_NO="1"
+
+# Base directories
+HS_BASE="$(git rev-parse --show-toplevel)"
+TEST_BASE="$HS_BASE/report/benchmarks/dgsh/$BENCHMARK_NO-100M"
+TEST_UPPER="$HS_BASE/report"
+RESOURCE_DIR="$HS_BASE/report/resources/dgsh"
+
+# Script to run
+SCRIPT_NAME="$BENCHMARK_NO.sh"
+
+# Environment variables
+ENV_VARS=(
+    "INPUT_FILE=$RESOURCE_DIR/100M-pg100.txt"
+)
+
+# Pass arguments to the global script
+python3 "$TEST_UPPER/run_benchmark.py" \
+    --script_name "$SCRIPT_NAME" \
+    --test_base "$TEST_BASE" \
+    --hs_base "$HS_BASE" \
+    --env_vars "${ENV_VARS[@]}" \
+    "$@"

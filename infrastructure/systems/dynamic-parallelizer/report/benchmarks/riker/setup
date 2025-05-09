@@ -1,0 +1,11 @@
+#!/bin/bash
+
+export PASH_SPEC_TOP=${PASH_SPEC_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
+echo please ensure you build the Dockerfile at the root of the repo with the tag hs
+# Building riker on top of the base hs image
+sudo docker build -t hs-riker "$PASH_SPEC_TOP"/report/benchmarks/riker/
+
+for experiment in autoconf calc coreutils llvm lsof lua make memcached protobuf redis sqlite vim xz xz-clang; do
+    echo "Building hs/$experiment docker image..."
+    sudo docker build -t hs/$experiment "$PASH_SPEC_TOP"/report/benchmarks/riker/$experiment/
+done

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+BENCHMARK_NO="full10m"
+
+# Base directories
+HS_BASE="$(git rev-parse --show-toplevel)"
+TEST_BASE="$HS_BASE/report/benchmarks/unix_50/$BENCHMARK_NO"
+TEST_UPPER="$HS_BASE/report"
+RESOURCE_DIR="$HS_BASE/report/resources/unix_50"
+
+# Script to run
+SCRIPT_NAME="full.sh"
+
+# Environment variables
+ENV_VARS=(
+    "IN=$RESOURCE_DIR"
+)
+
+# Pass arguments to the global script
+python3 "$TEST_UPPER/run_benchmark.py" \
+    --script_name "$SCRIPT_NAME" \
+    --test_base "$TEST_BASE" \
+    --hs_base "$HS_BASE" \
+    --env_vars "${ENV_VARS[@]}" \
+    "$@"

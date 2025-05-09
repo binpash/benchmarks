@@ -1,0 +1,7 @@
+#!/bin/bash
+
+this_path=$(realpath -se "$0")
+
+cd $(dirname $this_path)
+benchmark_name=$(basename $(dirname "$this_path"))
+docker build . -t hs/${benchmark_name}

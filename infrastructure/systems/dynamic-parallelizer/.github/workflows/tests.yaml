@@ -1,0 +1,50 @@
+name: Tests
+on: 
+  pull_request:
+    branches:
+    - main
+    types: [assigned, opened, synchronize, reopened, ready_for_review]
+    paths: 
+    - .github/**
+    - parallel-orch/**
+    - overlay-sandbox/**
+    - test/**
+    - scripts/**
+  push:
+    branches:
+    - main
+    paths: 
+    - parallel-orch/**
+    - overlay-sandbox/**
+    - test/**
+    - scripts/**
+  workflow_dispatch:
+# Jobs section
+jobs:
+    PaSh-Spec-Tests:
+      strategy:
+        fail-fast: false
+        matrix:
+          os: 
+          - ubuntu-20.04
+      runs-on: ${{ matrix.os }}
+      if: github.event.pull_request.draft == false
+      steps:
+      - uses: actions/checkout@v2 
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+      - name: Running Correctness Tests
+        run: |
+          uname -a
+          # install the system deps and pash the environment
+          sudo apt install -y python3 strace wget make file libtool mergerfs util-linux curl netcat-openbsd
+          git submodule update --init --recursive
+          cd deps/pash
+          sudo bash scripts/setup-pash.sh
+          cd ../..
+          # run all the tests
+          export PASH_TOP=/home/runner/work/dynamic-parallelizer/dynamic-parallelizer/deps/pash
+          export PATH=$PATH:$PASH_TOP
+          bash test/test_orch.sh  

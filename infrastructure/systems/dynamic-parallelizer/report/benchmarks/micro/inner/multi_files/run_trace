@@ -1,0 +1,12 @@
+#!/bin/bash
+
+hs_base=$(git rev-parse --show-toplevel)
+benchmark_dir="$hs_base/report/benchmarks/micro/scripts"
+run_script=$benchmark_dir/multi_files.strace.sh
+output_file="$hs_base/report/output/micro/multi_files/strace_time"
+
+# Ensure the output directory exists
+mkdir -p "$(dirname "$output_file")"
+
+# Capture and save the real time
+{ time $run_script>/dev/null; }  2>&1 | grep real | awk '{print $2}' | awk -F'm' '{print ($1 * 60) + $2}' | sed 's/s//' > "$output_file"

@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+
+import argparse
+from pathlib import Path
+import os
+import time
+from subprocess import run, PIPE
+
+parser = argparse.ArgumentParser(description="Run benchmark")
+parser = argparse.ArgumentParser(description="Run benchmark")
+parser.add_argument('--window', default=5, type=int, help='window size to run hs with')
+parser.add_argument('--target', choices=['hs-only', 'sh-only', 'both'],
+                    help='to run with sh or hs')
+parser.add_argument('--log', choices=['enable', 'disable'], default="enable",
+                    help='whether to enable logging for hs')
+
+env = os.environ.copy()
+SCRIPT_NAME = "3.sh"
+
+
+def do_sh_run(test_base: Path, output_base: Path, env: dict):
+    before = time.time()
+    print(f'Running {test_base / SCRIPT_NAME}')
+    result = run(['/bin/sh', test_base / SCRIPT_NAME], stdout=PIPE, env=env)
+    duration = time.time() - before
+    
+    with open(output_base / "sh_time", 'w') as f:
+        f.write(f'{duration}\n')
+    return result.returncode, result.stdout
+
+def do_hs_run(test_base: Path, output_base: Path, hs_base: Path, window: int, env: dict, log: bool):
+    cmd = [hs_base / 'pash-spec.sh', '--window', str(window)]
+    if log:
+        cmd.extend(['-d', '2'])
+    cmd.append(test_base / SCRIPT_NAME)
+    before = time.time()
+    print(f'Running {cmd}')
+    with open(output_base / 'hs_log', 'w') as log:
+        result = run(cmd, stdout=PIPE, stderr=log, env=env)
+    duration = time.time() - before
+    with open(output_base / "hs_time", 'w') as f:
+        f.write(f'{duration}\n')
+    return result.returncode, result.stdout
+
+if __name__ == '__main__':
+    args = parser.parse_args()
+    test_base = Path(__file__).parent.resolve()
+    hs_base = test_base.parent.parent.parent.parent
+    
+    #######################
+    # SPECIFY ENV VARS HERE
+    env['REPO_DIR'] = hs_base / 'report' / 'resources' / 'dgsh' / 'FFmpeg'
+    #######################
+
+    bench_base = test_base.parent
+    local_name = os.sep.join(test_base.parts[-2:])
+    output_base = hs_base / "report" / "output" / local_name
+    run_hs = False
+    run_sh = False
+    if args.target in ["hs-only", "both"]:
+        run_hs = True
+    if args.target in ["sh-only", "both"]:
+        run_sh = True
+    if not run_hs and not run_sh:
+        raise("Not running anything, add --target argument")
+    output_base.mkdir(parents=True, exist_ok=True)
+    
+    
+    if run_sh:
+        output_sh = do_sh_run(test_base, output_base, env)
+    if run_hs:
+        output_hs = do_hs_run(test_base, output_base, hs_base, args.window, env, args.log == 'enable')
+    if run_sh and run_hs:
+        with open(output_base / 'error', 'w') as errf:
+            if output_sh == output_hs:
+                errf.write('')
+            else:
+                errf.write('error\n')
+                errf.write(f'return code {output_sh[0]} vs {output_hs[0]}\n')
+                errf.write(f'==== output sh ====\n')
+                errf.write(output_sh[1].decode('UTF-8'))
+                errf.write(f'==== output hs ====\n')
+                errf.write(output_hs[1].decode('UTF-8'))
+
+    

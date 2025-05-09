@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# Base directories
+BENCHMARK_NO="51"
+export HS_BASE="$(git rev-parse --show-toplevel)"
+export TEST_BASE="$HS_BASE/report/benchmarks/wicked_cool_shell_scripts/$BENCHMARK_NO"
+export TEST_UPPER="$HS_BASE/report"
+export RESOURCE_DIR="$HS_BASE/report/benchmarks/wicked_cool_shell_scripts/$BENCHMARK_NO"
+export OUTPUT_DIR="$HS_BASE/report/output/wicked_cool_shell_scripts/$BENCHMARK_NO"
+
+# Script to run
+SCRIPT_NAME="$BENCHMARK_NO.sh"
+SCRIPT="$RESOURCE_DIR/$SCRIPT_NAME"
+
+# Default values
+WINDOW=""
+TARGET=""
+
+# Parse arguments
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -w|--window) WINDOW="$2"; shift ;;
+        --target) TARGET="$2"; shift ;;
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
+
+# Clean up previous runs
+rm -rf "$RESOURCE_DIR/hs" "$RESOURCE_DIR/sh" "$OUTPUT_DIR"
+mkdir -p "$RESOURCE_DIR/hs" "$RESOURCE_DIR/sh" "$OUTPUT_DIR/hs" "$OUTPUT_DIR/sh"
+
+# Function to extract real time from `time` command
+extract_time() {
+    sed -i -n 's/^real[[:space:]]*0m\([0-9.]*\)s$/\1/p' "$1"
+}
+
+
+echo "Running sh command: bash $SCRIPT"
+
+{ time bash "$SCRIPT" "$RESOURCE_DIR/sh" "$RESOURCE_DIR/timestamp" > "$RESOURCE_DIR/sh/stdout" 2> "$RESOURCE_DIR/sh/stderr"; } 2> "$RESOURCE_DIR/time"
+
+mv "$RESOURCE_DIR/time" "$OUTPUT_DIR/sh_time"
+extract_time "$OUTPUT_DIR/sh_time"
+
+# hs run
+echo "Running hs command: $HS_BASE/pash-spec.sh -d 2 --window $WINDOW $SCRIPT"
+
+{ time "$HS_BASE/pash-spec.sh" -d 2 --window "$WINDOW" "$SCRIPT" "$RESOURCE_DIR/sh" "$RESOURCE_DIR/timestamp" > "$RESOURCE_DIR/hs/stdout" 2> "$OUTPUT_DIR/hs/stderr"; } 2> "$RESOURCE_DIR/time"
+
+mv "$RESOURCE_DIR/time" "$OUTPUT_DIR/hs_time"
+extract_time "$OUTPUT_DIR/hs_time"
+
+# Move logs to output directory
+mv "$RESOURCE_DIR/sh/"* "$OUTPUT_DIR/sh/"
+mv "$RESOURCE_DIR/hs/"* "$OUTPUT_DIR/hs/"
+
+# Compare the output (ignore "stderr" files in diff)
+echo "Comparing outputs..."
+
+# Compare the output (ignore time files, stderr, and hs_log)
+echo "Comparing outputs..."
+
+# Define the files to ignore during comparison
+IGNORE_PATTERN="hs_time|sh_time|stderr|hs_log"
+
+# Create a temporary directory to store filtered outputs
+TEMP_DIR="$OUTPUT_DIR/temp"
+mkdir -p "$TEMP_DIR/hs" "$TEMP_DIR/sh"
+
+# Uncompress the files
+bzip2 -dc $OUTPUT_DIR/sh/backup.211124.bz2 > $OUTPUT_DIR/sh/backup.tar
+bzip2 -dc $OUTPUT_DIR/hs/backup.211124.bz2 > $OUTPUT_DIR/hs/backup.tar
+
+# Untar the files
+tar -xvf $OUTPUT_DIR/sh/backup.tar -C $OUTPUT_DIR/sh
+tar -xvf $OUTPUT_DIR/hs/backup.tar -C $OUTPUT_DIR/hs
+
+# Compare the output (ignore time files, stderr, hs_log, bz2 files and tar files)
+
+diff -r --exclude="hs_log" --exclude="stderr" --exclude="time" --exclude="*.bz2" --exclude="*.tar" "$OUTPUT_DIR/hs" "$OUTPUT_DIR/sh" >"$OUTPUT_DIR/error"
+
+# Print final result
+if [[ -s "$OUTPUT_DIR/error" ]]; then
+    echo "Differences found. See $OUTPUT_DIR/error for details."
+else
+    echo "PASS: Outputs match"
+fi
+
+# Clean up
+rm -rf "$RESOURCE_DIR/hs" "$RESOURCE_DIR/sh"

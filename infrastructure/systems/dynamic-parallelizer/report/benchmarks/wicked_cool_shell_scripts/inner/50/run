@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# Base directories
+BENCHMARK_NO="50"
+export HS_BASE="$(git rev-parse --show-toplevel)"
+export TEST_BASE="$HS_BASE/report/benchmarks/wicked_cool_shell_scripts/$BENCHMARK_NO"
+export TEST_UPPER="$HS_BASE/report"
+export RESOURCE_DIR="$HS_BASE/report/benchmarks/wicked_cool_shell_scripts/$BENCHMARK_NO"
+export OUTPUT_DIR="$HS_BASE/report/output/wicked_cool_shell_scripts/$BENCHMARK_NO"
+
+# Script to run
+SCRIPT_NAME="$BENCHMARK_NO.sh"
+SCRIPT="$RESOURCE_DIR/$SCRIPT_NAME"
+
+# Default values
+WINDOW=""
+TARGET=""
+
+# Parse arguments
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -w|--window) WINDOW="$2"; shift ;;
+        --target) TARGET="$2"; shift ;;
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
+
+# Clean up previous runs
+rm -rf "$RESOURCE_DIR/hs" "$RESOURCE_DIR/sh" "$OUTPUT_DIR"
+mkdir -p "$RESOURCE_DIR/hs" "$RESOURCE_DIR/sh" "$OUTPUT_DIR/hs" "$OUTPUT_DIR/sh"
+
+# Function to prepare log directory
+prepare_log() {
+    rm -rf "$RESOURCE_DIR/log"
+    mkdir -p "$RESOURCE_DIR/log"
+    touch -d "2 days ago" "$RESOURCE_DIR/log/file"
+    echo "h" > "$RESOURCE_DIR/log/file"
+    echo "file=1" > "$RESOURCE_DIR/log/rotatelogs.conf"
+}
+
+# Function to extract real time from `time` command
+extract_time() {
+    sed -i -n 's/^real[[:space:]]*0m\([0-9.]*\)s$/\1/p' "$1"
+}
+
+# sh run
+echo "Running sh command: bash $SCRIPT"
+prepare_log
+{ time bash "$SCRIPT" > "$RESOURCE_DIR/log/stdout" 2> "$OUTPUT_DIR/sh/stderr"; } 2> "$RESOURCE_DIR/time"
+mv "$RESOURCE_DIR/log" "$RESOURCE_DIR/sh"
+mv "$RESOURCE_DIR/time" "$OUTPUT_DIR/sh_time"
+extract_time "$OUTPUT_DIR/sh_time"
+
+# hs run
+echo "Running hs command: $HS_BASE/pash-spec.sh -d 2 --window $WINDOW $SCRIPT"
+prepare_log
+{ time "$HS_BASE/pash-spec.sh" -d 2 --window "$WINDOW" "$SCRIPT" > "$RESOURCE_DIR/log/stdout" 2> "$OUTPUT_DIR/hs/stderr"; } 2> "$RESOURCE_DIR/time"
+mv "$RESOURCE_DIR/log" "$RESOURCE_DIR/hs"
+mv "$RESOURCE_DIR/time" "$OUTPUT_DIR/hs_time"
+extract_time "$OUTPUT_DIR/hs_time"
+
+# Move logs to output directory
+mv "$RESOURCE_DIR/sh/"* "$OUTPUT_DIR/sh/"
+mv "$RESOURCE_DIR/hs/"* "$OUTPUT_DIR/hs/"
+
+# Compare the output (ignore "stderr" files in diff)
+echo "Comparing outputs..."
+diff -r --exclude=stderr --exclude=time "$OUTPUT_DIR/hs" "$OUTPUT_DIR/sh" > "$OUTPUT_DIR/error"
+
+# Print final result
+if [[ -s "$OUTPUT_DIR/error" ]]; then
+    echo "Differences found. See $OUTPUT_DIR/error for details."
+else
+    echo "PASS: Outputs Match"
+    rm -f "$OUTPUT_DIR/error"  # Clean up if no differences
+fi
+
+ln -s $OUTPUT_DIR/hs/stderr $OUTPUT_DIR/hs_log

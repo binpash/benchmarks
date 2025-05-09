@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+
+import os
+import subprocess
+import argparse
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Wrapper to run benchmarks in all subdirectories of the script's source directory.")
+    parser.add_argument("--window", type=int, help="Window size to run hs with.")
+    parser.add_argument("--target", choices=["hs-only", "sh-only", "both"], help="To run with sh or hs.")
+    parser.add_argument("--log", choices=["enable", "disable"], help="Whether to enable logging for hs.")
+    return parser.parse_args()
+
+def run_benchmarks(window, target, log):
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    for entry in sorted(os.scandir(script_dir), key=lambda e: e.name):
+        if entry.is_dir():
+            run_script_path = os.path.join(entry.path, "run")
+            if os.path.isfile(run_script_path) and os.access(run_script_path, os.X_OK):
+                # Construct command with arguments
+                cmd = [run_script_path]
+                if window is not None:
+                    cmd.extend(["--window", str(window)])
+                if target is not None:
+                    cmd.extend(["--target", target])
+                if log is not None:
+                    cmd.extend(["--log", log])
+
+                # Execute the command
+                try:
+                    print(f"> Running benchmark {entry.path}")
+                    subprocess.run(cmd, check=True)
+                    print(f"Successfully ran benchmark in {entry.path}")
+                except subprocess.CalledProcessError as e:
+                    print(f"Error running benchmark in {entry.path}: {e}")
+
+if __name__ == "__main__":
+    args = parse_arguments()
+    run_benchmarks(args.window, args.target, args.log)

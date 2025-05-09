@@ -1,0 +1,5 @@
+#!/bin/bash
+
+run_script=$(dirname $(realpath $0))/../run
+
+$run_script multi_files.sh $@

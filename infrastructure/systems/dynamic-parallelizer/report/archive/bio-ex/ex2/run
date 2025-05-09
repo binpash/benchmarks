@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+from subprocess import run, PIPE
+from pathlib import Path
+
+parser = argparse.ArgumentParser(description="Run benchmark")
+parser.add_argument('--window', default=5, type=int, help='window size to run hs with')
+parser.add_argument('--target', choices=['hs-only', 'sh-only', 'both'],
+                    help='to run with sh or hs')
+parser.add_argument('--log', choices=['enable', 'disable'], default="enable",
+                    help='whether to enable logging for hs')
+
+env = os.environ.copy()
+
+docker_cmd = ["sudo", "docker", "run", "--init", "--privileged", "--cgroupns=host", "--rm", "-v", f"{env.get('DOCKER_TMP','/tmp')}:/tmp", "hs/ex2:latest", "/bin/bash", "-c"]
+
+def convert_time_to_float(time):
+    time = time.split("m")
+    return float(time[0]) * 60 + float(time[1][:-1])
+
+def do_sh_run(env):
+    result = run(docker_cmd + ["time sh /root/workspace/ex2.sh && sha1sum /root/workspace/htseq_output/SRR10045016-17-18-19-20-21_counts.csv"], stdout=PIPE, stderr=PIPE, env=env)
+    time = result.stderr.decode().split("\n")[-4].split("\t")[1]
+    shasum = result.stdout.decode().split("\n")[-2].split(" ")[0]
+    return convert_time_to_float(time), shasum
+
+def do_hs_run(window, log, env):
+    result = run(docker_cmd + [f"time /srv/hs/pash-spec.sh {'-d 2' if log else ''} --window {window} /root/workspace/ex2.sh && sha1sum /root/workspace/htseq_output/SRR10045016-17-18-19-20-21_counts.csv"], stdout=PIPE, stderr=PIPE, env=env)
+    time = result.stderr.decode().split("\n")[-4].split("\t")[1]
+    shasum = result.stdout.decode().split("\n")[-2].split(" ")[0]
+    return convert_time_to_float(time), shasum, result.stderr.decode()
+
+if __name__ == "__main__":
+    args = parser.parse_args()
+    test_base = Path(__file__).parent.resolve()
+
+    if (args.log == "enable"):
+        log = True
+    else:
+        log = False
+
+    run_hs = False
+    run_sh = False
+    if args.target in ["hs-only", "both"]:
+        run_hs = True
+    if args.target in ["sh-only", "both"]:
+        run_sh = True
+    if not run_hs and not run_sh:
+        raise("Not running anything, add --target argument")
+    
+    if not "PASH_SPEC_TOP" in os.environ:
+        raise("PASH_SPEC_TOP is not set")
+
+    output_base = Path(os.path.expandvars("$PASH_SPEC_TOP/report/output/" + os.sep.join(test_base.parts[-2:])))
+    output_base.mkdir(parents=True, exist_ok=True)
+
+    if run_sh and run_hs:
+        sh_time, sh_shasum = do_sh_run(env)
+        hs_time, hs_shasum, hs_log = do_hs_run(args.window, log, env)
+
+        with open(output_base / 'error', 'w') as errf:
+            if sh_shasum == hs_shasum:
+                errf.write('')
+            else:
+                errf.write('error\n')
+                errf.write(f'sh sha1sum\n')
+                errf.write(sh_shasum + '\n')
+                errf.write(f'hs sha1sum\n')
+                errf.write(hs_shasum + '\n')
+
+        with open(output_base / 'sh_time', 'w') as file:
+            file.write(str(sh_time))
+        with open(output_base / 'hs_time', 'w') as file:
+            file.write(str(hs_time))
+        if log:
+            with open(output_base / 'hs_log', 'w') as file:
+                file.write(hs_log)
+    elif run_sh:
+        SCRIPT_NAME = "sh_script.sh"
+        do_sh_run(env)
+        with open(output_base / 'sh_time', 'w') as file:
+            file.write(str(sh_time))
+    elif run_hs:
+        SCRIPT_NAME = "hs_script.sh"
+        do_hs_run(args.window, log, env)
+        with open(output_base / 'hs_time', 'w') as file:
+            file.write(str(hs_time))
+        if log:
+            with open(output_base / 'hs_log', 'w') as file:
+                file.write(hs_log)
+    else:
+        raise("Not running anything, add --target argument")
+

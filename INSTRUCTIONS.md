@@ -76,14 +76,14 @@ contains information about each computation, input data, and expected output:
 [vps-audit](https://github.com/binpash/benchmarks/tree/main/vps-audit),
 [web-index](https://github.com/binpash/benchmarks/tree/main/web-index)) and several scripts in [`infrastructure/`](https://github.com/binpash/benchmarks/tree/main/infrastructure).
 
-* Exercisability: Instructions below set up an Debian-based container and run _all_ benchmarks on `min` inputs (`quickrun.sh`) or run specific benchmarks.
+* Exercisability: Instructions below set up an Debian-based container and run _all_ benchmarks on `min` inputs (`all.sh`) or run specific benchmarks.
 
 > At this point, **run `git clone https://github.com/binpash/benchmarks` and `cd benchmarks`.**
 
-**Quickstart: Running a single benchmark (e.g., `nlp`):** To quickly execute a specific benchmark such as `nlp`, invoke the top-level `koala.sh` script—which will set up a Debian-based container image, install dependencies, download benchmark-specific `min` inputs, and execute the benchmark (2 minutes):
+**Quickstart: Running a single benchmark (e.g., `nlp`):** To quickly execute a specific benchmark such as `nlp`, invoke the top-level `main.sh` script—which will set up a Debian-based container image, install dependencies, download benchmark-specific `min` inputs, and execute the benchmark (2 minutes):
 
 ```sh
-./run.sh nlp
+./main.sh nlp
 ```
 
 The reason this is easier to evaluate in a container is that some scripts *assume* that some dependencies on the *host system* (e.g. `git`). The scripts also assume a docker executable in the PATH, which can be configured with the `KOALA_CONTAINER_CMD`.

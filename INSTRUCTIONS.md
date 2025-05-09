@@ -78,7 +78,7 @@ contains information about each computation, input data, and expected output:
 
 * Exercisability: Instructions below set up an Debian-based container and run _all_ benchmarks on `min` inputs (`quickrun.sh`) or run specific benchmarks.
 
-> At this point, run `git clone https://github.com/binpash/benchmarks` and `cd benchmarks`.
+> At this point, **run `git clone https://github.com/binpash/benchmarks` and `cd benchmarks`.**
 
 **Quickstart: Running a single benchmark (e.g., `nlp`):** To quickly execute a specific benchmark such as `nlp`, invoke the top-level `koala.sh` script—which will set up a Debian-based container image, install dependencies, download benchmark-specific `min` inputs, and execute the benchmark (2 minutes):
 
@@ -95,21 +95,22 @@ cd benchmarks
 ./all.sh
 ```
 
-> **Not recommended on the first run:**  
-> Both scripts above take additional optional parameters: Using `--small` will execute the benchmark(s) with the `small` inputs (about 3 hours) and `--bare` will execute the benchmarks on the host system (which might not satisfy dependencies). To replace the shell interpreter, `set` the `KOALA_SHELL` variable — e.g., `KOALA_SHELL="bash --posix"`.
+> **Not recommended on the first run:**
 > 
+> Both scripts above take additional optional parameters: Using `--small` will execute the benchmark(s) with the `small` inputs (about 3 hours) and `--bare` will execute the benchmarks on the host system (which might not satisfy dependencies). To replace the shell interpreter, `set` the `KOALA_SHELL` variable — e.g., `KOALA_SHELL="bash --posix"`.
+
 
 # Results Reproducible
 
-The main results presented in the paper are:
-1. Results of the static characterization of the benchmarks
-2. Results of the dynamic characterization of the benchmarks
-3. Results of PCA analysis of (1) the dynamic characterization and (2) the benchmark source code
-4. Results of the application of the benchmark suite to a set of prior shell optimization tools
+The key results of the analysis are the following:
 
-**Preparation:**
+1. Principal Component Analysis (§3, Fig. 2);
+2. Syntactic Characterization & Analysis (§5, Fig. 4 & 5);
+3. Dynamic Characterization & Analysis (§6, Fig. 6)
 
-It's best to run all of the analyses in a container, and for the dynamic analysis it's **required**, as the analysis requires elevated privileges.
+Results 1–3 are easy to reproduce, by running specific scripts (a part of PCA depends on embeddings, which incurs some financial costs due to OpenAI); PCA depends on the results of the analyses, so we start with no. 2–3 before returning to no. 1.
+
+**Preparation:** The dynamic analysis requires running Koala in a pre-set container due to elevated priviledges:
 
 ```sh
 mkdir -p /tmp/plots
@@ -123,10 +124,11 @@ Then, inside the container run the setup script:
 ./setup.sh
 ```
 
-## Static Characterization
+**Static Characterization:** To generate the static characterization, run the following commands:
 
-To generate the static characterization, run the following commands:
-
+```
+TODO??
+```
 
 Then, inside the container, run:
 
@@ -162,6 +164,15 @@ For convenience and cost concerns, we provide the results the embedding model in
 ```sh
 # TODO
 ```
+
+## Optional: Applyihng benchmarks to various systems (1–3 days)
+
+This section is about setting up and running other systems on the Koala benchmarks. Crucially:
+
+* The difficulty of evaluating prototype systems using Koala depends on these systems (i.e., not our contribution) as well as access to specific hardare (e.g., large multiprocessors).
+* The authors of these systems are free to make any modifications to the benchmarks, the inputs, or the scripts accroding to the contributions claimed by _their_ systems, not Koala
+
+Therefore, his evaluation outside the scope of the Koala artifact evaluation.
 
 # Contact
 

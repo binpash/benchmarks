@@ -24,7 +24,7 @@ Confirm that the benchmark programs, their inputs, and automation scripts are al
 
 3. Data are available on _permanent_ (i.e., archival-level durable, but slow) and _scalable_ (i.e., fast, but not archival-level durable) storage:
 
-    * Permanent archival storage on Zenodo, split across multiple DOIs due to Zenodo's max 50GB limit (AEC Reviewers: _this is slow, do not try to download_—just confirm their existence): [`small` inputs](https://zenodo.org/records/15361083); `full` in 5 parts:
+    * Permanent archival storage on Zenodo, split across multiple DOIs due to Zenodo's max 50GB limit (AEC Reviewers: _this is slow, do not try to download_—just confirm their existence): [code & software dependencies](https://zenodo.org/records/15377017), [`small` inputs](https://zenodo.org/records/15361083); `full` in 5 parts:
    [1](https://zenodo.org/records/15367723),
    [2](https://zenodo.org/records/15368074)
    [3](https://zenodo.org/records/15368508),
@@ -116,21 +116,10 @@ Results 1–3 are easy to reproduce, by running specific scripts (a part of PCA 
 mkdir -p /tmp/plots
 sudo docker pull ghcr.io/binpash/benchmarks:latest
 sudo docker run -it --rm -v "/tmp/plots":/tmp/plots ghcr.io/binpash/benchmarks:latest bash
-```
-
-Then, inside the container run the setup script:
-
-```sh
-./setup.sh
+./setup.sh # Inside the container
 ```
 
 **Static Characterization:** To generate the static characterization, run the following commands:
-
-```
-TODO??
-```
-
-Then, inside the container, run:
 
 ```sh
 ./infrastructure/static-analysis.sh /tmp/plots
@@ -138,27 +127,17 @@ Then, inside the container, run:
 
 This will place the static analysis heatmap in the `/tmp/plots` directory on the host system.
 
-Then, inside the container run:
-
-```sh
-./infrastructure/generate-plots.sh
-```
-
-The plots should be inside the `/mnt` directory in the container, and
-the `/tmp/plots` directory on the host system.
-Syntax analysis heatmap will be located at `infrastructure/plots/koala-stx-analysis.pdf` and dynamic analysis plots will be located in `infrastructure/plots/dynamic_analysis`.
-
 **Dynamic Characterization:** To generate the dynamic characterization, run the following commands:
 
 ```sh
-# TODO
+./infrastructure/dynamic-analysis.sh --small
 ```
 
 **PCA Analysis:** The second part of the PCA analysis involves sending the source code of the benchmarks to a remote embedding model using OpenAI's API.
 For convenience and cost concerns, we provide the results the embedding model in the `infrastructure/plots/pca` directory.
 
 ```sh
-# TODO
+./infrastructure/pc-analysis.sh /tmp/plots/pca.pdf
 ```
 
 ## Optional: Applyihng benchmarks to various systems (1–3 days)

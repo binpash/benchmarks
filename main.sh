@@ -8,7 +8,7 @@ error() {
 correct() { [ "$(cut -d' ' -f 2 <"$BENCHMARK.hash" | grep -vc 0)" -eq 0 ]; }
 
 in_container() {
-  grep -qaE 'docker|kubepods|containerd' /proc/1/cgroup && return 0
+  [ -f /proc/1/cgroup ] && grep -qaE 'docker|kubepods|containerd' /proc/1/cgroup && return 0
   [ -f /.dockerenv ] && return 0
   return 1
 }

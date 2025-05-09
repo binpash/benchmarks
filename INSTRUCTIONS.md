@@ -140,6 +140,23 @@ To generate the static characterization, run the following commands:
 # TODO
 ```
 
+
+```
+mkdir -p /tmp/plots
+sudo docker pull ghcr.io/binpash/benchmarks:latest
+sudo docker run -it --rm -v "/tmp/plots":/mnt ghcr.io/binpash/benchmarks:latest bash
+```
+
+Then, inside the container run:
+
+```
+./infrastructure/generate-plots.sh
+```
+
+The plots should be inside the `/mnt` directory in the container, and
+the `/tmp/plots` directory on the host system.
+Syntax analysis heatmap will be located at `infrastructure/plots/koala-stx-analysis.pdf` and dynamic analysis plots will be located in `infrastructure/plots/dynamic_analysis`.
+
 ## Dynamic Characterization
 
 To generate the dynamic characterization, run the following commands:

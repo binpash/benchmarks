@@ -78,6 +78,8 @@ main() {
         esac
     done
 
+    [ -z "$BENCHMARK" ] && usage && exit 1
+    [ ! -d "$BENCHMARK" ] && error "Benchmark folder $BENCHMARK does not exist"
     export BENCHMARK
 
     export LC_ALL=C
@@ -93,6 +95,8 @@ main() {
     stats_files=()
 
     REPO_TOP=$(git rev-parse --show-toplevel)
+    [[ -z "$REPO_TOP" ]] && error "Failed to determine repository top"
+    
     if ! $run_locally; then
         DOCKER_IMAGE=${KOALA_DOCKER_IMAGE:-ghcr.io/binpash/benchmarks:latest}
         echo "Launching KOALA in Docker container ($DOCKER_IMAGE)"

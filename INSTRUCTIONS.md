@@ -168,7 +168,7 @@ sudo docker run -it --rm -v "$(pwd)":/mnt ghcr.io/binpash/benchmarks:latest bash
 Then, inside the container run:
 
 ```
-.infrastructure/generate-plots.sh
+./infrastructure/generate-plots.sh
 ```
 
 The plots should be inside the `/mnt` directory in the container, and

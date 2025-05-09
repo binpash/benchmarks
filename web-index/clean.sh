@@ -6,8 +6,8 @@ for arg in "$@"; do
     esac
 done
 
-rm -r outputs
+rm -rf outputs
 
 if [ "$force" = true ]; then
-    rm -r inputs
+    rm -rf inputs
 fi

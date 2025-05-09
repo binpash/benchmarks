@@ -283,4 +283,6 @@ main() {
 
 }
 
+cd "$(dirname "$0")" || error "Could not cd into script folder"
+
 main "$@"

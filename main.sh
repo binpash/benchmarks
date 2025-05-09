@@ -17,6 +17,7 @@ usage() {
     echo "  --runs, -n N     Number of runs (default: 1)"
     echo "  --clean, -c      Run the full cleanup script (both inputs and outputs)"
     echo "  --keep, -k       Keep outputs"
+    echo "  --prune          Run the benchmark on a fresh container (will need to re-download everything on each run)"
 }
 
 main() {
@@ -31,6 +32,7 @@ main() {
     run_locally=false
     run_cleanup=false
     keep_outputs=false
+    prune=false
     runs=1
 
     args=()
@@ -65,6 +67,10 @@ main() {
             ;;
         --keep | -k)
             keep_outputs=true
+            shift
+            ;;
+        --prune)
+            prune=true
             shift
             ;;
         *)
@@ -102,12 +108,22 @@ main() {
         DOCKER_IMAGE=${KOALA_DOCKER_IMAGE:-ghcr.io/binpash/benchmarks:latest}
         echo "Launching KOALA in Docker container ($DOCKER_IMAGE)"
         docker pull "$DOCKER_IMAGE"
-        docker run --rm \
-            -v "$REPO_TOP":/benchmarks \
-            -w "/benchmarks" \
-            -e KOALA_SHELL="$KOALA_SHELL" \
-            "$DOCKER_IMAGE" \
-            ./main.sh "$BENCHMARK" ${args[*]} --bare 
+
+        if $prune; then
+            echo "Running with prune mode: starting clean container"
+            docker run --rm \
+                "$DOCKER_IMAGE" \
+                -w "/benchmarks" \
+                ./main.sh "$BENCHMARK" ${args[*]} --bare
+        else
+            echo "Mounting $REPO_TOP to /benchmarks in the container"
+            docker run --rm \
+                -v "$REPO_TOP":/benchmarks \
+                -w "/benchmarks" \
+                -e KOALA_SHELL="$KOALA_SHELL" \
+                "$DOCKER_IMAGE" \
+                ./main.sh "$BENCHMARK" ${args[*]} --bare
+        fi
         exit $?
     fi
 

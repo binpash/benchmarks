@@ -2,15 +2,6 @@
 
 cd "$(dirname "$0")" || exit 1
 
-size=--min
-for arg in "$@"; do
-    case "$arg" in
-        --small) size="--small" ;;
-        --min)   size="--min" ;;
-        --full)   size="" ;;
-    esac
-done
-
 benchmarks="oneliners bio vps-audit file-enc log-analysis web-index media-conv covid-mts sklearn nlp aurpkg unix50 makeself riker max-temp"
 
 log() { echo -e "[*] $1"; }
@@ -23,13 +14,13 @@ log "Running kick tires script"
 #   exit 1
 # fi
 
-log "Running ./main.sh $size for each benchmark"
+log "Running ./main.sh for each benchmark"
 
-# Run ./main.sh --min in each benchmark directory
+# Run ./main.sh for each benchmark
 for bench in $benchmarks; do
   log "Running benchmark: $bench"
-  ./main.sh "$size" "$bench" || {
-    echo "Failed to run $size for $bench"
+  ./main.sh "$@" "$bench" || {
+    echo "Failed to run $bench"
     exit 1
   }
 done

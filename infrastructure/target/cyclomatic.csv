@@ -1,4 +1,4 @@
-aurpkg/scripts/pacaur.sh,4.0
+aurpkg/scripts/pacaur.sh,6.0
 bio/scripts/bio.sh,3.0
 covid-mts/scripts/1.sh,1.0
 covid-mts/scripts/2.sh,1.0
@@ -7,16 +7,6 @@ covid-mts/scripts/4.sh,1.0
 covid-mts/scripts/5.sh,1.0
 file-enc/scripts/compress_files.sh,2.0
 file-enc/scripts/encrypt_files.sh,3.0
-infrastructure/standards/100-files/scripts/main.sh,3.0
-infrastructure/standards/read-write/scripts/main.sh,2.0
-infrastructure/standards/read-write/scripts/sub.sh,1.0
-infrastructure/standards/shell-memory/scripts/main.sh,1.0
-infrastructure/standards/sleep/scripts/main.sh,2.0
-infrastructure/standards/time-in-shell-subprocess/scripts/main.sh,1.0
-infrastructure/standards/time-in-shell-subprocess/scripts/sub.sh,2.0
-infrastructure/standards/user-time-in-shell/scripts/main.sh,2.0
-infrastructure/standards/user-time/scripts/main.sh,1.0
-infrastructure/standards/write-only/scripts/main.sh,3.0
 log-analysis/scripts/nginx.sh,3.0
 log-analysis/scripts/pcaps.sh,3.0
 makeself/makeself/makeself-header.sh,1.0
@@ -34,7 +24,7 @@ makeself/makeself/test/tarextratest/tarextratest.sh,7.0
 makeself/makeself/test/variabletest/variabletest.sh,9.0
 max-temp/scripts/temp-analytics.sh,1.0
 media-conv/scripts/img_convert.sh,3.0
-media-conv/scripts/to_mp3.sh,3.0
+media-conv/scripts/to_mp3.sh,2.0
 nlp/scripts/bigrams.sh,3.0
 nlp/scripts/bigrams_appear_twice.sh,3.0
 nlp/scripts/compare_exodus_genesis.sh,3.0

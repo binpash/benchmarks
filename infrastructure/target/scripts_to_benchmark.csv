@@ -51,7 +51,6 @@ nlp/scripts/words_no_vowels.sh,nlp
 oneliners/scripts/bi-gram.aux.sh,oneliners
 oneliners/scripts/bi-grams.sh,oneliners
 oneliners/scripts/diff.sh,oneliners
-oneliners/scripts/icfp-spell.sh,oneliners
 oneliners/scripts/nfa-regex.sh,oneliners
 oneliners/scripts/set-diff.sh,oneliners
 oneliners/scripts/sort-sort.sh,oneliners
@@ -104,8 +103,8 @@ unix50/scripts/6.sh,unix50
 unix50/scripts/7.sh,unix50
 unix50/scripts/8.sh,unix50
 unix50/scripts/9.sh,unix50
-vps-audit/scripts/vps-audit.sh,vps-audit
 vps-audit/scripts/vps-audit-negate.sh,vps-audit
+vps-audit/scripts/vps-audit.sh,vps-audit
 web-index/scripts/bigrams_aux.sh,web-index
 web-index/scripts/extract_text.sh,web-index
 web-index/scripts/ngrams.sh,web-index

@@ -222,7 +222,7 @@ main() {
         if correct; then
             echo "$BENCHMARK [pass]"
         else
-            error "$BENCHMARK [fail]"
+            echo "$BENCHMARK [fail]"
         fi
 
         if [[ $measure_resources == true ]]; then

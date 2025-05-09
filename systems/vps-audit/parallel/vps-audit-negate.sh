@@ -196,36 +196,6 @@ check_ssh_port() {
     fi
 }
 
-# Check Firewall Status
-check_firewall_status() {
-    if command -v ufw >/dev/null 2>&1; then
-        if ! ufw status | grep -q "active"; then
-            check_security "Firewall Status (UFW)" "FAIL" "UFW firewall is not active - your system is exposed to network attacks" "018.txt"
-        else
-            check_security "Firewall Status (UFW)" "PASS" "UFW firewall is active and protecting your system" "018.txt"
-        fi
-    elif command -v firewall-cmd >/dev/null 2>&1; then
-        if ! firewall-cmd --state 2>/dev/null | grep -q "running"; then
-            check_security "Firewall Status (firewalld)" "FAIL" "Firewalld is not active - your system is exposed to network attacks" "018.txt"
-        else
-            check_security "Firewall Status (firewalld)" "PASS" "Firewalld is active and protecting your system" "018.txt"
-        fi
-    elif command -v iptables >/dev/null 2>&1; then
-        if ! sudo iptables -L | grep -q "Chain INPUT"; then
-            check_security "Firewall Status (iptables)" "FAIL" "No active iptables rules found - your system may be exposed" "018.txt"
-        else
-            check_security "Firewall Status (iptables)" "PASS" "iptables rules are active and protecting your system" "018.txt"
-        fi
-    elif command -v nft >/dev/null 2>&1; then
-        if ! nft list ruleset | grep -q "table"; then
-            check_security "Firewall Status (nftables)" "FAIL" "No active nftables rules found - your system may be exposed" "018.txt"
-        else
-            check_security "Firewall Status (nftables)" "PASS" "nftables rules are active and protecting your system" "018.txt"
-        fi
-    else
-        check_security "Firewall Status" "FAIL" "No recognized firewall tool is installed on this system" "018.txt"
-    fi
-}
 
 # Function to check unattended upgrades
 check_unattended_upgrades() {
@@ -366,14 +336,6 @@ check_cpu_usage() {
     fi
 }
 
-# Function to check sudo configuration
-check_sudo_logging() {
-    if ! grep -q "^Defaults.*logfile" /etc/sudoers; then
-        check_security "Sudo Logging" "FAIL" "Sudo commands are not being logged - reduces audit capability" "029.txt"
-    else
-        check_security "Sudo Logging" "PASS" "Sudo commands are being logged for audit purposes" "029.txt"
-    fi
-}
 
 # Function to check password policy
 check_password_policy() {
@@ -432,10 +394,10 @@ export -f start_audit get_os_info get_kernel_version get_hostname get_uptime \
           get_cpu_info get_memory_info get_disk_info get_public_ip \
           get_load_average check_uptime check_restart_required \
           check_ssh_root_login check_ssh_password_auth check_ssh_port \
-          check_firewall_status check_unattended_upgrades check_fail2ban \
+          check_unattended_upgrades check_fail2ban \
           check_failed_logins check_system_updates \
           check_running_services check_ports check_disk_usage \
-          check_memory_usage check_cpu_usage check_sudo_logging \
+          check_memory_usage check_cpu_usage \
           check_password_policy check_suid_files \
           generate_sysinfo print_header_1 print_header_2
 
@@ -444,10 +406,10 @@ parallel ::: print_header_1 start_audit  \
              get_cpu_info get_memory_info get_disk_info get_public_ip \
              get_load_average print_header_2 check_uptime check_restart_required \
              check_ssh_root_login check_ssh_password_auth check_ssh_port \
-             check_firewall_status check_unattended_upgrades check_fail2ban \
+             check_unattended_upgrades check_fail2ban \
              check_failed_logins check_system_updates \
              check_running_services check_ports check_disk_usage \
-             check_memory_usage check_cpu_usage check_sudo_logging \
+             check_memory_usage check_cpu_usage \
              check_password_policy check_suid_files generate_sysinfo
 
 cat "$TEMP_DIR"/*.txt >> "$REPORT_FILE"

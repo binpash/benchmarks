@@ -178,40 +178,6 @@ else
 fi
 } &
 
-# Check Firewall Status
-check_firewall_status() {
-    if command -v ufw >/dev/null 2>&1; then
-        if ufw status | grep -q "active"; then
-            check_security "Firewall Status (UFW)" "PASS" "UFW firewall is active and protecting your system"
-        else
-            check_security "Firewall Status (UFW)" "FAIL" "UFW firewall is not active - your system is exposed to network attacks"
-        fi
-    elif command -v firewall-cmd >/dev/null 2>&1; then
-        if firewall-cmd --state 2>/dev/null | grep -q "running"; then
-            check_security "Firewall Status (firewalld)" "PASS" "Firewalld is active and protecting your system"
-        else
-            check_security "Firewall Status (firewalld)" "FAIL" "Firewalld is not active - your system is exposed to network attacks"
-        fi
-    elif command -v iptables >/dev/null 2>&1; then
-        if sudo iptables -L | grep -q "Chain INPUT"; then
-            check_security "Firewall Status (iptables)" "PASS" "iptables rules are active and protecting your system"
-        else
-            check_security "Firewall Status (iptables)" "FAIL" "No active iptables rules found - your system may be exposed"
-        fi
-    elif command -v nft >/dev/null 2>&1; then
-        if nft list ruleset | grep -q "table"; then
-            check_security "Firewall Status (nftables)" "PASS" "nftables rules are active and protecting your system"
-        else
-            check_security "Firewall Status (nftables)" "FAIL" "No active nftables rules found - your system may be exposed"
-        fi
-    else
-        check_security "Firewall Status" "FAIL" "No recognized firewall tool is installed on this system"
-    fi
-}
-{
-# Firewall check
-check_firewall_status
-} &
 {
 # Check for unattended upgrades
 if dpkg -l | grep -q "unattended-upgrades"; then
@@ -339,14 +305,6 @@ elif [ "$CPU_USAGE" -lt 80 ]; then
     check_security "CPU Usage" "WARN" "Moderate CPU usage (${CPU_USAGE}% used - Active: ${CPU_USAGE}%, Idle: ${CPU_IDLE}%, Load: ${CPU_LOAD}, Cores: ${CPU_CORES})"
 else
     check_security "CPU Usage" "FAIL" "Critical CPU usage (${CPU_USAGE}% used - Active: ${CPU_USAGE}%, Idle: ${CPU_IDLE}%, Load: ${CPU_LOAD}, Cores: ${CPU_CORES})"
-fi
-} &
-{
-# Check sudo configuration
-if grep -q "^Defaults.*logfile" /etc/sudoers; then
-    check_security "Sudo Logging" "PASS" "Sudo commands are being logged for audit purposes"
-else
-    check_security "Sudo Logging" "FAIL" "Sudo commands are not being logged - reduces audit capability"
 fi
 } &
 {

@@ -101,7 +101,7 @@ main() {
     export KOALA_SHELL
     export KOALA_INFO="time:mem:io:cpu"
 
-    if [ "$in_container" ]; then
+    if  in_container; then
         run_locally=true
     fi
 

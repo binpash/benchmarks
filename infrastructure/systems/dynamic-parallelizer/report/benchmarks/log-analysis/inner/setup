@@ -1,0 +1,90 @@
+#!/bin/bash
+set -x
+export PATH=$PATH:$HOME/.local/bin
+export PASH_SPEC_TOP=${PASH_SPEC_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
+
+download_dir="$PASH_SPEC_TOP/report/resources/log-analysis-full"
+download_dir_small="$PASH_SPEC_TOP/report/resources/log-analysis-small"
+download_dir_medium="$PASH_SPEC_TOP/report/resources/log-analysis-medium"
+benchmark_dir="$PASH_SPEC_TOP/report/benchmarks/log-analysis/"
+ita_public_tools_dir="$benchmark_dir/ita_public_tools"
+
+# Create the download directory if it doesn’t exist
+mkdir -p "$download_dir"
+mkdir -p "$download_dir_small"
+mkdir -p "$download_dir_medium"
+
+IN_ROOT=${IN_ROOT:-'https://atlas-group.cs.brown.edu/data/web-logs/world-cup'}
+
+wget "${IN_ROOT}/WorldCup_tools.tar" -P "${benchmark_dir}"
+tar -xf "$benchmark_dir/WorldCup_tools.tar" -C "$benchmark_dir" && rm "$benchmark_dir/WorldCup_tools.tar"
+
+( cd "${benchmark_dir}/ita_public_tools" && make && cp "$ita_public_tools_dir/bin/recreate" "$benchmark_dir" && cp "$ita_public_tools_dir/state/object_mappings.sort" "$benchmark_dir")
+
+# Read each line from links.txt and download the file
+wget -r -np -nH --cut-dirs=6 -P "${download_dir}" "${IN_ROOT}/"
+rm -rf ${download_dir}/robots.txt ${download_dir}/index.html* ${download_dir}/WorldCup_tools.tar
+
+# Download only the specific files
+files_to_copy_small=(
+    "wc_day10_1.gz"
+    "wc_day11_1.gz"
+    "wc_day12_1.gz"
+    "wc_day13_1.gz"
+    "wc_day14_1.gz"
+    "wc_day15_1.gz"
+    "wc_day16_1.gz"
+    "wc_day17_1.gz"
+    "wc_day18_1.gz"
+    "wc_day19_1.gz"
+    "wc_day20_1.gz"
+)
+
+files_to_copy_medium=(
+    "wc_day40_1.gz"
+    "wc_day40_2.gz"
+    "wc_day41_1.gz"
+    "wc_day41_2.gz"
+    "wc_day42_1.gz"
+    "wc_day43_1.gz"
+    "wc_day44_1.gz"
+    "wc_day44_2.gz"
+    "wc_day44_3.gz"
+    "wc_day45_1.gz"
+    "wc_day45_2.gz"
+    "wc_day45_3.gz"
+    "wc_day46_1.gz"
+    "wc_day46_2.gz"
+    "wc_day46_3.gz"
+    "wc_day46_4.gz"
+    "wc_day46_5.gz"
+    "wc_day46_6.gz"
+    "wc_day46_7.gz"
+    "wc_day46_8.gz"
+    "wc_day47_1.gz"
+    "wc_day47_2.gz"
+    "wc_day47_3.gz"
+    "wc_day47_4.gz"
+    "wc_day47_5.gz"
+    "wc_day47_6.gz"
+    "wc_day47_7.gz"
+    "wc_day47_8.gz"
+)
+
+# Create the download directory if it doesn’t exist
+mkdir -p "$download_dir/../log-analysis-small"
+mkdir -p "$download_dir/../log-analysis-medium"
+
+# copy files from the full dataset to the small dataset
+for file in "${files_to_copy_small[@]}"; do
+    echo "Copying $file"
+    cp "${download_dir}/$file" "${download_dir_small}/"
+done
+
+# copy files from the full dataset to the medium dataset
+for file in "${files_to_copy_medium[@]}"; do
+    echo "Copying $file"
+    cp "${download_dir}/$file" "${download_dir_medium}/"
+done
+
+mkdir -p outputs

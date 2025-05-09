@@ -1,0 +1,36 @@
+#!/bin/bash
+
+export PASH_SPEC_TOP=${PASH_SPEC_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
+export PASH_TOP=${PASH_TOP:-$PASH_SPEC_TOP/deps/pash}
+
+bench_teraseq="${PASH_SPEC_TOP}/report/benchmarks/teraseq"
+teraseq_root="/root/TERA-Seq_manuscript"
+
+tests=(
+	"5TERA"
+	"5TERA-short"
+	"5TERA3"
+	"TERA3"
+	"Akron5Seq"
+	"dRNASeq"
+	"RNASeq"
+	"RiboSeq"
+	"mouse_SIRV"
+)
+cd "${teraseq_root}"
+for t in "${tests[@]}"
+do
+	echo "Setting up $t"
+	test_dir="${teraseq_root}/$t"
+	for d in $(find "${test_dir}" -mindepth 1 -maxdepth 1 -type d)
+	do
+		sdir=$(basename $d)
+		(
+			rm -r "${teraseq_root}/samples/${sdir}";
+			cp -rl "$d" "${teraseq_root}/samples/${sdir}";
+			rm -r "$d";
+			mkdir "${teraseq_root}/samples/${sdir}"/{align,db,logfiles}
+		) &
+	done
+done
+wait

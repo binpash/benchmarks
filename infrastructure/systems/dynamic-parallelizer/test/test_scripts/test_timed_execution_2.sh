@@ -1,0 +1,6 @@
+foo="foo"
+"$MISC_SCRIPT_DIR/sleep_and_grep.sh" 5 "$foo" "$test_output_dir/in1" "$test_output_dir/out1"
+foo="bar"
+"$MISC_SCRIPT_DIR/sleep_and_grep.sh" 1 "$foo" "$test_output_dir/in2" "$test_output_dir/out2"
+foo="baz"
+"$MISC_SCRIPT_DIR/sleep_and_grep.sh" 3 "$foo" "$test_output_dir/out2" "$test_output_dir/out3"

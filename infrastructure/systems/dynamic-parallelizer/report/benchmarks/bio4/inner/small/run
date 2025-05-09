@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export PASH_SPEC_TOP=${PASH_SPEC_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
+export BIODIR="${PASH_SPEC_TOP}/report/benchmarks/bio4"
+export SIZE="small"
+$BIODIR/runner.sh "$@"
+

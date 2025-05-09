@@ -1,0 +1,29 @@
+#!/bin/bash
+
+this_path=$(realpath -se "$0")
+
+one_up=$(basename $(dirname $this_path))
+two_up=$(basename $(dirname $(dirname $this_path)))
+rest=$(dirname $(dirname $(dirname $this_path)))
+
+if [ ${two_up} == "benchmarks" ]; then
+    benchmark_root=$rest/$two_up
+    benchmark_name=$one_up
+    test_name=$one_up
+    container_name="hs-${one_up}"
+else
+    benchmark_root=$rest
+    benchmark_name=$two_up
+    test_name=$two_up/$one_up
+    container_name="hs-${two_up}-${one_up}"
+fi
+
+docker rm -f $container_name 2>/dev/null
+
+docker run --name $container_name --init --privileged --cgroupns=host -v /z/nikos/tmp:/tmp hs/${benchmark_name} ./report/benchmarks/${test_name}/run_trace_parse $@
+# docker run --name $container_name --init --privileged --cgroupns=host -v /z/nikos/tmp:/tmp -it hs/${benchmark_name} bash
+
+mkdir -p $benchmark_root/../output/$test_name
+docker cp $container_name:/srv/hs/report/output/$test_name/strace_parse_time $benchmark_root/../output/$test_name/strace_parse_time
+
+docker rm $container_name

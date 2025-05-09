@@ -1,0 +1,91 @@
+#!/bin/python3
+
+import os
+import subprocess
+from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
+import time
+
+# Base directories
+BENCHMARK_NO = "expr2"
+HS_BASE = subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).decode().strip()
+TEST_BASE = f"{HS_BASE}/report/benchmarks/micro_try/{BENCHMARK_NO}"
+RESOURCE_DIR = TEST_BASE
+OUTPUT_DIR = f"{HS_BASE}/report/output/micro_try/{BENCHMARK_NO}"
+
+TRY_COMMAND = f"{HS_BASE}/deps/try/try"
+
+TRY_SCRIPT = f"{HS_BASE}/report/benchmarks/micro_try/run_try.sh"
+SH_SCRIPT = f"{HS_BASE}/report/benchmarks/micro_try/run_sh.sh"
+
+
+
+ITERATIONS = 512
+PARALLEL_JOBS = 2
+
+def run_command(command, stdout_file, stderr_file, env=None):
+    with open(stdout_file, "w") as stdout, open(stderr_file, "w") as stderr:
+        subprocess.run(command, shell=True, stdout=stdout, stderr=stderr, env=env)
+
+
+def parallel_execution(script, output_dir, prefix, iterations, num_parallel=PARALLEL_JOBS):
+    env = os.environ.copy()
+    env["TRY"] = TRY_COMMAND
+    start_time = time.time()  # Start timing
+    with ThreadPoolExecutor(max_workers=num_parallel) as executor:
+        futures = []
+        for i in range(1, num_parallel + 1):
+            stdout = f"{output_dir}/{prefix}/stdout{i}"
+            stderr = f"{output_dir}/{prefix}/stderr{i}"
+            command = f"{script} {iterations}"
+            futures.append(executor.submit(run_command, command, stdout, stderr))
+        for future in futures:
+            future.result()  # Wait for all tasks to finish
+    end_time = time.time()  # End timing
+    return end_time - start_time
+
+
+def compare_outputs(dir1, dir2, error_file):
+    """Compare outputs from two directories."""
+    result = subprocess.run(
+        ["diff", "-r", dir1, dir2], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    )
+    with open(error_file, "w") as f:
+        f.write(result.stdout.decode())
+    return result.returncode == 0
+
+
+def main():
+    # Ensure output directories
+    os.makedirs(f"{OUTPUT_DIR}/try", exist_ok=True)
+    os.makedirs(f"{OUTPUT_DIR}/sh", exist_ok=True)
+
+    print("Running sh...")
+    sh_time = parallel_execution(SH_SCRIPT, OUTPUT_DIR, "sh", ITERATIONS)
+    with open(f"{OUTPUT_DIR}/sh_time", "w") as f:
+        f.write(f"{sh_time:.5f}")
+    
+    os.environ["TRY"] = TRY_COMMAND
+    print("Running try...")
+    try_time = parallel_execution(TRY_SCRIPT, OUTPUT_DIR, "try", ITERATIONS)
+
+    with open(f"{OUTPUT_DIR}/try_time", "w") as f:
+        f.write(f"{try_time:.5f}")
+    
+    print("Comparing outputs...")
+    try_output_dir = f"{OUTPUT_DIR}/try"
+    sh_output_dir = f"{OUTPUT_DIR}/sh"
+    error_file = f"{OUTPUT_DIR}/error"
+
+    if compare_outputs(try_output_dir, sh_output_dir, error_file):
+        print("PASS: Outputs match")
+    else:
+        print(f"Differences found. See {error_file} for details.")
+
+    print("Cleaning up...")
+    for dir_to_clean in [f"{RESOURCE_DIR}/try", f"{RESOURCE_DIR}/sh"]:
+        Path(dir_to_clean).unlink(missing_ok=True)
+
+
+if __name__ == "__main__":
+    main()

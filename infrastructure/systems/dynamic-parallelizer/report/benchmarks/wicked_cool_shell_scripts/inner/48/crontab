@@ -1,0 +1,20 @@
+0 0 1 * * /usr/local/bin/backup.sh
+*/5 * * * * /home/user/script.py
+30 8-18 * * 1-5 /var/www/update.php
+0 22 * * 1-5 /opt/scripts/cleanup.sh
+* * * * * /home/user/daily_task.sh
+15 6 * * * /usr/bin/fetch_data.py
+45 23 * * 6 /var/log/rotate_logs.sh
+*/30 * * * * /home/user/monitor.sh
+0 0 * * 0 /root/weekly_maintenance.sh
+10-40/5 * * * * /usr/local/bin/check_status.py
+* * * * /invalid/path/script.sh
+60 * * * * /home/user/invalid_minute.py
+0 25 * * * /var/www/invalid_hour.php
+0 0 32 * * /opt/scripts/invalid_day.sh
+0 0 0 13 * /usr/bin/invalid_month.py
+*/100 * * * * /home/user/invalid_step.sh
+0 0 * * 8 /var/log/invalid_weekday.sh
+*/0 * * * * /home/user/invalid_interval.sh
+-10 * * * * /usr/local/bin/negative_minute.py
+0 0 0 0 0 /root/invalid_fields.sh

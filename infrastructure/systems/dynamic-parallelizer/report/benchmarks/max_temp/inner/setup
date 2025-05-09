@@ -1,0 +1,48 @@
+#!/bin/bash
+
+export PATH=$PATH:$HOME/.local/bin
+export PASH_SPEC_TOP=${PASH_SPEC_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
+export PASH_TOP=${PASH_TOP:-$PASH_SPEC_TOP/deps/pash}
+
+download_dir="$PASH_SPEC_TOP/report/resources/max_temp"
+
+# Create the download directory if it doesn't exist
+mkdir -p "$download_dir"
+
+# Base URL for downloading the tar file
+IN=${IN:-'https://atlas-group.cs.brown.edu/data/noaa/'}
+fetch=${fetch:-"curl -s -k"}
+
+# Function to fetch data for a specified year range
+fetch_data_range() {
+  local start_year=$1
+  local end_year=$2
+
+  # Construct the tar file URL based on the specified year range
+  local tar_url="${IN}NOAA_${start_year}_${end_year}.tar"
+  local tar_file="$download_dir/NOAA_${start_year}_${end_year}.tar"
+
+
+
+  # Download the tar file
+  echo "Downloading tar file from $tar_url..."
+  $fetch -o "$tar_file" "$tar_url"
+
+  # Check if the download was successful
+  if [ ! -f "$tar_file" ]; then
+    echo "Error: Failed to download $tar_url"
+    return 1
+  fi
+
+  echo "Download completed for range $start_year to $end_year. Extracting files..."
+
+  # Extract the tar file
+  tar -xf "$tar_file" -C "$download_dir"
+  echo "Extraction completed for range $start_year to $end_year."
+}
+
+echo "Downloading max_temp datasets..."
+fetch_data_range 1930 1939
+fetch_data_range 1960 1969
+fetch_data_range 1980 1989
+fetch_data_range 2000 2009

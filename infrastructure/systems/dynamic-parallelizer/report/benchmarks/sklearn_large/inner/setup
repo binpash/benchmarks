@@ -1,0 +1,17 @@
+#!/bin/bash
+
+export PASH_SPEC_TOP=${PASH_SPEC_TOP:-$(git rev-parse --show-toplevel --show-superproject-working-tree)}
+
+benchmark_dir="$PASH_SPEC_TOP/report/benchmarks/sklearn_large"
+resource_dir="$PASH_SPEC_TOP/report/resources/sklearn_large"
+
+which python3
+cd "$(realpath $(dirname "$0"))"
+mkdir -p "$PASH_SPEC_TOP/report/resources/sklearn_large"
+mkdir -p "$PASH_SPEC_TOP/report/output/sklearn_large/sh"
+mkdir -p "$PASH_SPEC_TOP/report/output/sklearn_large/hs"
+
+source /srv/hs/.venv/bin/activate
+pip install -r requirements.txt
+
+/usr/bin/env python3 -c "from sklearn.datasets import fetch_kddcup99; fetch_kddcup99(data_home=\"$resource_dir\", percent10=False, download_if_missing=True)"

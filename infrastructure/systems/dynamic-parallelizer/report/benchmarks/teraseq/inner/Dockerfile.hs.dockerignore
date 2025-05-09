@@ -1,0 +1,11 @@
+**/hsa.dRNASeq*
+**/hsa.RNASeq*
+**/hsa.RiboSeq*
+**/hsa.Akron5Seq*
+**/mmu.dRNASeq*
+
+report/benchmarks/teraseq/*.dockerignore
+report/benchmarks/teraseq/Dockerfile*
+
+report/resources
+report/output

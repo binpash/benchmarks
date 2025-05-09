@@ -1,0 +1,7 @@
+foo="hello"
+bar="world"
+filename="out1.txt"
+"$MISC_SCRIPT_DIR/sleep_and_echo.sh" 0.4 "$foo" "$test_output_dir/$filename"
+foo="Hello!"
+"$MISC_SCRIPT_DIR/sleep_and_cat.sh" 0.2 "$test_output_dir/$filename" "$test_output_dir/out2"
+"$MISC_SCRIPT_DIR/sleep_and_echo.sh" 0.1 "$foo $bar" "$test_output_dir/out2"

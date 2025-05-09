@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Base directories
+HS_BASE="$(git rev-parse --show-toplevel)"
+TEST_BASE="$HS_BASE/report/benchmarks/log-analysis"
+TEST_UPPER="$HS_BASE/report"
+RESOURCE_DIR="$HS_BASE/report/resources/log-analysis"
+
+# Script to run
+SCRIPT_NAME="wc-logs.sh"
+
+ENV_VARS=(
+    "RESOURCE_DIR=$HS_BASE/report/resources/log-analysis"
+    "INPUT_DIR=$HS_BASE/report/resources/log-analysis"
+    "MAPPING_FILE=$HS_BASE/report/benchmarks/log-analysis/object_mappings.sort"
+    "TOOL=$HS_BASE/report/benchmarks/log-analysis/recreate"
+    "OUTPUT_DIR=$HS_BASE/report/output/log-analysis"
+)
+
+mkdir -p "$HS_BASE/report/output/log-analysis"
+
+# Pass arguments to the global script
+python3 "$TEST_UPPER/run_benchmark.py" \
+    --script_name "$SCRIPT_NAME" \
+    --test_base "$TEST_BASE" \
+    --hs_base "$HS_BASE" \
+    --env_vars "${ENV_VARS[@]}" \
+    "$@"

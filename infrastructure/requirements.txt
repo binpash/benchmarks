@@ -7,3 +7,9 @@ pandas
 seaborn
 matplotlib
 psutil
+
+# embeddings
+openai
+python-dotenv
+scikit-learn
+adjustText

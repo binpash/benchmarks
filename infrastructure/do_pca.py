@@ -3,8 +3,9 @@ import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
+from adjustText import adjust_text
 
-def perform_pca_and_plot(dataframe1, dataframe2, name='row_analysis'):
+def perform_pca_and_plot(dataframe1, dataframe2, path='pca.pdf'):
     """
     Perform PCA on the numeric columns of two input dataframes and plots each pair of principal components
     (1&2 and 3&4) in a 2x2 grid, with one dataset per row and unified titles for each dataset.
@@ -107,7 +108,8 @@ def perform_pca_and_plot(dataframe1, dataframe2, name='row_analysis'):
         True
     )
 
+    print(f"Saving PCA plot to {path}")
     # Save the plots
-    plt.savefig(f'pca-row-plot-{name}.pdf', format='pdf')
+    plt.savefig(path, format='pdf')
 
     return pca_df1, pca_df2

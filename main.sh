@@ -17,6 +17,9 @@ is_integer() { [[ $1 =~ ^[0-9]+$ && $1 -gt 0 ]]; }
 
 usage() {
     echo "Usage: $0 BENCHMARK_NAME [--time|--resources|--bare|args...]"
+    echo "  --min            Run the benchmark with minimal inputs (default)"
+    echo "  --small          Run the benchmark with small inputs"
+    echo "  --full          Run the benchmark with full inputs"
     echo "  --time, -t       Measure wall-clock time"
     echo "  --resources      Measure resource usage"
     echo "  --bare           Run locally without Docker"
@@ -24,6 +27,7 @@ usage() {
     echo "  --clean, -c      Run the full cleanup script (both inputs and outputs)"
     echo "  --keep, -k       Keep outputs"
     echo "  --prune          Run the benchmark on a fresh container (will need to re-download everything on each run)"
+    echo "  --help, -h       Show this help message"
 }
 
 main() {
@@ -40,6 +44,7 @@ main() {
     keep_outputs=false
     prune=false
     runs=1
+    size="min"
 
     args=()
     while [[ $# -gt 0 ]]; do
@@ -79,6 +84,18 @@ main() {
             prune=true
             shift
             ;;
+        --min)
+            size="min"
+            shift
+            ;;
+        --small)
+            size="small"
+            shift
+            ;;
+        --full)
+            size="full"
+            shift
+            ;;
         *)
             if [[ "$1" != -* ]]; then
                 BENCHMARK="$(basename "$1")"
@@ -89,6 +106,14 @@ main() {
             ;;
         esac
     done
+
+    if [[ "$size" == "min" ]]; then
+        args+=("--min")
+    elif [[ "$size" == "small" ]]; then
+        args+=("--small")
+    elif [[ "$size" == "full" ]]; then
+        args+=("")
+    fi
 
     [ -z "$BENCHMARK" ] && usage && exit 1
     [ ! -d "$BENCHMARK" ] && error "Benchmark folder $BENCHMARK does not exist"

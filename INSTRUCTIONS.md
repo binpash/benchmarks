@@ -17,6 +17,16 @@ To "kick the tires" of this artifact:
 The KOALA benchmark suite is:
 
 * Permanently hosted at: [https://github.com/binpash/koala](https://github.com/binpash/koala)
+* All data and dependencies are available in two tiered storage:
+    1. Hosted on a Brown University cluster, accessible via http at `https://atlas.cs.brown.edu/data`.
+    2. Hosted on permanent arvhival storage on Zenodo.
+        - [Small-size inputs](https://zenodo.org/records/15361083)
+        - [Full inputs (1/5)](https://zenodo.org/records/15367723)
+        - [Full inputs (2/5)](https://zenodo.org/records/15368074)
+        - [Full inputs (3/5)](https://zenodo.org/records/15368508)
+        - [Full inputs (4/5)](https://zenodo.org/records/15368510)
+        - [Full inputs (5/5)](https://zenodo.org/records/15368512)
+
 
 # Artifact Functional
 

@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 
 # Get current timestamp for the report filename
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-REPORT_FILE="vps-audit-report-${TIMESTAMP}.txt"
+REPORT_FILE="vps-audit-report.txt"
 
 TEMP_DIR=$(mktemp -d)
 export TEMP_DIR
@@ -207,36 +207,6 @@ check_ssh_port() {
     fi
 }
 
-# Check Firewall Status
-check_firewall_status() {
-    if command -v ufw >/dev/null 2>&1; then
-        if ufw status | grep -q "active"; then
-            check_security "Firewall Status (UFW)" "PASS" "UFW firewall is active and protecting your system" "018.txt"
-        else
-            check_security "Firewall Status (UFW)" "FAIL" "UFW firewall is not active - your system is exposed to network attacks" "018.txt"
-        fi
-    elif command -v firewall-cmd >/dev/null 2>&1; then
-        if firewall-cmd --state 2>/dev/null | grep -q "running"; then
-            check_security "Firewall Status (firewalld)" "PASS" "Firewalld is active and protecting your system" "018.txt"
-        else
-            check_security "Firewall Status (firewalld)" "FAIL" "Firewalld is not active - your system is exposed to network attacks" "018.txt"
-        fi
-    elif command -v iptables >/dev/null 2>&1; then
-        if sudo iptables -L | grep -q "Chain INPUT"; then
-            check_security "Firewall Status (iptables)" "PASS" "iptables rules are active and protecting your system" "018.txt"
-        else
-            check_security "Firewall Status (iptables)" "FAIL" "No active iptables rules found - your system may be exposed" "018.txt"
-        fi
-    elif command -v nft >/dev/null 2>&1; then
-        if nft list ruleset | grep -q "table"; then
-            check_security "Firewall Status (nftables)" "PASS" "nftables rules are active and protecting your system" "018.txt"
-        else
-            check_security "Firewall Status (nftables)" "FAIL" "No active nftables rules found - your system may be exposed" "018.txt"
-        fi
-    else
-        check_security "Firewall Status" "FAIL" "No recognized firewall tool is installed on this system" "018.txt"
-    fi
-}
 
 # Function to check unattended upgrades
 check_unattended_upgrades() {
@@ -366,15 +336,6 @@ check_cpu_usage() {
         check_security "CPU Usage" "WARN" "Moderate CPU usage (${cpu_usage}% used - Active: ${cpu_usage}%, Idle: ${cpu_idle}%, Load: ${cpu_load}, Cores: ${cpu_cores})" "028.txt"
     else
         check_security "CPU Usage" "FAIL" "Critical CPU usage (${cpu_usage}% used - Active: ${cpu_usage}%, Idle: ${cpu_idle}%, Load: ${cpu_load}, Cores: ${cpu_cores})" "028.txt"
-    fi
-}
-
-# Function to check sudo configuration
-check_sudo_logging() {
-    if grep -q "^Defaults.*logfile" /etc/sudoers; then
-        check_security "Sudo Logging" "PASS" "Sudo commands are being logged for audit purposes" "029.txt"
-    else
-        check_security "Sudo Logging" "FAIL" "Sudo commands are not being logged - reduces audit capability" "029.txt"
     fi
 }
 

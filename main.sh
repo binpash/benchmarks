@@ -92,6 +92,7 @@ main() {
     export TZ=UTC
     KOALA_SHELL=${KOALA_SHELL:-bash}
     export KOALA_SHELL
+    export KOALA_INFO="time:mem:io:cpu"
 
     shell_word=${KOALA_SHELL%% *}
     shell_word=${shell_word##*/}

@@ -32,11 +32,17 @@ def read_json_and_generate_embeddings(json_file):
         combined_script = ""
         for script_glob in scripts_globs:
             for script_file in glob.glob(f"../{script_glob}"):
+                # Skip auxiliary files
+                if "test" in script_file:
+                    continue
+                if "negate" in script_file:
+                    continue
+                if "header" in script_file:
+                    continue
                 with open(script_file, 'r') as f:
                     combined_script += f.read() + "\n"  # Append content
 
-            print(f"Combined script for {benchmark}: {combined_script}")
-
+        print(len(combined_script))
         # Generate embedding using OpenAI's API
         try:
             response = client.embeddings.create(model="text-embedding-ada-002",  # Use a suitable model for embedding

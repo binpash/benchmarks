@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/log-analysis"
 input_dir="${eval_dir}/inputs"

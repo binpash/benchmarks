@@ -1,35 +1,36 @@
 # Overview
 
-The paper claims the following contributions (pg. 2):
+The paper makes the following claims on pg. 2 (Comments to AEC reviewers after `:`):
 
-1. A set of real-world shell programs that span a variety of domains
-2. Accompanying inputs under three tiers: `--min`, `--small`, and `--full`
-3. Automation of dependency setup, input validation, and correctness checking
-4. Infrastructure for static and dynamic analysis and characterization of the benchmark suite
-5. Application of the benchmark suite to a set of prior shell optimization tools
+1. **A collection of benchmark programs**: these are POSIX shell programs that perform a variety of tasks.
 
-The structure of this document mirrors the [USENIX ATC '25 artifact evaluation process](https://www.usenix.org/conference/atc25/call-for-artifacts).
+2. **Permanent and scalable storage of varying inputs**: "permanent" means Zenodo; "scalable" means Brown university servers, which allows for faster download compared to Zenodo. There are three input sizes---`min` take about a few minutes, `small` take a few hours, and `full` take several days---but note _AEC reviewers are encouraged to only try the first two sizes_.
+
+3. **Tooling and automation for reuse**: additional scripts automating dependency setup, input validation, and correctness checking.
+
+4. **Characterization and implications**: additional analysis performing static and dynamic analysis of the benchmark programs.
+
 This artifact targets the following badges:
 
-* [ ] [Artifact available](#artifact-available): Programs, inputs, and scripts to reproduce results are all available.
-* [ ] [Artifact functional](#artifact-functional): You can run the benchmarks with minimal (20 minutes), and small (3 hours) inputs. You will not test with full inputs as this will take 20+ hours and requires over 300Gb of disk space.
-* [ ] [Results reproducible](#results-reproducible): You will reproduce the results of sections 3, 5, 6, and 7 of the paper.
+* [ ] [Artifact available](#artifact-available): Reviewers are expected to confirm that the benchmark programs, their inputs, and automation scripts are all publicly available (about 10 minutes).
+* [ ] [Artifact functional](#artifact-functional): Reviewers are expected to confirm sufficient documentation, key components as described in the paper, and execution with `min` inputs (about 20 minutes); execution with `small` inputs (3 hours)is encouraged only after completion of the full artifact evaluation.
+* [ ] [Results reproducible](#results-reproducible): Reviewers are expected to reproduce _key_ results of sections 3, 5, 6, and 7 of the paper (2 hours).
 
-# Artifact Available
+# Artifact Available (10 minutes)
 
 The KOALA benchmark suite is:
 
 1. The benchmark code is permanently hosted at: [https://github.com/binpash/benchmarks](https://github.com/binpash/benchmarks)
-2. All data and dependencies are available in two tiered storage:
-    1. Hosted on a Brown University cluster, accessible via http at `https://atlas.cs.brown.edu/data`.
-    2. Hosted on permanent arvhival storage on Zenodo.
+2. Data are available on _permanent_ (i.e., archival-level durable, but slow) and _scalable_ (i.e., fast, but not archival-level durable) storage:
+    1. Permanent arvhival storage on Zenodo, split across multiple DOIs due to Zenodo's max 50GB limit (AEC Reviewers: this is slow, do not try to download---just confirm their existence):
         - [Small-size inputs](https://zenodo.org/records/15361083)
         - [Full inputs (1/5)](https://zenodo.org/records/15367723)
         - [Full inputs (2/5)](https://zenodo.org/records/15368074)
         - [Full inputs (3/5)](https://zenodo.org/records/15368508)
         - [Full inputs (4/5)](https://zenodo.org/records/15368510)
         - [Full inputs (5/5)](https://zenodo.org/records/15368512)
-3. All scripts required to reproduce the results are available in the [`infrastructure`](https://github.com/binpash/benchmarks/tree/main/infrastructure) directory of the benchmark repository.
+    2. Scalable storage on a Brown University cluster (additional clusters being set up at Stevens and UCLA), accessible via `https://atlas.cs.brown.edu/data`.
+3. All scripts required to reproduce the results are available in the [`infrastructure/`](https://github.com/binpash/benchmarks/tree/main/infrastructure) directory of the benchmark repository.
 
 **Please use the Brown links for testing and evaluation, as the Zenodo links take a long time to download.**
 

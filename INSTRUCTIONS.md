@@ -17,8 +17,6 @@ To "kick the tires" of this artifact:
 The KOALA benchmark suite is:
 
 * Permanently hosted at: [https://github.com/binpash/koala](https://github.com/binpash/koala)
-* MIT-licensed and open-source
-* Includes containerized and bare-metal support
 
 # Artifact Functional
 

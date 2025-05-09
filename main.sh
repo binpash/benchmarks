@@ -91,6 +91,7 @@ main() {
     export LC_ALL=C
     export TZ=UTC
     KOALA_SHELL=${KOALA_SHELL:-bash}
+    KOALA_CONTAINER_CMD=${KOALA_CONTAINER_CMD:-docker}
     export KOALA_SHELL
     export KOALA_INFO="time:mem:io:cpu"
 
@@ -107,18 +108,18 @@ main() {
     
     if ! $run_locally; then
         DOCKER_IMAGE=${KOALA_DOCKER_IMAGE:-ghcr.io/binpash/benchmarks:latest}
-        echo "Launching KOALA in Docker container ($DOCKER_IMAGE)"
-        docker pull "$DOCKER_IMAGE"
+        echo "Launching KOALA in $KOALA_CONTAINER_CMD container ($DOCKER_IMAGE)"
+        $KOALA_CONTAINER_CMD pull "$DOCKER_IMAGE"
 
         if $prune; then
             echo "Running with prune mode: starting clean container"
-            docker run --rm \
+            $KOALA_CONTAINER_CMD run --rm \
                 "$DOCKER_IMAGE" \
                 -w "/benchmarks" \
                 ./main.sh "$BENCHMARK" ${args[*]} --bare
         else
             echo "Mounting $REPO_TOP to /benchmarks in the container"
-            docker run --rm \
+            $KOALA_CONTAINER_CMD run --rm \
                 -v "$REPO_TOP":/benchmarks \
                 -w "/benchmarks" \
                 -e KOALA_SHELL="$KOALA_SHELL" \

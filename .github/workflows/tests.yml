@@ -60,7 +60,7 @@ jobs:
             -v ${{ github.workspace }}:/benchmarks \
             -w /benchmarks \
             benchmark-env \
-            bash -c "./main.sh ${{ matrix.benchmark }} --min"
+            bash -c "./main.sh ${{ matrix.benchmark }} --bare --min"
 
       - name: Run Benchmark ${{ matrix.benchmark }} (small)
         run: |
@@ -68,7 +68,7 @@ jobs:
             -v ${{ github.workspace }}:/benchmarks \
             -w /benchmarks \
             benchmark-env \
-            bash -c "./main.sh ${{ matrix.benchmark }} --small"
+            bash -c "./main.sh ${{ matrix.benchmark }} --bare --small"
 
       - name: Upload logs
         if: always()

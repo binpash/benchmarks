@@ -3,11 +3,10 @@ import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
-from adjustText import adjust_text
 
 def perform_pca_and_plot(dataframe1, dataframe2, name='row_analysis'):
     """
-    Performs PCA on the numeric columns of two input dataframes and plots each pair of principal components
+    Perform PCA on the numeric columns of two input dataframes and plots each pair of principal components
     (1&2 and 3&4) in a 2x2 grid, with one dataset per row and unified titles for each dataset.
     Each point is annotated with the corresponding benchmark name, avoiding label collisions.
 

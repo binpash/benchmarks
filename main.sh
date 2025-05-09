@@ -7,6 +7,12 @@ error() {
 
 correct() { [ "$(cut -d' ' -f 2 <"$BENCHMARK.hash" | grep -vc 0)" -eq 0 ]; }
 
+in_container() {
+  grep -qaE 'docker|kubepods|containerd' /proc/1/cgroup && return 0
+  [ -f /.dockerenv ] && return 0
+  return 1
+}
+
 is_integer() { [[ $1 =~ ^[0-9]+$ && $1 -gt 0 ]]; }
 
 usage() {
@@ -94,6 +100,10 @@ main() {
     KOALA_CONTAINER_CMD=${KOALA_CONTAINER_CMD:-docker}
     export KOALA_SHELL
     export KOALA_INFO="time:mem:io:cpu"
+
+    if [ "$in_container" ]; then
+        run_locally=true
+    fi
 
     shell_word=${KOALA_SHELL%% *}
     shell_word=${shell_word##*/}

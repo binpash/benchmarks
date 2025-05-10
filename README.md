@@ -34,7 +34,7 @@ in the wild, various real inputs to these programs.
 ./main.sh <BENCHMARK_NAME> [OPTIONS] [<args passed to execute.sh>]
 ```
 
-## Usage Philosophy
+## Philosophy
 
 To support the diverse landscape of shell programs and shell-related research,
 the Koala benchmark suite is designed with flexibility and simplicity in mind.
@@ -140,15 +140,21 @@ $ docker run -it koala
 $ docker run -it -v "$(pwd):/benchmarks" koala
 ```
 
-### Core options
-| Flag / Option                     | Effect                                                                                                              | Typical use-case                                     |
-|-----------------------------------|---------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
-| `-n <N>` / `--runs <N>`           | Execute the benchmark N times (default = 1).                                                                        | Measure variance, warm-up caches, detect flaky runs. |
-| `--resources`                     | Collect CPU/RAM/IO stats. Writes `*_stats_run<i>.txt` for every run and a summary `*_stats_aggregated.txt`.         | Profiling, optimisation, capacity planning.          |
-| `--bare`                          | Use the lightweight local logger instead of the Docker-based tracer.                                                | When Docker isn’t available or is too heavy.         |
-| `-t` / `--time`                   | Measure wall-clock runtime with `/usr/bin/time`.<br>Produces `{benchmark}_times_aggregated.txt` when `-n > 1`.      | Quick speed checks, perf regression testing.         |
-| `--small`                         | Run the benchmark with a reduced (small) input set.                                                                 | Fast experiments, small-scale characterization.      |
-| `--min`                           | Run the benchmark with the absolute minimum inputs.                                                                 | Suite-level sanity checks.                           |
+### Usage
+```
+Usage: ./main.sh BENCHMARK_NAME [--time|--resources|--bare|args...]
+  --min            Run the benchmark with minimal inputs (default)
+  --small          Run the benchmark with small inputs
+  --full          Run the benchmark with full inputs
+  --time, -t       Measure wall-clock time
+  --resources      Measure resource usage
+  --bare           Run locally without Docker
+  --runs, -n N     Number of runs (default: 1)
+  --clean, -c      Run the full cleanup script (both inputs and outputs)
+  --keep, -k       Keep outputs
+  --prune          Run the benchmark on a fresh container (will need to re-download everything on each run)
+  --help, -h       Show this help message
+```
 
 Flags, apart from those referring to input sizes, can be combined freely (e.g. `--resources --bare -n 5`).
 

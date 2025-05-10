@@ -48,5 +48,7 @@ checked_command "plots/koala-stx-analysis.pdf" python3 viz/syntax.py plots
 
 mv plots/koala-stx-analysis.pdf "$OUTPUT_PATH"
 
+echo '---------------------------------------------------------------------------------------------------------------------------------------'
 echo "Static analysis complete, all targets generated successfully. Syntax analysis heatmap is located at $OUTPUT_PATH/koala-stx-analysis.pdf"
+echo '---------------------------------------------------------------------------------------------------------------------------------------'
 popd

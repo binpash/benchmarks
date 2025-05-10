@@ -26,4 +26,4 @@ embedding_df = pd.concat([embedding_df['benchmark'], embedding_df['embedding'].a
 
 big_bench = embedding_df
 
-perform_pca_and_plot(big_bench, embedding_df, 'dual-analysis')
+perform_pca_and_plot(big_bench, embedding_df, str(OUTPUT))

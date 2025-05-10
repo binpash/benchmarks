@@ -108,7 +108,9 @@ def perform_pca_and_plot(dataframe1, dataframe2, path='pca.pdf'):
         True
     )
 
+    print(f"--------------------------")
     print(f"Saving PCA plot to {path}")
+    print(f"--------------------------")
     # Save the plots
     plt.savefig(path, format='pdf')
 

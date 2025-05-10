@@ -139,7 +139,7 @@ This will place the heatmap plot showing the results of the static analysis in t
 ./infrastructure/pc-analysis.sh /tmp/plots/pca.pdf
 ```
 
-## Optional: Applying benchmarks to various systems (1–3 days)
+# Optional: Applying benchmarks to various systems (1–3 days)
 
 This section is about setting up and running other systems on the Koala benchmarks. Crucially:
 
@@ -148,11 +148,11 @@ This section is about setting up and running other systems on the Koala benchmar
 
 Therefore, this evaluation outside the scope of the Koala artifact evaluation.
 
-## Contact
+# Contact
 
 For questions or bug reports, please contact `koala@brown.edu` or open an issue on GitHub.
 
-## Appendix I: All Inputs
+# Appendix I: All Inputs
 
 The table below contains all links to the inputs. AEC reviewers: Some of these inputs are extremely large and hosted on low-bandwidth permanent-storage services such as Zenodo. To confirm existence, simply click on the URL to to start a download and then stop downloading a few seconds later.
 

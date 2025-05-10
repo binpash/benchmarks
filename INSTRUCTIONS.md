@@ -121,6 +121,7 @@ sudo docker run -it --rm -v "/tmp/plots":/tmp/plots ghcr.io/binpash/benchmarks:l
 **Static characterization:** To generate the static characterization, run the following commands:
 
 ```sh
+./setup.sh # No need to rerun this if you are already in the same container
 ./infrastructure/static-analysis.sh /tmp/plots
 ```
 
@@ -130,12 +131,14 @@ This will place the heatmap plot showing the results of the static analysis in t
 *Note*: This step will run the entire suite again, now having tracing enabled (~3 hours).
 
 ```sh
+./setup.sh # No need to rerun this if you are already in the same container
 ./infrastructure/dynamic-analysis.sh --small
 ```
 
 **Principal component analysis:** Part of the PCA analysis involves sending the source code of the benchmarks to a remote embedding model using OpenAI's API; for convenience and cost concerns, we provide the results the embedding model in `infrastructure/data/embeddings.csv` (generatable by running `python3 infrastructure/do_embedding.py`).
 
 ```sh
+./setup.sh # No need to rerun this if you are already in the same container
 ./infrastructure/pc-analysis.sh /tmp/plots/pca.pdf
 ```
 

@@ -47,6 +47,7 @@ main() {
     size="min"
 
     args=()
+    main_args=()
     while [[ $# -gt 0 ]]; do
         case "$1" in
         --help | -h) 
@@ -55,10 +56,12 @@ main() {
             ;;
         --time | -t)
             measure_time=true
+            main_args+=("$1")
             shift
             ;;
         --resources)
             measure_resources=true
+            main_args+=("$1")
             shift
             ;;
         --bare)
@@ -74,26 +77,32 @@ main() {
             ;;
         --clean | -c)
             run_cleanup=true
+            main_args+=("$1")
             shift
             ;;
         --keep | -k)
             keep_outputs=true
+            main_args+=("$1")
             shift
             ;;
         --prune)
             prune=true
+            main_args+=("$1")
             shift
             ;;
         --min)
             size="min"
+            main_args+=("$1")
             shift
             ;;
         --small)
             size="small"
+            main_args+=("$1")
             shift
             ;;
         --full)
             size="full"
+            main_args+=("$1")
             shift
             ;;
         *)
@@ -151,7 +160,7 @@ main() {
             $KOALA_CONTAINER_CMD run --rm \
                 "$DOCKER_IMAGE" \
                 -w "/benchmarks" \
-                ./main.sh "$BENCHMARK" ${args[*]} --bare
+                ./main.sh "$BENCHMARK" ${args[*]} ${main_args[*]} --bare
         else
             echo "Mounting $REPO_TOP to /benchmarks in the container"
             $KOALA_CONTAINER_CMD run --rm \
@@ -159,7 +168,7 @@ main() {
                 -w "/benchmarks" \
                 -e KOALA_SHELL="$KOALA_SHELL" \
                 "$DOCKER_IMAGE" \
-                ./main.sh "$BENCHMARK" ${args[*]} --bare
+                ./main.sh "$BENCHMARK" ${args[*]} ${main_args[*]} --bare
         fi
         exit $?
     fi

@@ -1,6 +1,6 @@
 # Koala
 
-> The Koala Benchmarks for the Shell
+> Contact: `koala@brown.edu` or [open a GitHub issue](https://github.com/binpash/benchmarks/issues/new/choose).
 
 Koala is a benchmark suite aimed at the characterization of performance-oriented research targeting the POSIX shell (i.e. executable on Dash, Bash, Zsh, and many other environments).
 It combines a systematic collection of diverse shell programs collected from tasks found out in the wild, various real inputs to these programs.

@@ -53,6 +53,9 @@ if $generate; then
     exit 0
 fi
 
+[ ! -d outputs ] && exit 1
+[ -z "$(ls -A outputs)" ] && exit 1
+
 # Loop through all directories in the parent directory
 for folder in "outputs"/*
 do
@@ -64,10 +67,11 @@ do
         dirname=$(basename "$(dirname "$file")") # is the script_name
 
         # Generate SHA-256 hash
-        shasum -a 256 "$file" | awk '{ print $1 }' > "$file.hash"
+        tmpfile=$(mktemp)
+        shasum -a 256 "$file" | awk '{ print $1 }' > "$tmpfile"
 
         # Compare the hash with the hash in the hashes directory
-        diff "$hash_folder/$dirname/$filename.hash" "$file.hash" > /dev/null
+        diff "$hash_folder/$dirname/$filename.hash" "$tmpfile" > /dev/null
         match="$?"
 
         # Print the filename and match

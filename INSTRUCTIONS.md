@@ -8,7 +8,7 @@ The paper makes the following claims on pg. 2 (Comments to AEC reviewers after `
 
 3. **Tooling and automation for reuse**: additional scripts automating dependency setup, input validation, and correctness checking.
 
-4. **Characterization and implications**: additional analysis performing static and dynamic analysis of the benchmark programs.
+4. **Characterization and implications**: additional infrastructure performing static and dynamic program analysis of the benchmark programs.
 
 This artifact targets the following badges:
 
@@ -31,7 +31,7 @@ Confirm that the benchmark programs, their inputs, and automation scripts are al
    [4](https://zenodo.org/records/15368510),
    [5](https://zenodo.org/records/15368512).
 
-* Scalable storage on a Brown University cluster (additional clusters being set up at Stevens and UCLA), accessible via `https://atlas.cs.brown.edu/data` (see [the full table for _all_ inputs in Appendix I: All Inputs]() below.)
+* Scalable storage on a Brown University cluster (additional clusters being set up at Stevens and UCLA), accessible via `https://atlas.cs.brown.edu/data` (see [the full table for _all_ inputs in **Appendix I: All Inputs** below](https://github.com/binpash/benchmarks/blob/main/INSTRUCTIONS.md#appendix-i-all-inputs).)
 
 3. Additional scripts are available in the [`infrastructure/`](https://github.com/binpash/benchmarks/tree/main/infrastructure) directory of the repository.
 
@@ -41,8 +41,8 @@ Confirm that the benchmark programs, their inputs, and automation scripts are al
 
 Confirm sufficient documentation, key components as described in the paper, and execution with min inputs (about 20 minutes):
 
-* Documentation: [Repo README](https://github.com/binpash/benchmarks) and benchmark-specific documentation available within each benchmark directory,
-contains information about each computation, input data, and expected output:
+* Documentation: The top-level [README](https://github.com/binpash/benchmarks) file and benchmark-specific documentation available within each benchmark directory,
+containing information about each computation, input data, and expected output:
 [aurpkg](https://github.com/binpash/benchmarks/tree/main/aurpkg),
 [bio](https://github.com/binpash/benchmarks/tree/main/bio),
 [covid-mts](https://github.com/binpash/benchmarks/tree/main/covid-mts),
@@ -91,7 +91,6 @@ The reason this is easier to evaluate in a container is that some scripts *assum
 **Complete run: Running all benchmarks:** To execute the full set of benchmarks, invoke the top-level `all.sh` script—which essentially runs the previous command in a loop (20 minutes):
 
 ```sh
-cd benchmarks
 ./all.sh
 ```
 
@@ -100,7 +99,7 @@ cd benchmarks
 > Both scripts above take additional optional parameters: Using `--small` will execute the benchmark(s) with the `small` inputs (about 3 hours) and `--bare` will execute the benchmarks on the host system (which might not satisfy dependencies). To replace the shell interpreter, `set` the `KOALA_SHELL` variable — e.g., `KOALA_SHELL="bash --posix"`.
 
 
-# Results Reproducible
+# Results Reproducible (about 3 hours)
 
 The key results of the analysis are the following:
 
@@ -108,7 +107,7 @@ The key results of the analysis are the following:
 2. Syntactic Characterization & Analysis (§5, Fig. 4 & 5);
 3. Dynamic Characterization & Analysis (§6, Fig. 6)
 
-Results 1–3 are easy to reproduce, by running specific scripts (a part of PCA depends on embeddings, which incurs some financial costs due to OpenAI); PCA depends on the results of the analyses, so we start with no. 2–3 before returning to no. 1.
+Most of these results are easily reproducible by running specific scripts in the repo. A part of PCA depends on embeddings, whose calculation incurs some financial costs due to OpenAI—thuse we have cashed these embeddings in the repo. Although summarized earlier in the paper (§3), PCA depends on the results of the static and dynamic analyses, so we start with no. 2 and 3 before returning to no. 1.
 
 **Preparation:** The dynamic analysis requires running Koala in a pre-set container due to elevated privileges:
 
@@ -119,24 +118,22 @@ sudo docker run -it --rm -v "/tmp/plots":/tmp/plots ghcr.io/binpash/benchmarks:l
 ./setup.sh # Inside the container
 ```
 
-**Static Characterization:** To generate the static characterization, run the following commands:
+**Static characterization:** To generate the static characterization, run the following commands:
 
 ```sh
 ./infrastructure/static-analysis.sh /tmp/plots
 ```
 
-This will place the static analysis heat-map in the `/tmp/plots` directory on the host system.
+This will place the heatmap plot showing the results of the static analysis in the `/tmp/plots` directory on the host system.
 
-**Dynamic Characterization:** To generate the dynamic characterization, run the following commands:
+**Dynamic characterization:** To generate the dynamic characterization, run the following commands:
 *Note*: This step will run the entire suite again, now having tracing enabled (~3 hours).
 
 ```sh
 ./infrastructure/dynamic-analysis.sh --small
 ```
 
-**PCA Analysis:** The second part of the PCA analysis involves sending the source code of the benchmarks to a remote embedding model using OpenAI's API.
-For convenience and cost concerns, we provide the results the embedding model in `infrastructure/data/embeddings.csv` directory.
-This file can also be generated by running `python3 infrastructure/do_embedding.py`.
+**Principal component analysis:** Part of the PCA analysis involves sending the source code of the benchmarks to a remote embedding model using OpenAI's API; for convenience and cost concerns, we provide the results the embedding model in `infrastructure/data/embeddings.csv` (generatable by running `python3 infrastructure/do_embedding.py`).
 
 ```sh
 ./infrastructure/pc-analysis.sh /tmp/plots/pca.pdf
@@ -157,22 +154,24 @@ For questions or bug reports, please contact `koala@brown.edu` or open an issue 
 
 ## Appendix I: All Inputs
 
+The table below contains all links to the inputs. AEC reviewers: Some of these inputs are extremely large and hosted on low-bandwidth permanent-storage services such as Zenodo. To confirm existence, simply click on the URL to to start a download and then stop downloading a few seconds later.
+
 | Benchmark     | Min                                                                                                 | Small                                                                                                            | Full                                                                                                                                  |
 |---------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| aurpkg        | [Github Repo](https://atlas.cs.brown.edu/data/packages_min)                                         | [Brown](https://atlas.cs.brown.edu/data/packages) [Zenodo](https://zenodo.org/records/15361083)                  | [Brown](https://atlas.cs.brown.edu/data/packages) [Zenodo](https://zenodo.org/records/15367723)                                       |
-| bio           | [Github Repo](https://github.com/binpash/benchmarks/tree/main/bio/min_inputs)                       | [Brown](https://atlas.cs.brown.edu/data/bio/small) [Zenodo](https://zenodo.org/records/15361083)                 | [Brown](https://atlas.cs.brown.edu/data/bio/full) [Zenodo](https://zenodo.org/records/15367723)                                       |
-| covid-mts     | [Github Repo](https://github.com/binpash/benchmarks/tree/main/covid-mts/min_inputs)                 | [Brown](https://atlas.cs.brown.edu/data/covid-mts/in_small.csv.gz) [Zenodo](https://zenodo.org/records/15361083) | [Brown](https://atlas.cs.brown.edu/data/covid-mts/in_full.csv.gz) [Zenodo](https://zenodo.org/records/15368074)                       |
-| file-enc      | [Github Repo](https://github.com/binpash/benchmarks/tree/main/file-enc/min_inputs)                  | [Brown](https://atlas.cs.brown.edu/data/pcaps.zip) [Zenodo](https://zenodo.org/records/15361083)                 | [Brown](https://atlas.cs.brown.edu/data/pcaps_large.zip) [Zenodo](https://zenodo.org/records/15368510)                                |
-| log-analysis  | [Github Repo](https://github.com/binpash/benchmarks/tree/main/log-analysis/min_inputs)              | [Brown](https://atlas.cs.brown.edu/data/pcaps.zip) [Zenodo](https://zenodo.org/records/15361083)                 | [Brown](https://atlas.cs.brown.edu/data/pcaps_large.zip) [Zenodo](https://zenodo.org/records/15368510)                                |
-| makeself      | No inputs                                                                                           | No inputs                                                                                                        | No inputs                                                                                                                             |
-| max-temp      | [Github Repo](https://github.com/binpash/benchmarks/tree/main/max-temp/min_inputs)                  | [Brown](https://atlas.cs.brown.edu/data/max-temp/noaa/) [Zenodo](https://zenodo.org/records/15361083)            | [Brown](https://atlas.cs.brown.edu/data/max-temp/noaa/) [Zenodo](https://zenodo.org/records/15368510)                                 |
-| media-conv    | [Github Repo](https://github.com/binpash/benchmarks/tree/main/media-conv/min_inputs/jpg_min/jpg)    | [Brown](https://atlas.cs.brown.edu/data/media-conv/inputs) [Zenodo](https://zenodo.org/records/15361083)         | [Brown](https://atlas.cs.brown.edu/data/media-conv/inputs) [Zenodo](https://zenodo.org/records/15368510)                              |
-| nlp           | [Brown](https://atlas.cs.brown.edu/data/gutenberg)                                                  | [Brown](https://atlas.cs.brown.edu/data/gutenberg/) [Zenodo](https://zenodo.org/records/15361083)                | [Brown](https://atlas.cs.brown.edu/data/gutenberg/) [Zenodo](https://zenodo.org/records/15368510)                                     |
-| oneliners     | [Brown](https://atlas.cs.brown.edu/data/dummy/)                                                     | [Brown](https://atlas.cs.brown.edu/data/dummy/) [Zenodo](https://zenodo.org/records/15361083)                    | [Brown](https://atlas.cs.brown.edu/data/dummy/) [Zenodo](https://zenodo.org/records/15368512)                                         |
-| riker         | [Github Repo](https://atlas.cs.brown.edu/data/riker)                                                | [Brown](https://atlas.cs.brown.edu/data/riker) [Zenodo](https://zenodo.org/records/15361083)                     | [Brown](https://atlas.cs.brown.edu/data/riker) [Zenodo](https://zenodo.org/records/15368512)                                          |
-| sklearn       | [Github Repo](https://github.com/binpash/benchmarks/tree/main/sklearn/inputs/covertype)             | [Brown](https://atlas.cs.brown.edu/data/sklearn/) [Zenodo](https://zenodo.org/records/15361083)                  | [Brown](https://atlas.cs.brown.edu/data/sklearn/) [Zenodo](https://zenodo.org/records/15368512)                                       |
-| unix50        | [Github Repo](https://atlas.cs.brown.edu/data/unix50)                                               | [Brown](https://atlas.cs.brown.edu/data/unix50/small) [Zenodo](https://zenodo.org/records/15361083)              | [Brown](https://atlas.cs.brown.edu/data/unix50/large) [Zenodo](https://zenodo.org/records/15368512)                                   |
-| vps-audit     | No inputs                                                                                           | No inputs                                                                                                        | No inputs                                                                                                                             |
-| web-index     | [Brown](https://atlas.cs.brown.edu/data/wikipedia_min.tar.gz)                                       | [Brown](https://atlas.cs.brown.edu/data/wikipedia_small.tar.gz) [Zenodo](https://zenodo.org/records/15361083)    | [Brown](https://atlas.cs.brown.edu/data/wikipedia.tar.gz) [Zenodo](https://zenodo.org/records/15368512)                               |
+| `aurpkg`        | [Github Repo](https://atlas.cs.brown.edu/data/packages_min)                                         | [Brown](https://atlas.cs.brown.edu/data/packages) [Zenodo](https://zenodo.org/records/15361083)                  | [Brown](https://atlas.cs.brown.edu/data/packages) [Zenodo](https://zenodo.org/records/15367723)                                       |
+| `bio`           | [Github Repo](https://github.com/binpash/benchmarks/tree/main/bio/min_inputs)                       | [Brown](https://atlas.cs.brown.edu/data/bio/small) [Zenodo](https://zenodo.org/records/15361083)                 | [Brown](https://atlas.cs.brown.edu/data/bio/full) [Zenodo](https://zenodo.org/records/15367723)                                       |
+| `covid-mts`     | [Github Repo](https://github.com/binpash/benchmarks/tree/main/covid-mts/min_inputs)                 | [Brown](https://atlas.cs.brown.edu/data/covid-mts/in_small.csv.gz) [Zenodo](https://zenodo.org/records/15361083) | [Brown](https://atlas.cs.brown.edu/data/covid-mts/in_full.csv.gz) [Zenodo](https://zenodo.org/records/15368074)                       |
+| `file-enc`      | [Github Repo](https://github.com/binpash/benchmarks/tree/main/file-enc/min_inputs)                  | [Brown](https://atlas.cs.brown.edu/data/pcaps.zip) [Zenodo](https://zenodo.org/records/15361083)                 | [Brown](https://atlas.cs.brown.edu/data/pcaps_large.zip) [Zenodo](https://zenodo.org/records/15368510)                                |
+| `log-analysis`  | [Github Repo](https://github.com/binpash/benchmarks/tree/main/log-analysis/min_inputs)              | [Brown](https://atlas.cs.brown.edu/data/pcaps.zip) [Zenodo](https://zenodo.org/records/15361083)                 | [Brown](https://atlas.cs.brown.edu/data/pcaps_large.zip) [Zenodo](https://zenodo.org/records/15368510)                                |
+| `makeself`      | No inputs                                                                                           | No inputs                                                                                                        | No inputs                                                                                                                             |
+| `max-temp`      | [Github Repo](https://github.com/binpash/benchmarks/tree/main/max-temp/min_inputs)                  | [Brown](https://atlas.cs.brown.edu/data/max-temp/noaa/) [Zenodo](https://zenodo.org/records/15361083)            | [Brown](https://atlas.cs.brown.edu/data/max-temp/noaa/) [Zenodo](https://zenodo.org/records/15368510)                                 |
+| `media-conv`    | [Github Repo](https://github.com/binpash/benchmarks/tree/main/media-conv/min_inputs/jpg_min/jpg)    | [Brown](https://atlas.cs.brown.edu/data/media-conv/inputs) [Zenodo](https://zenodo.org/records/15361083)         | [Brown](https://atlas.cs.brown.edu/data/media-conv/inputs) [Zenodo](https://zenodo.org/records/15368510)                              |
+| `nlp`           | [Brown](https://atlas.cs.brown.edu/data/gutenberg)                                                  | [Brown](https://atlas.cs.brown.edu/data/gutenberg/) [Zenodo](https://zenodo.org/records/15361083)                | [Brown](https://atlas.cs.brown.edu/data/gutenberg/) [Zenodo](https://zenodo.org/records/15368510)                                     |
+| `oneliners`     | [Brown](https://atlas.cs.brown.edu/data/dummy/)                                                     | [Brown](https://atlas.cs.brown.edu/data/dummy/) [Zenodo](https://zenodo.org/records/15361083)                    | [Brown](https://atlas.cs.brown.edu/data/dummy/) [Zenodo](https://zenodo.org/records/15368512)                                         |
+| `riker`         | [Github Repo](https://atlas.cs.brown.edu/data/riker)                                                | [Brown](https://atlas.cs.brown.edu/data/riker) [Zenodo](https://zenodo.org/records/15361083)                     | [Brown](https://atlas.cs.brown.edu/data/riker) [Zenodo](https://zenodo.org/records/15368512)                                          |
+| `sklearn`       | [Github Repo](https://github.com/binpash/benchmarks/tree/main/sklearn/inputs/covertype)             | [Brown](https://atlas.cs.brown.edu/data/sklearn/) [Zenodo](https://zenodo.org/records/15361083)                  | [Brown](https://atlas.cs.brown.edu/data/sklearn/) [Zenodo](https://zenodo.org/records/15368512)                                       |
+| `unix50`        | [Github Repo](https://atlas.cs.brown.edu/data/unix50)                                               | [Brown](https://atlas.cs.brown.edu/data/unix50/small) [Zenodo](https://zenodo.org/records/15361083)              | [Brown](https://atlas.cs.brown.edu/data/unix50/large) [Zenodo](https://zenodo.org/records/15368512)                                   |
+| `vps-audit`     | No inputs                                                                                           | No inputs                                                                                                        | No inputs                                                                                                                             |
+| `web-index`     | [Brown](https://atlas.cs.brown.edu/data/wikipedia_min.tar.gz)                                       | [Brown](https://atlas.cs.brown.edu/data/wikipedia_small.tar.gz) [Zenodo](https://zenodo.org/records/15361083)    | [Brown](https://atlas.cs.brown.edu/data/wikipedia.tar.gz) [Zenodo](https://zenodo.org/records/15368512)                               |
 
 

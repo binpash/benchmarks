@@ -62,14 +62,6 @@ jobs:
             benchmark-env \
             bash -c "./main.sh ${{ matrix.benchmark }} --bare --min"
 
-      - name: Run Benchmark ${{ matrix.benchmark }} (small)
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/benchmarks \
-            -w /benchmarks \
-            benchmark-env \
-            bash -c "./main.sh ${{ matrix.benchmark }} --bare --small"
-
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4

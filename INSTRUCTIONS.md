@@ -35,7 +35,7 @@ Confirm that the benchmark programs, their inputs, and automation scripts are al
 
 3. Additional scripts are available in the [`infrastructure/`](https://github.com/binpash/benchmarks/tree/main/infrastructure) directory of the repository.
 
-> AEC REviewers: From this point on, scripts use the Brown links, as Zenodo is significantly slower.
+> AEC Reviewers: From this point on, scripts use the Brown links, as Zenodo is significantly slower.
 
 # Artifact Functional (20 minutes, optionally 3 hours)
 
@@ -110,7 +110,7 @@ The key results of the analysis are the following:
 
 Results 1–3 are easy to reproduce, by running specific scripts (a part of PCA depends on embeddings, which incurs some financial costs due to OpenAI); PCA depends on the results of the analyses, so we start with no. 2–3 before returning to no. 1.
 
-**Preparation:** The dynamic analysis requires running Koala in a pre-set container due to elevated priviledges:
+**Preparation:** The dynamic analysis requires running Koala in a pre-set container due to elevated privileges:
 
 ```sh
 mkdir -p /tmp/plots
@@ -125,7 +125,7 @@ sudo docker run -it --rm -v "/tmp/plots":/tmp/plots ghcr.io/binpash/benchmarks:l
 ./infrastructure/static-analysis.sh /tmp/plots
 ```
 
-This will place the static analysis heatmap in the `/tmp/plots` directory on the host system.
+This will place the static analysis heat-map in the `/tmp/plots` directory on the host system.
 
 **Dynamic Characterization:** To generate the dynamic characterization, run the following commands:
 
@@ -140,12 +140,12 @@ For convenience and cost concerns, we provide the results the embedding model in
 ./infrastructure/pc-analysis.sh /tmp/plots/pca.pdf
 ```
 
-## Optional: Applyihng benchmarks to various systems (1–3 days)
+## Optional: Applying benchmarks to various systems (1–3 days)
 
 This section is about setting up and running other systems on the Koala benchmarks. Crucially:
 
-* The difficulty of evaluating prototype systems using Koala depends on these systems (i.e., not our contribution) as well as access to specific hardare (e.g., large multiprocessors).
-* The authors of these systems are free to make any modifications to the benchmarks, the inputs, or the scripts accroding to the contributions claimed by _their_ systems, not Koala
+* The difficulty of evaluating prototype systems using Koala depends on these systems (i.e., not our contribution) as well as access to specific hardware (e.g., large multiprocessors).
+* The authors of these systems are free to make any modifications to the benchmarks, the inputs, or the scripts according to the contributions claimed by _their_ systems, not Koala
 
 Therefore, his evaluation outside the scope of the Koala artifact evaluation.
 

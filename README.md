@@ -216,6 +216,7 @@ You can also **run the dynamic analysis independently** of the main harness. Thi
     This generates new process logs in:
     ```bash
     infrastructure/target/process-logs/
+    ```
 
 3. **(If using Docker)**:  
    Copy the log files from the container to your host system in order to generate plots. The requirements will need to be installed in your host machine as well.  
@@ -223,6 +224,7 @@ You can also **run the dynamic analysis independently** of the main harness. Thi
 
    ```bash
    infrastructure/viz/dynamic.py --text
+   ```
 
 4. **Navigate to the infrastructure directory**:
     ```bash
@@ -230,15 +232,18 @@ You can also **run the dynamic analysis independently** of the main harness. Thi
 
 5. **Delete previous analysis output**:
     ```bash
-    rm -f target/dynamic_analysis.csv`
+    rm -f target/dynamic_analysis.csv
+    ```
 
 6. **Regenerate the analysis CSV**:
     ```bash
-    make target/dynamic_analysis.csv`
+    make target/dynamic_analysis.csv
+    ```
 
 7. **Generate the visualizations**:
     ```bash
-    python infrastructure/viz/dynamic.py /path/to/output`
+    python infrastructure/viz/dynamic.py /path/to/output
+    ```
 
 This produces benchmark-specific performance plots, showing shell vs command time,
 CPU usage, I/O throughput, and memory footprint, for all benchmarks that have logs present in `infrastructure/target/process-logs/`

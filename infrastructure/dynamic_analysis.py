@@ -142,6 +142,8 @@ def get_desc(pid, processes):
 def find_shell_process(pid, processes):
     target = next(p for p in processes if get_desc(p, processes).cmdline[1].endswith('io_shell.py'))
     all_children = [p for p in processes if get_desc(p, processes).parent == target]
+    if len(all_children) == 0:
+        return None
     assert len(all_children) == 1, "one bash process" 
     pid = all_children[0]
     assert get_desc(pid, processes).cmdline[0].endswith('sh')
@@ -149,6 +151,9 @@ def find_shell_process(pid, processes):
 
 def print_statistics(pid, processes, parents, children, mortem):
     pid = find_shell_process(pid, processes)
+    if pid is None:
+        print(f"No shell process logged for script {mortem.script}", file=sys.stderr)
+        return
     assert is_shell(pid, processes)
     descendents = get_descendents(pid, children)
 

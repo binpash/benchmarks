@@ -21,6 +21,8 @@ input_size_path = root / 'infrastructure/data/size_inputs.jsonl'
 figsize = (5, 3)
 
 def get_input_sizes_df(df):
+    if df.empty or df.columns.empty:
+        return None 
     sizes_df = pd.read_json(input_size_path, lines=True)
     def find_input_size(row):
         total = 0
@@ -157,6 +159,8 @@ def read_data():
         df[col] = df[col].astype(float)
 
     df = get_input_sizes_df(df)
+    if df is None:
+        return None, None
 
     # translate any script names that need it
     # unfortunately this is a bit of a hack to cover up some inconsistency between what the dynamic analysis sees as the "main script" run by a benchmark, 
@@ -200,7 +204,9 @@ def read_data():
 
 def main(output_dir=None, text_mode=False):
     _, df = read_data()
-
+    if df is None:
+        print('Dynamic analysis failed, no data to plot', file=stderr)
+        return
     # if text_mode:
     stats_filename = os.path.join(output_dir, "benchmark_stats.txt") if output_dir else "benchmark_stats.txt"
 

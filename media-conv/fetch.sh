@@ -12,7 +12,15 @@ full_dir="$input_dir/wav_full"
 small_dir="$input_dir/wav_small"
 min_dir="$input_dir/wav_min"
 
-if [[ ! -d "$full_dir" ]]; then
+size=full
+for arg in "$@"; do
+    case "$arg" in
+        --small) size=small ;;
+        --min)   size=min ;;
+    esac
+done
+
+if [[ ! -d "$full_dir" ]] || [[ -d "$full_dir" && -z "$(ls -A "$full_dir")" ]]; then
     wget --no-check-certificate "$data_url" -O "$zip_dst"
     unzip "$zip_dst" -d "$input_dir"
     rm -rf "$full_dir" "$small_dir" "$min_dir"
@@ -34,36 +42,34 @@ if [[ ! -d "$full_dir" ]]; then
 fi
 
 # if small flag
-for arg in "$@"; do
-    if [[ "$arg" == "--small" ]]; then
-        if [[ -d "$input_dir/jpg_small" ]]; then
-            echo "Data already downloaded and extracted."
-            exit 0
-        fi
-        data_url=${URL}/small/jpg.zip
-        zip_dst=$input_dir/jpg_small.zip
-        out_dir=$input_dir/jpg_small
-        wget --no-check-certificate $data_url -O $zip_dst || {
-            echo "Failed to download $data_url"
-            exit 1
-        }
-        unzip $zip_dst -d $out_dir || {
-            echo "Failed to unzip $zip_dst"
-            exit 1
-        }
-        rm "$zip_dst"
-        exit 0
-    elif [[ "$arg" == "--min" ]]; then
-        if [[ -d "$input_dir/jpg_min" ]]; then
-            echo "Data already downloaded and extracted."
-            exit 0
-        fi
-        min_inputs="${REPO_TOP}/media-conv/min_inputs/"
-        mkdir -p "$input_dir"
-        cp -r "$min_inputs"/* "$input_dir/"
+if [[ "$size" == "small" ]]; then
+    if [[ -d "$input_dir/jpg_small" ]]; then
+        echo "Data already downloaded and extracted."
         exit 0
     fi
-done
+    data_url=${URL}/small/jpg.zip
+    zip_dst=$input_dir/jpg_small.zip
+    out_dir=$input_dir/jpg_small
+    wget --no-check-certificate $data_url -O $zip_dst || {
+        echo "Failed to download $data_url"
+        exit 1
+    }
+    unzip $zip_dst -d $out_dir || {
+        echo "Failed to unzip $zip_dst"
+        exit 1
+    }
+    rm "$zip_dst"
+    exit 0
+elif [[ "$size" == "min" ]]; then
+    if [[ -d "$input_dir/jpg_min" ]]; then
+        echo "Data already downloaded and extracted."
+        exit 0
+    fi
+    min_inputs="${REPO_TOP}/media-conv/min_inputs/"
+    mkdir -p "$input_dir"
+    cp -r "$min_inputs"/* "$input_dir/"
+    exit 0
+fi
 
 if [[ -d "$input_dir/jpg" ]]; then
     echo "Data already downloaded and extracted."

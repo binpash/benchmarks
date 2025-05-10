@@ -105,7 +105,7 @@ The key results of the analysis are the following:
 
 1. Principal Component Analysis (§3, Fig. 2);
 2. Syntactic Characterization & Analysis (§5, Fig. 4 & 5);
-3. Dynamic Characterization & Analysis (§6, Fig. 6)
+3. Dynamic Characterization & Analysis (§6, Fig. 6).
 
 Most of these results are easily reproducible by running specific scripts in the repo. A part of PCA depends on embeddings, whose calculation incurs some financial costs due to OpenAI—thuse we have cashed these embeddings in the repo. Although summarized earlier in the paper (§3), PCA depends on the results of the static and dynamic analyses, so we start with no. 2 and 3 before returning to no. 1.
 
@@ -144,7 +144,7 @@ This will place the heatmap plot showing the results of the static analysis in t
 This section is about setting up and running other systems on the Koala benchmarks. Crucially:
 
 * The difficulty of evaluating prototype systems using Koala depends on these systems (i.e., not our contribution) as well as access to specific hardware (e.g., large multiprocessors).
-* The authors of these systems are free to make any modifications to the benchmarks, the inputs, or the scripts according to the contributions claimed by _their_ systems, not Koala
+* The authors of these systems are free to make any modifications to the benchmarks, the inputs, or the scripts according to the contributions claimed by _their_ systems, not Koala.
 
 Therefore, this evaluation outside the scope of the Koala artifact evaluation.
 

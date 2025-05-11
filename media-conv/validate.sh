@@ -4,9 +4,9 @@ export LC_ALL=C
 
 hash_audio_dir() {
     local src_dir=$1
-    for src in $src_dir/*; do
-        got_hash=$(ffmpeg -i "$src" -map 0:a -f md5 - 2>/dev/null)
-        echo $got_hash $(realpath "--relative-to=$src_dir" "$src")
+    for src in "$src_dir"/*; do
+        got_hash=$(ffmpeg -i "$src" -f s16le -acodec pcm_s16le -ac 2 -ar 44100 - 2>/dev/null | md5sum | cut -d' ' -f1)
+        echo "$got_hash" "$(realpath "--relative-to=$src_dir" "$src")"
     done
 }
 
@@ -31,10 +31,12 @@ done
 if $generate; then
     bench=to_mp3$suffix
     hash_audio_dir "$outputs_dir/$bench" > "$hashes_dir/$bench.md5sum"
+    cat "$hashes_dir/$bench.md5sum" 
 
-    cd $outputs_dir || exit 1
+    cd "$outputs_dir" || exit 1
     bench=img_convert$suffix
     md5sum $bench/* > "$hashes_dir/$bench.md5sum"
+    cat "$hashes_dir/$bench.md5sum"
 
     exit 0
 fi
@@ -44,7 +46,7 @@ bench=to_mp3$suffix
 hash_audio_dir "$outputs_dir/$bench" | diff -q "$hashes_dir/$bench.md5sum" -
 echo $bench $?
 
-cd $outputs_dir || exit 1
+cd "$outputs_dir" || exit 1
 bench=img_convert$suffix
-md5sum --check --quiet --status $hashes_dir/$bench.md5sum
+md5sum --check --quiet --status "$hashes_dir/$bench.md5sum"
 echo $bench $?

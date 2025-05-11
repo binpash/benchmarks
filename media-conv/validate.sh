@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export LC_ALL=C
+
 hash_audio_dir() {
     local src_dir=$1
     for src in $src_dir/*; do

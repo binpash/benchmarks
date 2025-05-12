@@ -26,7 +26,7 @@ Confirm that the benchmark programs, their inputs, and automation scripts are al
 
     * Permanent archival storage on Zenodo, split across multiple DOIs due to Zenodo's max 50GB limit (AEC Reviewers: _this is slow, do not try to download_—just confirm their existence): [code & software dependencies](https://zenodo.org/records/15377017), [`small` inputs](https://zenodo.org/records/15361083); `full` in 5 parts:
    [1](https://zenodo.org/records/15367723),
-   [2](https://zenodo.org/records/15368074)
+   [2](https://zenodo.org/records/15368074),
    [3](https://zenodo.org/records/15368508),
    [4](https://zenodo.org/records/15368510),
    [5](https://zenodo.org/records/15368512).

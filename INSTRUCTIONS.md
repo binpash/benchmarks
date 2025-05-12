@@ -13,8 +13,8 @@ The paper makes the following claims on pg. 2 (Comments to AEC reviewers after `
 This artifact targets the following badges:
 
 * [ ] [Artifact available](#artifact-available): Reviewers are expected to confirm that the benchmark programs, their inputs, and automation scripts are all publicly available (about 10 minutes).
-* [ ] [Artifact functional](#artifact-functional): Reviewers are expected to confirm sufficient documentation, key components as described in the paper, and execution with `min` inputs (about 20 minutes); execution with `small` inputs (3 hours)is encouraged only after completion of the full artifact evaluation.
-* [ ] [Results reproducible](#results-reproducible): Reviewers are expected to reproduce _key_ results of sections 3, 5, 6, and 7 of the paper (2 hours).
+* [ ] [Artifact functional](#artifact-functional): Reviewers are expected to confirm sufficient documentation, key components as described in the paper, and execution with `min` inputs (about 20 minutes); execution with `small` inputs (3 hours) is encouraged only after completion of the full artifact evaluation.
+* [ ] [Results reproducible](#results-reproducible): Reviewers are expected to reproduce _key_ results of sections 3, 5, 6, and 7 of the paper (3 hours).
 
 # Artifact Available (10 minutes)
 
@@ -128,7 +128,8 @@ sudo docker run -it --rm -v "/tmp/plots":/tmp/plots ghcr.io/binpash/benchmarks:l
 This will place the heatmap plot showing the results of the static analysis in the `/tmp/plots` directory on the host system.
 
 **Dynamic characterization:** To generate the dynamic characterization, run the following commands:
-*Note*: This step will run the entire suite again, now having tracing enabled (~3 hours).
+
+> *Note*: This step will run the entire suite again, with tracing enabled (~3 hours).
 
 ```sh
 ./setup.sh # No need to rerun this if you are already in the same container

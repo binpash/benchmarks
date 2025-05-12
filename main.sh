@@ -228,9 +228,12 @@ main() {
             cd "$REPO_TOP/$BENCHMARK" || exit 1
 
         elif $measure_time; then
-            if ! command -v /usr/bin/time &>/dev/null || ! command -v gawk &>/dev/null; then
-                echo "Please run setup.sh first to install dependencies."
-                exit 1
+
+            if [ $run_locally = true ]; then
+                if ! command -v /usr/bin/time &>/dev/null || ! command -v gawk &>/dev/null; then
+                    echo "Please run setup.sh first to install dependencies."
+                    exit 1
+                fi
             fi
 
             echo "Timing benchmark: $BENCHMARK  (run #$i)"

@@ -130,6 +130,7 @@ main() {
 
     export LC_ALL=C
     export TZ=UTC
+    export DOCKER_DEFAULT_PLATFORM=linux/amd64
     KOALA_SHELL=${KOALA_SHELL:-bash}
     KOALA_CONTAINER_CMD=${KOALA_CONTAINER_CMD:-docker}
     export KOALA_SHELL

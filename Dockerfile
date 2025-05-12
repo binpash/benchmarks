@@ -23,6 +23,8 @@ ENV PATH="/tmp:$PATH"
 
 RUN git config --global --add safe.directory /benchmarks
 
+RUN /benchmarks/setup.sh
+
 # Run install.sh for each benchmark
 RUN set -eux; \
     for bench in /benchmarks/*; do \

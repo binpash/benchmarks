@@ -261,7 +261,7 @@ Memory per input byte: 0.071815 bytes/byte
 IO per input byte: 4.615032 bytes/byte
 Time in Shell: 0.00 sec
 Time in Commands: 6.68 sec
---------------------------------------------------
+==================================================
 ```
 
 Per-input-byte numbers are computed automatically: if `BENCHMARK_INPUT_FILE` points to a file or a directory, the harness figures out its byte size.

@@ -1,0 +1,6 @@
+input/
+inputs/
+results/
+outputs/
+.venv/
+.DS_Store

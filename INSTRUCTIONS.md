@@ -152,6 +152,38 @@ This section is about setting up and running other systems on the Koala benchmar
 
 Therefore, this evaluation outside the scope of the Koala artifact evaluation.
 
+**Shark:** Running the [Shark](https://web.cs.umass.edu/publication/docs/2003/UM-CS-2003-009.pdf) portion of the evaluation requires cloning a Shark-specific fork of the Koala repository that has the [transformations described in the Shark paper](https://web.cs.umass.edu/publication/docs/2003/UM-CS-2003-009.pdf) applied to the benchmarks. The fork's [README](https://github.com/binpash/koala-shark) file includes a table outlining all the changes made. To clone it, first `cd` to a new directory and then run:
+
+```sh 
+git clone https://github.com/binpash/koala-shark
+cd koala-shark
+```
+
+To generate evaluation numbers for some or all of the modified benchmarks, invoke any of the `main.sh` and `all.sh` scripts with appropriate flags.
+For example, to measure execution time for the entire suite, with either `min` or `small` inputs:
+
+```sh
+./all.sh --time
+./all.sh --time --small
+``` 
+
+**GNU `parallel`**: Running [GNU `parallel`](https://www.gnu.org/software/parallel/) portion of the evaluation requires cloning a `parallel`-specific fork of the Koala repository that has all the relevant GNU parallel modifications applied to the benchmarks. The [repository README](https://github.com/binpash/koala-parallel) includes a table outlining all changes made. To clone it, first `cd` to a new directory and then run:
+
+```sh 
+git clone https://github.com/binpash/koala-parallel
+cd koala-shark
+```
+
+As before, to generate evaluation numbers for some or all of the modified benchmarks, invoke any of the `main.sh` and `all.sh` scripts with appropriate flags.
+For example, to measure execution time for the entire suite, with either `min` or `small` inputs:
+
+```sh
+./all.sh --time
+./all.sh --time --small
+```
+
+**hS**: Running the Koala suite with [hS](https://sigops.org/s/conferences/hotos/2023/papers/liargkovas.pdf), requires cloning the hS out-of-order execution engine (specifically the `ae` branch and setting it up. The [`hs` repo](https://github.com/binpash/hs) is not public, but the forezn URL branch is named [`ae-atc`](https://github.com/binpash/hs/tree/ae) and will eventually be accessible there. If access is required, we can arrange for its authors to provide confidential access.
+
 # Contact
 
 For questions or bug reports, please contact `koala@brown.edu` or open an issue on GitHub.

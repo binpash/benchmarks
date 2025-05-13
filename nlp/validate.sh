@@ -22,55 +22,30 @@ done
 mkdir -p "$hash_folder"
 
 if $generate; then
-    # Directory to iterate over
-    directory="outputs"
-
-    # Check if the directory exists
-    if [ ! -d "$directory" ]; then
-        echo "Directory 'outputs' does not exist"
-        exit 1
-    fi
-    # Loop through all .out files in the directory
-    find "$directory" -type f -name '*.out' | while read -r file;
-    do
-        # Extract the filename and dirname
-        filename=$(basename "$file" .out)
-        dirname=$(dirname "${file#$directory/}")
-
-        # Generate SHA-256 hash
-        hash=$(shasum -a 256 "$file" | awk '{ print $1 }')
-
-        # Create subdirectory if not already
-        mkdir -p $hash_folder/$dirname
-
-        # Save the hash to a file
-        echo "$hash" > "$hash_folder/$dirname/$filename.hash"
-
-        # Print the filename and hash
-        echo "$hash_folder/$dirname/$filename.hash" "$hash"
+    for d in outputs/*/; do
+        b=$(basename "$d")
+        out="$hash_folder/$b.hashes"
+        : > "$out"
+        find "$d" -type f | sort | while read -r f; do
+            rel=${f#outputs/}
+            printf '%s  %s\n' "$(shasum -a 256 "$f" | awk '{print $1}')" "$rel" >> "$out"
+        done
     done
-
-    exit 0
+    exit
 fi
 
-# Loop through all directories in the parent directory
-for folder in "outputs"/*
-do
-    # Loop through all .out files in the current directory
-    find "$folder" -type f -name '*.out' | while read -r file;
-    do
-        # Extract the filename and dirname
-        filename=$(basename "$file" .out)
-        dirname=$(basename "$(dirname "$file")") # is the script_name
-
-        # Generate SHA-256 hash
-        shasum -a 256 "$file" | awk '{ print $1 }' > "$file.hash"
-
-        # Compare the hash with the hash in the hashes directory
-        diff "$hash_folder/$dirname/$filename.hash" "$file.hash" > /dev/null
-        match="$?"
-
-        # Print the filename and match
-        echo "$dirname/$filename $match"
+mismatch=0
+for d in outputs/*/; do
+    b=$(basename "$d")
+    ref="$hash_folder/$b.hashes"
+    [[ -f $ref ]] || { echo "$b missing reference"; mismatch=1; continue; }
+    tmp=$(mktemp)
+    find "$d" -type f | sort | while read -r f; do
+        rel=${f#outputs/}
+        printf '%s  %s\n' "$(shasum -a 256 "$f" | awk '{print $1}')" "$rel" >> "$tmp"
     done
+    diff -u "$ref" "$tmp" | grep -E '^[+-][0-9a-f]' && mismatch=1
+    rm -f "$tmp"
 done
+
+echo nlp $mismatch

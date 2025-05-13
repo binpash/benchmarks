@@ -7,6 +7,8 @@ scripts_dir="${eval_dir}/scripts"
 outputs_dir="${eval_dir}/outputs"
 mkdir -p "$outputs_dir"
 
+export LC_ALL=C
+
 nginx_input=$input_dir/nginx-logs
 pcaps_input=$input_dir/pcaps
 size=full

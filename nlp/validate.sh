@@ -22,11 +22,11 @@ done
 mkdir -p "$hash_folder"
 
 if $generate; then
-    for d in outputs/*/; do
-        b=$(basename "$d")
-        out="$hash_folder/$b.hashes"
+    for dir in outputs/*/; do
+        script=$(basename "$dir")
+        out="$hash_folder/$script.hashes"
         : > "$out"
-        find "$d" -type f | sort | while read -r f; do
+        find "$dir" -type f | grep -v '\.hash$' | sort | while read -r f; do
             rel=${f#outputs/}
             printf '%s  %s\n' "$(shasum -a 256 "$f" | awk '{print $1}')" "$rel" >> "$out"
         done
@@ -35,17 +35,21 @@ if $generate; then
 fi
 
 mismatch=0
-for d in outputs/*/; do
-    b=$(basename "$d")
-    ref="$hash_folder/$b.hashes"
-    [[ -f $ref ]] || { echo "$b missing reference"; mismatch=1; continue; }
+for dir in outputs/*/; do
+    script=$(basename "$dir")
+    ref="$hash_folder/$script.hashes"
+    [[ -f $ref ]] || { echo "$script missing reference"; mismatch=1; continue; }
     tmp=$(mktemp)
-    find "$d" -type f | sort | while read -r f; do
+    find "$dir" -type f | grep -v '\.hash$' | sort | while read -r f; do
         rel=${f#outputs/}
         printf '%s  %s\n' "$(shasum -a 256 "$f" | awk '{print $1}')" "$rel" >> "$tmp"
     done
-    diff -u "$ref" "$tmp" | grep -E '^[+-][0-9a-f]' && mismatch=1
+    if ! diff -q "$ref" "$tmp" > /dev/null; then
+        echo "Mismatch in $script:"
+        diff -u "$ref" "$tmp"
+        mismatch=1
+    fi
     rm -f "$tmp"
 done
 
-echo nlp $mismatch
+echo "nlp $mismatch"

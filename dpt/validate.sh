@@ -5,6 +5,7 @@ eval_dir="${REPO_TOP}/dpt"
 outputs_dir="${eval_dir}/outputs"
 hashes_dir="${eval_dir}/hashes"
 mkdir -p "$hashes_dir"
+source "$eval_dir/venv/bin/activate"
 
 suffix=".full"
 

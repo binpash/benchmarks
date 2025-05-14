@@ -4,7 +4,6 @@ REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/llm/scripts/image-annotation"
 outputs_dir="${eval_dir}/outputs"
 hashes_dir="${eval_dir}/hashes"
-source "$REPO_TOP/venv/bin/activate"
 
 suffix=""
 generate=false

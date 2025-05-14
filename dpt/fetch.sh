@@ -6,15 +6,15 @@ input_dir="${eval_dir}/inputs"
 mkdir -p "$input_dir"
 URL='https://atlas.cs.brown.edu/data'
 
-small=false
+size=full
 for arg in "$@"; do
   case $arg in
     --small)
-      small=true
+      size=true
       shift
       ;;
     --min)
-      min=true
+      size=true
       shift
       ;;
   esac
@@ -33,29 +33,28 @@ if [ ! -d "$models_dir" ]; then
   rm -r "${input_dir}/tmp_models" "${input_dir}/models.zip"
 fi
 
-if [ -d "$min_dir" ] && $min; then
-  echo "Data already downloaded and extracted."
+if [[ "$size" == "min" ]]; then
+  if [ -d "$min_dir" ]; then
+    echo "Data already downloaded and extracted."
+    exit 0
+  fi
+  mkdir -p "$min_dir"
+  cp "${eval_dir}"/min_inputs/* "$min_dir/"
   exit 0
 fi
 
-if $min; then
-    mkdir -p "$min_dir"
-    cp "${eval_dir}"/min_inputs/* "$min_dir/"
+# if size == small
+if [[ "$size" == "small" ]]; then
+  if [ -d "$small_dir" ]; then
+    echo "Data already downloaded and extracted."
     exit 0
-fi
-
-if [ -d "$small_dir" ] && $small; then
-  echo "Data already downloaded and extracted."
+  fi
+  mkdir -p "$small_dir"
+  wget --no-check-certificate "${URL}/pl-06-P_F-A_N-20250401T083751Z-001.zip" -O "${input_dir}/small.zip"
+  unzip -q "${input_dir}/small.zip" -d "${input_dir}/tmp_small"
+  mv "${input_dir}/tmp_small"/*/* "$small_dir"
+  rm -r "${input_dir}/tmp_small" "${input_dir}/small.zip"
   exit 0
-fi
-
-if $small; then
-    mkdir -p "$small_dir"
-    wget --no-check-certificate "${URL}/pl-06-P_F-A_N-20250401T083751Z-001.zip" -O "${input_dir}/small.zip"
-    unzip -q "${input_dir}/small.zip" -d "${input_dir}/tmp_small"
-    mv "${input_dir}/tmp_small"/*/* "$small_dir"
-    rm -r "${input_dir}/tmp_small" "${input_dir}/small.zip"
-    exit 0
 fi
 
 if [ -d "$full_dir" ]; then

@@ -1,15 +1,21 @@
 #!/bin/bash
-
+REPO_TOP=$(git rev-parse --show-toplevel)
+eval_dir="${REPO_TOP}/llm/scripts/image-annotation"
+venv_dir="$eval_dir/venv"
+rm -rf "$venv_dir" || true
 sudo apt-get update
-
 sudo apt-get install -y \
     python3 \
     python3-pip \
     python3-venv \
     coreutils findutils sed unzip curl imagemagick
 
-pip install --break-system-packages --upgrade pip
-pip install --break-system-packages llm
+# Create virtual environment
+python3 -m venv "$venv_dir"
+source "$venv_dir/bin/activate"
+
+pip install --upgrade pip
+pip install llm
 llm install llm-ollama
 curl -fsSL https://ollama.com/install.sh | sh
 nohup ollama serve > ollama_serve.log 2>&1 &

@@ -4,26 +4,27 @@ REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/llm/scripts/image-annotation"
 outputs_dir="${eval_dir}/outputs"
 hashes_dir="${eval_dir}/hashes"
+source "$REPO_TOP/venv/bin/activate"
 
 suffix=""
 generate=false
 for arg in "$@"; do
-    if [[ "$arg" == "--generate" ]]; then
-        generate=true
-        continue
-    fi
     case "$arg" in
+        --generate) generate=true ;;
         --small) suffix=".small" ;;
         --min) suffix=".min" ;;
     esac
 done
-hashes_dir="${hashes_dir}${suffix}"
+hashes_dir="${hashes_dir}/jpg$suffix"
 mkdir -p "$hashes_dir"
+
+outputs_dir="$outputs_dir/jpg$suffix"
+mkdir -p "$outputs_dir"
 
 if $generate; then
     cd $outputs_dir || exit 1
     bench=image-annotation$suffix
-    md5sum $bench/* > "$hashes_dir/$bench.md5sum"
+    md5sum $outputs_dir/* > "$hashes_dir/$bench.md5sum"
     exit 0
 fi
 

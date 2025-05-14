@@ -12,7 +12,8 @@ input_dir="$eval_dir/inputs"
 outputs_dir="$eval_dir/outputs"
 
 rm -rf "$outputs_dir"
-
+rm -f "$eval_dir/ollama_serve.log"
 if [ "$force" = true ]; then
     rm -rf "$input_dir"
+    rm -rf "$eval_dir/venv"
 fi

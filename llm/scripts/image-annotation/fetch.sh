@@ -9,12 +9,13 @@ mkdir -p "$inputs_dir"
 size=full
 for arg in "$@"; do
     case "$arg" in
-    --small) size=small ;;
-    --min) size=min ;;
+        --small) size=small ;;
+        --min)   size=min ;;
     esac
 done
 
-if [[ "$size" == "--small" ]]; then
+
+if [[ "$size" == "small" ]]; then
     # if inputs exist
     if [[ -d "$inputs_dir/jpg.small" ]]; then
         echo "Data already downloaded and extracted."
@@ -33,7 +34,7 @@ if [[ "$size" == "--small" ]]; then
     }
     rm "$zip_dst"
     exit 0
-elif [[ "$size" == "--min" ]]; then
+elif [[ "$size" == "min" ]]; then
     if [[ -d "$inputs_dir/jpg.min" ]]; then
         echo "Data already downloaded and extracted."
         exit 0

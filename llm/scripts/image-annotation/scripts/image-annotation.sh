@@ -16,4 +16,4 @@ while read -r img; do
     filename=$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/ /_/g; s/[^a-z0-9_-]//g')
     
     cp "$img" "$OUT/${filename}.jpg"
-done < <(find "$IN" -type f -iname "*.jpg" | head -n 10)
+done < <(find "$IN" -type f -iname "*.jpg")

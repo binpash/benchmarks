@@ -11,7 +11,7 @@ if [ ! -d "outputs" ]; then
     exit 1
 fi
 
-hash_folder="hashes"
+hash_folder="hashes/full"
 generate=false
 for arg in "$@"; do
     if [[ "$arg" == "--generate" ]]; then

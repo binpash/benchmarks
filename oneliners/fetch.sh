@@ -16,14 +16,14 @@ for arg in "$@"; do
 done
 
 
-if [ ! -f ./1M.txt ]; then
+if [ ! -f $input_dir/1M.txt ]; then
     wget --no-check-certificate "$URL"/dummy/1M.txt
     # Add newline to file
     echo >>1M.txt
     dos2unix 1M.txt
 fi
 
-if [ ! -f ./dict.txt ]; then
+if [ ! -f $input_dir/dict.txt ]; then
     wget -O - "$URL"/dummy/dict.txt --no-check-certificate | sort >dict.txt
 fi
 
@@ -31,11 +31,19 @@ if [ ! -f ./all_cmds.txt ]; then
     wget -O - "$URL"/dummy/all_cmds.txt --no-check-certificate >all_cmds.txt
 fi
 
-if [ ! -f ./all_cmdsx100.txt ]; then
+if [ ! -f $input_dir/all_cmdsx100.txt ]; then
     touch all_cmdsx100.txt
     for ((i = 0; i < 100; i++)); do
         cat all_cmds.txt >>all_cmdsx100.txt
     done
+fi
+
+if [ ! -d ./chessdata_min ]; then
+    archive="chessdata_min.tar.gz"
+    wget --no-check-certificate "$URL/oneliners/$archive" -O "$archive"
+    mkdir -p "chessdata_min"
+    tar -xzf "$archive" -C "chessdata_min"
+    rm "$archive"
 fi
 
 # For uniq-ips
@@ -64,6 +72,15 @@ if [[ "$size" == "small" ]]; then
             cat 10M.txt >>30M.txt
         done
     fi
+    
+    if [ ! -d ./chessdata_small ]; then
+        archive="chessdata_small.tar.gz"
+        wget --no-check-certificate "$URL/oneliners/$archive" -O "$archive"
+        mkdir -p "chessdata_small"
+        tar -xzf "$archive" -C "chessdata_small"
+        rm "$archive"
+    fi
+
     exit 0
 elif [[ "$size" == "min" ]]; then
     exit 0
@@ -82,4 +99,12 @@ if [ ! -f ./3G.txt ]; then
     for ((i = 0; i < 3; i++)); do
         cat 1G.txt >>3G.txt
     done
+fi
+
+if [ ! -d ./chessdata ]; then
+    archive="chessdata.tar.gz"
+    wget --no-check-certificate "$URL/oneliners/$archive" -O "$archive"
+    mkdir -p "chessdata"
+    tar -xzf "$archive" -C "chessdata"
+    rm "$archive"
 fi

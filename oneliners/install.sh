@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pkgs="wget bsdmainutils file dos2unix"
+pkgs="wget bsdmainutils file dos2unix grep findutils mawk"
 
 sudo apt-get update
 

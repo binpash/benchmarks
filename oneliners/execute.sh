@@ -4,13 +4,25 @@ SUITE_DIR="$(realpath "$(dirname "$0")")"
 export SUITE_DIR
 cd "$SUITE_DIR" || exit 1
 
+REPO_TOP=$(git rev-parse --show-toplevel)
+eval_dir="${REPO_TOP}/oneliners"
+scripts_dir="${eval_dir}/scripts"
+input_dir="${eval_dir}/inputs"
+outputs_dir="${eval_dir}/outputs"
+mkdir -p "$outputs_dir"
 export TIMEFORMAT=%R
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="oneliners"
-
+size=full
+for arg in "$@"; do
+    case "$arg" in
+        --small) size=small ;;
+        --min)   size=min ;;
+    esac
+done
 export LC_ALL=C
-if [[ " $* " == *" --small "* ]]; then
+if [[ $size == "small" ]]; then
     scripts_inputs=(
         "nfa-regex;10M"
         "sort;30M"
@@ -23,8 +35,11 @@ if [[ " $* " == *" --small "* ]]; then
         "sort-sort;30M"
         "uniq-ips;logs-popcount-org"
         "log-search;log-search"
+        "opt-parallel;chessdata_small"
+
     )
-elif [[ " $* " == *" --min "* ]]; then
+    chess_input="$input_dir/chessdata_min"
+elif [[ $size == "min" ]]; then
     scripts_inputs=(
         "nfa-regex;1M"
         "sort;1M"
@@ -37,7 +52,9 @@ elif [[ " $* " == *" --min "* ]]; then
         "sort-sort;1M"
         "uniq-ips;logs-popcount-org"
         "log-search;log-search"
+        "opt-parallel;chessdata_min"
     )
+    chess_input="$input_dir/chessdata_small"
 else
     scripts_inputs=(
         "nfa-regex;1G"
@@ -51,10 +68,10 @@ else
         "sort-sort;3G"
         "uniq-ips;logs-popcount-org"
         "log-search;log-search"
+        "opt-parallel;chessdata"
     )
+    chess_input="$input_dir/chessdata"
 fi
-
-mkdir -p "outputs"
 
 export LC_ALL=C
 
@@ -62,18 +79,30 @@ echo "executing oneliners $(date)"
 
 for script_input in "${scripts_inputs[@]}"
 do
-    IFS=";" read -r -a parsed <<< "${script_input}"
-    script_file="./scripts/${parsed[0]}.sh"
-    input_file="./inputs/${parsed[1]}.txt"
-    output_file="./outputs/${parsed[0]}.out"
+    if [[ "$script_input" != "opt-parallel"* ]]; then
+        IFS=";" read -r -a parsed <<< "${script_input}"
+        script_file="$scripts_dir/${parsed[0]}.sh"
+        input_file="$input_dir/${parsed[1]}.txt"
+        output_file="$outputs_dir/${parsed[0]}.out"
 
-    echo "$script_file"
-    BENCHMARK_INPUT_FILE="$(realpath "$input_file")"
-    export BENCHMARK_INPUT_FILE
+        echo "$script_file"
+        BENCHMARK_INPUT_FILE="$(realpath "$input_file")"
+        export BENCHMARK_INPUT_FILE
 
-    BENCHMARK_SCRIPT="$(realpath "$script_file")"
-    export BENCHMARK_SCRIPT
-    
-    $KOALA_SHELL "$script_file" "$input_file" > "$output_file"
-    echo "$?"
+        BENCHMARK_SCRIPT="$(realpath "$script_file")"
+        export BENCHMARK_SCRIPT
+        
+        $KOALA_SHELL "$script_file" "$input_file" > "$output_file"
+        echo "$?"
+    else
+        IFS=";" read -r -a parsed <<< "${script_input}"
+        script_file="$scripts_dir/${parsed[0]}.sh"
+        echo "$script_file"
+        export BENCHMARK_INPUT_FILE="${chess_input}"
+        BENCHMARK_SCRIPT="$(realpath "$script_file")"
+        export BENCHMARK_SCRIPT
+        $KOALA_SHELL "$script_file" "" > "${outputs_dir}/opt-parallel_$size.out"
+        echo "$?"
+    fi
 done
+

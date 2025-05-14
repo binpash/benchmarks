@@ -63,6 +63,7 @@ if [[ "$size" == "small" ]]; then
             cat 10M.txt >>30M.txt
         done
     fi
+    exit 0
 elif [[ "$size" == "min" ]]; then
     exit 0
 fi

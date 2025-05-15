@@ -82,6 +82,7 @@ riker/scripts/vim/build.sh,riker
 riker/scripts/xz/build.sh,riker
 riker/scripts/xz-clang/build.sh,riker
 sklearn/scripts/execute.sh,sklearn
+tuft-weather/scripts/tuft-weather.sh,tuft-weather
 unix50/scripts/10.sh,unix50
 unix50/scripts/11.sh,unix50
 unix50/scripts/12.sh,unix50

@@ -10,7 +10,7 @@ file-enc/scripts/compress_files.sh,2.0
 file-enc/scripts/encrypt_files.sh,3.0
 git-workflow/scripts/git-workflow.sh,5.0
 llm/scripts/image-annotation/scripts/image-annotation.sh,3.0
-llm/scripts/playlist-creation/scripts/playlist-creation.sh,3.0
+llm/scripts/playlist-creation/scripts/playlist-creation.sh,2.0
 log-analysis/scripts/nginx.sh,3.0
 log-analysis/scripts/pcaps.sh,3.0
 makeself/makeself/makeself-header.sh,1.0
@@ -82,6 +82,7 @@ riker/scripts/vim/build.sh,1.0
 riker/scripts/xz/build.sh,1.0
 riker/scripts/xz-clang/build.sh,1.0
 sklearn/scripts/execute.sh,1.0
+tuft-weather/scripts/tuft-weather.sh,3.0
 unix50/scripts/10.sh,1.0
 unix50/scripts/11.sh,1.0
 unix50/scripts/12.sh,1.0

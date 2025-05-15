@@ -59,5 +59,8 @@
     },
     "ray-tracing": {
 	    "scripts": ["ray-tracing/scripts/*.sh"]
+    },
+    "tuft-weather": {
+	    "scripts": ["tuft-weather/scripts/*.sh"]
     }
 }

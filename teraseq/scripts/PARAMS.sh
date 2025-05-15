@@ -4,10 +4,10 @@
 # Can be overriden in individual scripts/steps
 #
 
-TERASEQ_ROOT="/root/TERA-Seq_manuscript"
+TOP=$(git rev-parse --show-toplevel)
+TERASEQ_ROOT="$TOP/teraseq"
 
 CUR_DIR=$(pwd) # Current directory; useful for analyses
-#DIR="$( cd "$( dirname "$0" )" && pwd )"
 DIR="$( cd "$TERASEQ_ROOT" && pwd )"
 INSTALL="$DIR/tools"
 SAMPLE_DIR="$DIR/samples"
@@ -36,4 +36,3 @@ export PATH="$DIR/tools/utils:${PATH}"
 # common default assembly and number of threads
 assembly="hg38"
 threads=6
-CONDA_PREFIX="/root/miniconda3"

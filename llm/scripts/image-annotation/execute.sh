@@ -17,6 +17,7 @@ for arg in "$@"; do
         --min) suffix=".min" ;;
     esac
 done
+export LC_ALL=C
 
 input_dir="$input_dir/jpg$suffix"
 outputs_dir="$outputs_dir/jpg$suffix"

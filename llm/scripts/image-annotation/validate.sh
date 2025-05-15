@@ -7,6 +7,8 @@ hashes_dir="${eval_dir}/hashes"
 
 suffix=""
 generate=false
+export LC_ALL=C
+
 for arg in "$@"; do
     case "$arg" in
         --generate) generate=true ;;

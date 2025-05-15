@@ -1,11 +1,16 @@
 #!/bin/bash
+set -x
 #
 # Run dRNA preprocessing, alignment, and postprocessing
 #
 
-cd /root/TERA-Seq_manuscript/samples # dliu
+TOP=$(git rev-parse --show-toplevel)
 
-. ../PARAMS.sh
+outdir="$TOP/teraseq/outputs"
+scripts="$TOP/teraseq/scripts"
+mkdir -p "$outdir"/fastq
+
+. "$scripts/PARAMS.sh"
 
 threads=6
 assembly="hg38"
@@ -16,8 +21,6 @@ samples="hsa.dRNASeq.HeLa.polyA.1"
 
 echo ">>> SANITIZE FASTQ HEADERS <<<"
 
-. "$INSTALL"/perl-virtualenv/teraseq/bin/activate
-
 for i in $samples; do
     sdir=$SAMPLE_DIR/$i
     echo " Working for" "$i"
@@ -25,11 +28,11 @@ for i in $samples; do
     zcat "$sdir"/fastq/reads.1.fastq.gz \
     | fastq-sanitize-header --input - --delim : --keep 0 \
     | gzip \
-    > "$sdir"/fastq/reads.1.sanitize.fastq.gz &
+    > "$outdir"/fastq/reads.1.sanitize.fastq.gz &
 done
 wait
 
-deactivate
+exit 0 # vagos
 
 #echo ">>> REMOVE REL5 ADAPTOR - ONLY FOR QC TESTING PURPOSES - LIBRARY DOESN'T HAVE ADAPTER <<<"
 #

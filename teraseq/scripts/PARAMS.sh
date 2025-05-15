@@ -10,7 +10,7 @@ TERASEQ_ROOT="$TOP/teraseq"
 CUR_DIR=$(pwd) # Current directory; useful for analyses
 DIR="$( cd "$TERASEQ_ROOT" && pwd )"
 INSTALL="$DIR/tools"
-SAMPLE_DIR="$DIR/samples"
+SAMPLE_DIR="$TOP/teraseq/inputs"
 DATA_DIR="$DIR/data"
 RES_DIR="results"
 

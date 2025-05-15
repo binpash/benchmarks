@@ -1,10 +1,10 @@
 #!/bin/bash
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="$REPO_TOP/llm/scripts/image_annotation"
-inputs_dir="$eval_dir/inputs"
+input_dir="$eval_dir/inputs"
 outputs_dir="$eval_dir/outputs"
 
-IN=${1:-"$inputs_dir"}
+IN=${1:-"$input_dir"}
 OUT="${2:-"$outputs_dir"}"
 mkdir -p "$OUT"
 

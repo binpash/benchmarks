@@ -42,7 +42,7 @@ read -r base_commit < "$commit_file"
 prev_commit="$base_commit"
 i=1
 
-while read -r curr_commit; do
+tail -n +2 "$commit_file" | while read -r curr_commit; do
     patch_upper=$((num_patches - i + 1))
     patch_lower=$((patch_upper - 1))
     
@@ -54,7 +54,7 @@ while read -r curr_commit; do
     
     prev_commit="$curr_commit"
     i=$((i + 1))
-done < <(tail -n +2 "$commit_file")
+done
 
 gst
 

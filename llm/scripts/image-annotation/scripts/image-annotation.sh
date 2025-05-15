@@ -12,8 +12,15 @@ while read -r img; do
     title=$(llm -m gemma3 \
         "Your only output should be a **single** small title for this image:" \
         -a "$img" -o seed 0 -o temperature 0 < /dev/null)
-        
-    filename=$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/ /_/g; s/[^a-z0-9_-]//g')
-    
-    cp "$img" "$OUT/${filename}.jpg"
+
+    base=$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/ /_/g; s/[^a-z0-9_-]//g')
+    filename="${base}.jpg"
+    count=1
+
+    while [[ -e "$OUT/$filename" ]]; do
+        filename="${base}_$count.jpg"
+        ((count++))
+    done
+
+    cp "$img" "$OUT/$filename"
 done < <(find "$IN" -type f -iname "*.jpg")

@@ -8,5 +8,5 @@ done
 
 REPO_TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${REPO_TOP}/riker"
-input_dir="${eval_dir}/input/scripts/vim"
+input_dir="${eval_dir}/inputs/scripts/vim"
 rm -rf "$input_dir"

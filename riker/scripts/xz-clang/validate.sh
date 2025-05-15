@@ -3,7 +3,7 @@
 REPO_TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${REPO_TOP}/riker"
 scripts_dir="${eval_dir}/scripts"
-input_dir="${eval_dir}/input"
+input_dir="${eval_dir}/inputs"
 
 xz_bin="$input_dir/scripts/xz-clang/dev/xz"
 

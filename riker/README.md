@@ -4,7 +4,7 @@ This benchmark suite builds and tests multiple real-world software systems from 
 
 ### Inputs
 
-Each subbenchmark clones a pinned version of the corresponding repository into `input/scripts/<project>/dev/`.
+Each subbenchmark clones a pinned version of the corresponding repository into `inputs/scripts/<project>/dev/`.
 
 ### Validation
 

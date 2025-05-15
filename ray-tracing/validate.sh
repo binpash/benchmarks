@@ -3,7 +3,6 @@
 cd "$(realpath "$(dirname "$0")")" || exit 1
 REPO_TOP=$(git rev-parse --show-toplevel)   
 eval_dir="${REPO_TOP}/ray-tracing"
-input_dir="${eval_dir}/inputs"
 outputs_dir="${eval_dir}/outputs"
 hash_folder="${eval_dir}/hashes"
 generate=false

@@ -1,4 +1,10 @@
 {
+    "aurpkg": {
+	    "scripts": ["aurpkg/scripts/pacaur.sh"]
+    },
+    "bio": {
+	    "scripts": ["bio/scripts/bio.sh"]
+    },
     "covid-mts": {
         "scripts": ["covid-mts/scripts/*.sh"]
     },
@@ -39,10 +45,19 @@
     "vps-audit": {
         "scripts": ["vps-audit/scripts/*.sh"]
     },
-    "bio": {
-	    "scripts": ["bio/scripts/bio.sh"]
+    "dpt": {
+	    "scripts": ["dpt/scripts/dpt_seq.sh"]
     },
-    "aurpkg": {
-	    "scripts": ["aurpkg/scripts/pacaur.sh"]
+    "git-workflow": {
+	    "scripts": ["git-workflow/scripts/git-workflow.sh"]
+    },
+    "llm": {
+	    "scripts": ["llm/scripts/*/scripts/*.sh"]
+    },
+    "port-scan": {
+	    "scripts": ["port-scan/scripts/port-scan.sh"]
+    },
+    "ray-tracing": {
+	    "scripts": ["ray-tracing/scripts/*.sh"]
     }
 }

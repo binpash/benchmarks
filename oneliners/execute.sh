@@ -36,8 +36,8 @@ if [[ $size == "small" ]]; then
         "uniq-ips;logs-popcount-org"
         "log-search;log-search"
         "opt-parallel;chessdata_small"
-
     )
+    
     chess_input="$input_dir/chessdata_min"
 elif [[ $size == "min" ]]; then
     scripts_inputs=(
@@ -54,6 +54,7 @@ elif [[ $size == "min" ]]; then
         "log-search;log-search"
         "opt-parallel;chessdata_min"
     )
+
     chess_input="$input_dir/chessdata_small"
 else
     scripts_inputs=(
@@ -70,6 +71,7 @@ else
         "log-search;log-search"
         "opt-parallel;chessdata"
     )
+
     chess_input="$input_dir/chessdata"
 fi
 

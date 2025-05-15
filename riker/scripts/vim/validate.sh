@@ -2,7 +2,7 @@
 
 REPO_TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${REPO_TOP}/riker"
-input_dir="${eval_dir}/input"
+input_dir="${eval_dir}/inputs"
 
 # Call compiled binary to write an empty file with a randomly chosen path.
 # Must use -u /dev/null to specify a blank config because there might not be a ~/.vimrc, which vim would complain about.

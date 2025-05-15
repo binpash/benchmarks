@@ -2,7 +2,7 @@
 
 REPO_TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${REPO_TOP}/riker"
-input_dir="${eval_dir}/input/scripts/xz"
+input_dir="${eval_dir}/inputs/scripts/xz"
 
 mkdir -p "$input_dir/dev"
 

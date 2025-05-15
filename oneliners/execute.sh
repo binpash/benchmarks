@@ -33,8 +33,8 @@ if [[ $size == "small" ]]; then
         "bi-grams;30M"
         "set-diff;30M"
         "sort-sort;30M"
-        "uniq-ips;logs-popcount-org"
-        "log-search;log-search"
+        "uniq-ips;logs-popcount-org_$size"
+        "log-search;log-search_$size"
         "opt-parallel;chessdata_small"
     )
     
@@ -50,8 +50,8 @@ elif [[ $size == "min" ]]; then
         "bi-grams;1M"
         "set-diff;1M"
         "sort-sort;1M"
-        "uniq-ips;logs-popcount-org"
-        "log-search;log-search"
+        "uniq-ips;logs-popcount-org_$size"
+        "log-search;log-search_$size"
         "opt-parallel;chessdata_min"
     )
 
@@ -67,8 +67,8 @@ else
         "bi-grams;3G"
         "set-diff;3G"
         "sort-sort;3G"
-        "uniq-ips;logs-popcount-org"
-        "log-search;log-search"
+        "uniq-ips;logs-popcount-org_$size"
+        "log-search;log-search_$size"
         "opt-parallel;chessdata"
     )
 

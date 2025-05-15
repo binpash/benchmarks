@@ -4,7 +4,7 @@ KOALA_SHELL=${KOALA_SHELL:-bash}
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="$REPO_TOP/llm/scripts/image-annotation"
 scripts_dir="$eval_dir/scripts"
-input_dir="$eval_dir/inputs"
+input_dir="$REPO_TOP/llm/inputs/scripts/image-annotation/inputs"
 outputs_dir="$eval_dir/outputs"
 
 export BENCHMARK_SCRIPT="$scripts_dir/image-annotation.sh"

@@ -7,3 +7,5 @@ scripts_dir="${eval_dir}/scripts"
 for bench in "$scripts_dir"/*; do
     "$bench/clean.sh" "$@"
 done
+
+rm -rf "$eval_dir/ollama_serve.log"

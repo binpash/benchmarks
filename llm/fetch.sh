@@ -6,5 +6,5 @@ scripts_dir="${eval_dir}/scripts"
 
 
 for bench in "$scripts_dir"/*; do
-    "$bench/install.sh" "$@"
+    "$bench/fetch.sh" "$@"
 done

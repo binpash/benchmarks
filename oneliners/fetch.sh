@@ -48,15 +48,15 @@ fi
 
 # For uniq-ips
 if [ "$size" = "small" ]; then
-    N=400000 # 4K
+    N=400000 # 400K
 elif [ "$size" = "min" ]; then
     N=40
 else
     N=40000000 # 40M
 fi
 
-../scripts/gen_ips.py "$N" >logs-popcount-org.txt
-../scripts/gen_ips_log_search.py "$N" >log-search.txt
+../scripts/gen_ips.py "$N" >logs-popcount-org_$size.txt
+../scripts/gen_ips_log_search.py "$N" >log-search_$size.txt
 
 if [[ "$size" == "small" ]]; then
     if [ ! -f ./10M.txt ]; then

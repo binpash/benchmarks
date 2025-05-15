@@ -5,10 +5,10 @@ input_dir="$eval_dir/inputs"
 outputs_dir="$eval_dir/outputs"
 
 IN=${1:-"$input_dir"}
-OUT="${2:-"$outputs_dir"}"
+OUT=${2:-"$outputs_dir"}
 mkdir -p "$OUT"
 
-while read -r img; do
+find "$IN" -type f -iname "*.jpg" | while IFS= read -r img; do
     title=$(llm -m gemma3 \
         "Your only output should be a **single** small title for this image:" \
         -a "$img" -o seed 0 -o temperature 0 < /dev/null)
@@ -17,10 +17,10 @@ while read -r img; do
     filename="${base}.jpg"
     count=1
 
-    while [[ -e "$OUT/$filename" ]]; do
+    while [ -e "$OUT/$filename" ]; do
         filename="${base}_$count.jpg"
-        ((count++))
+        count=$((count + 1))
     done
 
     cp "$img" "$OUT/$filename"
-done < <(find "$IN" -type f -iname "*.jpg")
+done

@@ -69,10 +69,17 @@ command -v minimap2 >/dev/null 2>&1 || { \
     && cd / && rm -rf /tmp/minimap2; }
 
 ## seqkit
-command -v seqkit >/dev/null 2>&1 || { \
-    curl -Lo /usr/local/bin/seqkit \
-         https://github.com/shenwei356/seqkit/releases/download/v0.11.0/seqkit_linux_amd64 \
-    && chmod +x /usr/local/bin/seqkit; }
+command -v seqkit >/dev/null 2>&1 || {
+  curl -L https://github.com/shenwei356/seqkit/releases/download/v2.1.0/seqkit_linux_amd64.tar.gz \
+    -o /tmp/seqkit.tar.gz \
+  && \
+  # extract just the `seqkit` executable into /tmp
+  tar -xzf /tmp/seqkit.tar.gz -C /tmp seqkit \
+  && \
+  mv /tmp/seqkit /usr/local/bin/seqkit \
+  && chmod +x /usr/local/bin/seqkit \
+  && rm /tmp/seqkit.tar.gz
+}
 
 # 4. Install Jvarkit
 if [ ! -f /usr/local/bin/jvarkit.jar ]; then

@@ -23,16 +23,20 @@ echo ">>> SANITIZE FASTQ HEADERS <<<"
 
 for i in $samples; do
     sdir=$SAMPLE_DIR/$i
-    echo " Working for" "$i"
+    sdiro="$outdir/$i"
+    echo "Working for $i"
+
+    mkdir -p "$outdir/$i"/fastq
+    mkdir -p "$outdir/$i"/align
+    mkdir -p "$outdir/$i"/db
+    mkdir -p "$outdir/$i"/logfiles
 
     zcat "$sdir"/fastq/reads.1.fastq.gz \
     | fastq-sanitize-header --input - --delim : --keep 0 \
     | gzip \
-    > "$outdir"/fastq/reads.1.sanitize.fastq.gz &
+    > "$sdiro"/fastq/reads.1.sanitize.fastq.gz &
 done
 wait
-
-exit 0 # vagos
 
 #echo ">>> REMOVE REL5 ADAPTOR - ONLY FOR QC TESTING PURPOSES - LIBRARY DOESN'T HAVE ADAPTER <<<"
 #
@@ -73,19 +77,11 @@ exit 0 # vagos
 #done
 #wait
 
-if [ -z "$CONDA_PREFIX" ]; then
-    echo "Variable \$CONDA_PREFIX is not set. Please make sure you specified if in PARAMS.sh."
-    exit
-fi
-
-. "$CONDA_PREFIX"/bin/activate # Source Conda base
-conda activate teraseq
-
 echo ">>> HOMOGENIZE NAMES <<<"
 
 for i in $samples; do
-    sdir=$SAMPLE_DIR/$i
-    echo " Working for" "$i"
+    sdir=$outdir/$i
+    echo "Working for" "$i"
 
     ln -s "$sdir"/fastq/reads.1.sanitize.fastq.gz "$sdir"/fastq/reads.1.sanitize.rel5_trim.fastq.gz
 done
@@ -93,8 +89,8 @@ done
 echo ">>> ALIGN READS TO RIBOSOMAL (ALL ENSEMBL + SILVA-HUMAN) <<<"
 
 for i in $samples; do
-    sdir=$SAMPLE_DIR/$i
-    echo " Working for" "$i"
+    sdir=$outdir/$i
+    echo "Working for" "$i"
 
     minimap2 \
         -a \
@@ -104,7 +100,7 @@ for i in $samples; do
         -u f \
         -t $threads \
         --secondary=yes \
-        "$DATA_DIR"/$assembly/minimap2.17/ensembl-transcripts-wRibo.k12.mmi \
+        "$DATA_DIR/$assembly"/minimap2.17/ensembl-transcripts-wRibo.k12.mmi \
         "$sdir"/fastq/reads.1.sanitize.rel5_trim.fastq.gz \
     | samtools view -b - \
     | samtools sort - \
@@ -126,227 +122,229 @@ for i in $samples; do
 done
 wait
 
-# echo ">>> EXTRACT NON-RIBOSOMAL READS <<<"
+echo ">>> EXTRACT NON-RIBOSOMAL READS <<<"
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" "$i"
+for i in $samples; do
+    sdir=$outdir/$i
+    echo " Working for" "$i"
 
-#     seqkit grep -nvf "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.reads.txt \
-#         "$sdir"/fastq/reads.1.sanitize.rel5_trim.fastq.gz \
-#         -o "$sdir"/fastq/reads.1.sanitize.noribo.fastq.gz &
-# done
-# wait
+    seqkit grep -nvf "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.reads.txt \
+        "$sdir"/fastq/reads.1.sanitize.rel5_trim.fastq.gz \
+        -o "$sdir"/fastq/reads.1.sanitize.noribo.fastq.gz &
+done
+wait
 
-# echo ">>> ALIGN READS TO TRANSCRIPTOME (WITH SECONDARY) <<<"
+echo ">>> ALIGN READS TO TRANSCRIPTOME (WITH SECONDARY) <<<"
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" "$i"
+for i in $samples; do
+    sdir=$outdir/$i
+    echo " Working for" "$i"
 
-#     minimap2 \
-#         -a \
-#         -x map-ont \
-#         -k 12 \
-#         -p 1 \
-#         -u f \
-#         -t $threads \
-#         --secondary=yes \
-#         "$DATA_DIR"/$assembly/minimap2.17/transcripts.k12.mmi \
-#         "$sdir"/fastq/reads.1.sanitize.noribo.fastq.gz \
-#     | add-tag-max-sam --tag ms --newtag XP --newtag2 XN \
-#     | grep -v "SA:Z:" \
-#     | sam-count-secondary --tag X0 \
-#     | samtools view -b - \
-#     | samtools sort - \
-#     > "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam
+    minimap2 \
+        -a \
+        -x map-ont \
+        -k 12 \
+        -p 1 \
+        -u f \
+        -t $threads \
+        --secondary=yes \
+        "$DATA_DIR"/$assembly/minimap2.17/transcripts.k12.mmi \
+        "$sdir"/fastq/reads.1.sanitize.noribo.fastq.gz \
+    | add-tag-max-sam --tag ms --newtag XP --newtag2 XN \
+    | grep -v "SA:Z:" \
+    | sam-count-secondary --tag X0 \
+    | samtools view -b - \
+    | samtools sort - \
+    > "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam
 
-#     ln -s "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam \
-#     "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam
-# done
-# wait
+    ln -s "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam \
+    "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam
+done
+wait
 
-# echo ">>> ALIGN READS TO GENOME (WITH SECONDARY) <<<"
+exit 0 # vagos
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" "$i"
+echo ">>> ALIGN READS TO GENOME (WITH SECONDARY) <<<"
 
-#     minimap2 \
-#         -a \
-#         -x splice \
-#         -k 12 \
-#         -p 1 \
-#         -u b \
-#         -t $threads \
-#         --secondary=yes \
-#         "$DATA_DIR"/$assembly/minimap2.17/genome.k12.mmi \
-#         "$sdir"/fastq/reads.1.sanitize.rel5_trim.fastq.gz \
-#     | add-tag-max-sam --tag ms --newtag XP --newtag2 XN \
-#     | grep -v "SA:Z:" \
-#     | sam-count-secondary --tag X0 \
-#     | samtools view -b - \
-#     | samtools sort - \
-#     > "$sdir"/align/reads.1.sanitize.toGenome.sorted.bam
-# done
-# wait
+for i in $samples; do
+    sdir=$SAMPLE_DIR/$i
+    echo " Working for" "$i"
 
-# echo ">>> INDEX ALIGNMENTS <<<"
+    minimap2 \
+        -a \
+        -x splice \
+        -k 12 \
+        -p 1 \
+        -u b \
+        -t $threads \
+        --secondary=yes \
+        "$DATA_DIR"/$assembly/minimap2.17/genome.k12.mmi \
+        "$sdir"/fastq/reads.1.sanitize.rel5_trim.fastq.gz \
+    | add-tag-max-sam --tag ms --newtag XP --newtag2 XN \
+    | grep -v "SA:Z:" \
+    | sam-count-secondary --tag X0 \
+    | samtools view -b - \
+    | samtools sort - \
+    > "$sdir"/align/reads.1.sanitize.toGenome.sorted.bam
+done
+wait
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" "$i"
+echo ">>> INDEX ALIGNMENTS <<<"
 
-#     samtools index \
-#         "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam &
-#     ln -s "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam.bai \
-#         "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam.bai
-#     samtools index \
-#         "$sdir"/align/reads.1.sanitize.toGenome.sorted.bam &
-#     wait
-# done
+for i in $samples; do
+    sdir=$SAMPLE_DIR/$i
+    echo " Working for" "$i"
 
-# CONDA_PATH=$CONDA_PREFIX # Temporary store path to the Conda environment
-# conda deactivate
+    samtools index \
+        "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam &
+    ln -s "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam.bai \
+        "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam.bai
+    samtools index \
+        "$sdir"/align/reads.1.sanitize.toGenome.sorted.bam &
+    wait
+done
 
-# echo ">>> SAM TO SQLITE (TRANSCRIPTOME) <<<"
+CONDA_PATH=$CONDA_PREFIX # Temporary store path to the Conda environment
+conda deactivate
 
-# . "$INSTALL"/perl-virtualenv/teraseq/bin/activate
+echo ">>> SAM TO SQLITE (TRANSCRIPTOME) <<<"
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" "$i"
+. "$INSTALL"/perl-virtualenv/teraseq/bin/activate
 
-#     cat "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam \
-#     | "$CONDA_PATH"/bin/samtools view -h -F 4 -F 16 -F 2048 - \
-#     | sam_to_sqlite \
-#         --database "$sdir"/db/sqlite.db \
-#         --table transcr \
-#         --records_class GenOOx::Data::File::SAMminimap2::Record \
-#         --drop &
-# done
-# wait
+for i in $samples; do
+    sdir=$SAMPLE_DIR/$i
+    echo " Working for" "$i"
 
-# echo ">>> ANNOTATE WITH GENIC ELEMENTS (TRANSCRIPTOME) <<<"
+    cat "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam \
+    | "$CONDA_PATH"/bin/samtools view -h -F 4 -F 16 -F 2048 - \
+    | sam_to_sqlite \
+        --database "$sdir"/db/sqlite.db \
+        --table transcr \
+        --records_class GenOOx::Data::File::SAMminimap2::Record \
+        --drop &
+done
+wait
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" "$i"
+echo ">>> ANNOTATE WITH GENIC ELEMENTS (TRANSCRIPTOME) <<<"
 
-#     clipseqtools-preprocess annotate_with_file \
-#         --database "$sdir"/db/sqlite.db \
-#         --table transcr \
-#         --a_file "$DATA_DIR"/$assembly/genic_elements.mrna.bed \
-#         --column coding_transcript &
-# done
-# wait
+for i in $samples; do
+    sdir=$SAMPLE_DIR/$i
+    echo " Working for" "$i"
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" "$i"
+    clipseqtools-preprocess annotate_with_file \
+        --database "$sdir"/db/sqlite.db \
+        --table transcr \
+        --a_file "$DATA_DIR"/$assembly/genic_elements.mrna.bed \
+        --column coding_transcript &
+done
+wait
 
-#     clipseqtools-preprocess annotate_with_file \
-#         --database "$sdir"/db/sqlite.db \
-#         --table transcr \
-#         --a_file "$DATA_DIR"/$assembly/genic_elements.ncrna.bed \
-#         --column noncoding_transcript &
-# done
-# wait
+for i in $samples; do
+    sdir=$SAMPLE_DIR/$i
+    echo " Working for" "$i"
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" "$i"
+    clipseqtools-preprocess annotate_with_file \
+        --database "$sdir"/db/sqlite.db \
+        --table transcr \
+        --a_file "$DATA_DIR"/$assembly/genic_elements.ncrna.bed \
+        --column noncoding_transcript &
+done
+wait
 
-#     clipseqtools-preprocess annotate_with_file \
-#         --database "$sdir"/db/sqlite.db \
-#         --table transcr \
-#         --a_file "$DATA_DIR"/$assembly/genic_elements.utr5.bed \
-#         --column utr5 &
-# done
-# wait
+for i in $samples; do
+    sdir=$SAMPLE_DIR/$i
+    echo " Working for" "$i"
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" "$i"
+    clipseqtools-preprocess annotate_with_file \
+        --database "$sdir"/db/sqlite.db \
+        --table transcr \
+        --a_file "$DATA_DIR"/$assembly/genic_elements.utr5.bed \
+        --column utr5 &
+done
+wait
 
-#     clipseqtools-preprocess annotate_with_file \
-#         --database "$sdir"/db/sqlite.db \
-#         --table transcr \
-#         --a_file "$DATA_DIR"/$assembly/genic_elements.cds.bed \
-#         --column cds &
-# done
-# wait
+for i in $samples; do
+    sdir=$SAMPLE_DIR/$i
+    echo " Working for" "$i"
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" "$i"
+    clipseqtools-preprocess annotate_with_file \
+        --database "$sdir"/db/sqlite.db \
+        --table transcr \
+        --a_file "$DATA_DIR"/$assembly/genic_elements.cds.bed \
+        --column cds &
+done
+wait
 
-#     clipseqtools-preprocess annotate_with_file \
-#         --database "$sdir"/db/sqlite.db \
-#         --table transcr \
-#         --a_file "$DATA_DIR"/$assembly/genic_elements.utr3.bed \
-#         --column utr3 &
-# done
-# wait
+for i in $samples; do
+    sdir=$SAMPLE_DIR/$i
+    echo " Working for" "$i"
 
-# echo ">>> SAM TO SQLITE (GENOME) <<<"
+    clipseqtools-preprocess annotate_with_file \
+        --database "$sdir"/db/sqlite.db \
+        --table transcr \
+        --a_file "$DATA_DIR"/$assembly/genic_elements.utr3.bed \
+        --column utr3 &
+done
+wait
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" "$i"
+echo ">>> SAM TO SQLITE (GENOME) <<<"
 
-#     cat "$sdir"/align/reads.1.sanitize.toGenome.sorted.bam \
-#     | "$CONDA_PATH"/bin/samtools view -h -F 4 -F 2048 - \
-#     | sam_to_sqlite \
-#         --database "$sdir"/db/sqlite.db \
-#         --table genome \
-#         --records_class GenOOx::Data::File::SAMminimap2::Record \
-#         --drop &
-# done
-# wait
+for i in $samples; do
+    sdir=$SAMPLE_DIR/$i
+    echo " Working for" "$i"
 
-# echo ">>> ANNOTATE WITH GENIC ELEMENTS (GENOME) <<<"
+    cat "$sdir"/align/reads.1.sanitize.toGenome.sorted.bam \
+    | "$CONDA_PATH"/bin/samtools view -h -F 4 -F 2048 - \
+    | sam_to_sqlite \
+        --database "$sdir"/db/sqlite.db \
+        --table genome \
+        --records_class GenOOx::Data::File::SAMminimap2::Record \
+        --drop &
+done
+wait
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" "$i"
+echo ">>> ANNOTATE WITH GENIC ELEMENTS (GENOME) <<<"
 
-#     clipseqtools-preprocess annotate_with_genic_elements \
-#         --database "$sdir"/db/sqlite.db \
-#         --table genome \
-#         --gtf "$DATA_DIR"/$assembly/genes-polya.gtf &
-# done
-# wait
+for i in $samples; do
+    sdir=$SAMPLE_DIR/$i
+    echo " Working for" "$i"
 
-# deactivate
+    clipseqtools-preprocess annotate_with_genic_elements \
+        --database "$sdir"/db/sqlite.db \
+        --table genome \
+        --gtf "$DATA_DIR"/$assembly/genes-polya.gtf &
+done
+wait
+
+deactivate
 
 
-# # Note: If you have the fast5 files you can continue with the analysis. Check https://github.com/mourelatos-lab/TERA-Seq_manuscript/samples/README.md for the location where to download them.
+# Note: If you have the fast5 files you can continue with the analysis. Check https://github.com/mourelatos-lab/TERA-Seq_manuscript/samples/README.md for the location where to download them.
 
-# echo ">>> NANOPOLISH POLYA <<<"
+echo ">>> NANOPOLISH POLYA <<<"
 
-# for i in $samples; do
-#     sdir=$SAMPLE_DIR/$i
-#     echo " Working for" $i
+for i in $samples; do
+    sdir=$SAMPLE_DIR/$i
+    echo " Working for" $i
 
-#     if [ -d "$sdir/fast5" ]; then
-# 	    if [ `find $sdir/fast5 -maxdepth 1 -type f -name '*.fast5' | wc -l` != 0 ]; then
-#             nanopolish index \
-#                 --directory $sdir/fast5/ \
-#                 $sdir/fastq/reads.1.fastq.gz
+    if [ -d "$sdir/fast5" ]; then
+	    if [ `find $sdir/fast5 -maxdepth 1 -type f -name '*.fast5' | wc -l` != 0 ]; then
+            nanopolish index \
+                --directory $sdir/fast5/ \
+                $sdir/fastq/reads.1.fastq.gz
 
-#             nanopolish polya \
-#                 --reads $sdir/fastq/reads.1.fastq.gz \
-#                 --bam $sdir/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam \
-#                 --genome $DATA_DIR/$assembly/transcripts.fa \
-#                 --threads $threads \
-#                 > $sdir/align/reads.1.sanitize.noribo.toTranscriptome.sorted.polya.tab
-#         else
-#             echo "It seems that $sdir/fast5 directory is empty. Please check you downloaded and uncompressed fast5 tar.gz archive and placed the files in $sdir/fast5."
-#         fi
-#     else
-#         echo "It seems that $sdir/fast5 directory doesn't exist. Please check you created $sdir/fast5, downloaded and uncompressed fast5 tar.gz and placed the files in $sdir/fast5."
-#     fi
-# done
+            nanopolish polya \
+                --reads $sdir/fastq/reads.1.fastq.gz \
+                --bam $sdir/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam \
+                --genome $DATA_DIR/$assembly/transcripts.fa \
+                --threads $threads \
+                > $sdir/align/reads.1.sanitize.noribo.toTranscriptome.sorted.polya.tab
+        else
+            echo "It seems that $sdir/fast5 directory is empty. Please check you downloaded and uncompressed fast5 tar.gz archive and placed the files in $sdir/fast5."
+        fi
+    else
+        echo "It seems that $sdir/fast5 directory doesn't exist. Please check you created $sdir/fast5, downloaded and uncompressed fast5 tar.gz and placed the files in $sdir/fast5."
+    fi
+done
 
-# echo ">>> ALL DONE <<<"
+echo ">>> ALL DONE <<<"

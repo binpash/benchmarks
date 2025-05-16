@@ -13,9 +13,9 @@ script_names="run_dRNASeq.sh"
 
 while IFS= read -r script; do
     script_file="./scripts/$script"
-
     BENCHMARK_SCRIPT="$(realpath "$script_file")"
     export BENCHMARK_SCRIPT
+
     echo "$script"
     $KOALA_SHELL "$script_file"
     echo "$?"

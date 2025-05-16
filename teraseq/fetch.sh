@@ -4,6 +4,7 @@ set -x
 TOP="$(git rev-parse --show-toplevel)"
 
 SAMPLE_DIR="$TOP/teraseq/inputs"
+outdir="$TOP/teraseq/outputs"
 samples="hsa.dRNASeq.HeLa.polyA.1"
 benchmark_dir="$TOP/teraseq"
 

@@ -17,6 +17,8 @@ REPO_PATH="${EVAL_DIR}/inputs/chromium"
 COMMITS_DIR="${EVAL_DIR}/inputs/commits"
 NUM_COMMITS="${1:-20}"
 
+# override HOME variable
+export HOME="$COMMITS_DIR"
 mkdir -p "$COMMITS_DIR"
 
 cd "$REPO_PATH" || exit 1
@@ -31,11 +33,11 @@ gco -b bench_branch
 grs
 gcl
 
-commit_file="$COMMITS_DIR/commit_list.txt"
+commit_file=~/commit_list.txt
 g rev-list --first-parent HEAD -n "$NUM_COMMITS" | tac > "$commit_file"
 
 base_commit=$(head -n 1 "$commit_file")
-echo "$base_commit" > "$COMMITS_DIR/base_commit.txt"
+echo "$base_commit" > ~/base_commit.txt
 
 num_patches=$((NUM_COMMITS - 1))
 read -r base_commit < "$commit_file"
@@ -46,8 +48,8 @@ tail -n +2 "$commit_file" | while read -r curr_commit; do
     patch_upper=$((num_patches - i + 1))
     patch_lower=$((patch_upper - 1))
     
-    patchfile="$COMMITS_DIR/${patch_upper}-${patch_lower}.diff"
-    commitmsg="$COMMITS_DIR/${patch_upper}-${patch_lower}.commit"
+    patchfile=~/${patch_upper}-${patch_lower}.diff
+    commitmsg=~/${patch_upper}-${patch_lower}.commit
     
     g diff "$prev_commit" "$curr_commit" > "$patchfile"
     g log -1 --pretty=%B "$curr_commit" > "$commitmsg"
@@ -58,9 +60,9 @@ done
 
 gst
 
-if [ -f "$COMMITS_DIR/base_commit.txt" ]; then
+if [ -f ~/base_commit.txt ]; then
     git checkout bench_branch
-    git reset --hard "$(cat "$COMMITS_DIR/base_commit.txt")"
+    git reset --hard "$(cat ~/base_commit.txt)"
 else
     echo "Missing base_commit.txt"
     exit 1
@@ -68,8 +70,8 @@ fi
 
 for i in $(seq "$num_patches" -1 1); do
     lower=$(( i - 1 ))
-    patchfile="$COMMITS_DIR/${i}-${lower}.diff"
-    commitmsg="$COMMITS_DIR/${i}-${lower}.commit"
+    patchfile=~/${i}-${lower}.diff
+    commitmsg=~/${i}-${lower}.commit
     
     if [ -s "$patchfile" ]; then
         #patch -p1 < "$patchfile" || { echo "Failed to apply $patchfile"; exit 1; }

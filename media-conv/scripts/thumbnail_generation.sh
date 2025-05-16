@@ -1,7 +1,8 @@
 #!/bin/bash
 # source: posh benchmark suite
 
-src="$1"
+# Overwrite HOME variable
+export HOME="$1"
 dest="$2"
 
 mkdir -p "$dest"
@@ -12,6 +13,6 @@ resize_image () {
 
 export -f resize_image
 
-for file in "$src"/*; do
+for file in ~/*; do
     resize_image "$file"
 done

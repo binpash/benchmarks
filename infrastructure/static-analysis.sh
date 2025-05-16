@@ -12,7 +12,7 @@ sudo apt-get update && apt-get install -y \
     git \
     python3 python3-pip python3-venv \
     build-essential libtool m4 automake cloc
-python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt
+# python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt
 
 
 checked_command() {

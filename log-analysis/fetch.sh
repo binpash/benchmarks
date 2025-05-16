@@ -9,16 +9,31 @@ mkdir -p "$input_dir"
 size=full
 for arg in "$@"; do
     case "$arg" in
-        --small) size=small ;;
-        --min)   size=min ;;
+    --small) size=small ;;
+    --min) size=min ;;
     esac
 done
 
+if [ -f "$input_dir/routeviews.mrt" ]; then
+    echo "routeviews.mrt already exists, skipping download."
+else
+    wget --no-check-certificate https://archive.routeviews.org/route-views.linx/bgpdata/2019.10/RIBS/rib.20191001.0000.bz2 -O "$input_dir/rib.20191001.0000.bz2"
+    bunzip2 "$input_dir/rib.20191001.0000.bz2"
+    rm "$input_dir/rib.20191001.0000.bz2"
+    mv "$input_dir/rib.20191001.0000" "$input_dir/routeviews.mrt"
+fi
 
-if [[ ! -d "$input_dir/nginx-logs_$size" ]] || [[ ! -d "$input_dir/pcaps_$size" ]]; then
+if [[ ! -d "$input_dir/nginx-logs_$size" ]] || [[ ! -d "$input_dir/pcaps_$size" ]] || [[ ! -d "$input_dir/port_scan_$size" ]]; then
     if [[ "$size" == "min" ]]; then
-        cp -r "${eval_dir}/min_inputs/nginx-logs" "$input_dir/nginx-logs_$size"
-        cp -r "${eval_dir}/min_inputs/pcaps" "$input_dir/pcaps_$size"
+        mkdir -p "$input_dir/nginx-logs_$size"
+        mkdir -p "$input_dir/pcaps_$size"
+        cp "${eval_dir}/min_inputs/nginx-logs/"* "$input_dir/nginx-logs_$size"
+        cp "${eval_dir}/min_inputs/pcaps/"* "$input_dir/pcaps_$size"
+
+        mkdir -p "$input_dir/port_scan_$size"
+        for log in "$input_dir/nginx-logs_$size/"*; do
+            python3 "${eval_dir}/scripts/format_inputs.py" "$log" >"$input_dir/port_scan_$size/$(basename "$log")"
+        done
         exit 0
     fi
 
@@ -33,6 +48,11 @@ if [[ ! -d "$input_dir/nginx-logs_$size" ]] || [[ ! -d "$input_dir/pcaps_$size" 
         unzip "$zip_dst" -d "$input_dir"
         mv "$input_dir/nginx-logs" "$input_dir/nginx-logs_$size"
         rm "$zip_dst"
+
+        mkdir -p "$input_dir/port_scan_$size"
+        for log in "$input_dir/nginx-logs_$size"/*; do
+            python3 "${eval_dir}/scripts/format_inputs.py" "$log" >"$input_dir/port_scan_$size/$(basename "$log")"
+        done
         exit 0
     fi
 
@@ -57,6 +77,10 @@ if [[ ! -d "$input_dir/nginx-logs_$size" ]] || [[ ! -d "$input_dir/pcaps_$size" 
     unzip "$zip_dst" -d "$input_dir"
     mv "$input_dir/access.log" "$input_dir/nginx-logs_$size/access.log"
     rm "$zip_dst"
+    mkdir -p "$input_dir/port_scan_$size"
+    for log in "$input_dir/nginx-logs_$size"/*; do
+        python3 "${eval_dir}/scripts/format_inputs.py" "$log" >"$input_dir/port_scan_$size/$(basename "$log")"
+    done
 else
     echo "Data already downloaded and extracted."
     exit 0

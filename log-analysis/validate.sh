@@ -22,8 +22,9 @@ done
 cd "$outputs_dir" || exit # md5sum computes paths relative to cd
 
 if $generate; then
-    md5sum "pcaps_$size"/* > "$hashes_dir/pcaps_$size.md5sum"
-    md5sum "nginx_$size"/* > "$hashes_dir/nginx_$size.md5sum"
+    # md5sum "pcaps_$size"/* > "$hashes_dir/pcaps_$size.md5sum"
+    # md5sum "nginx_$size"/* > "$hashes_dir/nginx_$size.md5sum"
+    md5sum port-scan_$size/*/as_popularity.csv > "$hashes_dir/port-scan_$size.md5sum"
     exit 0
 fi
 
@@ -32,5 +33,9 @@ md5sum --check --quiet --status "$hashes_dir/$bench.md5sum"
 echo $bench $?
 
 bench=nginx_$size
+md5sum --check --quiet --status "$hashes_dir/$bench.md5sum"
+echo $bench $?
+
+bench=port-scan_$size
 md5sum --check --quiet --status "$hashes_dir/$bench.md5sum"
 echo $bench $?

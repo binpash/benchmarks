@@ -14,4 +14,5 @@ rm -rf "$outputs_dir"
 
 if [ "$force" = true ]; then
     rm -rf "$input_dir"
+    rm -rf "${REPO_TOP}/log-analysis/go_install"
 fi

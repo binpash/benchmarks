@@ -21,7 +21,7 @@ done
 
 nginx_input=$input_dir/nginx-logs_$size
 pcaps_input=$input_dir/pcaps_$size
-
+port_scan_input=$input_dir/port_scan_$size
 export BENCHMARK_CATEGORY="log-analysis"
 KOALA_SHELL=${KOALA_SHELL:-bash}
 
@@ -42,4 +42,19 @@ BENCHMARK_SCRIPT="$(realpath "$scripts_dir/pcaps.sh")"
 export BENCHMARK_SCRIPT
 
 $KOALA_SHELL $scripts_dir/pcaps.sh $pcaps_input $outputs_dir/pcaps_$size
+echo $?
+
+echo "port-scan"
+BENCHMARK_INPUT_FILE="$(realpath "$port_scan_input")"
+export BENCHMARK_INPUT_FILE
+
+BENCHMARK_SCRIPT="$(realpath "$scripts_dir/port-scan.sh")"
+export BENCHMARK_SCRIPT
+go_install_dir="${eval_dir}/go_install"
+
+export PATH=$PATH:/$go_install_dir/go/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+$KOALA_SHELL $scripts_dir/port-scan.sh $port_scan_input "$eval_dir/inputs/routeviews.mrt" $outputs_dir/port-scan_$size
 echo $?

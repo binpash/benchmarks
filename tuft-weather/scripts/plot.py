@@ -9,6 +9,9 @@ import sys
 import os
 from pathlib import Path
 
+import warnings
+warnings.filterwarnings("ignore", message="No artists with labels found to put in legend.*")
+
 cntr = 0
 def save_sofar(plt, filename):
     global cntr

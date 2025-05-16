@@ -16,7 +16,7 @@ eval_dir="$REPO_TOP/tuft-weather"
 
 hash_dir="$eval_dir/hashes/$size"
 hash_file="$hash_dir/tuft-weather.hash"
-plot_root="$eval_dir/$size/plots"
+plot_root="$eval_dir/outputs/$size/plots"
 
 mkdir -p "$hash_dir"
 

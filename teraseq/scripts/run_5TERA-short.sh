@@ -304,8 +304,6 @@ for i in $samples; do
 done
 wait
 
-deactivate
-
 echo ">>> ANNOTATE WITH REL5 <<<"
 
 conda activate teraseq

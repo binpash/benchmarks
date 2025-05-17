@@ -152,7 +152,7 @@ for i in $samples; do
     | samtools sort - \
     > "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam
 
-    ln -s "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam \
+    ln -sf "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam \
     "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam
 done
 wait
@@ -190,7 +190,7 @@ for i in $samples; do
 
     samtools index \
         "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam &
-    ln -s "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam.bai \
+    ln -sf "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam.bai \
         "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam.bai
     samtools index \
         "$sdir"/align/reads.1.sanitize.toGenome.sorted.bam &

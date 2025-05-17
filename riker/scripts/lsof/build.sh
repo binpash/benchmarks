@@ -1,5 +1,6 @@
 #!/bin/sh
 
+<<<<<<<< HEAD:riker/scripts/lsof/build.sh
 #workaround because of missing netconfig.h and rpc/rpc.h were not in /usr/include  
 mkdir -p $HOME/lsof-headers
 ln -s /usr/include/tirpc/netconfig.h $HOME/lsof-headers/netconfig.h
@@ -7,6 +8,9 @@ ln -s /usr/include/tirpc/rpc $HOME/lsof-headers/rpc
 
 
 CFLAGS="-I$HOME/lsof-headers -DLINUXV=54114 -DGLIBCV=231 -DHASIPv6 -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DHAS_STRFTIME -DLSOF_VSTR=\"5.4.114\" -O -Wno-format-truncation"
+========
+CFLAGS="-DLINUXV=54114 -DGLIBCV=231 -DHASIPv6 -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DHAS_STRFTIME -DLSOF_VSTR=\"5.4.114\" -O -Wno-format-truncation"
+>>>>>>>> main:infrastructure/systems/dynamic-parallelizer/report/benchmarks/riker/lsof/lsof_build.sh
 
 # Build lib/liblsof.a
 cd lib

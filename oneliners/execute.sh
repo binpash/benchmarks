@@ -77,8 +77,6 @@ fi
 
 export LC_ALL=C
 
-echo "executing oneliners $(date)"
-
 for script_input in "${scripts_inputs[@]}"
 do
     if [[ "$script_input" != "opt-parallel"* ]]; then

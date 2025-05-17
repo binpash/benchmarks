@@ -5,12 +5,13 @@ TOP="$(git rev-parse --show-toplevel)"
 
 SAMPLE_DIR="$TOP/teraseq/inputs"
 outdir="$TOP/teraseq/outputs"
-samples="hsa.dRNASeq.HeLa.polyA.1"
 benchmark_dir="$TOP/teraseq"
+
+samples="hsa.dRNASeq.HeLa.polyA.1 hsa.dRNASeq.HeLa.polyA.REL5.1 hsa.dRNASeq.HeLa.polyA.PNK.REL5.1"
 
 echo ">>> MAKE DIRECTORY STRUCTURE <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$SAMPLE_DIR/$i
     echo " Working for" "$i"
 
@@ -21,7 +22,7 @@ done
 
 echo ">>> CHECK FASTQ <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$SAMPLE_DIR/$i
     echo " Working for $i"
 
@@ -30,7 +31,7 @@ for i in "${samples[@]}"; do
     else
         echo "$sdir/fastq/reads.1.fastq.gz does not exist, trying to download."
         download="$(grep download "$benchmark_dir/README.md" | grep "$i" | cut -d '|' -f 6 | cut -d '(' -f2  | sed 's/)//' | sed 's#https://##' | tr -d '[:space:]')"
-        mkdir "$sdir/fastq"
+        mkdir -p "$sdir/fastq"
         curl "$download" > "$sdir/fastq/reads.1.fastq.gz"
     fi
 done

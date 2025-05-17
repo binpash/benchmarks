@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Convert GMAP gff3 to gtf
 # Might work for other gff3 as well but haven't been tested

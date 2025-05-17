@@ -33,6 +33,8 @@ apt-get update && apt-get install -y --no-install-recommends \
     make \
     gcc \
     g++ \
+    gffread \
+    gmap \
  && rm -rf /var/lib/apt/lists/*
 
 export CFLAGS="-I/usr/include/python3.11 -I/usr/include/python3.11/cpython"

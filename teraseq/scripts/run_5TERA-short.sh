@@ -26,6 +26,7 @@ for i in $samples; do
     sdiro=$outdir/$i
     echo " Working for $i"
 
+    mkdir -p "$sdiro/fastq"
     mkdir -p "$sdiro/logfiles"
     mkdir -p "$sdiro/align"
     mkdir -p "$sdiro/db"

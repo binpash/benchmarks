@@ -25,10 +25,10 @@ for i in $samples; do
     sdiro="$outdir/$i"
     echo "Working for $i"
 
-    mkdir -p "$outdir/$i"/fastq
-    mkdir -p "$outdir/$i"/align
-    mkdir -p "$outdir/$i"/db
-    mkdir -p "$outdir/$i"/logfiles
+    mkdir -p "$outdir"/fastq
+    mkdir -p "$outdir"/align
+    mkdir -p "$outdir"/db
+    mkdir -p "$outdir"/logfiles
 
     zcat "$sdir"/fastq/reads.1.fastq.gz \
     | fastq-sanitize-header --input - --delim : --keep 0 \

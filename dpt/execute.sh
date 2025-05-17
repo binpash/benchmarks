@@ -27,5 +27,6 @@ fi
 KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_INPUT_FILE="$img_input"
 echo "dpt sequential"
+export BENCHMARK_SCRIPT="$scripts_dir/dpt_seq.sh"
 $KOALA_SHELL "$scripts_dir/dpt_seq.sh" "$img_input" "$outputs_dir/seq_output$suffix.txt"
 echo "$?"

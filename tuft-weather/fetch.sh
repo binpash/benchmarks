@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-bash}
+KOALA_SHELL=${KOALA_SHELL:-bash}
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="$REPO_TOP/tuft-weather"
 inputs_dir="$eval_dir/inputs"

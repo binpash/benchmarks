@@ -1,8 +1,6 @@
 #!/bin/bash
 
 input="$1"
-size="$2"
-BENCHMARK_SHELL=${BENCHMARK_SHELL:-sh}
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="$REPO_TOP/tuft-weather"
 scripts_dir="$eval_dir/scripts"

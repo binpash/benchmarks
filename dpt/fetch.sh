@@ -10,11 +10,11 @@ size=full
 for arg in "$@"; do
   case $arg in
     --small)
-      size=true
+      size=small
       shift
       ;;
     --min)
-      size=true
+      size=min
       shift
       ;;
   esac
@@ -42,7 +42,6 @@ if [[ "$size" == "min" ]]; then
   cp "${eval_dir}"/min_inputs/* "$min_dir/"
   exit 0
 fi
-
 # if size == small
 if [[ "$size" == "small" ]]; then
   if [ -d "$small_dir" ]; then

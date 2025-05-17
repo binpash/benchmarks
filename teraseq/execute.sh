@@ -9,7 +9,8 @@ cd "$SUITE_DIR" || exit 1
 KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="teraseq"
 
-script_names="run_dRNASeq run_5TERA-short"
+script_names="run_dRNASeq
+run_5TERA-short"
 
 while IFS= read -r script; do
     script_file="./scripts/$script.sh"

@@ -123,7 +123,15 @@ cpanm --notest \
     CLIPSeqTools
 
 # 7. Install R packages
-Rscript -e 'install.packages(c("longitudinal", "fdrtool"), repos="http://cran.us.r-project.org")'
+Rscript -e 'install.packages(c(
+    "DBI",        
+    "RSQLite",    
+    "dplyr",      
+    "stringr",    
+    "optparse",   
+    "longitudinal", 
+    "fdrtool"     
+  ), repos="https://cloud.r-project.org")'
 Rscript -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/GeneCycle/GeneCycle_1.1.5.tar.gz", repos=NULL, type="source")'
 
 # 8. Install sam_to_sqlite and annotate-sqlite-with-fastq

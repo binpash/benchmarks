@@ -35,3 +35,7 @@ for i in $samples; do
         curl "$download" > "$sdir/fastq/reads.1.fastq.gz"
     fi
 done
+
+echo ">>> SETUP DATA <<<"
+
+"$benchmark_dir"/data/run.sh

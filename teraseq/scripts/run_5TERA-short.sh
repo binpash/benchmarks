@@ -33,7 +33,7 @@ done
 
 echo ">>> SANITIZE FASTQ HEADERS <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$SAMPLE_DIR/$i
     sdiro="$outdir/$i"
 
@@ -48,7 +48,7 @@ wait
 
 echo ">>> REMOVE REL5 ADAPTOR <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -66,7 +66,7 @@ wait
 
 echo ">>> MERGE READS WITH AND WITHOUT REL5 ADAPTOR <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -82,7 +82,7 @@ wait
 
 echo ">>> ALIGN READS TO RIBOSOMAL (ALL ENSEMBL + SILVA-HUMAN) <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo "Working for $i"
 
@@ -119,7 +119,7 @@ wait
 
 echo ">>> EXTRACT NON-RIBOSOMAL READS <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -131,7 +131,7 @@ wait
 
 echo ">>> ALIGN READS TO TRANSCRIPTOME (WITH SECONDARY) <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -159,7 +159,7 @@ wait
 
 echo ">>> ALIGN READS TO GENOME (WITH SECONDARY) <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -184,7 +184,7 @@ wait
 
 echo ">>> INDEX ALIGNMENTS <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -199,7 +199,7 @@ done
 
 echo ">>> SAM TO SQLITE (TRANSCRIPTOME) <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -215,7 +215,7 @@ wait
 
 echo ">>> ANNOTATE WITH GENIC ELEMENTS (TRANSCRIPTOME) <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -227,7 +227,7 @@ for i in "${samples[@]}"; do
 done
 wait
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -239,7 +239,7 @@ for i in "${samples[@]}"; do
 done
 wait
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -251,7 +251,7 @@ for i in "${samples[@]}"; do
 done
 wait
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -263,7 +263,7 @@ for i in "${samples[@]}"; do
 done
 wait
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -277,7 +277,7 @@ wait
 
 echo ">>> SAM TO SQLITE (GENOME) <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -293,7 +293,7 @@ wait
 
 echo ">>> ANNOTATE WITH GENIC ELEMENTS (GENOME) <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -310,7 +310,7 @@ echo ">>> ANNOTATE WITH REL5 <<<"
 
 conda activate teraseq
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 
@@ -337,7 +337,7 @@ done
 
 echo ">>> NANOPOLISH POLYA <<<"
 
-for i in "${samples[@]}"; do
+for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"
 

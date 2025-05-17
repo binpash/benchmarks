@@ -103,7 +103,7 @@ for i in $samples; do
     samtools view -H "$sdir"/align/reads.1.sanitize.toEnsembl-transcripts-wRibo.sorted.bam > \
         "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.sam
     samtools view -@ $threads -F4 "$sdir"/align/reads.1.sanitize.toEnsembl-transcripts-wRibo.sorted.bam \
-        | grep -v -P "\tENST" >> "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.sam
+        | grep -v -P "\tENST" || true >> "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.sam
     rm "$sdir"/align/reads.1.sanitize.toEnsembl-transcripts-wRibo.sorted.bam
 
     cat "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.sam | cut -f1 | sort | uniq > \

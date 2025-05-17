@@ -306,8 +306,6 @@ wait
 
 echo ">>> ANNOTATE WITH REL5 <<<"
 
-conda activate teraseq
-
 for i in $samples; do
     sdir=$outdir/$i
     echo " Working for $i"

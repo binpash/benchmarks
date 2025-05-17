@@ -8,7 +8,6 @@ input_dir="$REPO_TOP/llm/inputs/scripts/image-annotation/inputs"
 outputs_dir="$eval_dir/outputs"
 
 export BENCHMARK_SCRIPT="$scripts_dir/image-annotation.sh"
-source "$eval_dir/venv/bin/activate"
 
 suffix=""
 for arg in "$@"; do

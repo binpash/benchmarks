@@ -61,6 +61,6 @@
 	    "scripts": ["ray-tracing/scripts/*.sh"]
     },
     "tuft-weather": {
-	    "scripts": ["tuft-weather/scripts/*.sh"]
+	    "scripts": ["tuft-weather/scripts/tuft-weather.sh"]
     }
 }

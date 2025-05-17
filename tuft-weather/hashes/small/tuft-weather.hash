@@ -1,243 +1,378 @@
-3905fa043aa21ee79cdc401c9858ed3b5fd7fecc7aa504cc9d0236c5021dffb0  /benchmarks/tuft-weather/outputs/small/plots/plots/Accra/1995.png
-bdf76125191ec8292d7acd9f8a9df01657337a27ff2347fbd8a50a589fdc246c  /benchmarks/tuft-weather/outputs/small/plots/plots/Accra/1996.png
-7f4fc9bbe857c27c4af21a2e4e1e11ab8406877e90fccb19f0e916d23963dad8  /benchmarks/tuft-weather/outputs/small/plots/plots/Accra/1997.png
-a201a13bd37df495370f5ef7e71523c43fe79b553bb6f687333133e85e5aa74d  /benchmarks/tuft-weather/outputs/small/plots/plots/Accra/1998.png
-7e1dd7e235a513c8f36a7047f82ca25ad8a4efd24960d09b3f061786cccabe86  /benchmarks/tuft-weather/outputs/small/plots/plots/Accra/1999.png
-85dc7842cf3deef64bb0ba96ce0c08685aa45f4204947bf48a6d54bad122ca7e  /benchmarks/tuft-weather/outputs/small/plots/plots/Accra/2000.png
-b91599540f14bbfc1a234c8c33eae86f97c1bbcc701d37111771e4b848748a21  /benchmarks/tuft-weather/outputs/small/plots/plots/Accra/2001.png
-fef7b76a32993c9314528fec5e912ef0f1c3f5f5b80e55196b22b5b759bc9f67  /benchmarks/tuft-weather/outputs/small/plots/plots/Accra/2002.png
-baea6466151af59f36528d6765baf6ba0e840187132fb86880dbbbb3d78ffcc6  /benchmarks/tuft-weather/outputs/small/plots/plots/Accra/2003.png
-ff92601da167f566fce276e977f4016701770ff13ca8e9e60ea6399ea5bd3fee  /benchmarks/tuft-weather/outputs/small/plots/plots/Athens/1995.png
-ca283fb8afc3b92408ad679e6022544beaea0f82192c65c494a6f8b588c71d6a  /benchmarks/tuft-weather/outputs/small/plots/plots/Athens/1996.png
-8f72ce9ec541a23db038d41dfad55a32b7e02902dbfa0849bc86d09de144ee5a  /benchmarks/tuft-weather/outputs/small/plots/plots/Athens/1997.png
-c5a6c188c028d2ed065384c2e74dbd22a160aed4cf7f4b724950cb0226c842ff  /benchmarks/tuft-weather/outputs/small/plots/plots/Athens/1998.png
-aebea88ada51fdba9b25499b857749cf350aa6477c570b2edc47d05027a2be95  /benchmarks/tuft-weather/outputs/small/plots/plots/Athens/1999.png
-4b21038463364fb875b44573666c348e5feae126f8a793ac7ed9c4a985069f5d  /benchmarks/tuft-weather/outputs/small/plots/plots/Athens/2000.png
-66eae27b2c717171f4fc8dfd5c4605124a3ec399abf7d71ae472d7d3772af1ae  /benchmarks/tuft-weather/outputs/small/plots/plots/Athens/2001.png
-406119179835ebbbce6b9e3dfd029a65fb187c702651b1a1873fdc7025aa7d31  /benchmarks/tuft-weather/outputs/small/plots/plots/Athens/2002.png
-004c3cb6adbcf2b62d1f3d80dc06c5b7d66065514d22f39f410a8a8aa398eda3  /benchmarks/tuft-weather/outputs/small/plots/plots/Athens/2003.png
-2f51e47a37929dca18ccbfb2b1569d4a953530cbc758b9f8a603612a1ef9b2b9  /benchmarks/tuft-weather/outputs/small/plots/plots/Auckland/1995.png
-b6c1b76bc2e8d70187c8e88935e9e93cdab9996545099fa677b691ecd592ad97  /benchmarks/tuft-weather/outputs/small/plots/plots/Auckland/1996.png
-3df9bf5024628eeb28aafc7dd94b777d0b82396081530c9585d77cbef36d4045  /benchmarks/tuft-weather/outputs/small/plots/plots/Auckland/1997.png
-d410966b8bdc9dd0ec586e137714f4edeaeade289ba038853a618987d1a8f802  /benchmarks/tuft-weather/outputs/small/plots/plots/Auckland/1998.png
-6bc9389a9ccc3c44819a019bc0c2c19ccd87295cc4e66dc336421aa6819e597d  /benchmarks/tuft-weather/outputs/small/plots/plots/Auckland/1999.png
-9c33723751c19e256263fb04010ff41a5eb2f9fbcf9c568bd3edb27c6058ddd6  /benchmarks/tuft-weather/outputs/small/plots/plots/Auckland/2000.png
-e032d7051ac333f5b41cf018dbffbc2d319ba0931a7d8cc467730f57f6e6d203  /benchmarks/tuft-weather/outputs/small/plots/plots/Auckland/2001.png
-7fdc555b835a27b5d96c277e42befc1013ea4e864de900378d62df507fa605d5  /benchmarks/tuft-weather/outputs/small/plots/plots/Auckland/2002.png
-16a7c963ab634fd7c23e424fc19778c8ea11d8e08fa000f89913ae16ecf485b2  /benchmarks/tuft-weather/outputs/small/plots/plots/Auckland/2003.png
-2e8196e47899584eefe92dfbe04217609f987c9243a245688f809939e586685e  /benchmarks/tuft-weather/outputs/small/plots/plots/Beijing/1995.png
-f5384b63e244afaf44f5cd82760446b9573b20f0d1f75d82b865f18e69f5c017  /benchmarks/tuft-weather/outputs/small/plots/plots/Beijing/1996.png
-e1ca6c9f583a0a1de1bec24d5864dd7ad81ea498ba3371910a10fb5d3f721535  /benchmarks/tuft-weather/outputs/small/plots/plots/Beijing/1997.png
-f616120f25b45ea53a9737d74a0f1aaa8e7216a3f5b0fdc1c8c904045a813467  /benchmarks/tuft-weather/outputs/small/plots/plots/Beijing/1998.png
-ee493ea0d43de7b302134760d584bea2060851ea78be716c42b1c8e65adf2041  /benchmarks/tuft-weather/outputs/small/plots/plots/Beijing/1999.png
-fb4006ac4afd5af098bcc7154ae15bccdff3bfbd53d17d9b19f4b51cb73b0b55  /benchmarks/tuft-weather/outputs/small/plots/plots/Beijing/2000.png
-e5a4da5294ba92952d6c264cdc3a5f74299bb85023fe0163755af35eb4d3cd31  /benchmarks/tuft-weather/outputs/small/plots/plots/Beijing/2001.png
-536b7c3ebbf629ca991f96d93530bfa9b2b6eb30eefe4063a7caf93463a48ca1  /benchmarks/tuft-weather/outputs/small/plots/plots/Beijing/2002.png
-31fe746863f79b632c13d84541064bdcd4086101cfab9e65b4a3d846d7a8ceb9  /benchmarks/tuft-weather/outputs/small/plots/plots/Beijing/2003.png
-4ee38c6530fa59e74f8e07195cc987e74122f1b118d1e9aff02ea9f23e0a7cb0  /benchmarks/tuft-weather/outputs/small/plots/plots/Berlin/1995.png
-b2d9c079fdd42f7c8e4fcd1c0c65a9521205a365f32821c314d9ce3ec6b778a1  /benchmarks/tuft-weather/outputs/small/plots/plots/Berlin/1996.png
-2d804a9cacd978bcd2a0a9a93810d2264630b28782061a6aa81410a078575196  /benchmarks/tuft-weather/outputs/small/plots/plots/Berlin/1997.png
-f986e601670abad1b9c56027024aa2a97ef4ad9d0563a2532f968c840b08a915  /benchmarks/tuft-weather/outputs/small/plots/plots/Berlin/1998.png
-1c5390c03d69bdef454f5c5759f0e46301c4e6488b27477487cf7bea248f87a7  /benchmarks/tuft-weather/outputs/small/plots/plots/Berlin/1999.png
-30f08bb6c68713db6d385d722af26cb01d4bf615b21af9dd522ef3d7fe82dd19  /benchmarks/tuft-weather/outputs/small/plots/plots/Berlin/2000.png
-44654c0ff3d3bac7eeca6069453cbe46939d499e1bb7b74058e900a8f6468bd3  /benchmarks/tuft-weather/outputs/small/plots/plots/Berlin/2001.png
-d523a35877fdd26670d244ad27fc154f78aafd056853427cd92e36c0e5706840  /benchmarks/tuft-weather/outputs/small/plots/plots/Berlin/2002.png
-8c53f2aaef879ba1453bc279ef96752dd28254d0c4f8c042def20ac24ca1d819  /benchmarks/tuft-weather/outputs/small/plots/plots/Berlin/2003.png
-5696ef1687f5f96148ba7d4588e61cb5daf391c117d334c112c65771a28f83a1  /benchmarks/tuft-weather/outputs/small/plots/plots/Bogotá/1995.png
-a9b2d68bad88f4b9dfcecb1120703b7cbd892d113535ed87562e7cf45a985c8c  /benchmarks/tuft-weather/outputs/small/plots/plots/Bogotá/1996.png
-9b034db44fdddb2ae8850649924be6cdd14dd3618b20192ec91a8fb09ca566d5  /benchmarks/tuft-weather/outputs/small/plots/plots/Bogotá/1997.png
-0780647158d334774636971fad8bbdaac49276246813ced91e58bc94ae346767  /benchmarks/tuft-weather/outputs/small/plots/plots/Bogotá/1998.png
-59db644d729ae40be7eb6517ab0dccd19bdce68cb5be25e248250bfe97ce8554  /benchmarks/tuft-weather/outputs/small/plots/plots/Bogotá/1999.png
-b87cfa5cde4f4387ff4fde0f3b690779e44da0027bfeb9cac8c8a44bfa807df0  /benchmarks/tuft-weather/outputs/small/plots/plots/Bogotá/2000.png
-d8117dbc2e1bf84579ed7d7d7aad732a9de97f9bc566e741b53a22d10f6dc6cb  /benchmarks/tuft-weather/outputs/small/plots/plots/Bogotá/2001.png
-05f767944b9dc6faf99cbe142c7920687b08ad3bf462fc981287ee98890dc3d7  /benchmarks/tuft-weather/outputs/small/plots/plots/Bogotá/2002.png
-0b3413711702c025b463a53f5eb8e82a0e9937feb7e6d8a852d43462b16427d6  /benchmarks/tuft-weather/outputs/small/plots/plots/Bogotá/2003.png
-f7b4a84148719c00376bda9a6a00372b57797d7f2438c71545454bbf48976f60  /benchmarks/tuft-weather/outputs/small/plots/plots/Buenos_Aires/1995.png
-c6433a5a2ed4f59ce1456e8fbc9577336eba01b285a5e85e30c79278bea20f74  /benchmarks/tuft-weather/outputs/small/plots/plots/Buenos_Aires/1996.png
-414d36a9d97c034b7b8576dba821c8caa7f95936c4e0d62d8bd5f5c2af228ed5  /benchmarks/tuft-weather/outputs/small/plots/plots/Buenos_Aires/1997.png
-543047ae9fb12532507ad68bd093e9bda029518fd178ca74a36959c181364152  /benchmarks/tuft-weather/outputs/small/plots/plots/Buenos_Aires/1998.png
-f0c76b72771b26009b7f98cbb3fe0e8fbf937aad780c0a5953f97d42c8ec6593  /benchmarks/tuft-weather/outputs/small/plots/plots/Buenos_Aires/1999.png
-07dcfc3e9b50d887b5115fd930b12d4699bd1b0c914b5018259099c0e146416b  /benchmarks/tuft-weather/outputs/small/plots/plots/Buenos_Aires/2000.png
-4d40d3b53116cac1f363732fc0f4132da25657054550c675a3f8cbe1063d9b53  /benchmarks/tuft-weather/outputs/small/plots/plots/Buenos_Aires/2001.png
-7fc340e19d50818041b674bcbda4fd7c03c1dd78bf23e9b7eb798385e2c09b4b  /benchmarks/tuft-weather/outputs/small/plots/plots/Buenos_Aires/2002.png
-17344f41966e899ced5073f65adb81a2ba45749bd73c71b17399002523c58681  /benchmarks/tuft-weather/outputs/small/plots/plots/Buenos_Aires/2003.png
-670b5b504c58c9532874d7013a862cf175c6786fcf972749e604584db7c259b3  /benchmarks/tuft-weather/outputs/small/plots/plots/Cairo/1995.png
-0da9e4cc2231375a9fb4e6f4fdcf5ebd72256b468b1b1ce79eb0d684651e6f0f  /benchmarks/tuft-weather/outputs/small/plots/plots/Cairo/1996.png
-a26de2fccafa1c8ab2bcb6f9b4e579474ee33177b0b6b98c28e4a4e75e1f70a0  /benchmarks/tuft-weather/outputs/small/plots/plots/Cairo/1997.png
-326051a71da0dcd503ab3cd2a08670963124dff798ce153e56418dd29df913d5  /benchmarks/tuft-weather/outputs/small/plots/plots/Cairo/1998.png
-7a2e4cd59a531e4ade7db4d5e696c50584062b6a61ce3481bbed962a8503926a  /benchmarks/tuft-weather/outputs/small/plots/plots/Cairo/1999.png
-84b7b774810ab9a77c8fa00188c8dcee8a660b5d0a44d91c99cbb22bceb8a628  /benchmarks/tuft-weather/outputs/small/plots/plots/Cairo/2000.png
-3800da8615b60257a8197cda69d30695fba172d2299018a6ae774ff77dbdcc8f  /benchmarks/tuft-weather/outputs/small/plots/plots/Cairo/2001.png
-56183a9e36261673d5bfed04e1eb3dc92d10fe9eeeae111c7fc4a3d93752aaac  /benchmarks/tuft-weather/outputs/small/plots/plots/Cairo/2002.png
-46cafec268661454ff8a0361f726e3f289b4b0a990df3c3523d5d299a331df1e  /benchmarks/tuft-weather/outputs/small/plots/plots/Cairo/2003.png
-4d58b72cddc36b485c126a78819fd3e1081dfc0d39ace329d0385b2048ab6eef  /benchmarks/tuft-weather/outputs/small/plots/plots/Dubai/1995.png
-549f5a077b98c367bfb8bcb9d40aaa8a898767b517a70eca690df317e735efe1  /benchmarks/tuft-weather/outputs/small/plots/plots/Dubai/1996.png
-c9c05f93a1ee0a026c2cf8693de38132cec5aa9d6485c2ddec285bed9b36382d  /benchmarks/tuft-weather/outputs/small/plots/plots/Dubai/1997.png
-8bca88f014ba3380b8e1cddac1625b37920f858c549c4d5b592c364b74e85a34  /benchmarks/tuft-weather/outputs/small/plots/plots/Dubai/1998.png
-c14824adfc70dc73bed94e9b59e447207715f8bfcf8f2dbff4e9258ecad3da7e  /benchmarks/tuft-weather/outputs/small/plots/plots/Dubai/1999.png
-32783dd637365505953a6aa290b366380d534ad4c5149dadb824216952864bc9  /benchmarks/tuft-weather/outputs/small/plots/plots/Dubai/2000.png
-8ba5cd0356cdb687a3f153a6e48205e99ac42c8dca9f6e649f427d7cc271586e  /benchmarks/tuft-weather/outputs/small/plots/plots/Dubai/2001.png
-b62b4c4f3d99e34ee97f2e1d9954c07df9118aab262700a70babf281818f9a3f  /benchmarks/tuft-weather/outputs/small/plots/plots/Dubai/2002.png
-e51b70f2e7643ca97a83f1b66d82517484718087757cb015e661cfd423b2f8f4  /benchmarks/tuft-weather/outputs/small/plots/plots/Dubai/2003.png
-4828da39f8ec03b8d4328dc723789c724dbb95b148990728f4f7af8f630eecb9  /benchmarks/tuft-weather/outputs/small/plots/plots/Johannesburg/1995.png
-e064dffa7d4eb7195e61566b9db1e08c329e5d27962405350008cb1887acd845  /benchmarks/tuft-weather/outputs/small/plots/plots/Johannesburg/1996.png
-836260654308e9376704bed2d9ad65e0cb8497e0b91e64f7ca107e84e50ed85c  /benchmarks/tuft-weather/outputs/small/plots/plots/Johannesburg/1997.png
-d1b5ca4c1d8f3afb1412350d59a5f974da5b6ea91ac5a33b39cb03d54a9f6847  /benchmarks/tuft-weather/outputs/small/plots/plots/Johannesburg/1998.png
-af224d1e41806b00a21341ab63140310d6ec3c2763d2dfbe9b59eb2633ff61a7  /benchmarks/tuft-weather/outputs/small/plots/plots/Johannesburg/1999.png
-0bcf6391290f96a8053b1ff93a0661592e46459c520b2405bac4943f7350de1f  /benchmarks/tuft-weather/outputs/small/plots/plots/Johannesburg/2000.png
-51e1a6d4cbd2d320ba27c2c2b429ac0ce1e54be14a03d687e6dd0391c83c756f  /benchmarks/tuft-weather/outputs/small/plots/plots/Johannesburg/2001.png
-95daaae91db2a38a97ac0f20f8ed4a32607b7343effb9a0426fba63908be2a15  /benchmarks/tuft-weather/outputs/small/plots/plots/Johannesburg/2002.png
-01c648784c72757dd845f9bb11ad37db9b60eaff942ab4acb76abe2ea7676102  /benchmarks/tuft-weather/outputs/small/plots/plots/Johannesburg/2003.png
-9dd528cec56d74591983fd31e2f51ff989c1f086c8ee14a20165259b362932ed  /benchmarks/tuft-weather/outputs/small/plots/plots/London/1995.png
-4ed9aeec23cb8bca1377bbf75501e3c2bad64c40751f55378b2f1ff56f2a3e89  /benchmarks/tuft-weather/outputs/small/plots/plots/London/1996.png
-dd32f2723c1f9ba48c57d60ed836c9fde79fbcc3e60c18cd5c1a138af942323a  /benchmarks/tuft-weather/outputs/small/plots/plots/London/1997.png
-85c694393e91ff5d4e94de4edcba31ad2d6578eb917e8b9a0a446084beaf1078  /benchmarks/tuft-weather/outputs/small/plots/plots/London/1998.png
-9ca8d29fbb2194892897b68121a35735bb0743d6d92bebe55edc06dc308076d0  /benchmarks/tuft-weather/outputs/small/plots/plots/London/1999.png
-4139bd6a31dd17f58fde8905d86be36fd78f431536188e805a2c864e7d22aea3  /benchmarks/tuft-weather/outputs/small/plots/plots/London/2000.png
-1b3a1b92ae24e1af751c8063c4dd2fe1d7c8d4b7ea9c6483eb0b2cbefdce3570  /benchmarks/tuft-weather/outputs/small/plots/plots/London/2001.png
-fd312a0f7a8aa03d55e7e438d2791603a8614a79600ca5d3f5a0867c8f6b5486  /benchmarks/tuft-weather/outputs/small/plots/plots/London/2002.png
-2c0034cb7f203bd732c3fd3a24393b1b1bf9e245d9923c4c1a99c061951697f3  /benchmarks/tuft-weather/outputs/small/plots/plots/London/2003.png
-ce0e3bfd70fc08453e41a30df0e41b8a2caefdf8e372f116fedab31baff97f03  /benchmarks/tuft-weather/outputs/small/plots/plots/Los_Angeles/1995.png
-030dfaeeab7338d2c8ea29f553dff5b1141a8cb1c519e04dc2cecc65a6a173dc  /benchmarks/tuft-weather/outputs/small/plots/plots/Los_Angeles/1996.png
-ee66e744851af636fb8a853b220c47c969837e7218f3a5d455e41c8000648af9  /benchmarks/tuft-weather/outputs/small/plots/plots/Los_Angeles/1997.png
-1a141d2437789cec2a1868234e20b5afe9b821276660c9806416dcd611099ae8  /benchmarks/tuft-weather/outputs/small/plots/plots/Los_Angeles/1998.png
-bac27cd7ae42ce3331812d2bda5ec87ab342d5d308f0a677c85a53a0ef01c513  /benchmarks/tuft-weather/outputs/small/plots/plots/Los_Angeles/1999.png
-351caf3565d127eb43c4b521006fd8710f363874c8d6ab94fa1ca4dc23889855  /benchmarks/tuft-weather/outputs/small/plots/plots/Los_Angeles/2000.png
-2b20ed0e458f7b7ce870b7ff463786936e56eb55ca4350d5f791c9c6eb244fc8  /benchmarks/tuft-weather/outputs/small/plots/plots/Los_Angeles/2001.png
-2885901b0f184ac648f548f6d1da3c3c6cfe3a0de7d7d55ceebc2ff190b2981d  /benchmarks/tuft-weather/outputs/small/plots/plots/Los_Angeles/2002.png
-797d18e619f564477c3ff93782a52229b9b5c39479fe23c0ee4c4f57cd269075  /benchmarks/tuft-weather/outputs/small/plots/plots/Los_Angeles/2003.png
-46df2c6660b1e8c749ed678a53b175cc51be34c147a50f0377ad56288d7d45b0  /benchmarks/tuft-weather/outputs/small/plots/plots/Melbourne/1995.png
-17110cc99dfa117f3c075ed00547bd04ec7d60d13fe1b1868224abffddb50afe  /benchmarks/tuft-weather/outputs/small/plots/plots/Melbourne/1996.png
-6373b6260940a7f8aa92e9ec8733cb005f82f89e00524cda2bc3aa7172cb9059  /benchmarks/tuft-weather/outputs/small/plots/plots/Melbourne/1997.png
-aba196e4799bd17479772b57d037bbd6f081d284c0b23cb5d84b4f82e4d65699  /benchmarks/tuft-weather/outputs/small/plots/plots/Melbourne/1998.png
-e68ca667fb59a0370cbb7f8f31cdbd35c982f5da30bc6331537b9e959cc85a21  /benchmarks/tuft-weather/outputs/small/plots/plots/Melbourne/1999.png
-946be84e88c7f51dc6c2f4105e1fb1cddbd4be8cc3fc457b262451573e46a67f  /benchmarks/tuft-weather/outputs/small/plots/plots/Melbourne/2000.png
-2db0c70ac258b75e061c0b67c819eb8aaeb6a01856a7aadd866e386eee0e2317  /benchmarks/tuft-weather/outputs/small/plots/plots/Melbourne/2001.png
-36129116cf5a75fea39e69813f86f5d7b15c50b06c5217dd090e2dfa6d68894b  /benchmarks/tuft-weather/outputs/small/plots/plots/Melbourne/2002.png
-a4e9381d6ba93423ee86e00f20b12383d2c2a8777711d82d44bfefa78f0760e3  /benchmarks/tuft-weather/outputs/small/plots/plots/Melbourne/2003.png
-1f678f82b2b99cb3343cc05faa9eff569a20345b18f9438238c943c421d188bb  /benchmarks/tuft-weather/outputs/small/plots/plots/Mexico_City/1995.png
-b41c719005a2d47fb4ffe621abba71823fa98a08524f239c8a432889438571a8  /benchmarks/tuft-weather/outputs/small/plots/plots/Mexico_City/1996.png
-fb26d2b71dcaad1677f42a4e8509ad242c800f7377c5d001d1b1418523087ddc  /benchmarks/tuft-weather/outputs/small/plots/plots/Mexico_City/1997.png
-d3c63e30cf0aaf16e8f029135712635b6a8befdefc45872c023773536ec3f6cb  /benchmarks/tuft-weather/outputs/small/plots/plots/Mexico_City/1998.png
-8f241c164ef05a811d8320e172ef70eb191c4b0a15329fce163ada2f3de47f6b  /benchmarks/tuft-weather/outputs/small/plots/plots/Mexico_City/1999.png
-74c87c18247ce20ab59d9def89d5eb0255c62dce8792f97188d5d8cabada2bc5  /benchmarks/tuft-weather/outputs/small/plots/plots/Mexico_City/2000.png
-87692093248a666abb9e63fd2efa8bedf5175c66ca5052c1007c266e0ef40306  /benchmarks/tuft-weather/outputs/small/plots/plots/Mexico_City/2001.png
-dbb5bb9ae37a99ae9b3f47d710c0bc43646d5dcea72aa20f4834e39b60b266b0  /benchmarks/tuft-weather/outputs/small/plots/plots/Mexico_City/2002.png
-eab81cefdcf505b89e2767f7fa148e5c353e03fba66f71d7cf5d9e0bc82a183e  /benchmarks/tuft-weather/outputs/small/plots/plots/Mexico_City/2003.png
-501b8daea211e0d8da2614f04d0d47106340e98b2b8ea8250db330fbbed41307  /benchmarks/tuft-weather/outputs/small/plots/plots/Mumbai/1995.png
-43391ecee690a48d1bec06004555d68be7b9e268f8742ed549737aa8ad6b5baa  /benchmarks/tuft-weather/outputs/small/plots/plots/Mumbai/1996.png
-3096d0989f5ea25ff3b4d674c120dd017cd231418a426b26b73c6cd9312b7651  /benchmarks/tuft-weather/outputs/small/plots/plots/Mumbai/1997.png
-85ea00b672d5743b5587e726aabbe50253386d6efbb0e7082c0da245576dac69  /benchmarks/tuft-weather/outputs/small/plots/plots/Mumbai/1998.png
-6930f10df64e9e112fe067d5397ea3ed13a0f83314a2218c0d1abf515d41698b  /benchmarks/tuft-weather/outputs/small/plots/plots/Mumbai/1999.png
-2812f22c1dc2d5dc7d7690aa7ee8b718c243148074690a5c2646883946812008  /benchmarks/tuft-weather/outputs/small/plots/plots/Mumbai/2000.png
-f1277f082cda3a62e9cad98da498b55c2bf3a53e5654fb69833b54d9c0b134ef  /benchmarks/tuft-weather/outputs/small/plots/plots/Mumbai/2001.png
-90ec128be293fe2b666ae276171b48ce566372e7e6109a3b21c33a1e02f1501c  /benchmarks/tuft-weather/outputs/small/plots/plots/Mumbai/2002.png
-47dafcb696f8fb9d96d4a02d1a0f5c6aa00409d09749773b1a0454b6d3cdcb5c  /benchmarks/tuft-weather/outputs/small/plots/plots/Mumbai/2003.png
-1a814cb40f866251b8be86d5652c066fe70b4fa4eecdde2d8c03aa36a9201f3b  /benchmarks/tuft-weather/outputs/small/plots/plots/Nairobi/1995.png
-b0ac8d9926ce8a8ba186463e45f34ef5041c2b74bd7e09296bb70088cab78c9d  /benchmarks/tuft-weather/outputs/small/plots/plots/Nairobi/1996.png
-0b9dafe47a42562a0634796b1384d82a74391b96d60314c5bc3b69afa32b9127  /benchmarks/tuft-weather/outputs/small/plots/plots/Nairobi/1997.png
-a3783651e842b0ec495a5325cdd4a2703b7daa0abbe62c501f704246b61e73b2  /benchmarks/tuft-weather/outputs/small/plots/plots/Nairobi/1998.png
-d3853469042fc3dee9a108dfc43e4ea1458ffbeb2272ae0163fca1da517c31c1  /benchmarks/tuft-weather/outputs/small/plots/plots/Nairobi/1999.png
-f11f1c30cf6359b9f5ed4acba88b46d6d8461b158611acc52e6a2976c7ed3065  /benchmarks/tuft-weather/outputs/small/plots/plots/Nairobi/2000.png
-5497149e045fbaf870b5026090ff9905d4237d4df538974b023667e8af07216f  /benchmarks/tuft-weather/outputs/small/plots/plots/Nairobi/2001.png
-4a0138ddf909a4e00967b7de278445ed67237c88d3ec5a4edbc8e1b246567db4  /benchmarks/tuft-weather/outputs/small/plots/plots/Nairobi/2002.png
-e5aaa469f4fd99a18b27876188ef7e8e37bbf4272056bad63c0b5393186dfc4f  /benchmarks/tuft-weather/outputs/small/plots/plots/Nairobi/2003.png
-e07abef2776aa256e3165a286f2207a8a31fee4d8fe19d14c960a23406b7360e  /benchmarks/tuft-weather/outputs/small/plots/plots/New_York/1995.png
-185b264f5df76948cde2c96ab0f992d38c6c27e44f853c920c31a278a23dd4d2  /benchmarks/tuft-weather/outputs/small/plots/plots/New_York/1996.png
-1f190ea19d145c66a4a287ed593047b8ba81c22a73ac3d6c41f0194b0a9952a8  /benchmarks/tuft-weather/outputs/small/plots/plots/New_York/1997.png
-330d758bad5e7e33f2be23e76f54af94178a516294615a82ebc07715c96b3646  /benchmarks/tuft-weather/outputs/small/plots/plots/New_York/1998.png
-dded0b8e03a165a79dbfd6461ddfff7f746cd3425fb349956795cb9bba968540  /benchmarks/tuft-weather/outputs/small/plots/plots/New_York/1999.png
-998faf5411a00b3dd0640370910909725c6e203bc03ba1e5aeba6fffcce94f64  /benchmarks/tuft-weather/outputs/small/plots/plots/New_York/2000.png
-b494350c7bc4a6483356a724b6cd44281797fa64ddc0d9fed4e530985dc93a7c  /benchmarks/tuft-weather/outputs/small/plots/plots/New_York/2001.png
-1ed5415c8faf9b4b20dea4dc9677b809f874d9d065867e744005766ab877a737  /benchmarks/tuft-weather/outputs/small/plots/plots/New_York/2002.png
-6f42e36992cdb60ac7d0babf75c4c86e940175d54b42efc218be61553dd149e4  /benchmarks/tuft-weather/outputs/small/plots/plots/New_York/2003.png
-d1aaf598be014264ad373005d747c9516404cb89bef8a9b148d696ff2439a343  /benchmarks/tuft-weather/outputs/small/plots/plots/Paris/1995.png
-662f2fd3d066e4c7a31d198715556a0843fa1cade832936b1101ddd5f238bb68  /benchmarks/tuft-weather/outputs/small/plots/plots/Paris/1996.png
-2e9326784f14bf483f57b04d0d88c7f5304f932848354b83f93bb7d2536969ca  /benchmarks/tuft-weather/outputs/small/plots/plots/Paris/1997.png
-5a436bb20c19794b74311def93192ca27f42e435379fc902819256e2c4eb64c6  /benchmarks/tuft-weather/outputs/small/plots/plots/Paris/1998.png
-6730fe4f46e2fb5b00e96ff3a3d24804d9e52f4f8f3f0ecaa595f3b1081731f4  /benchmarks/tuft-weather/outputs/small/plots/plots/Paris/1999.png
-4667b837224d891a7672d253ad7c21bc2a661ac7cbb283a6c814527eb5cbc097  /benchmarks/tuft-weather/outputs/small/plots/plots/Paris/2000.png
-dc10fe124d62afb110036391b1ae496f9126a6f0d9d42925eebebe87dfb90386  /benchmarks/tuft-weather/outputs/small/plots/plots/Paris/2001.png
-f606aa02ab4802a2a59a94eecce3ce18e570c0c1b24e2c0872a3e731c1e99cba  /benchmarks/tuft-weather/outputs/small/plots/plots/Paris/2002.png
-e49b19a004fa5bf19a80266bcbdc6ce646126eed46b8e52e4cd6a3037e0b5f9c  /benchmarks/tuft-weather/outputs/small/plots/plots/Paris/2003.png
-cb2f4d027b1d632dcc215cd35eedeece86a1061dd82a807014463fe96a6cf4e0  /benchmarks/tuft-weather/outputs/small/plots/plots/Riyadh/1995.png
-2889a60df8e7a45e4059a444d695fa4556a424dcae97fbc24b5a8ff2562a82d4  /benchmarks/tuft-weather/outputs/small/plots/plots/Riyadh/1996.png
-0998028d77fe5ae23fe25273769af142c464079a32b65a16e7e7a58b2708be79  /benchmarks/tuft-weather/outputs/small/plots/plots/Riyadh/1997.png
-1fdcd1370ac98b2fbd481f1d372b7becbffae703f3edc8cfd5cb20f6634c3df4  /benchmarks/tuft-weather/outputs/small/plots/plots/Riyadh/1998.png
-a209dc4556c896dadc4e0e283922a03b618a6031e555ee0c61e8afc4771a1896  /benchmarks/tuft-weather/outputs/small/plots/plots/Riyadh/1999.png
-d2fd548619ea49d94c5309469079f931113c0f8caac7eb2b7df2ea0795047baf  /benchmarks/tuft-weather/outputs/small/plots/plots/Riyadh/2000.png
-8447be9fedd8e2b5e65e26f798de34b3a8955c7fdcdbaff357711106737407db  /benchmarks/tuft-weather/outputs/small/plots/plots/Riyadh/2001.png
-0d879b418eb006619b65ac259b97196a847cf23e6e994eff3eafb2d44d8d391b  /benchmarks/tuft-weather/outputs/small/plots/plots/Riyadh/2002.png
-5b864f3d50d5bd98d547202ebb6dd8aea9a66eb27ba9576f9db282a887b9ddd4  /benchmarks/tuft-weather/outputs/small/plots/plots/Riyadh/2003.png
-18cdf584d2ffcea0dd23e79d3bb6e18cc8e7bf23a704f68148450c802a9a9a18  /benchmarks/tuft-weather/outputs/small/plots/plots/Santiago/1995.png
-973229acf6a7109f8c41e724b0b7634bcf9772b6c7af54eca3bd5032df3a29ca  /benchmarks/tuft-weather/outputs/small/plots/plots/Santiago/1996.png
-69e0ade20b15b176e8f48c171b6056d3e073ae4856bf268f3b78cc3d351d8212  /benchmarks/tuft-weather/outputs/small/plots/plots/Santiago/1997.png
-4df0fc84a64776397d000694f1a357d7db01eee8c9be3a90d3ef1041e8a241e8  /benchmarks/tuft-weather/outputs/small/plots/plots/Santiago/1998.png
-e3d3576a66f57991a7f80d9f0d71791722fac0db5e08acc78c13219a0af4693a  /benchmarks/tuft-weather/outputs/small/plots/plots/Santiago/1999.png
-378f9bcdd8e023bfa4ba9ee1b5497641bd46518e6979c04b01f4fa1ba1de9aab  /benchmarks/tuft-weather/outputs/small/plots/plots/Santiago/2000.png
-d32c5bbe466e0ebaa26b520a838b437345b771a7703de350ccd7837635c1a809  /benchmarks/tuft-weather/outputs/small/plots/plots/Santiago/2001.png
-9ce67c46150fa86fbf6ced27c516c233f4f7a081c5e7ea957eecf8cd98f81068  /benchmarks/tuft-weather/outputs/small/plots/plots/Santiago/2002.png
-72c46d396a171afe0d237db4bf62f5e6c262aa1f644e4dd3f21a8cd0a03e9171  /benchmarks/tuft-weather/outputs/small/plots/plots/Santiago/2003.png
-ee962bf72dcdec17692fd701fbfc4255fe861366a16b2ccd53f9586af71c837d  /benchmarks/tuft-weather/outputs/small/plots/plots/Seoul/1995.png
-49eac9530340a027eabf91db4d4e85a0cbe0c4b0a799772be36ce88633bb42e6  /benchmarks/tuft-weather/outputs/small/plots/plots/Seoul/1996.png
-fad3e13f120c9a66acdcc9f3140b31e25625b5465cfc3d19a86c90388ba8c4a4  /benchmarks/tuft-weather/outputs/small/plots/plots/Seoul/1997.png
-93cba418f1878cebbe3257bdcd12bf0290e09d30ac0891cb13d42d85c339569c  /benchmarks/tuft-weather/outputs/small/plots/plots/Seoul/1998.png
-973af7f67ccb6ace39ca31358b202660e6555b31a1c4e323a5d881d2e0ffbf2c  /benchmarks/tuft-weather/outputs/small/plots/plots/Seoul/1999.png
-d05e5983311f354f08759b36ad3b9a9ff7c403de30836538de9af540ef41bb81  /benchmarks/tuft-weather/outputs/small/plots/plots/Seoul/2000.png
-c3e3692ac9b721d53013ea766e2b66b6852570a315e25f728dd860357fdb1a5b  /benchmarks/tuft-weather/outputs/small/plots/plots/Seoul/2001.png
-3d718447293631e60c4ebdee852c5a9a467bdcc4f3cdd8344dbd930ca2e865e1  /benchmarks/tuft-weather/outputs/small/plots/plots/Seoul/2002.png
-1985e612f0b185b7c61bb7bbc93985723daf58ce320316f54fc39657789c95ad  /benchmarks/tuft-weather/outputs/small/plots/plots/Seoul/2003.png
-b87374c736ea219c448cb318f58d3ee4b8b550ae8a02d99de94ff68cd73b1487  /benchmarks/tuft-weather/outputs/small/plots/plots/Sydney/1995.png
-6df127e3e1784ab28e929e296e172917021e7840b8fa797547befd8a016b17e7  /benchmarks/tuft-weather/outputs/small/plots/plots/Sydney/1996.png
-efb93943d4a0f9031f3929c7a2c32b0f611818bdfac2def95b08cc7ef7ecc0b4  /benchmarks/tuft-weather/outputs/small/plots/plots/Sydney/1997.png
-bba3f74d1218d15641b5e4e7e145738705ca090a084948fc0c1d070bace83ffc  /benchmarks/tuft-weather/outputs/small/plots/plots/Sydney/1998.png
-9f9dbf6d57cb6a1e68cecbe0b6ab8d60b3b3299a124c0c1523e2d9eca52e1e54  /benchmarks/tuft-weather/outputs/small/plots/plots/Sydney/1999.png
-f1b833b638f6a4b6b66498ecc15ff32dc7d63b81b43b7555f27e3ea2b0cf6650  /benchmarks/tuft-weather/outputs/small/plots/plots/Sydney/2000.png
-2b61d0e93233814b4f06fb2424020ab5a4a0765db1e9a38488bb1a9681f8bec1  /benchmarks/tuft-weather/outputs/small/plots/plots/Sydney/2001.png
-dac0d62b809d90531312d89a97ecc32daf707b2267cd975fcfa6054f1b06bd98  /benchmarks/tuft-weather/outputs/small/plots/plots/Sydney/2002.png
-830daafa8784cf6f84dbdcb5034a889a1ee52924004ffce554aaac186b71afe0  /benchmarks/tuft-weather/outputs/small/plots/plots/Sydney/2003.png
-80d8215df4889921eaeb9fe93daeb6cd54ef74bb08f7a6dce15446ff116d1666  /benchmarks/tuft-weather/outputs/small/plots/plots/São_Paulo/1995.png
-a89bc7ef88babcc973b55b7759edd0b74d08080c524d1e628b842e804435f111  /benchmarks/tuft-weather/outputs/small/plots/plots/São_Paulo/1996.png
-b6b33ddbf9dbaaa0ebbe17714f0b498a9d63e7fa7e9ada57a7ab9f66316b7d1a  /benchmarks/tuft-weather/outputs/small/plots/plots/São_Paulo/1997.png
-6eff82d3e68107ffa1e3383f12035b87833a1a3dfe96dd89e013251d9382e530  /benchmarks/tuft-weather/outputs/small/plots/plots/São_Paulo/1998.png
-cb7886e8f1d12987e22e6cf8f5b8844d4b9b4c71df1233c86267b5f414708823  /benchmarks/tuft-weather/outputs/small/plots/plots/São_Paulo/1999.png
-229c8059fa50c3fc758241d845b54ae8f91979fff595fa9e6ce95d0f855db497  /benchmarks/tuft-weather/outputs/small/plots/plots/São_Paulo/2000.png
-20dbf41d8a6affb7ad4407448e60c30c914c5e0bf5518670297a9dd7b903aece  /benchmarks/tuft-weather/outputs/small/plots/plots/São_Paulo/2001.png
-326a505bac10beaa6d36a08f3f51e460f4d7f1e697fd4e43613cd4b6732000dc  /benchmarks/tuft-weather/outputs/small/plots/plots/São_Paulo/2002.png
-f7418565df78674a1413b4be3ad3b04910cb6607541f2f8328a4cd7f86c361a1  /benchmarks/tuft-weather/outputs/small/plots/plots/São_Paulo/2003.png
-d0017dcdbd58e4a0a02deec3d24454314b4446e1e2bb2d99695841544f259552  /benchmarks/tuft-weather/outputs/small/plots/plots/Tehran/1995.png
-da7a9f03c67172ed818a98fb6b87ecca8a5c412693d2a1e1b5e20c1b039e4749  /benchmarks/tuft-weather/outputs/small/plots/plots/Tehran/1996.png
-55ad9cbac2a2bdc060d79b8ebc521c3b47d9ce18a5f1846b8593426d87c1a9f5  /benchmarks/tuft-weather/outputs/small/plots/plots/Tehran/1997.png
-40a130a0ac49de78180dda5e8dea6d198b99c42513194ae64915241bffe9ad45  /benchmarks/tuft-weather/outputs/small/plots/plots/Tehran/1998.png
-250444faba6d610e9e336dbe0a5dda562b6a679caa207342ccae3d4da56cca3d  /benchmarks/tuft-weather/outputs/small/plots/plots/Tehran/1999.png
-e76b58ba5619a79633014ce5414a8c35078d7d988805bbeeb37ac4ece06dd8bb  /benchmarks/tuft-weather/outputs/small/plots/plots/Tehran/2000.png
-1d60e5deae1258e3a6fde107653ba84aa2f3304378467befee13ae5e48fb4a72  /benchmarks/tuft-weather/outputs/small/plots/plots/Tehran/2001.png
-f746a7190d5239651763626f8414f3feceb41cf7659768df087238a986143715  /benchmarks/tuft-weather/outputs/small/plots/plots/Tehran/2002.png
-bbbd0975a9fb9d8f481c0223a57fd5ceb8dcc6a8f8451b453415ffba355d49d0  /benchmarks/tuft-weather/outputs/small/plots/plots/Tehran/2003.png
-cb069c79e4ed80bf984440922c783eaa56c103e64c332c0bce40e018d0007078  /benchmarks/tuft-weather/outputs/small/plots/plots/Tel_Aviv/1995.png
-689dc201d47d9e45bc7a72ad4504ea8d19596d29bf6617ee1c978c26d5c727d0  /benchmarks/tuft-weather/outputs/small/plots/plots/Tel_Aviv/1996.png
-ff60f64b5ae5b995876608147e75321f8edb523dc699528f4f992bdf28901f2e  /benchmarks/tuft-weather/outputs/small/plots/plots/Tel_Aviv/1997.png
-a0ecd36496992e56b6f277c4f97b86cb8258a20f1b36468bdb6a968ff6e1f326  /benchmarks/tuft-weather/outputs/small/plots/plots/Tel_Aviv/1998.png
-f9dff9e168fb4500716b3960ad163984630d5f7640bda395e2be002c66fcb360  /benchmarks/tuft-weather/outputs/small/plots/plots/Tel_Aviv/1999.png
-e0a24b5fc981f8d1a540b3506bc9f541b84a17010591737a01e59e0524b385b8  /benchmarks/tuft-weather/outputs/small/plots/plots/Tel_Aviv/2000.png
-2d81b7a684ff96062ab9d4495b3df556a7e2ae292ff6bb40b7a1068414e58c61  /benchmarks/tuft-weather/outputs/small/plots/plots/Tel_Aviv/2001.png
-7570e90c0a1169c14c4998a12ef180ef1af478ff9a136ef90a25d1f3a962c174  /benchmarks/tuft-weather/outputs/small/plots/plots/Tel_Aviv/2002.png
-d791fcfab2504f4587346b89f03c31b43557489c5de05a8e9e6e70555375ffcd  /benchmarks/tuft-weather/outputs/small/plots/plots/Tel_Aviv/2003.png
-b680680117170fb37d96d4df4eae783f3664f9daa7f68de3736c7c00db07265a  /benchmarks/tuft-weather/outputs/small/plots/plots/Tokyo/1995.png
-0f456ba9a503d3840907e78c071211fe32105c4f3998c3cf2c667b8b0b3f44d4  /benchmarks/tuft-weather/outputs/small/plots/plots/Tokyo/1996.png
-f425662316002fa360ceecca713b08ee63ed8b29bde42a554999d3fbfddaf2e5  /benchmarks/tuft-weather/outputs/small/plots/plots/Tokyo/1997.png
-1b8cb7685f5a884953dd5336916c335a9644de820482351a8dde588003f51664  /benchmarks/tuft-weather/outputs/small/plots/plots/Tokyo/1998.png
-b888f646f4529822b3f637ccccdbd89573b7133f10c1ed8e4936b7996cad4d5a  /benchmarks/tuft-weather/outputs/small/plots/plots/Tokyo/1999.png
-859f5ec4db0e7f00e890ff1f8a02932fe9fcda95a30a5653dd6ee2f8577837c5  /benchmarks/tuft-weather/outputs/small/plots/plots/Tokyo/2000.png
-9701b103fbcaffb0f72916b92ddef44e8ba96602ccd6e686f81691cca45e000a  /benchmarks/tuft-weather/outputs/small/plots/plots/Tokyo/2001.png
-634e8e13764d16aa65c70b090582e054ba9ab258e9b4a55fa33ae6a3cf778215  /benchmarks/tuft-weather/outputs/small/plots/plots/Tokyo/2002.png
-0f6d01801a37cd4296281feacbedba6e3e4c61022b3fab02b7daf899a48a57f8  /benchmarks/tuft-weather/outputs/small/plots/plots/Tokyo/2003.png
-91cb155901feb7a90361d026728fbc4bc66efe9ba2026359ffdc0e7d2affbe5a  /benchmarks/tuft-weather/outputs/small/plots/plots/Toronto/1995.png
-acefdd85a7c17576e255bbddef983463063488a4a039c6add88c07c69618af73  /benchmarks/tuft-weather/outputs/small/plots/plots/Toronto/1996.png
-1e6afd791bf1ada5350ac5b5bd2cb9ae9e97d5915c24f5de279116de50e20905  /benchmarks/tuft-weather/outputs/small/plots/plots/Toronto/1997.png
-2d816db6494c4ebff257429749fb6e84969e1f42f90d3acbaa70fcac831c481e  /benchmarks/tuft-weather/outputs/small/plots/plots/Toronto/1998.png
-7090f8879bb503fcfc967afe6eff1611aa46e742104b62985da8eb60d9718060  /benchmarks/tuft-weather/outputs/small/plots/plots/Toronto/1999.png
-cfeb111b1792eb56f6ab0781ee62e287ed5d86c47356fd8ba566060cb06c4d2f  /benchmarks/tuft-weather/outputs/small/plots/plots/Toronto/2000.png
-eb075278525cc40984731063819273334a190e30cd1a28499df9b0d9651b5697  /benchmarks/tuft-weather/outputs/small/plots/plots/Toronto/2001.png
-67605fc76b88e7399ccaa7904989b0ceb11d8dea627bf1f212d8bb838ad84f5d  /benchmarks/tuft-weather/outputs/small/plots/plots/Toronto/2002.png
-961be1220c4bb8aec99591e7e303acbf10f260c4d7621bfa77bec480ddef458d  /benchmarks/tuft-weather/outputs/small/plots/plots/Toronto/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Accra/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Athens/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Auckland/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Beijing/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Berlin/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Bogotá/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Buenos_Aires/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Cairo/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Dubai/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Johannesburg/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/London/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/London/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/London/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/London/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/London/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/London/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/London/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/London/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/London/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/London/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/London/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/London/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/London/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/London/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Los_Angeles/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Melbourne/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Mexico_City/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Mumbai/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Nairobi/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/New_York/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Paris/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Riyadh/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Santiago/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Seoul/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Sydney/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/São_Paulo/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Tehran/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Tel_Aviv/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Tokyo/2008.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/1995.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/1996.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/1997.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/1998.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/1999.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/2000.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/2001.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/2002.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/2003.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/2004.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/2005.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/2006.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/2007.png
+/benchmarks/tuft-weather/outputs/small/plots/Toronto/2008.png

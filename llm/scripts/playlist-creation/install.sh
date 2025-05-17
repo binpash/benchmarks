@@ -15,9 +15,8 @@ sudo apt-get install -y \
 if [ ! -d "$eval_dir/venv" ]; then
     python3 -m venv "$eval_dir/venv"
 fi
-source "$eval_dir/venv/bin/activate"
 
 pip install --break-system-packages --upgrade pip
 pip install --break-system-packages llm
-llm install llm-interpolate
-llm install llm-clap
+pip install --break-system-packages llm-interpolate
+pip install --break-system-packages llm-clap

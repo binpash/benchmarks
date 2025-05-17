@@ -21,7 +21,6 @@ sudo apt install -y --no-install-recommends \
     python3-venv
 
 python3 -m venv "$eval_dir/venv"
-source "$eval_dir/venv/bin/activate"
 
 pip install --break-system-packages --upgrade pip
 

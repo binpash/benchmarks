@@ -10,13 +10,9 @@ sudo apt-get install -y \
     python3-venv \
     coreutils findutils sed unzip curl imagemagick
 
-# Create virtual environment
-python3 -m venv "$venv_dir"
-source "$venv_dir/bin/activate"
-
-pip install --upgrade pip
-pip install llm
-llm install llm-ollama
+pip install --break-system-packages --upgrade pip
+pip install --break-system-packages llm
+pip install --break-system-packages llm-ollama
 curl -fsSL https://ollama.com/install.sh | sh
 nohup ollama serve > ollama_serve.log 2>&1 &
 SERVER_PID=$!

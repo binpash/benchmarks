@@ -26,6 +26,22 @@ Two analysis scripts are executed:
      - Telnet login attempts
    - The output is saved to `outputs/pcaps_<size>/<filename>.log`.
 
+3. **IP-ASN Annotation and ASN Popularity Analysis:**:
+   - Each log file containing JSON-structured IP information is:
+     - Annotated using zannotate with BGP routing information from a provided MRT file.
+     - Parsed using jq to extract:
+      - Source IP addresses
+      - Associated Autonomous System Numbers (ASNs)
+   - These are joined and processed to compute the popularity of ASNs, based on how frequently they appear in the annotated logs.
+   - The output is saved to 
+    ```bash
+   outputs/asn_<size>/<log_filename>/
+    ├── annotated.json         # Full annotation output
+    ├── ips.txt                # Extracted IPs
+    ├── asns.txt               # Corresponding ASNs
+    └── as_popularity.csv      # ASN popularity (ranked by frequency)
+    ```
+    
 ### Validation
 
 Correctness is determined by computing the MD5 hash of each output file and comparing it against a reference hash stored in `hashes/`.

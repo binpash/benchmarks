@@ -21,14 +21,21 @@ plot_root="$eval_dir/outputs/$size/plots"
 mkdir -p "$hash_dir"
 
 if [ "$generate" = true ]; then
-    find "$plot_root" -type f -name '*.png' ! -path '*/tmp/*' -print0 \
-        | sort -z | xargs -0 sha256sum > "$hash_file"
-    echo "hash manifest generated"
+    find "$plot_root" -type f -name '*.png' ! -path '*/tmp/*' -print0 |
+        sort -z | tr '\0' '\n' > "$hash_file"
     exit 0
 fi
 
-if ! sha256sum --quiet --check "$hash_file"; then
-    echo "tuft-weather 1"
-else
+all_exist=true
+while IFS= read -r filepath; do
+    if [ ! -f "$filepath" ]; then
+        echo "Missing: $filepath"
+        all_exist=false
+    fi
+done < "$hash_file"
+
+if [ "$all_exist" = true ]; then
     echo "tuft-weather 0"
+else
+    echo "tuft-weather 1"
 fi

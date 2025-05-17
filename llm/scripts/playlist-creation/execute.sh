@@ -9,7 +9,6 @@ outputs_dir="$eval_dir/outputs"
 mkdir -p "$outputs_dir"
 
 export BENCHMARK_SCRIPT="$scripts_dir/playlist-creation.sh"
-source "$eval_dir/venv/bin/activate"
 
 suffix=""
 for arg in "$@"; do

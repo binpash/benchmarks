@@ -1,0 +1,51 @@
+Couldn't find '/root/.ollama/id_ed25519'. Generating new private key.
+Your new public key is: 
+
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILzXwLMm2BQBNRb0scXuvxNs/wn09yFjZ6KDWD6FEe2k
+
+time=2025-05-17T06:37:21.688-04:00 level=INFO source=routes.go:1205 msg="server config" env="map[CUDA_VISIBLE_DEVICES: GPU_DEVICE_ORDINAL: HIP_VISIBLE_DEVICES: HSA_OVERRIDE_GFX_VERSION: HTTPS_PROXY: HTTP_PROXY: NO_PROXY: OLLAMA_CONTEXT_LENGTH:4096 OLLAMA_DEBUG:INFO OLLAMA_FLASH_ATTENTION:false OLLAMA_GPU_OVERHEAD:0 OLLAMA_HOST:http://127.0.0.1:11434 OLLAMA_INTEL_GPU:false OLLAMA_KEEP_ALIVE:5m0s OLLAMA_KV_CACHE_TYPE: OLLAMA_LLM_LIBRARY: OLLAMA_LOAD_TIMEOUT:5m0s OLLAMA_MAX_LOADED_MODELS:0 OLLAMA_MAX_QUEUE:512 OLLAMA_MODELS:/root/.ollama/models OLLAMA_MULTIUSER_CACHE:false OLLAMA_NEW_ENGINE:false OLLAMA_NOHISTORY:false OLLAMA_NOPRUNE:false OLLAMA_NUM_PARALLEL:0 OLLAMA_ORIGINS:[http://localhost https://localhost http://localhost:* https://localhost:* http://127.0.0.1 https://127.0.0.1 http://127.0.0.1:* https://127.0.0.1:* http://0.0.0.0 https://0.0.0.0 http://0.0.0.0:* https://0.0.0.0:* app://* file://* tauri://* vscode-webview://* vscode-file://*] OLLAMA_SCHED_SPREAD:false ROCR_VISIBLE_DEVICES: http_proxy: https_proxy: no_proxy:]"
+time=2025-05-17T06:37:21.688-04:00 level=INFO source=images.go:463 msg="total blobs: 0"
+time=2025-05-17T06:37:21.688-04:00 level=INFO source=images.go:470 msg="total unused blobs removed: 0"
+time=2025-05-17T06:37:21.688-04:00 level=INFO source=routes.go:1258 msg="Listening on 127.0.0.1:11434 (version 0.7.0)"
+time=2025-05-17T06:37:21.688-04:00 level=INFO source=gpu.go:217 msg="looking for compatible GPUs"
+time=2025-05-17T06:37:21.692-04:00 level=INFO source=amd_linux.go:402 msg="no compatible amdgpu devices detected"
+time=2025-05-17T06:37:21.692-04:00 level=INFO source=gpu.go:377 msg="no compatible GPUs were discovered"
+time=2025-05-17T06:37:21.692-04:00 level=INFO source=types.go:130 msg="inference compute" id=0 library=cpu variant="" compute="" driver=0.0 name="" total="30.5 GiB" available="21.7 GiB"
+[GIN] 2025/05/17 - 06:37:26 | 200 |      34.046µs |       127.0.0.1 | HEAD     "/"
+time=2025-05-17T06:37:27.670-04:00 level=INFO source=download.go:177 msg="downloading aeda25e63ebd in 16 208 MB part(s)"
+time=2025-05-17T06:39:03.204-04:00 level=INFO source=download.go:177 msg="downloading e0a42594d802 in 1 358 B part(s)"
+time=2025-05-17T06:39:04.623-04:00 level=INFO source=download.go:177 msg="downloading dd084c7d92a3 in 1 8.4 KB part(s)"
+time=2025-05-17T06:39:06.028-04:00 level=INFO source=download.go:177 msg="downloading 3116c5225075 in 1 77 B part(s)"
+time=2025-05-17T06:39:07.434-04:00 level=INFO source=download.go:177 msg="downloading b6ae5839783f in 1 489 B part(s)"
+[GIN] 2025/05/17 - 06:39:10 | 200 |         1m43s |       127.0.0.1 | POST     "/api/pull"
+[GIN] 2025/05/17 - 06:39:10 | 200 |     202.456µs |       127.0.0.1 | GET      "/api/tags"
+[GIN] 2025/05/17 - 06:39:10 | 200 |   34.228506ms |       127.0.0.1 | POST     "/api/show"
+[GIN] 2025/05/17 - 06:39:10 | 200 |     463.165µs |       127.0.0.1 | GET      "/api/tags"
+time=2025-05-17T06:39:10.799-04:00 level=INFO source=server.go:135 msg="system memory" total="30.5 GiB" free="22.0 GiB" free_swap="7.6 GiB"
+time=2025-05-17T06:39:10.799-04:00 level=INFO source=server.go:168 msg=offload library=cpu layers.requested=-1 layers.model=35 layers.offload=0 layers.split="" memory.available="[22.0 GiB]" memory.gpu_overhead="0 B" memory.required.full="5.6 GiB" memory.required.partial="0 B" memory.required.kv="450.0 MiB" memory.required.allocations="[5.6 GiB]" memory.weights.total="2.3 GiB" memory.weights.repeating="1.8 GiB" memory.weights.nonrepeating="525.0 MiB" memory.graph.full="517.0 MiB" memory.graph.partial="1.0 GiB" projector.weights="795.9 MiB" projector.graph="1.0 GiB"
+time=2025-05-17T06:39:10.830-04:00 level=INFO source=server.go:431 msg="starting llama server" cmd="/usr/local/bin/ollama runner --ollama-engine --model /root/.ollama/models/blobs/sha256-aeda25e63ebd698fab8638ffb778e68bed908b960d39d0becc650fa981609d25 --ctx-size 8192 --batch-size 512 --threads 8 --no-mmap --parallel 2 --port 34989"
+time=2025-05-17T06:39:10.830-04:00 level=INFO source=sched.go:472 msg="loaded runners" count=1
+time=2025-05-17T06:39:10.830-04:00 level=INFO source=server.go:591 msg="waiting for llama runner to start responding"
+time=2025-05-17T06:39:10.830-04:00 level=INFO source=server.go:625 msg="waiting for server to become available" status="llm server not responding"
+time=2025-05-17T06:39:10.835-04:00 level=INFO source=runner.go:836 msg="starting ollama engine"
+time=2025-05-17T06:39:10.835-04:00 level=INFO source=runner.go:899 msg="Server listening on 127.0.0.1:34989"
+time=2025-05-17T06:39:10.864-04:00 level=INFO source=ggml.go:73 msg="" architecture=gemma3 file_type=Q4_K_M name="" description="" num_tensors=883 num_key_values=36
+load_backend: loaded CPU backend from /usr/local/lib/ollama/libggml-cpu-icelake.so
+time=2025-05-17T06:39:10.867-04:00 level=INFO source=ggml.go:104 msg=system CPU.0.SSE3=1 CPU.0.SSSE3=1 CPU.0.AVX=1 CPU.0.AVX2=1 CPU.0.F16C=1 CPU.0.FMA=1 CPU.0.BMI2=1 CPU.0.AVX512=1 CPU.0.AVX512_VBMI=1 CPU.0.AVX512_VNNI=1 CPU.0.LLAMAFILE=1 CPU.1.LLAMAFILE=1 compiler=cgo(gcc)
+time=2025-05-17T06:39:10.868-04:00 level=INFO source=ggml.go:299 msg="model weights" buffer=CPU size="3.6 GiB"
+time=2025-05-17T06:39:11.086-04:00 level=INFO source=server.go:625 msg="waiting for server to become available" status="llm server loading model"
+time=2025-05-17T06:39:11.291-04:00 level=INFO source=ggml.go:556 msg="compute graph" backend=CPU buffer_type=CPU size="137.0 MiB"
+time=2025-05-17T06:39:11.337-04:00 level=INFO source=server.go:630 msg="llama runner started in 0.51 seconds"
+[GIN] 2025/05/17 - 06:39:28 | 200 | 17.269560392s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2025/05/17 - 06:39:28 | 200 |     254.155µs |       127.0.0.1 | GET      "/api/tags"
+[GIN] 2025/05/17 - 06:39:28 | 200 |     200.142µs |       127.0.0.1 | GET      "/api/tags"
+[GIN] 2025/05/17 - 06:39:44 | 200 | 16.529900102s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2025/05/17 - 06:39:45 | 200 |     242.593µs |       127.0.0.1 | GET      "/api/tags"
+[GIN] 2025/05/17 - 06:39:45 | 200 |     114.529µs |       127.0.0.1 | GET      "/api/tags"
+[GIN] 2025/05/17 - 06:40:02 | 200 | 16.738010616s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2025/05/17 - 06:40:02 | 200 |     260.558µs |       127.0.0.1 | GET      "/api/tags"
+[GIN] 2025/05/17 - 06:40:02 | 200 |      198.74µs |       127.0.0.1 | GET      "/api/tags"
+[GIN] 2025/05/17 - 06:40:18 | 200 | 16.420281331s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2025/05/17 - 06:40:19 | 200 |     244.276µs |       127.0.0.1 | GET      "/api/tags"
+[GIN] 2025/05/17 - 06:40:19 | 200 |     213.667µs |       127.0.0.1 | GET      "/api/tags"
+[GIN] 2025/05/17 - 06:40:35 | 200 | 16.550453799s |       127.0.0.1 | POST     "/api/chat"

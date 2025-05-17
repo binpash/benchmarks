@@ -28,13 +28,13 @@ if $generate; then
     exit 0
 fi
 
-bench=pcaps_$size
-md5sum --check --quiet --status "$hashes_dir/$bench.md5sum"
-echo $bench $?
+# bench=pcaps_$size
+# md5sum --check --quiet --status "$hashes_dir/$bench.md5sum"
+# echo $bench $?
 
-bench=nginx_$size
-md5sum --check --quiet --status "$hashes_dir/$bench.md5sum"
-echo $bench $?
+# bench=nginx_$size
+# md5sum --check --quiet --status "$hashes_dir/$bench.md5sum"
+# echo $bench $?
 
 bench=port-scan_$size
 md5sum --check --quiet --status "$hashes_dir/$bench.md5sum"

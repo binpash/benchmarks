@@ -45,6 +45,9 @@ for i in $samples; do
     fi
 done
 
+mkdir data 
+cd data || exit 1
+
 wget $URL/teraseq.new/TERA-Seq_manuscript/data/SIRV_Set1_Sequences_170612a.tar
 
 wget https://www.arb-silva.de/fileadmin/silva_databases/release_132/Exports/SILVA_132_LSURef_tax_silva_trunc.fasta.gz

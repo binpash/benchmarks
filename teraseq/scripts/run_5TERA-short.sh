@@ -210,9 +210,8 @@ for i in $samples; do
         --database "$sdir"/db/sqlite.db \
         --table transcr \
         --records_class GenOOx::Data::File::SAMminimap2::Record \
-        --drop &
+        --drop 
 done
-wait
 
 echo ">>> ANNOTATE WITH GENIC ELEMENTS (TRANSCRIPTOME) <<<"
 
@@ -224,9 +223,8 @@ for i in $samples; do
         --database "$sdir"/db/sqlite.db \
         --table transcr \
         --a_file "$DATA_DIR"/$assembly/genic_elements.mrna.bed \
-        --column coding_transcript &
+        --column coding_transcript
 done
-wait
 
 for i in $samples; do
     sdir=$outdir/$i
@@ -288,9 +286,8 @@ for i in $samples; do
         --database "$sdir"/db/sqlite.db \
         --table genome \
         --records_class GenOOx::Data::File::SAMminimap2::Record \
-        --drop &
+        --drop
 done
-wait
 
 echo ">>> ANNOTATE WITH GENIC ELEMENTS (GENOME) <<<"
 

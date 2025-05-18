@@ -174,10 +174,9 @@ mkdir -p "$DATA_DIR/$assembly/genome"
 cd "$DATA_DIR/$assembly/" || exit 1
 
 [ ! -f genome/genome.fa ] && \
-    wget -qO- ftp://ftp.ensembl.org/pub/release-97/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz \
-    | gunzip -c \
-    | clean-genome-headers --fasta - \
-    > genome/genome.fa
+    wget -qO- ftp://ftp.ensembl.org/pub/release-97/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz |
+    gunzip -c |
+    clean-genome-headers --fasta - > genome/genome.fa
 
 [ ! -f ensembl_genes.gtf ] && \
     wget -qO- ftp://ftp.ensembl.org/pub/release-97/gtf/mus_musculus/Mus_musculus.GRCm38.97.gtf.gz |

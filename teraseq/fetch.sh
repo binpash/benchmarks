@@ -10,6 +10,14 @@ benchmark_dir="$TOP/teraseq"
 
 samples="hsa.dRNASeq.HeLa.polyA.1 hsa.dRNASeq.HeLa.polyA.REL5.1 hsa.dRNASeq.HeLa.polyA.PNK.REL5.1"
 
+size=full
+for arg in "$@"; do
+    case "$arg" in
+    --small) size=small ;;
+    --min) size=min ;;
+    esac
+done
+
 echo ">>> MAKE DIRECTORY STRUCTURE <<<"
 
 for i in $samples; do

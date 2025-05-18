@@ -3,9 +3,8 @@
 # Prepare references and annotations
 #
 
-cd "$(dirname "$0")" || exit 1
-
-source ../scripts/PARAMS.sh
+TOP=$(git rev-parse --show-toplevel)
+source "$TOP/teraseq/scripts/PARAMS.sh"
 
 threads=8
 
@@ -13,6 +12,9 @@ threads=8
 echo ">>> MAKE HG38 REFERENCES <<<"
 
 assembly="hg38"
+
+mkdir -p "$DATA_DIR"
+cd "$DATA_DIR" || exit 1
 
 echo " >>> GET SILVA rRNA DATABASE <<<"
 # Download ribosomal sequences

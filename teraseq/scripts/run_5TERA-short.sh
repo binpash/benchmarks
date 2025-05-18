@@ -76,7 +76,7 @@ for i in $samples; do
     zcat "$sdir"/fastq/reads.1.sanitize.wo_rel5.fastq.gz | paste - - - - | cut -f1 | sed 's/^@//g' \
         > "$sdir"/fastq/reads.1.sanitize.wo_rel5.names.txt &
 
-    cat "$sdir"/fastq/reads.1.sanitize.w_rel5.fastq.gz $sdir/fastq/reads.1.sanitize.wo_rel5.fastq.gz \
+    cat "$sdir"/fastq/reads.1.sanitize.w_rel5.fastq.gz "$sdir"/fastq/reads.1.sanitize.wo_rel5.fastq.gz \
         > "$sdir"/fastq/reads.1.sanitize.rel5_trim.fastq.gz &
 done
 wait
@@ -110,8 +110,8 @@ for i in $samples; do
     cat "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.sam | cut -f1 | sort | uniq > \
         "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.reads.txt &
 
-    samtools view -@ $threads -bh "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.sam | samtools sort -@ $threads - > \
-        "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.bam
+    samtools view -@ $threads -bh "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.sam |
+        samtools sort -@ $threads - > "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.bam
 
     wait
     rm "$sdir"/align/reads.1.sanitize.toRibosomal.sorted.sam
@@ -172,7 +172,7 @@ for i in $samples; do
         -u b \
         -t $threads \
         --secondary=yes \
-        $DATA_DIR/$assembly/minimap2.17/genome.k12.mmi \
+        "$DATA_DIR"/$assembly/minimap2.17/genome.k12.mmi \
         "$sdir"/fastq/reads.1.sanitize.rel5_trim.fastq.gz \
     | add-tag-max-sam --tag ms --newtag XP --newtag2 XN \
     | grep -v "SA:Z:" \
@@ -327,7 +327,7 @@ for i in $samples; do
         --db_col_bind "qname" \
         --db_col_add "rel5" \
         --db_tables "genome" \
-        --ifile "$sdir"/fastq/reads.1.sanitize.w_rel5.fastq.gz
+        --ifile "$sdir"/fastq/reads.1.sanitize.wo_rel5.fastq.gz
 done
 
 # Note: If you have the fast5 files you can continue with the analysis. Check https://github.com/mourelatos-lab/TERA-Seq_manuscript/samples/README.md for the location where to download them.
@@ -347,15 +347,15 @@ for i in $samples; do
             nanopolish polya \
                 --reads "$sdir"/fastq/reads.1.fastq.gz \
                 --bam "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam \
-                --genome $DATA_DIR/$assembly/transcripts.fa \
+                --genome "$DATA_DIR/$assembly/transcripts.fa" \
                 --threads $threads \
                 > "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome.sorted.polya.tab \
                 && touch "$sdir"/align/nanopolish-polya.done
         else
-            echo "It seems that "$sdir"/fast5 directory is empty. Please check you downloaded and uncompressed fast5 tar.gz archive and placed the files in "$sdir"/fast5."
+            echo "It seems that $sdir/fast5 directory is empty. Please check you downloaded and uncompressed fast5 tar.gz archive and placed the files in $sdir/fast5."
         fi
     else
-        echo "It seems that "$sdir"/fast5 directory doesn't exist. Please check you created "$sdir"/fast5, downloaded and uncompressed fast5 tar.gz and placed the files in "$sdir"/fast5."
+        echo "It seems that $sdir/fast5 directory doesn't exist. Please check you created $sdir/fast5, downloaded and uncompressed fast5 tar.gz and placed the files in $sdir/fast5."
     fi
 done
 

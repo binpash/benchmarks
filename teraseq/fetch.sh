@@ -282,9 +282,6 @@ echo ">>> GET CAGE SIGNALS <<<"
 # Get FANTOM5 HeLa only
 if [ ! -d fantom5 ]; then
     mkdir fantom5
-    #wget http://fantom.gsc.riken.jp/5/datafiles/latest/basic/human.cell_line.hCAGE/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep1.CNhs12325.10815-111B5.hg19.ctss.bed.gz -O fantom5/HeLa.rep1.hg19.ctss_chr.bed.gz
-    #wget http://fantom.gsc.riken.jp/5/datafiles/latest/basic/human.cell_line.hCAGE/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep2.CNhs12326.10816-111B6.hg19.ctss.bed.gz -O fantom5/HeLa.rep2.hg19.ctss_chr.bed.gz
-    #wget http://fantom.gsc.riken.jp/5/datafiles/latest/basic/human.cell_line.hCAGE/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep3.CNhs12327.10817-111B7.hg19.ctss.bed.gz -O fantom5/HeLa.rep3.hg19.ctss_chr.bed.gz
     wget https://fantom.gsc.riken.jp/5/datafiles/latest/basic/human.cell_line.hCAGE/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep1.CNhs12325.10815-111B5.hg19.ctss.bed.gz -O fantom5/HeLa.rep1.hg19.ctss_chr.bed.gz
     wget https://fantom.gsc.riken.jp/5/datafiles/latest/basic/human.cell_line.hCAGE/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep2.CNhs12326.10816-111B6.hg19.ctss.bed.gz -O fantom5/HeLa.rep2.hg19.ctss_chr.bed.gz
     wget https://fantom.gsc.riken.jp/5/datafiles/latest/basic/human.cell_line.hCAGE/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep3.CNhs12327.10817-111B7.hg19.ctss.bed.gz -O fantom5/HeLa.rep3.hg19.ctss_chr.bed.gz
@@ -374,12 +371,6 @@ echo ">>> GET SIRV E2 REFERENCES <<<"
 mkdir -p "$DATA_DIR/spikein/sirv"
 cd "$DATA_DIR/spikein/sirv/" || exit 1
 
-#wget https://www.lexogen.com/wp-content/uploads/2018/08/SIRV_Set1_Sequences_170612a-ZIP.zip # The original download link - you would need to uncomment the following section and install `unzip` and `dos2unix`
-# unzip $DATA_DIR/SIRV_Set1_Sequences_170612a-ZIP.zip -d .
-# mv SIRV_Set1_Sequences_170612a\ \(ZIP\) SIRV_Set1_Sequences_170612a
-# for i in SIRV_Set1_Sequences_170612a/*; do
-#     dos2unix $i
-# done
 tar -xvf SIRV_Set1_Sequences_170612a.tar
 sed -i 's/SIRVome_isoforms/SIRV/' SIRV_Set1_Sequences_170612a/SIRVome_isoforms_170612a.fasta
 

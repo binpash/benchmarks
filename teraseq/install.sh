@@ -106,21 +106,32 @@ fi
 # 6. Install Perl modules (system-wide)
 # Using cpanminus (cpanm)
 cpanm --notest \
-    Modern::Perl \
-    Getopt::Long::Descriptive \
-    Params::Validate \
-    Params::Util \
-    Sub::Install \
-    autodie \
-    Devel::Size \
-    IO::File \
-    IO::Interactive \
+    inc::Module::Install@1.19 \
+    autodie@2.29 \
+    Modern::Perl@1.20190601 \
+    Getopt::Long::Descriptive@0.104 \
+    Params::Validate@1.29 \
+    Params::Util@1.07 \
+    Sub::Install@0.928 \
+    Devel::Size@0.83 \
+    IO::File@1.39 \
+    IO::Interactive@1.022 \
     IO::Uncompress::Gunzip \
-    DBI \
-    MooseX::App::Simple \
+    DBI@1.642 \
+    MooseX::App::Simple@1.41 \
     MooseX::App::Command \
-    MooseX::Getopt::Meta::Attribute::Trait::NoGetopt \
-    CLIPSeqTools
+    MooseX::Getopt::Meta::Attribute::Trait::NoGetopt@0.74
+
+cpanm --notest --force \
+    GenOO@1.5.2 \
+    CLIPSeqTools@0.1.9
+
+# Manually install GenOOx from TeRA-Seq
+tmpdir=$(mktemp -d) || { echo "Failed to create tempdir"; exit 1; }
+git clone --depth 1 https://github.com/mourelatos-lab/TERA-Seq_manuscript.git "$tmpdir"
+perldir=$(perl -MConfig -e 'print $Config{installsitelib}')
+cp -r "$tmpdir"/misc/GenOOx "$perldir"
+rm -rf "$tmpdir"
 
 # 7. Install R packages
 Rscript -e 'install.packages(c(

@@ -7,8 +7,6 @@ scripts_dir="$eval_dir/scripts"
 input_dir="$REPO_TOP/llm/inputs/scripts/image-annotation/inputs"
 outputs_dir="$eval_dir/outputs"
 
-export BENCHMARK_SCRIPT="$scripts_dir/image-annotation.sh"
-
 suffix=""
 for arg in "$@"; do
     case "$arg" in

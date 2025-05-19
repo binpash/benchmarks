@@ -16,11 +16,13 @@ done
 input_dir="$input_dir/$size"
 mkdir -p "$input_dir"
 if [ "$size" = "small" ]; then
-    N=40000000
+    N=4000000
 elif [ "$size" = "min" ]; then
     N=400000
-else
+elif [ "$size" = "giant" ]; then
     N=4000000000
+else
+    N=400000000
 fi
 
 python3 generate_inputs.py "$input_dir" "$N"

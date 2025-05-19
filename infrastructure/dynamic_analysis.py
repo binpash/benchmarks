@@ -12,25 +12,12 @@ import os
 from project_root import get_project_root
 from pathlib import Path
 
-BENCH_ROOT = Path(
-    os.environ.get(
-        'BENCH_ROOT',
-        Path(__file__).resolve().parents[2] / 'benchmarks'   # project_root/benchmarks
-    )
-).resolve()
+def correct_base(path):
+    return Path(path).is_relative_to('/benchmarks')
 
-def correct_base(path: str | Path) -> bool:
-    try:
-        Path(path).resolve().relative_to(BENCH_ROOT)
-        return True
-    except ValueError:
-        return False
+def rebase(path):
+    return Path(path).relative_to('/benchmarks')
 
-def rebase(path: str | Path, *, base: Path = BENCH_ROOT) -> Path:
-    path = Path(path).resolve()
-    if path.is_relative_to(base):
-        return path.relative_to(base)
-    return path
 
 def is_shell(pid, processes):
     a = next(iter(processes[pid].values()))

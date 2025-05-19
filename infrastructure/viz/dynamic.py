@@ -150,7 +150,10 @@ dynamic_analysis_script_translations = {
     "riker/scripts/xz-clang/execute.sh": "riker/scripts/xz-clang/build.sh",
     "riker/scripts/lua/execute.sh": "riker/scripts/lua/build.sh",
     "riker/scripts/memcached/execute.sh": "riker/scripts/memcached/build.sh",
-    "riker/scripts/sqlite/execute.sh": "riker/scripts/sqlite/build.sh"
+    "riker/scripts/sqlite/execute.sh": "riker/scripts/sqlite/build.sh",
+    "riker/scripts/lsof/execute.sh": "riker/scripts/lsof/build.sh",
+    "llm/scripts/image-annotation/execute.sh": "llm/scripts/image-annotation/scripts/image-annotation.sh",
+    "llm/scripts/playlist-creation/execute.sh": "llm/scripts/playlist-creation/scripts/playlist-creation.sh"
 }
 
 def read_data():
@@ -327,7 +330,12 @@ def main(output_dir=None, text_mode=False):
         "font.family": "serif",
         "font.serif": ["Times New Roman"],  # Replace with your LaTeX font if different
     })
-    plt.tight_layout()
+    benchmarks = df["benchmark"].unique()
+    for ax in axes:
+        ax.set_xticks(range(len(benchmarks)))
+        ax.set_xticklabels(benchmarks, rotation=60, ha='right')
+
+    plt.tight_layout(rect=[0, 0.05, 1, 1]) 
     for i in range(2, len(axes)):
         # adjust the position of the axes down a little bit
         pos = axes[i].get_position()

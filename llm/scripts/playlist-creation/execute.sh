@@ -8,8 +8,6 @@ input_dir="$REPO_TOP/llm/inputs/scripts/playlist-creation/inputs"
 outputs_dir="$eval_dir/outputs"
 mkdir -p "$outputs_dir"
 
-export BENCHMARK_SCRIPT="$scripts_dir/playlist-creation.sh"
-
 suffix=""
 for arg in "$@"; do
     case "$arg" in

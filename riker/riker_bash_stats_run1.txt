@@ -1,0 +1,15 @@
+Benchmark Statistics
+==================================================
+
+Benchmark: riker
+--------------------------------------------------
+Total CPU time: 2.00 sec
+Total Wall time: 2.00 sec
+Total IO bytes: 107909201.00
+Max Memory Usage: 45449216.00 bytes
+CPU time per input byte: 0.000003 sec/byte
+Memory per input byte: 78.427651 bytes/byte
+IO per input byte: 186.209267 bytes/byte
+Time in Shell: 0.00 sec
+Time in Commands: 2.00 sec
+==================================================

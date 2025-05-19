@@ -14,7 +14,7 @@ parser.add_argument('--small', action='store_true', help='Use a small subset of 
 parser.add_argument('--min', action='store_true', help='Use a very small subset (~1MB) of the data')
 args = parser.parse_args()
 
-raw_data = datasets.fetch_covtype(data_home="inputs", download_if_missing=False)
+raw_data = datasets.fetch_covtype(data_home="inputs", download_if_missing=True)
 X, y = raw_data.data, raw_data.target
 
 if args.min:

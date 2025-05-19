@@ -13,6 +13,7 @@ llm/scripts/image-annotation/scripts/image-annotation.sh,3.0
 llm/scripts/playlist-creation/scripts/playlist-creation.sh,2.0
 log-analysis/scripts/nginx.sh,3.0
 log-analysis/scripts/pcaps.sh,3.0
+log-analysis/scripts/port-scan.sh,3.0
 makeself/makeself/makeself-header.sh,1.0
 makeself/makeself/makeself.sh,131.0
 makeself/makeself/test/appendtest/appendtest.sh,24.0
@@ -66,7 +67,6 @@ oneliners/scripts/spell.sh,1.0
 oneliners/scripts/top-n.sh,1.0
 oneliners/scripts/uniq-ips.sh,1.0
 oneliners/scripts/wf.sh,1.0
-port-scan/scripts/port-scan.sh,1.0
 ray-tracing/scripts/1.sh,1.0
 ray-tracing/scripts/2.sh,1.0
 ray-tracing/scripts/3.sh,1.0

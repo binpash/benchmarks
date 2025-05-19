@@ -54,9 +54,6 @@
     "llm": {
 	    "scripts": ["llm/scripts/*/scripts/*.sh"]
     },
-    "port-scan": {
-	    "scripts": ["port-scan/scripts/port-scan.sh"]
-    },
     "ray-tracing": {
 	    "scripts": ["ray-tracing/scripts/*.sh"]
     },

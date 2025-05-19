@@ -17,10 +17,15 @@ small_benchmark=(
     "xz-clang"
 )
 
+
 run_small=false
 
 for arg in "$@"; do
     if [ "$arg" = "--small" ]; then
+        run_small=true
+        break
+    fi
+    if [ "$arg" = "--min" ]; then
         run_small=true
         break
     fi

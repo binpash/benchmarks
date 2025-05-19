@@ -7,6 +7,6 @@ scripts_dir="${eval_dir}/scripts"
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/lsof/build.sh")"
-export BENCHMARK_INPUT_FILE="$(realpath "$input_dir/lsof")"
+export BENCHMARK_INPUT_FILE="$(realpath "$input_dir/lsof/dev")"
 (cd "$input_dir/lsof/dev" && $KOALA_SHELL "$scripts_dir/lsof/build.sh")
 

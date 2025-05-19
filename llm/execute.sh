@@ -9,6 +9,6 @@ export BENCHMARK_CATEGORY="llm"
 
 
 for bench in "$scripts_dir"/*; do
-    export BENCHMARK_SCRIPT="$bench/execute.sh"
+    export BENCHMARK_SCRIPT="$bench/scripts/execute.sh"
     $KOALA_SHELL "$bench/execute.sh" "$@"
 done

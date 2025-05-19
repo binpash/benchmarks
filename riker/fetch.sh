@@ -21,8 +21,11 @@ for arg in "$@"; do
         run_small=true
         break
     fi
+    if [ "$arg" = "--min" ]; then
+        run_small=true
+        break
+    fi
 done
-
 
 if [ "$run_small" = true ]; then
     for bench in "${small_benchmark[@]}"; do

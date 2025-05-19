@@ -7,5 +7,6 @@ scripts_dir="${eval_dir}/scripts"
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/sqlite/build.sh")"
+export BENCHMARK_INPUT_FILE="$(realpath "$input_dir/sqlite/dev")"
 (cd "$input_dir/sqlite/dev" && $KOALA_SHELL "$scripts_dir/sqlite/build.sh")
 

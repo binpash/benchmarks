@@ -405,7 +405,7 @@ samtools faidx SIRV_Set1_Sequences_170612a/SIRVome_isoforms_170612a.transcripts_
 cat SIRV_Set1_Sequences_170612a/SIRVome_isoforms_170612a.transcripts_sirv1.E2.fa.fai | cut -f1-2 \
     | sed '1i transcript_id\tlength' > SIRV_Set1_Sequences_170612a/SIRVome_isoforms_170612a.transcripts_sirv1.E2.length.tab
 
-mkdir SIRV_Set1_Sequences_170612a/minimap2.17
+mkdir -p SIRV_Set1_Sequences_170612a/minimap2.17
 ln -sf ../SIRVome_isoforms_170612a.fasta SIRV_Set1_Sequences_170612a/minimap2.17/
 ln -sf ../SIRVome_isoforms_170612a.transcripts_sirv1.E2.fa SIRV_Set1_Sequences_170612a/minimap2.17/
 
@@ -418,7 +418,7 @@ echo ">>> MAKE STAR INDEX <<<"
 
 cd "$DATA_DIR/$assembly/" || exit 1
 
-mkdir STAR-2.7.2b
+mkdir -p STAR-2.7.2b
 STAR \
     --runMode genomeGenerate \
     --runThreadN $threads \
@@ -427,7 +427,7 @@ STAR \
 #    --genomeSAsparseD 2 # add this if you need to save RAM requirements; you can also increase the value to 3
 
 # Build STAR index on the genome with gene annotation
-mkdir STAR-2.7.2b-annot
+mkdir -p STAR-2.7.2b-annot
 STAR \
     --runMode genomeGenerate \
     --runThreadN $threads \
@@ -477,7 +477,7 @@ gffread -w transcripts_sirv1.fa -g genome/genome_sirv1.fa genes_sirv1.gtf
 samtools faidx transcripts_sirv1.fa
 grep -w -i sirv transcripts_sirv1.fa.fai | cut -f1-2 | sed '1i transcript_id\tlength' > sirv1.length.tab
 
-mkdir minimap2.17
+mkdir -p minimap2.17
 ln -sf ../transcripts_sirv1.fa minimap2.17/
 ln -sf ../genome/genome_sirv1.fa minimap2.17/
 minimap2 -k 12 -d minimap2.17/transcripts_sirv1.k12.mmi minimap2.17/transcripts_sirv1.fa

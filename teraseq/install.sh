@@ -86,6 +86,20 @@ command -v seqkit >/dev/null 2>&1 || {
   && rm /tmp/seqkit.tar.gz
 }
 
+if ! command -v STAR >/dev/null 2>&1; then
+  tmpdir=$(mktemp -d)
+  wget -qO "$tmpdir/STAR_2.7.11b.zip" \
+    https://github.com/alexdobin/STAR/releases/download/2.7.11b/STAR_2.7.11b.zip
+
+  unzip -q "$tmpdir/STAR_2.7.11b.zip" -d "$tmpdir"
+
+  install -m 0755 \
+    "$tmpdir/STAR_2.7.11b/Linux_x86_64_static/STAR" \
+    /usr/local/bin/STAR
+
+  rm -rf "$tmpdir"
+fi
+
 # 4. Install Jvarkit
 if [ ! -f /usr/local/bin/jvarkit.jar ]; then
     git clone https://github.com/lindenb/jvarkit.git /tmp/jvarkit \

@@ -18,6 +18,8 @@ for arg in "$@"; do
     esac
 done
 
+base_url="$URL/teraseq/$size"
+
 echo ">>> MAKE DIRECTORY STRUCTURE <<<"
 
 for i in $samples; do
@@ -39,7 +41,7 @@ for i in $samples; do
         echo "$sdir/fastq/reads.1.fastq.gz is present, continue."
     else
         echo "$sdir/fastq/reads.1.fastq.gz does not exist, trying to download."
-        download="$(grep download "$benchmark_dir/README.md" | grep "$i" | cut -d '|' -f 6 | cut -d '(' -f2  | sed 's/)//' | sed 's#https://##' | tr -d '[:space:]')"
+        download="$base_url/$i/fastq/reads.1.fastq.gz"
         mkdir -p "$sdir/fastq"
         curl "$download" > "$sdir/fastq/reads.1.fastq.gz"
     fi
@@ -61,7 +63,7 @@ assembly="hg38"
 mkdir -p "$DATA_DIR"
 cd "$DATA_DIR" || exit 1
 
-wget $URL/teraseq.new/TERA-Seq_manuscript/data/SIRV_Set1_Sequences_170612a.tar
+wget $URL/teraseq/TERA-Seq_manuscript/data/SIRV_Set1_Sequences_170612a.tar
 
 echo " >>> GET SILVA rRNA DATABASE <<<"
 # Download ribosomal sequences
@@ -72,10 +74,10 @@ mkdir -p silva
 cd silva/ || exit 1
 
 [ ! -f SILVA_132_LSURef_tax_silva_trunc.fasta.gz ] && \
-    wget https://www.arb-silva.de/fileadmin/silva_databases/release_132/Exports/SILVA_132_LSURef_tax_silva_trunc.fasta.gz
+    wget $base_url/data/SILVA_132_LSURef_tax_silva_trunc.fasta.gz
 
 [ ! -f SILVA_132_SSURef_Nr99_tax_silva_trunc.fasta.gz ] && \
-    wget https://www.arb-silva.de/fileadmin/silva_databases/release_132/Exports/SILVA_132_SSURef_Nr99_tax_silva_trunc.fasta.gz
+    wget $base_url/data/SILVA_132_SSURef_Nr99_tax_silva_trunc.fasta.gz
 
 # Merge all ribosomal sequences together eliminating duplicates
 [ ! -f ribosomal.fa ] && \
@@ -111,7 +113,7 @@ mkdir -p "$DATA_DIR/$assembly/genome"
 cd "$DATA_DIR/$assembly/" || exit 1
 
 [ ! -f genome/genome.fa ] && \
-    wget -qO- ftp://ftp.ensembl.org/pub/release-91/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz |
+    wget -qO- $base_url/data/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz |
     gunzip -c |
     clean-genome-headers --fasta - > genome/genome.fa
 
@@ -121,7 +123,7 @@ cut -f1-2 genome/genome.fa.fai > chrom.sizes
 
 # Download Ensembl annotation
 [ ! -f ensembl_genes.gtf ] && \
-    wget -qO- ftp://ftp.ensembl.org/pub/release-91/gtf/homo_sapiens/Homo_sapiens.GRCh38.91.gtf.gz |
+    wget -qO- $base_url/data/Homo_sapiens.GRCh38.91.gtf.gz |
     gunzip -c > ensembl_genes.gtf
 ln -sf ensembl_genes.gtf Homo_sapiens.GRCh38.91.gtf
 
@@ -174,12 +176,12 @@ mkdir -p "$DATA_DIR/$assembly/genome"
 cd "$DATA_DIR/$assembly/" || exit 1
 
 [ ! -f genome/genome.fa ] && \
-    wget -qO- ftp://ftp.ensembl.org/pub/release-97/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz |
+    wget -qO- $base_url/data/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz |
     gunzip -c |
     clean-genome-headers --fasta - > genome/genome.fa
 
 [ ! -f ensembl_genes.gtf ] && \
-    wget -qO- ftp://ftp.ensembl.org/pub/release-97/gtf/mus_musculus/Mus_musculus.GRCm38.97.gtf.gz |
+    wget -qO- $base_url/data/Mus_musculus.GRCm38.97.gtf.gz |
     gunzip -c > ensembl_genes.gtf
 ln -fs ensembl_genes.gtf Mus_musculus.GRCm38.97.gtf
 
@@ -255,7 +257,7 @@ echo ">>> MAKE TRNA AND RRNA BED <<<"
 # We can use this for cleaning of the bam files from tRNA and rRNA
 mkdir GtRNAdb
 [ ! -f GtRNAdb/hg38-tRNAs.tar.gz ] && \
-    wget 'http://gtrnadb.ucsc.edu/genomes/eukaryota/Hsapi38/hg38-tRNAs.tar.gz' -O GtRNAdb/hg38-tRNAs.tar.gz
+    wget "$base_url/data/hg38-tRNAs.tar.gz" -O GtRNAdb/hg38-tRNAs.tar.gz
 tar -xvzf GtRNAdb/hg38-tRNAs.tar.gz -C GtRNAdb
 # Convert hg38 to GRCh38 chromosome coding
 cat GtRNAdb/hg38-tRNAs.bed |
@@ -273,7 +275,7 @@ echo ">>> GET POLYA DATABASE <<<"
 # IMPORTANT: PolyASite v2.0 is in GRCh38-96 Ensembl coordinates
 mkdir -p polyasite-2.0
 [ ! -f polyasite-2.0/atlas.clusters.hg38.2-0.bed.gz ] && \
-    wget https://polyasite.unibas.ch/download/clusters/GRCh38-96/2-0/atlas.clusters.hg38.2-0.bed.gz -O polyasite-2.0/atlas.clusters.hg38.2-0.bed.gz
+    wget $base_url/data/atlas.clusters.hg38.2-0.bed.gz -O polyasite-2.0/atlas.clusters.hg38.2-0.bed.gz
 gunzip polyasite-2.0/atlas.clusters.hg38.2-0.bed.gz
 
 echo ">>> GET CAGE SIGNALS <<<"
@@ -281,14 +283,14 @@ echo ">>> GET CAGE SIGNALS <<<"
 # Get FANTOM5 HeLa only
 if [ ! -d fantom5 ]; then
     mkdir fantom5
-    wget https://fantom.gsc.riken.jp/5/datafiles/latest/basic/human.cell_line.hCAGE/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep1.CNhs12325.10815-111B5.hg19.ctss.bed.gz -O fantom5/HeLa.rep1.hg19.ctss_chr.bed.gz
-    wget https://fantom.gsc.riken.jp/5/datafiles/latest/basic/human.cell_line.hCAGE/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep2.CNhs12326.10816-111B6.hg19.ctss.bed.gz -O fantom5/HeLa.rep2.hg19.ctss_chr.bed.gz
-    wget https://fantom.gsc.riken.jp/5/datafiles/latest/basic/human.cell_line.hCAGE/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep3.CNhs12327.10817-111B7.hg19.ctss.bed.gz -O fantom5/HeLa.rep3.hg19.ctss_chr.bed.gz
+    wget $base_url/data/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep1.CNhs12325.10815-111B5.hg19.ctss.bed.gz -O fantom5/HeLa.rep1.hg19.ctss_chr.bed.gz
+    wget $base_url/data/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep2.CNhs12326.10816-111B6.hg19.ctss.bed.gz -O fantom5/HeLa.rep2.hg19.ctss_chr.bed.gz
+    wget $base_url/data/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep3.CNhs12327.10817-111B7.hg19.ctss.bed.gz -O fantom5/HeLa.rep3.hg19.ctss_chr.bed.gz
 fi
 
 ## Download required files for liftover from hg19 to hg38
 [ ! -f hg19ToHg38.over.chain.gz ] && \
-    wget http://hgdownload.cse.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz -O hg19ToHg38.over.chain.gz
+    wget $base_url/data/hg19ToHg38.over.chain.gz -O hg19ToHg38.over.chain.gz
 liftOver fantom5/HeLa.rep1.hg19.ctss_chr.bed.gz hg19ToHg38.over.chain.gz fantom5/HeLa.rep1.hg38.ctss_chr.bed fantom5/HeLa.rep1.hg19tohg38unmap.ctss_chr.bed &
 liftOver fantom5/HeLa.rep2.hg19.ctss_chr.bed.gz hg19ToHg38.over.chain.gz fantom5/HeLa.rep2.hg38.ctss_chr.bed fantom5/HeLa.rep2.hg19tohg38unmap.ctss_chr.bed &
 liftOver fantom5/HeLa.rep3.hg19.ctss_chr.bed.gz hg19ToHg38.over.chain.gz fantom5/HeLa.rep3.hg38.ctss_chr.bed fantom5/HeLa.rep3.hg19tohg38unmap.ctss_chr.bed &
@@ -312,12 +314,12 @@ echo ">>> GET NET-CAGE SIGNALS <<<"
 # https://www.nature.com/articles/s41588-019-0485-9; https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE118075
 if [ ! -d NET-CAGE ]; then
     mkdir NET-CAGE
-    wget ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM3318nnn/GSM3318225/suppl/GSM3318225_CNhi10918_biologicalRep1-HeLaS3-NETCAGE-0_5M_CAC.ctss.bed.gz -O NET-CAGE/Rep1-HeLaS3-NETCAGE-0_5M_CAC.ctss.bed.gz
-    wget ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM3318nnn/GSM3318226/suppl/GSM3318226_CNhi10918_biologicalRep1-HeLaS3-NETCAGE-1M_AGT.ctss.bed.gz -O NET-CAGE/Rep1-HeLaS3-NETCAGE-1M_AGT.ctss.bed.gz
-    wget ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM3318nnn/GSM3318227/suppl/GSM3318227_CNhi10918_biologicalRep1-HeLaS3-NETCAGE-2M_GCG.ctss.bed.gz -O NET-CAGE/Rep1-HeLaS3-NETCAGE-2M_GCG.ctss.bed.gz
-    wget ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM3318nnn/GSM3318228/suppl/GSM3318228_CNhi10918_biologicalRep2-HeLaS3-NETCAGE-0_5M_TAC.ctss.bed.gz -O NET-CAGE/Rep2-HeLaS3-NETCAGE-0_5M_TAC.ctss.bed.gz
-    wget ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM3318nnn/GSM3318229/suppl/GSM3318229_CNhi10918_biologicalRep2-HeLaS3-NETCAGE-1M_ACG.ctss.bed.gz -O NET-CAGE/Rep2-HeLaS3-NETCAGE-1M_ACG.ctss.bed.gz
-    wget ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM3318nnn/GSM3318230/suppl/GSM3318230_CNhi10918_biologicalRep2-HeLaS3-NETCAGE-2M_GCT.ctss.bed.gz -O NET-CAGE/Rep2-HeLaS3-NETCAGE-2M_GCT.ctss.bed.gz
+    wget $base_url/data/NET-CAGE/GSM3318225_CNhi10918_biologicalRep1-HeLaS3-NETCAGE-0_5M_CAC.ctss.bed.gz -O NET-CAGE/Rep1-HeLaS3-NETCAGE-0_5M_CAC.ctss.bed.gz
+    wget $base_url/data/NET-CAGE/GSM3318226_CNhi10918_biologicalRep1-HeLaS3-NETCAGE-1M_AGT.ctss.bed.gz -O NET-CAGE/Rep1-HeLaS3-NETCAGE-1M_AGT.ctss.bed.gz
+    wget $base_url/data/NET-CAGE/GSM3318227_CNhi10918_biologicalRep1-HeLaS3-NETCAGE-2M_GCG.ctss.bed.gz -O NET-CAGE/Rep1-HeLaS3-NETCAGE-2M_GCG.ctss.bed.gz
+    wget $base_url/data/NET-CAGE/GSM3318228_CNhi10918_biologicalRep2-HeLaS3-NETCAGE-0_5M_TAC.ctss.bed.gz -O NET-CAGE/Rep2-HeLaS3-NETCAGE-0_5M_TAC.ctss.bed.gz
+    wget $base_url/data/NET-CAGE/GSM3318229_CNhi10918_biologicalRep2-HeLaS3-NETCAGE-1M_ACG.ctss.bed.gz -O NET-CAGE/Rep2-HeLaS3-NETCAGE-1M_ACG.ctss.bed.gz
+    wget $base_url/data/NET-CAGE/GSM3318230_CNhi10918_biologicalRep2-HeLaS3-NETCAGE-2M_GCT.ctss.bed.gz -O NET-CAGE/Rep2-HeLaS3-NETCAGE-2M_GCT.ctss.bed.gz
 fi
 
 # Convert to hg19 to hg38
@@ -333,12 +335,12 @@ done
 
 # Get conversion of UCSC->Ensembl
 [ ! -f UCSC2ensembl.txt ] && \
-    wget https://raw.githubusercontent.com/dpryan79/ChromosomeMappings/master/GRCh38_UCSC2ensembl.txt -O UCSC2ensembl.txt
+    wget $base_url/data/GRCh38_UCSC2ensembl.txt -O UCSC2ensembl.txt
 
 # Get cis-regions from ENCODE SEARCH https://screen.wenglab.org/
 if [ ! -d meth ]; then
     mkdir meth
-    wget https://api.wenglab.org/screen_v13/fdownloads/Seven-Group/ENCFF977IGB_ENCFF489CIY_ENCFF194XTD_ENCFF836JPY.7group.bed -O meth/encodeCcreHela.bed
+    wget $base_url/data/meth/encodeCcreHela.bed -O meth/encodeCcreHela.bed
 fi
 #cat meth/encodeCcreHela.bed | cut -f 10 | sort | uniq -c
 #  20023 CTCF-only,CTCF-bound

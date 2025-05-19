@@ -27,8 +27,8 @@ for i in $samples; do
     echo " Working for" "$i"
 
     mkdir -p "$sdir/logfiles"
-    mkdir "$sdir/align"
-    mkdir "$sdir/db"
+    mkdir -p "$sdir/align"
+    mkdir -p "$sdir/db"
 done
 
 echo ">>> CHECK FASTQ <<<"
@@ -255,7 +255,7 @@ minimap2 -k 12 -d minimap2.17/ensembl-transcripts-wRibo.k12.mmi minimap2.17/ense
 
 echo ">>> MAKE TRNA AND RRNA BED <<<"
 # We can use this for cleaning of the bam files from tRNA and rRNA
-mkdir GtRNAdb
+mkdir -p GtRNAdb
 [ ! -f GtRNAdb/hg38-tRNAs.tar.gz ] && \
     wget "$base_url/data/hg38-tRNAs.tar.gz" -O GtRNAdb/hg38-tRNAs.tar.gz
 tar -xvzf GtRNAdb/hg38-tRNAs.tar.gz -C GtRNAdb

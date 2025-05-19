@@ -140,7 +140,8 @@ ln -sf genes-polya.gtf genes.gtf
     clean-gtf-lines-total --gtf - > genes-total.gtf
 
 # Extract the genic elements (utr5, cds, utr3) from GFF and write them as BED.
-gff-to-genic-elements-bed --input genes.gtf > genic_elements.bed
+[ ! -f genic_elements.bed ] && \
+    gff-to-genic-elements-bed --input genes.gtf > genic_elements.bed
 
 # Create separate files for each genic element.
 grep -P ":utr5\t" genic_elements.bed > genic_elements.utr5.bed
@@ -274,7 +275,7 @@ echo ">>> GET POLYA DATABASE <<<"
 mkdir -p polyasite-2.0
 [ ! -f polyasite-2.0/atlas.clusters.hg38.2-0.bed.gz ] && \
     wget $base_url/data/atlas.clusters.hg38.2-0.bed.gz -O polyasite-2.0/atlas.clusters.hg38.2-0.bed.gz
-gunzip polyasite-2.0/atlas.clusters.hg38.2-0.bed.gz
+gunzip -f polyasite-2.0/atlas.clusters.hg38.2-0.bed.gz
 
 echo ">>> GET CAGE SIGNALS <<<"
 # CAGE data directly from FANTOM5 and convert to hg38 (hg19 in the database)

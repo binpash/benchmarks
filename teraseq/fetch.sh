@@ -323,14 +323,26 @@ if [ ! -d NET-CAGE ]; then
 fi
 
 # Convert to hg19 to hg38
-for i in NET-CAGE/*.bed.gz; do
-    liftOver $i hg19ToHg38.over.chain.gz ${i%.ctss*}.hg38.ctss_chr.bed ${i%.ctss*}.hg38.unmap.ctss_chr.bed
+for gz in NET-CAGE/*.bed.gz; do
+  base=${gz%.bed.gz}
 
-    cat ${i%.ctss*}.hg38.ctss_chr.bed | sort --parallel=$threads -T . -k1,1 -k2,2n > tmp.$RND
-    # Convert from UCSC to Ensembl chromosomes naming
-    cat tmp.$RND | sed 's/^chrM/MT/g' | sed 's/^chr//g' | sed 's/14_GL000009v2_random/GL000009.2/g' \
-        | sed 's/1_KI270706v1_random/KI270706.1/g' | sed 's/Un_KI270742v1/KI270742.1/g' | sort --parallel=$threads -T . -k1,1 -k2,2n > ${i%.ctss*}.hg38.ctss_chr.bed
-    rm tmp.$RND
+  liftOver \
+    <(gunzip -c "$gz") \
+    hg19ToHg38.over.chain.gz \
+    "${base}.hg38.ctss_chr.raw.bed" \
+    "${base}.hg38.unmap.ctss_chr.bed"
+
+  sort -k1,1 -k2,2n --parallel=$threads "${base}.hg38.ctss_chr.raw.bed" |
+    sed \
+      -e 's/^chrM/MT/' \
+      -e 's/^chr//' \
+      -e 's/14_GL000009v2_random/GL000009.2/' \
+      -e 's/1_KI270706v1_random/KI270706.1/' \
+      -e 's/Un_KI270742v1/KI270742.1/' |
+    sort -k1,1 -k2,2n --parallel=$threads \
+    > "${base}.hg38.ctss_chr.bed"
+
+  rm "${base}.hg38.ctss_chr.raw.bed"
 done
 
 # Get conversion of UCSC->Ensembl

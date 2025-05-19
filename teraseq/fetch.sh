@@ -347,7 +347,7 @@ done
 
 # Get conversion of UCSC->Ensembl
 [ ! -f UCSC2ensembl.txt ] && \
-    wget $base_url/data/GRCh38_UCSC2ensembl.txt -O UCSC2ensembl.txt
+    wget $base_url/data/UCSC2ensembl.txt -O UCSC2ensembl.txt
 
 # Get cis-regions from ENCODE SEARCH https://screen.wenglab.org/
 if [ ! -d meth ]; then

@@ -7,7 +7,7 @@ benchmark_dir="${TOP}/teraseq"
 # install.sh: Installs system-wide dependencies for the TERA-Seq pipeline
 
 # 1. Install OS packages
-apt-get update && apt-get install -y --no-install-recommends \
+apt-get update && sudo apt-get install -y --no-install-recommends \
     build-essential \
     git \
     wget \
@@ -36,6 +36,9 @@ apt-get update && apt-get install -y --no-install-recommends \
     gffread \
     gmap \
  && rm -rf /var/lib/apt/lists/*
+
+sudo wget -qO /usr/local/bin/liftOver http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver
+sudo chmod +x /usr/local/bin/liftOver
 
 export CFLAGS="-I/usr/include/python3.11 -I/usr/include/python3.11/cpython"
 export CPPFLAGS="$CFLAGS"

@@ -8,7 +8,8 @@ URL='https://atlas.cs.brown.edu/data'
 outdir="$TOP/teraseq/outputs"
 benchmark_dir="$TOP/teraseq"
 
-samples="hsa.dRNASeq.HeLa.polyA.1 hsa.dRNASeq.HeLa.polyA.REL5.1 hsa.dRNASeq.HeLa.polyA.PNK.REL5.1"
+# samples="hsa.dRNASeq.HeLa.polyA.1 hsa.dRNASeq.HeLa.polyA.REL5.1 hsa.dRNASeq.HeLa.polyA.PNK.REL5.1"
+samples="hsa.dRNASeq.HeLa.polyA.1"
 
 size=full
 for arg in "$@"; do
@@ -197,7 +198,7 @@ ln -sf genes-polya.gtf genes.gtf
 echo ">>> RETURN TO HG38 REFERENCES <<<"
 
 assembly="hg38"
-cd "$DATA_DIR/$assembly/" || exit 1
+cd "$DATA_DIR/$assembly" || exit 1
 
 # Extract transcript sequences
 gffread -w transcripts.fa -g genome/genome.fa genes.gtf # Poly(A)

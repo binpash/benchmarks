@@ -63,8 +63,6 @@ assembly="hg38"
 mkdir -p "$DATA_DIR"
 cd "$DATA_DIR" || exit 1
 
-wget $URL/teraseq/TERA-Seq_manuscript/data/SIRV_Set1_Sequences_170612a.tar
-
 echo " >>> GET SILVA rRNA DATABASE <<<"
 # Download ribosomal sequences
 # Nr99 "version" clusters highly (99%) similar sequences. From the Silva - "Ref NR 99 (Web database & ARB file), a 99% identity criterion to remove highly identical sequences using the  UCLUST tool was applied."
@@ -384,6 +382,7 @@ echo ">>> GET SIRV E2 REFERENCES <<<"
 mkdir -p "$DATA_DIR/spikein/sirv"
 cd "$DATA_DIR/spikein/sirv/" || exit 1
 
+wget $URL/teraseq/TERA-Seq_manuscript/data/SIRV_Set1_Sequences_170612a.tar
 tar -xvf SIRV_Set1_Sequences_170612a.tar
 sed -i 's/SIRVome_isoforms/SIRV/' SIRV_Set1_Sequences_170612a/SIRVome_isoforms_170612a.fasta
 

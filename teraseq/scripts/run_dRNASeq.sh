@@ -29,6 +29,7 @@ for i in $samples; do
     mkdir -p "$sdiro"/align
     mkdir -p "$sdiro"/db
     mkdir -p "$sdiro"/logfiles
+    mkdir -p "$sdiro"/fast5
 
     zcat "$sdir"/fastq/reads.1.fastq.gz \
     | fastq-sanitize-header --input - --delim : --keep 0 \

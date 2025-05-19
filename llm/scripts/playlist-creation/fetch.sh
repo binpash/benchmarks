@@ -40,6 +40,12 @@ elif [[ "$size" == "min" ]]; then
         echo "Data already downloaded and extracted."
         exit 0
     fi
+    if [[ -d "$input_dir/songs.small" ]]; then
+        mkdir -p "$input_dir/songs.min"
+        cp -r "$input_dir/songs.small/000" "$input_dir/songs.min/"
+        cp -r "$input_dir/songs.small/001" "$input_dir/songs.min/"
+        exit 0
+    fi
     data_url=https://os.unil.cloud.switch.ch/fma/fma_small.zip
     zip_dst=$input_dir/fma_small.zip
     out_dir=$input_dir

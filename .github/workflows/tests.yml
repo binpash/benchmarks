@@ -33,6 +33,13 @@ jobs:
           - unix50
           - vps-audit
           - web-index
+          - llm
+          - git-workflow
+          - ray-tracing
+          - dpt
+          - tuft-weather
+          - teraseq
+          - prog-inf
 
     steps:
       - name: Checkout code

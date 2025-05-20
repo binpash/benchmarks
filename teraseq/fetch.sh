@@ -2,14 +2,6 @@
 
 TOP="$(git rev-parse --show-toplevel)"
 
-SAMPLE_DIR="$TOP/teraseq/inputs"
-URL='https://atlas.cs.brown.edu/data'
-outdir="$TOP/teraseq/outputs"
-benchmark_dir="$TOP/teraseq"
-
-# samples="hsa.dRNASeq.HeLa.polyA.1 hsa.dRNASeq.HeLa.polyA.REL5.1 hsa.dRNASeq.HeLa.polyA.PNK.REL5.1"
-samples="hsa.dRNASeq.HeLa.polyA.1"
-
 size=full
 for arg in "$@"; do
     case "$arg" in
@@ -18,6 +10,12 @@ for arg in "$@"; do
     esac
 done
 
+export SIZE="$size" # for PARAMS.sh
+
+SAMPLE_DIR="$TOP/teraseq/inputs/$size"
+URL='https://atlas.cs.brown.edu/data'
+samples="hsa.dRNASeq.HeLa.polyA.1 hsa.dRNASeq.HeLa.polyA.REL5.1 hsa.dRNASeq.HeLa.polyA.PNK.REL5.1"
+
 base_url="$URL/teraseq/$size"
 
 echo ">>> MAKE DIRECTORY STRUCTURE <<<"
@@ -25,10 +23,6 @@ echo ">>> MAKE DIRECTORY STRUCTURE <<<"
 for i in $samples; do
     sdir=$SAMPLE_DIR/$i
     echo " Working for" "$i"
-
-    mkdir -p "$sdir/logfiles"
-    mkdir -p "$sdir/align"
-    mkdir -p "$sdir/db"
 done
 
 echo ">>> CHECK FASTQ <<<"

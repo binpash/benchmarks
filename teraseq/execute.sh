@@ -1,5 +1,15 @@
 #!/bin/bash --posix
 
+size=full
+for arg in "$@"; do
+    case "$arg" in
+    --small) size=small ;;
+    --min) size=min ;;
+    esac
+done
+
+export SIZE="$size" # for PARAMS.sh
+
 SUITE_DIR="""$(realpath "$(dirname "$0")")"
 export SUITE_DIR
 
@@ -11,6 +21,10 @@ export BENCHMARK_CATEGORY="teraseq"
 
 script_names="run_dRNASeq
 run_5TERA-short"
+
+if [[ "$size" == "small" ]]; then
+    script_names="run_5TERA-short"
+fi
 
 while IFS= read -r script; do
     script_file="./scripts/$script.sh"

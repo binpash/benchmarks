@@ -43,7 +43,6 @@ elif [[ "$size" == "min" ]]; then
     if [[ -d "$input_dir/songs.small" ]]; then
         mkdir -p "$input_dir/songs.min"
         cp -r "$input_dir/songs.small/000" "$input_dir/songs.min/"
-        cp -r "$input_dir/songs.small/001" "$input_dir/songs.min/"
         exit 0
     fi
     data_url=https://os.unil.cloud.switch.ch/fma/fma_small.zip
@@ -63,9 +62,8 @@ elif [[ "$size" == "min" ]]; then
     cd "$input_dir/songs.min/" || exit 1
     mkdir -p "$input_dir/keep"
     mv $input_dir/songs.min/000 "$input_dir/keep/"
-    mv $input_dir/songs.min/001 "$input_dir/keep/"
     rm -rf songs.min
-    mv "$input_dir/keep" "$input_dir/songs.min/"
+    mv "$input_dir/keep/" "$input_dir/songs.min/"
     exit 0
 else
     if [[ -d "$input_dir/songs.full" ]]; then

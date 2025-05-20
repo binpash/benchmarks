@@ -325,33 +325,4 @@ for i in $samples; do
         --ifile "$sdir"/fastq/reads.1.sanitize.wo_rel5.fastq.gz
 done
 
-# Note: If you have the fast5 files you can continue with the analysis. Check https://github.com/mourelatos-lab/TERA-Seq_manuscript/samples/README.md for the location where to download them.
-
-echo ">>> NANOPOLISH POLYA <<<"
-
-for i in $samples; do
-    sdir=$outdir/$i
-    echo " Working for $i"
-
-    if [ -d "$sdir/fast5" ]; then
-	    if [ "$(find "$sdir"/fast5 -maxdepth 1 -type f -name '*.fast5' | wc -l)" != 0 ]; then
-            nanopolish index \
-                --directory "$sdir"/fast5/ \
-                "$sdir"/fastq/reads.1.fastq.gz
-
-            nanopolish polya \
-                --reads "$sdir"/fastq/reads.1.fastq.gz \
-                --bam "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam \
-                --genome "$DATA_DIR/$assembly/transcripts.fa" \
-                --threads $threads \
-                > "$sdir"/align/reads.1.sanitize.noribo.toTranscriptome.sorted.polya.tab \
-                && touch "$sdir"/align/nanopolish-polya.done
-        else
-            echo "It seems that $sdir/fast5 directory is empty. Please check you downloaded and uncompressed fast5 tar.gz archive and placed the files in $sdir/fast5."
-        fi
-    else
-        echo "It seems that $sdir/fast5 directory doesn't exist. Please check you created $sdir/fast5, downloaded and uncompressed fast5 tar.gz and placed the files in $sdir/fast5."
-    fi
-done
-
 echo ">>> ALL DONE <<<"

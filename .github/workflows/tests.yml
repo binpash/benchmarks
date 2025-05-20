@@ -47,9 +47,9 @@ jobs:
 
       - name: Pull benchmarks image
         run: |
-          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest # TODO: Use ref_name instead of latest
           docker tag \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }} \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
             benchmark-env
 
       - name: Set execute permissions for main.sh

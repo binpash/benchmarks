@@ -3,7 +3,7 @@
 size=full
 for arg in "$@"; do
     case "$arg" in
-    --small) size=small ;;
+    --small) size=full ;; # small uses a subset of full inputs
     --min) size=min ;;
     esac
 done

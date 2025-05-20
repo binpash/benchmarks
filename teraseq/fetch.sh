@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -x
 
 TOP="$(git rev-parse --show-toplevel)"
 

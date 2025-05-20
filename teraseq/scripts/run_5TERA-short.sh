@@ -1,6 +1,4 @@
 #!/bin/bash
-set -e
-set -x
 #
 # Run 5TERA-short preprocessing, alignment, and postprocessing
 #

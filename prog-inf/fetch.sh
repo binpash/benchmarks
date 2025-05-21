@@ -1,4 +1,6 @@
 #!/bin/bash
+set -x
+set -e
 
 TOP=$(git rev-parse --show-toplevel)
 URL="https://atlas.cs.brown.edu/data"
@@ -16,7 +18,7 @@ mkdir -p "$input_dir"
 cd "$input_dir" || exit 1
 
 # Fetch the package index
-curl -s "${URL}/prog-inf/index.txt" -o index.txt
+curl -s "${URL}/prog-inf/node_modules/index.txt" -o index.txt
 
 if [ "$size" = "min" ]; then
   n_packages=2
@@ -25,11 +27,13 @@ elif [ "$size" = "small" ]; then
 else
   n_packages=$(wc -l < index.txt)
 fi
+head -n "$n_packages" <index.txt > index.$size.txt
 
 # Fetch the packages
-mkdir -p "$input_dir"/node
+mkdir -p "$input_dir"
+if [ ! -d node_modules ]; then
+  wget "$URL/prog-inf/node_modules.tar.gz" -O node_modules.tar.gz
+  tar xf node_modules.tar.gz
+  rm node_modules.tar.gz
+fi
 
-while read -r package; do
-  url="$URL/prog-inf/node/$package"
-  wget "$url" -O "$input_dir"/node/"$package"
-done < index.txt

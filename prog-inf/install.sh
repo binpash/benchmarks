@@ -5,6 +5,7 @@ TOP=$(git rev-parse --show-toplevel)
 URL="https://atlas.cs.brown.edu/data"
 installdir="$TOP/prog-inf/inputs"
 
+mkdir -p "$installdir"
 cd "$installdir" || exit 1
 # Install mir-sa
 if [ ! -d mir-sa ]; then

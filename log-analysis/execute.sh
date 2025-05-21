@@ -21,7 +21,7 @@ done
 
 nginx_input=$input_dir/nginx-logs_$size
 pcaps_input=$input_dir/pcaps_$size
-port_scan_input=$input_dir/port_scan_$size
+port_scan_input=$input_dir/port_scan_$size/all_logs.jsonl
 export BENCHMARK_CATEGORY="log-analysis"
 KOALA_SHELL=${KOALA_SHELL:-bash}
 
@@ -56,5 +56,11 @@ export PATH=$PATH:/$go_install_dir/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
-$KOALA_SHELL $scripts_dir/port-scan.sh $port_scan_input "$eval_dir/inputs/routeviews.mrt" $outputs_dir/port-scan_$size
+mkdir -p "$outputs_dir/port_scan_$size"
+touch "$outputs_dir/port_scan_$size/annotated.jsonl"
+touch "$outputs_dir/port_scan_$size/file1"
+touch "$outputs_dir/port_scan_$size/file2"
+touch "$outputs_dir/port_scan_$size/as_popularity.csv"
+
+$KOALA_SHELL $scripts_dir/port-scan.sh "$port_scan_input" "$eval_dir/inputs/routeviews.mrt" "$outputs_dir/port_scan_$size/annotated" "$outputs_dir/port_scan_$size/file1" "$outputs_dir/port_scan_$size/file2" "$outputs_dir/port_scan_$size/as_popularity"
 echo $?

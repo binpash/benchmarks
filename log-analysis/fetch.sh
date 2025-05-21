@@ -34,6 +34,8 @@ if [[ ! -d "$input_dir/nginx-logs_$size" ]] || [[ ! -d "$input_dir/pcaps_$size" 
         for log in "$input_dir/nginx-logs_$size/"*; do
             python3 "${eval_dir}/scripts/format_inputs.py" "$log" >"$input_dir/port_scan_$size/$(basename "$log")"
         done
+        # concat logs in port_scan_$size
+        cat "$input_dir/port_scan_$size/"* >"$input_dir/port_scan_$size/all_logs.jsonl"
         exit 0
     fi
 
@@ -53,6 +55,8 @@ if [[ ! -d "$input_dir/nginx-logs_$size" ]] || [[ ! -d "$input_dir/pcaps_$size" 
         for log in "$input_dir/nginx-logs_$size"/*; do
             python3 "${eval_dir}/scripts/format_inputs.py" "$log" >"$input_dir/port_scan_$size/$(basename "$log")"
         done
+        # concat logs in port_scan_$size
+        cat "$input_dir/port_scan_$size/"* >"$input_dir/port_scan_$size/all_logs.jsonl"
         exit 0
     fi
 
@@ -81,6 +85,7 @@ if [[ ! -d "$input_dir/nginx-logs_$size" ]] || [[ ! -d "$input_dir/pcaps_$size" 
     for log in "$input_dir/nginx-logs_$size"/*; do
         python3 "${eval_dir}/scripts/format_inputs.py" "$log" >"$input_dir/port_scan_$size/$(basename "$log")"
     done
+    cat "$input_dir/port_scan_$size/"* >"$input_dir/port_scan_$size/all_logs.jsonl"
 else
     echo "Data already downloaded and extracted."
     exit 0

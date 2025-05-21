@@ -14,9 +14,15 @@ if [ ! -d mir-sa ]; then
   rm mir-sa.tar.gz
 fi
 
-pkgs="node"
-for pkg in $pkgs; do
-  if ! dpkg -s "$pkg" > /dev/null 2>&1 ; then
-    sudo apt-get install -y "$pkg"
-  fi
-done
+cd mir-sa/@andromeda/mir-sa || exit 1
+if [ ! -d node_modules ]; then
+  npm install
+fi
+
+# Install Node.js (18.x) and npm via NodeSource
+if ! command -v node > /dev/null 2>&1 ; then
+  curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+  sudo apt-get install -y nodejs
+fi
+
+apt install -y default-jdk

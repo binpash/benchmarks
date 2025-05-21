@@ -1,6 +1,6 @@
 #!/bin/bash
 TOP=$(realpath "$(dirname "$0")/..")
-MIR_BIN=$TOP/inputs/mir-sa/.bin/mir-sa
+MIR_BIN=$TOP/inputs/mir-sa/@andromeda/mir-sa/index.js
 OUT=$TOP/outputs
 IN=$TOP/inputs
 INDEX=${INDEX:-"$TOP/inputs/index.txt"}

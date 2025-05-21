@@ -9,7 +9,6 @@ for arg in "$@"; do
 done
 
 TOP=$(realpath "$(dirname "$0")")
-export INDEX="$TOP/inputs/index.$size.txt"
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="prog-inf"
@@ -21,6 +20,7 @@ export TIMEFORMAT=%R
 cd "$SUITE_DIR" || exit 1
 
 mkdir -p "outputs"
+export INDEX="$TOP/inputs/index.$size.txt"
 
 script_file="$TOP/scripts/proginf.sh"
 BENCHMARK_SCRIPT=$(realpath "$script_file")

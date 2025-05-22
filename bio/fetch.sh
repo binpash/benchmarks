@@ -6,23 +6,27 @@ URL='https://atlas.cs.brown.edu/data'
 IN="inputs"
 IN_NAME="input.txt"
 size="large"
+mkdir -p "$IN"
+in_dir="$IN/full"
 for arg in "$@"; do
     case "$arg" in
         --small)
             IN_NAME="input_small.txt"
             size="medium"
+            in_dir="$IN/small"
             ;;
         --min)
             IN_NAME="input_min.txt"
+            in_dir="$IN/min"
             ;;
     esac
 done
 
-mkdir -p "$IN" outputs
+mkdir -p outputs "$in_dir"
 
 if [[ "$IN_NAME" == "input_min.txt" ]]; then
     if [[ -d min_inputs ]]; then
-        cp min_inputs/* "$IN/"
+        cp min_inputs/* "$in_dir/"
     else
         echo "Directory 'min_inputs' not found." >&2
         exit 1
@@ -38,7 +42,7 @@ fi
 while IFS= read -r s_line; do
     sample=$(echo "$s_line" | cut -d ' ' -f 2)
 
-    out_file="$IN/$sample.bam"
+    out_file="$in_dir/$sample.bam"
 
     if [[ ! -f "$out_file" ]]; then
         tmp_file="${out_file}.tmp"

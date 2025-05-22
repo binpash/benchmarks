@@ -2,14 +2,20 @@
 
 # create bam files with regions
 ################### 1KG SAMPLES
-IN="inputs"
+IN="inputs/full"
 IN_NAME="input.txt"
 OUT="outputs"
 
 for arg in "$@"; do
     case "$arg" in
-        --small) IN_NAME="input_small.txt" ;;
-        --min)   IN_NAME="input_min.txt" ;;
+        --small)
+            IN_NAME="input_small.txt" 
+            IN="inputs/small"
+            ;;
+        --min)   
+            IN_NAME="input_min.txt" 
+            IN="inputs/min"
+            ;;
     esac
 done
 

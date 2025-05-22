@@ -8,7 +8,7 @@ URL="https://atlas.cs.brown.edu/data"
 size=full
 for arg in "$@"; do
     case "$arg" in
-    --small) size=full ;; # small uses a subset of full inputs
+    --small) size=small ;;
     --min) size=min ;;
     esac
 done

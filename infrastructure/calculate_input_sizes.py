@@ -37,22 +37,27 @@ def du_size(path: str) -> int:
 def walk_files(root: pathlib.Path):
     yield from (p for p in root.rglob("*") if p.is_file())
 
-
 def emit_records(bench_root: pathlib.Path, out_file: pathlib.Path) -> None:
-    with out_file.open("w", encoding="utf-8") as f:
-        for bench in BENCHMARKS:
-            inputs_dir = bench_root / bench / "inputs"
-            if not inputs_dir.is_dir():
-                sys.stderr.write(f"Skipped “{bench}” (no inputs/ directory)\n")
-                continue
+    seen: dict[tuple[str, str], int] = {}
 
-            for file in walk_files(inputs_dir):
-                record = {
-                    "size_bytes": du_size(str(file)),
-                    "category": bench,
-                    "path": file.relative_to(inputs_dir).as_posix(),
-                }
-                f.write(json.dumps(record, ensure_ascii=False) + "\n")
+    for bench in BENCHMARKS:
+        inputs_dir = bench_root / bench / "inputs"
+        if not inputs_dir.is_dir():
+            sys.stderr.write(f"Skipped “{bench}” (no inputs/ directory)\n")
+            continue
+
+        for file in walk_files(inputs_dir):
+            rel_path = file.relative_to(inputs_dir).as_posix()
+            seen[(bench, rel_path)] = du_size(str(file))
+
+    with out_file.open("w", encoding="utf-8") as fh:
+        for bench, rel_path in sorted(seen):
+            record = {
+                "size_bytes": seen[(bench, rel_path)],
+                "category": bench,
+                "path": rel_path,
+            }
+            fh.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
 def parse_args() -> argparse.Namespace:
@@ -68,7 +73,7 @@ def parse_args() -> argparse.Namespace:
         "-o",
         "--output",
         default="infrastructure/data/size_inputs.jsonl",
-        help="Output JSONL file (default: size_inputs.jsonl)",
+        help="Output JSONL file (default: infrastructure/data/size_inputs.jsonl)",
     )
     return p.parse_args()
 

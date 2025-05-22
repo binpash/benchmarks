@@ -417,8 +417,8 @@ STAR \
     --runMode genomeGenerate \
     --runThreadN $threads \
     --genomeDir STAR-2.7.2b/ \
-    --genomeFastaFiles genome/genome.fa
-#    --genomeSAsparseD 2 # add this if you need to save RAM requirements; you can also increase the value to 3
+    --genomeFastaFiles genome/genome.fa \
+    --genomeSAsparseD 3 # add this if you need to save RAM requirements; you can also increase the value to 3
 
 # Build STAR index on the genome with gene annotation
 mkdir -p STAR-2.7.2b-annot
@@ -428,8 +428,8 @@ STAR \
     --genomeDir STAR-2.7.2b-annot/ \
     --genomeFastaFiles genome/genome.fa \
     --sjdbGTFfile ensembl_genes.gtf \
-    --sjdbOverhang 100
-#    --genomeSAsparseD 2 # add this if you need to save RAM requirements; you can also increase the value to 3
+    --sjdbOverhang 100 \
+    --genomeSAsparseD 3 # add this if you need to save RAM requirements; you can also increase the value to 3
 
 echo ">>> MAKE MM10 REFERENCES <<<"
 

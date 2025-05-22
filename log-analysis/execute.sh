@@ -22,6 +22,9 @@ done
 nginx_input=$input_dir/nginx-logs_$size
 pcaps_input=$input_dir/pcaps_$size
 port_scan_input=$input_dir/port_scan_$size/all_logs.jsonl
+rt_inputs_dir=$input_dir/ray_tracing_$size
+rt_outputs_dir=$outputs_dir/ray_tracing_$size
+
 export BENCHMARK_CATEGORY="log-analysis"
 KOALA_SHELL=${KOALA_SHELL:-bash}
 
@@ -63,4 +66,10 @@ touch "$outputs_dir/port_scan_$size/file2"
 touch "$outputs_dir/port_scan_$size/as_popularity.csv"
 
 $KOALA_SHELL $scripts_dir/port-scan.sh "$port_scan_input" "$eval_dir/inputs/routeviews.mrt" "$outputs_dir/port_scan_$size/annotated" "$outputs_dir/port_scan_$size/file1" "$outputs_dir/port_scan_$size/file2" "$outputs_dir/port_scan_$size/as_popularity"
+echo $?
+
+echo "ray-tracing"
+mkdir -p "$outputs_dir/ray_tracing_$size"
+export BENCHMARK_SCRIPT="$scripts_dir/ray-tracing.sh"
+$KOALA_SHELL "$scripts_dir/ray-tracing.sh" "$rt_inputs_dir" "$rt_outputs_dir"
 echo $?

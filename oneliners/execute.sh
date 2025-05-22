@@ -34,7 +34,6 @@ if [[ $size == "small" ]]; then
         "set-diff;30M"
         "sort-sort;30M"
         "uniq-ips;logs-popcount-org_$size"
-        "log-search;log-search_$size"
         "opt-parallel;chessdata_small"
     )
     
@@ -51,7 +50,6 @@ elif [[ $size == "min" ]]; then
         "set-diff;1M"
         "sort-sort;1M"
         "uniq-ips;logs-popcount-org_$size"
-        "log-search;log-search_$size"
         "opt-parallel;chessdata_min"
     )
 
@@ -68,7 +66,6 @@ else
         "set-diff;3G"
         "sort-sort;3G"
         "uniq-ips;logs-popcount-org_$size"
-        "log-search;log-search_$size"
         "opt-parallel;chessdata"
     )
 

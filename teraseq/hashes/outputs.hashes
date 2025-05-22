@@ -1,9 +1,0 @@
-84ea8a4cf82e99abfc1b7d7f517eb4b9  outputs/hsa.dRNASeq.HeLa.polyA.1/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam
-818912e7c853a8b4dca9525541c5480d  outputs/hsa.dRNASeq.HeLa.polyA.1/align/reads.1.sanitize.noribo.toTranscriptome-polya.sorted.bam.bai
-a2bfe2b2682081243f3c6c7b21ac86a6  outputs/hsa.dRNASeq.HeLa.polyA.1/align/reads.1.sanitize.toGenome.sorted.bam
-ef50ce9b08a37dc666b66e16adacbe0d  outputs/hsa.dRNASeq.HeLa.polyA.1/align/reads.1.sanitize.toGenome.sorted.bam.bai
-860ff8226e2133ba18e169160ed0cc28  outputs/hsa.dRNASeq.HeLa.polyA.1/align/reads.1.sanitize.toRibosomal.sorted.bam
-f83cb9689777e18ed0fa1cd618975e39  outputs/hsa.dRNASeq.HeLa.polyA.1/align/reads.1.sanitize.toRibosomal.sorted.reads.txt
-8d393336d3e5fb95513e734140b2e416  outputs/hsa.dRNASeq.HeLa.polyA.1/db/sqlite.db
-14c65d25911caf523a6f52a2d9d2aad5  outputs/hsa.dRNASeq.HeLa.polyA.1/fastq/reads.1.sanitize.fastq.gz
-8af96323f93b242d97e955b6128744d4  outputs/hsa.dRNASeq.HeLa.polyA.1/fastq/reads.1.sanitize.noribo.fastq.gz

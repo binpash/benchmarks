@@ -53,6 +53,6 @@ export BENCHMARK_INPUT_FILE
 
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/thumbnail_generation.sh")"
 export BENCHMARK_SCRIPT
-
+mkdir -p "$outputs_dir/thumbnail$suffix"
 $KOALA_SHELL "$scripts_dir/thumbnail_generation.sh" "$img_convert_input" "$outputs_dir/thumbnail$suffix" > "$outputs_dir/thumbnail$suffix.log"
 echo $?

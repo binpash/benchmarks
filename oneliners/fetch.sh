@@ -56,7 +56,6 @@ else
 fi
 
 ../scripts/gen_ips.py "$N" >logs-popcount-org_$size.txt
-../scripts/gen_ips_log_search.py "$N" >log-search_$size.txt
 
 if [[ "$size" == "small" ]]; then
     if [ ! -f ./10M.txt ]; then

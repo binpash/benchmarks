@@ -13,7 +13,10 @@ sudo apt-get install -y --no-install-recommends \
   libpcap-dev \
   tar \
   git \
-  python3
+  python3 \
+  q-text-as-data \
+  grep \
+  sed
 
 # Set GO_VERSION *before* using it
 GO_VERSION=1.24.2

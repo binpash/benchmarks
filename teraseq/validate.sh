@@ -18,6 +18,7 @@ for arg in "$@"; do
 done
 
 if $generate; then
+    mkdir -p "$hash_folder"
     find "$output_folder" -type f | sort | xargs md5sum > "$hash_folder/outputs.hashes"
     exit 0
 fi

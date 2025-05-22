@@ -54,10 +54,10 @@
     "llm": {
 	    "scripts": ["llm/scripts/*/scripts/*.sh"]
     },
-    "ray-tracing": {
-	    "scripts": ["ray-tracing/scripts/*.sh"]
-    },
     "tuft-weather": {
 	    "scripts": ["tuft-weather/scripts/tuft-weather.sh"]
+    },
+    "teraseq": {
+	    "scripts": ["teraseq/scripts/*.sh"]
     }
 }

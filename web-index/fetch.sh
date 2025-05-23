@@ -45,7 +45,7 @@ if [[ ! -d "$RESOURCES_DIR/articles$suffix" ]]; then
 			# full dataset
 			echo "Downloading the full dataset."
 			wget --no-check-certificate -O $RESOURCES_DIR/wikipedia$suffix.tar.gz "${URL}/wikipedia/wikipedia10g.tar.gz"
-			wget --no-check-certificate -O $RESOURCES_DIR/index$suffix.txt "$URL}/wikipedia/index10g.txt"
+			wget --no-check-certificate -O $RESOURCES_DIR/index$suffix.txt "${URL}/wikipedia/index10g.txt"
 			echo "Extracting the full dataset."
 			tar -xf $RESOURCES_DIR/wikipedia$suffix.tar.gz -C $RESOURCES_DIR
 			mv $RESOURCES_DIR/articles10g $RESOURCES_DIR/articles$suffix

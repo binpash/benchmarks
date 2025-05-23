@@ -5,7 +5,7 @@ export TEST_BASE=$REPO_TOP/web-index
 export SCRIPT_DIR="$TEST_BASE"/scripts
 export WEB_INDEX_DIR="$TEST_BASE"/inputs
 
-cd $(dirname "$0") || exit 1
+cd "$(dirname "$0")" || exit 1
 
 output_base="$1"
 articles_dir="$2"
@@ -25,7 +25,7 @@ cat "$INPUT_FILE" |
   tr A-Z a-z |
   grep -vwFf "$WEB_INDEX_DIR/stopwords.txt" |
   "$SCRIPT_DIR/stem-words.js" |
-  tee 3grams 2grams 1grams > /dev/null &
+  tee 3grams 2grams 1grams > /dev/stderr &
 
 echo "Processing 1-grams"
 cat 1grams |
@@ -49,6 +49,8 @@ cat 3grams |
     $trigrams_aux |
     sort |
     uniq -c |
-    sort -rn > "$output_base/3-grams.txt"
+    sort -rn > "$output_base/3-grams.txt" &
+
+wait
 
 rm -f {1,2,3}grams

@@ -23,7 +23,8 @@ for arg in "$@"; do
 done
 
 mkdir -p outputs "$in_dir"
-
+cp $IN_NAME "$in_dir"
+cp "./Gene_locs.txt" "$in_dir"
 if [[ "$IN_NAME" == "input_min.txt" ]]; then
     if [[ -d min_inputs ]]; then
         cp min_inputs/* "$in_dir/"

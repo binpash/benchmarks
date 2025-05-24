@@ -5,7 +5,7 @@
 
 cd "$(realpath "$(dirname "$0")")" || exit 1
 
-hash_folder="hashes"
+hash_folder="hashes/full"
 directory="outputs"
 
 generate=false
@@ -23,9 +23,6 @@ done
 mkdir -p "$hash_folder"
 
 if $generate; then
-    # get total number of files
-    total_files=$(find "$directory" -maxdepth 1 -name "*.bam" | wc -l)
-
     # Loop through all .bam files in the directory
     for file in "$directory"/*.bam; do
         # Extract the filename without the directory path and extension

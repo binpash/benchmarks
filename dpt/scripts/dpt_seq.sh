@@ -13,8 +13,7 @@ export VECLIB_MAXIMUM_THREADS=1
 export NUMEXPR_NUM_THREADS=1
 
 pure_func() {
-    local img="$1"
-    local tmp_boxes
+    img=$1
     tmp_boxes=$(mktemp)
 
     cat "$img" | python3 scripts/sam_segment.py > "$tmp_boxes"

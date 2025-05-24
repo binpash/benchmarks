@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Exit immediately if a command exits with a non-zero status
-# set -e
-
 cd "$(realpath "$(dirname "$0")")" || exit 1
 
 [ ! -d "outputs" ] && echo "Directory 'outputs' does not exist" && exit 1
@@ -17,14 +14,11 @@ done
 
 directory="outputs"
 input="inputs/packages"
-N=150
 
 if [ "$size" = "small" ]; then
     input="inputs/packages_small"
-    N=1
 elif [ "$size" = "min" ]; then
     input="inputs/packages_min"
-    N=10
 fi
 
 

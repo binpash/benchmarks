@@ -14,8 +14,6 @@ for arg in "$@"; do
   fi
 done
 
-# test "$UID" -gt 0 || { echo "Don't run this as root!"; exit 1; } 
-
 mkdir -p "${OUT}"
 
 # Set environment variables
@@ -29,5 +27,20 @@ BENCHMARK_INPUT_FILE="$(realpath "$IN")"
 export BENCHMARK_INPUT_FILE
 
 echo "$SCRIPT"
-$KOALA_SHELL "$SCRIPT" "$IN" "$OUT"
+
+if [ "$EUID" -eq 0 ]; then
+  if ! id "user" &>/dev/null; then
+    echo "Creating user 'user'..."
+    useradd -m user
+  fi
+
+  echo "Running script as 'user'..."
+  chown -R user:user "$OUT"
+  $KOALA_SHELL "$BENCHMARK_SCRIPT" "$IN" "$OUT"
+
+else
+  echo "Not root, running script..."
+  $KOALA_SHELL "$SCRIPT" "$IN" "$OUT"
+fi
+
 echo "$?"

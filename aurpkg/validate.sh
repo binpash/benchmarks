@@ -7,60 +7,42 @@ cd "$(realpath "$(dirname "$0")")" || exit 1
 
 [ ! -d "outputs" ] && echo "Directory 'outputs' does not exist" && exit 1
 
-hash_folder="hashes"
-
 size="full"
-generate=false
 for arg in "$@"; do
     case "$arg" in
-        --generate) generate=true ;;
         --small)    size="small"  ;;
         --min)      size="min"    ;;
     esac
 done
-directory="outputs"
 
+directory="outputs"
 input="inputs/packages"
+N=150
+
 if [ "$size" = "small" ]; then
     input="inputs/packages_small"
+    N=1
 elif [ "$size" = "min" ]; then
     input="inputs/packages_min"
+    N=10
 fi
 
-mkdir -p "$hash_folder/$size"
 
-if $generate; then
-    while IFS= read -r pkg || [ -n "$pkg" ]; do
-        [ -z "$pkg" ] && continue
-
-        file="$directory/$pkg/$pkg.pacscript"
-
-        hash=$(shasum -a 256 "$file" | awk '{print $1}')
-
-        echo "$hash" >"$hash_folder/$size/$pkg.hash"
-
-        echo "$hash_folder/$size/$pkg.hash $hash"
-    done <"$input"
-    exit 0
-fi
+missing=0
 
 while IFS= read -r pkg || [ -n "$pkg" ]; do
-    status=0
-    [ -z "$pkg" ] && continue
-
-    log="$directory/$pkg/$pkg.pacscript"
-    ref="$hash_folder/$size/$pkg.hash"
-
-    if [ ! -f "$log" ] || [ ! -f "$ref" ]; then
-        status=1
+    file="$directory/$pkg.txt"
+    if [ ! -f "$file" ]; then
+        missing=$((missing + 1))
         continue
     fi
+    if ! grep -q "Finished making" "$file"; then
+        missing=$((missing + 1))
+    fi
+done < "$input"
 
-    cur=$(shasum -a 256 "$log" | awk '{print $1}')
-    stored=$(cat "$ref")
-
-    [ "$cur" = "$stored" ] || status=1
-    echo "$pkg" "$status"
-done <"$input"
-
-echo "aurpkg $status"
+if [ "$missing" -eq 0 ]; then
+    echo "aurpkg 0"
+else
+    echo "aurpkg 1"
+fi

@@ -70,6 +70,9 @@ echo $?
 
 echo "ray-tracing"
 mkdir -p "$outputs_dir/ray_tracing_$size"
-export BENCHMARK_SCRIPT="$scripts_dir/ray-tracing.sh"
+BENCHMARK_SCRIPT="$(realpath "$scripts_dir/ray-tracing.sh")"
+export BENCHMARK_SCRIPT
+BENCHMARK_INPUT_FILE="$(realpath "$rt_inputs_dir")"
+export BENCHMARK_INPUT_FILE
 $KOALA_SHELL "$scripts_dir/ray-tracing.sh" "$rt_inputs_dir" "$rt_outputs_dir"
 echo $?

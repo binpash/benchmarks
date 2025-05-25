@@ -8,7 +8,7 @@ input_dir="${eval_dir}/inputs"
 URL='https://atlas.cs.brown.edu/data'
 URL=$URL/max-temp/noaa/
 FROM=2000
-TO=2024
+TO=2015
 
 n_samples=99999
 suffix="full"

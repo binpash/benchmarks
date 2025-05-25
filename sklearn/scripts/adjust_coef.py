@@ -5,7 +5,7 @@ import pickle
 import numpy as np
 import os
 
-tmp = os.environ.get('TMP')
+tmp = os.environ.get('OUT')
 filepath = os.path.join(tmp, 'fold_coef.obj')
 with open(filepath, 'rb') as file:
     fold_coefs_ = pickle.load(file)

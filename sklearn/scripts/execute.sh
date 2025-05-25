@@ -1,21 +1,18 @@
 #!/bin/bash
 
 PYTHON="python3"
-OUT=${OUT:-$PWD/result}
-TMP=${TMP:-$PWD/tmp}
-#export tmp to env
-export TMP
+OUT=${OUT:-$PWD/outputs/out_small}
+TMP=${TMP:-$PWD/inputs/inputs_small}
 SCRIPTS=${SCRIPTS:-$PWD/scripts}
-
 # Ideally, we'll move on to piping rather than writing to a file
 MODEL=$TMP/model.obj
 X=$TMP/X_train.obj
 y=$TMP/y_train.obj
-CLASSES=$TMP/classes.obj
+CLASSES=$OUT/classes.obj
 DUAL=false # should be converted to bool inside script
-MAX_SQ_SUM=$TMP/max_squared_sum.obj
-WARM_COEF=$TMP/warm_start_coef.obj
-C_=$TMP/C_.obj
+MAX_SQ_SUM=$OUT/max_squared_sum.obj
+WARM_COEF=$OUT/warm_start_coef.obj
+C_=$OUT/C_.obj
 
 echo $PYTHON >&2
 echo "DIR: $DIR" >&2
@@ -28,10 +25,6 @@ echo "DUAL: $DUAL" >&2
 echo "MAX_SQ_SUM: $MAX_SQ_SUM" >&2
 echo "WARM_COEF: $WARM_COEF" >&2
 echo "C_: $C_" >&2
-
-# Generating model & samples
-$PYTHON $SCRIPTS/gen_model.py 100
-$PYTHON $SCRIPTS/gen_samples.py "$@"
 
 # Validity checking functions
 # These functions just check to make sure that the input is valid. 

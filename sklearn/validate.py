@@ -45,7 +45,7 @@ control_model.fit(X_train, y_train)
 control_score = control_model.score(X_test, y_test)
 
 # fall back to ./tmp if $TMP is unset, mirroring the training script
-tmp_dir = os.environ.get('TMP', 'tmp')
+tmp_dir = os.environ.get('OUT')
 model_path = os.path.join(tmp_dir, 'trained_model.obj')
 
 with open(model_path, 'rb') as fh:

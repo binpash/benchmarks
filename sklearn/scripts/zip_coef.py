@@ -7,7 +7,7 @@ import os
 
 fold_coefs_ = []
 
-tmp = os.environ.get('TMP')
+tmp = os.environ.get('OUT')
 
 with open(sys.argv[1], 'r+b') as file1:
     model = pickle.load(file1)

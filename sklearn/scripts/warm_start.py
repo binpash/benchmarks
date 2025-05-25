@@ -18,7 +18,7 @@ if warm_start_coef is not None and model.fit_intercept:
     warm_start_coef = np.append(
         warm_start_coef, model.intercept_[:, np.newaxis], axis=1
     )
-tmp = os.environ.get('TMP')
+tmp = os.environ.get('OUT')
 if multi_class == "multinomial":
     filepath = os.path.join(tmp, 'classes.obj')
     with open(filepath, 'wb') as file:

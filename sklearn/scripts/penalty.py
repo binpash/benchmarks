@@ -28,7 +28,7 @@ else:
     C_ = model.C
     penalty = model.penalty
 
-tmp = os.environ.get('TMP')
+tmp = os.environ.get('OUT')
 filepath = os.path.join(tmp, 'C_.obj')
 with open(filepath, 'w+b') as file:
     pickle.dump(C_, file)

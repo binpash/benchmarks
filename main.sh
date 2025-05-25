@@ -292,7 +292,7 @@ main() {
         fi
     done
 
-    if [[ $measure_resources == true && "$run_locally" == false && ${#stats_files[@]} -gt 1 ]]; then
+    if [[ $measure_resources == true && ${#stats_files[@]} -gt 1 ]]; then
         agg_script="$REPO_TOP/infrastructure/aggregate_stats.py"
         if [[ -f $agg_script ]]; then
             python3 "$agg_script" "${stats_files[@]}" \

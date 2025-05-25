@@ -38,5 +38,5 @@ pkg_count=0
 for pkg in $(cat "${IN}"  | tr '\n' ' '); do
     pkg_count=$((pkg_count + 1))
     echo "$pkg"
-    run_tests "$pkg"
+    run_tests "$pkg">"${OUT}/$pkg_count.txt"
 done

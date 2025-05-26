@@ -25,10 +25,8 @@ fi
 
 if [[ "$size" == "min" ]]; then
     if [[ ! -d "$input_dir/ray_tracing_$size" ]]; then    
-        rt_input_dir="$input_dir/ray_tracing_$size"
-        mkdir -p "$rt_input_dir"
-        N=1000000
-        python3 $eval_dir/scripts/generate_rt_inputs.py "$rt_input_dir" "$N"
+        wget --no-check-certificate $URL/log-analysis/ray_tracing_$size.tar.gz -O "$input_dir/ray_tracing_$size.tar.gz"
+        tar -xzf "$input_dir/ray_tracing_$size.tar.gz" -C "$input_dir"
     fi
     if [[ ! -d "$input_dir/pcaps_$size" ]]; then
         mkdir -p "$input_dir/pcaps_$size"
@@ -49,10 +47,8 @@ if [[ "$size" == "min" ]]; then
     exit 0
 elif [[ "$size" == "small" ]]; then
     if [[ ! -d "$input_dir/ray_tracing_$size" ]]; then  
-        rt_input_dir="$input_dir/ray_tracing_$size"
-        mkdir -p "$rt_input_dir"
-        N=100000000
-        python3 $eval_dir/scripts/generate_rt_inputs.py "$rt_input_dir" "$N"
+        wget --no-check-certificate $URL/log-analysis/ray_tracing_$size.tar.gz -O "$input_dir/ray_tracing_$size.tar.gz"
+        tar -xzf "$input_dir/ray_tracing_$size.tar.gz" -C "$input_dir"
     fi
     if [[ ! -d "$input_dir/pcaps_$size" ]]; then
         wget --no-check-certificate $URL/pcaps.zip -O "$input_dir/pcaps_$size.zip"
@@ -78,10 +74,8 @@ elif [[ "$size" == "small" ]]; then
     exit 0
 else
     if [[ ! -d "$input_dir/ray_tracing_$size" ]]; then 
-        N=10000000000
-        rt_input_dir="$input_dir/ray_tracing_$size"
-        mkdir -p "$rt_input_dir"
-        python3 $eval_dir/scripts/generate_rt_inputs.py "$rt_input_dir" "$N"
+        wget --no-check-certificate $URL/log-analysis/ray_tracing_$size.tar.gz -O "$input_dir/ray_tracing_$size.tar.gz"
+        tar -xzf "$input_dir/ray_tracing_$size.tar.gz" -C "$input_dir"
     fi
     if [[ ! -d "$input_dir/pcaps_$size" ]]; then
         zip_dst="$input_dir/pcaps.zip"

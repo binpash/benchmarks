@@ -330,7 +330,9 @@ fi
 COMMON_SUID_PATHS='^/usr/bin/|^/bin/|^/sbin/|^/usr/sbin/|^/usr/lib|^/usr/libexec'
 KNOWN_SUID_BINS='ping$|sudo$|mount$|umount$|su$|passwd$|chsh$|newgrp$|gpasswd$|chfn$'
 
-SUID_FILES=$(find / -type f -perm -4000 2>/dev/null | \
+SUID_FILES=$(find / \
+    \( -path /proc -o -path /sys -o -path /snap -o -path /mnt -o -path /var/lib/docker \) -prune -o \
+    -type f -perm -4000 -print 2>/dev/null | \
     grep -v -E "$COMMON_SUID_PATHS" | \
     grep -v -E "$KNOWN_SUID_BINS" | \
     wc -l)

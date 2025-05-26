@@ -17,16 +17,14 @@ done
 if [ -f "$input_dir/routeviews.mrt" ]; then
     echo "routeviews.mrt already exists, skipping download."
 else
-    wget --no-check-certificate https://archive.routeviews.org/route-views.linx/bgpdata/2019.10/RIBS/rib.20191001.0000.bz2 -O "$input_dir/rib.20191001.0000.bz2"
-    bunzip2 "$input_dir/rib.20191001.0000.bz2"
-    rm "$input_dir/rib.20191001.0000.bz2"
-    mv "$input_dir/rib.20191001.0000" "$input_dir/routeviews.mrt"
+    wget --no-check-certificate "${URL}/log-analysis/routeviews.mrt" -O "$input_dir/routeviews.mrt"
 fi
 
 if [[ "$size" == "min" ]]; then
     if [[ ! -d "$input_dir/ray_tracing_$size" ]]; then    
         wget --no-check-certificate $URL/log-analysis/ray_tracing_$size.tar.gz -O "$input_dir/ray_tracing_$size.tar.gz"
         tar -xzf "$input_dir/ray_tracing_$size.tar.gz" -C "$input_dir"
+        rm "$input_dir/ray_tracing_$size.tar.gz"
     fi
     if [[ ! -d "$input_dir/pcaps_$size" ]]; then
         mkdir -p "$input_dir/pcaps_$size"
@@ -37,18 +35,16 @@ if [[ "$size" == "min" ]]; then
         cp "${eval_dir}/min_inputs/nginx-logs/"* "$input_dir/nginx-logs_$size"
     fi
     if  [[ ! -d "$input_dir/port_scan_$size" ]]; then
-        mkdir -p "$input_dir/port_scan_$size"
-        for log in "$input_dir/nginx-logs_$size/"*; do
-            python3 "${eval_dir}/scripts/format_inputs.py" "$log" >"$input_dir/port_scan_$size/$(basename "$log")"
-        done
-        # concat logs in port_scan_$size
-        cat "$input_dir/port_scan_$size/"* >"$input_dir/port_scan_$size/all_logs.jsonl"
+        wget --no-check-certificate $URL/log-analysis/port_scan_$size.tar.gz -O "$input_dir/port_scan_$size.tar.gz"
+        tar -xzf "$input_dir/port_scan_$size.tar.gz" -C "$input_dir"
+        rm "$input_dir/port_scan_$size.tar.gz"
     fi
     exit 0
 elif [[ "$size" == "small" ]]; then
     if [[ ! -d "$input_dir/ray_tracing_$size" ]]; then  
         wget --no-check-certificate $URL/log-analysis/ray_tracing_$size.tar.gz -O "$input_dir/ray_tracing_$size.tar.gz"
         tar -xzf "$input_dir/ray_tracing_$size.tar.gz" -C "$input_dir"
+        rm "$input_dir/ray_tracing_$size.tar.gz"
     fi
     if [[ ! -d "$input_dir/pcaps_$size" ]]; then
         wget --no-check-certificate $URL/pcaps.zip -O "$input_dir/pcaps_$size.zip"
@@ -64,18 +60,16 @@ elif [[ "$size" == "small" ]]; then
         rm "$zip_dst"
     fi
     if [[ ! -d "$input_dir/port_scan_$size" ]]; then
-        mkdir -p "$input_dir/port_scan_$size"
-        for log in "$input_dir/nginx-logs_$size"/*; do
-            python3 "${eval_dir}/scripts/format_inputs.py" "$log" >"$input_dir/port_scan_$size/$(basename "$log")"
-        done
-        # concat logs in port_scan_$size
-        cat "$input_dir/port_scan_$size/"* >"$input_dir/port_scan_$size/all_logs.jsonl"
+        wget --no-check-certificate $URL/log-analysis/port_scan_$size.tar.gz -O "$input_dir/port_scan_$size.tar.gz"
+        tar -xzf "$input_dir/port_scan_$size.tar.gz" -C "$input_dir"
+        rm "$input_dir/port_scan_$size.tar.gz"
     fi
     exit 0
 else
     if [[ ! -d "$input_dir/ray_tracing_$size" ]]; then 
         wget --no-check-certificate $URL/log-analysis/ray_tracing_$size.tar.gz -O "$input_dir/ray_tracing_$size.tar.gz"
         tar -xzf "$input_dir/ray_tracing_$size.tar.gz" -C "$input_dir"
+        rm "$input_dir/ray_tracing_$size.tar.gz"
     fi
     if [[ ! -d "$input_dir/pcaps_$size" ]]; then
         zip_dst="$input_dir/pcaps.zip"
@@ -103,10 +97,8 @@ else
         rm "$zip_dst"
     fi
     if [[ ! -d "$input_dir/port_scan_$size" ]]; then
-        mkdir -p "$input_dir/port_scan_$size"
-        for log in "$input_dir/nginx-logs_$size"/*; do
-            python3 "${eval_dir}/scripts/format_inputs.py" "$log" >"$input_dir/port_scan_$size/$(basename "$log")"
-        done
-        cat "$input_dir/port_scan_$size/"* >"$input_dir/port_scan_$size/all_logs.jsonl"
+        wget --no-check-certificate $URL/log-analysis/port_scan_$size.tar.gz -O "$input_dir/port_scan_$size.tar.gz"
+        tar -xzf "$input_dir/port_scan_$size.tar.gz" -C "$input_dir"
+        rm "$input_dir/port_scan_$size.tar.gz"
     fi
 fi

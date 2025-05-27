@@ -1,6 +1,7 @@
 #!/bin/bash
 KOALA_SHELL=${KOALA_SHELL:-bash}
 REPO_TOP=$(git rev-parse --show-toplevel)
+URL='https://atlas.cs.brown.edu/data'
 input_dir="$REPO_TOP/llm/inputs/scripts/playlist-creation/inputs"
 
 mkdir -p "$input_dir"
@@ -18,65 +19,50 @@ if [[ "$size" == "small" ]]; then
         echo "Data already downloaded and extracted."
         exit 0
     fi
-    data_url=https://os.unil.cloud.switch.ch/fma/fma_small.zip
-    zip_dst=$input_dir/fma_small.zip
-    out_dir=$input_dir
-    wget --no-check-certificate $data_url -O $zip_dst || {
+    data_url="${URL}/llm/playlist_small.tar.gz"
+    wget --no-check-certificate $data_url -O "$input_dir"/playlist_small.tar.gz || {
         echo "Failed to download $data_url"
         exit 1
     }
-    unzip -qq $zip_dst -d $out_dir || {
-        echo "Failed to unzip $zip_dst"
+    tar -xzf "$input_dir/playlist_small.tar.gz" -C "$input_dir" || {
+        echo "Failed to extract $input_dir/playlist_small.tar.gz"
         exit 1
     }
-    rm "$zip_dst"
-    mv "$out_dir" "$input_dir/songs.small/"
-    # take out problematic files
-    cd "$input_dir/songs.small/" || exit 1
-    rm -rf 11 21 29 54 98 99 108 133
+    rm "$input_dir/playlist_small.tar.gz"
+    mv "$input_dir/playlist_small" "$input_dir/songs.small"
     exit 0
 elif [[ "$size" == "min" ]]; then
     if [[ -d "$input_dir/songs.min" ]]; then
         echo "Data already downloaded and extracted."
         exit 0
     fi
-    if [[ -d "$input_dir/songs.small" ]]; then
-        mkdir -p "$input_dir/songs.min"
-        cp -r "$input_dir/songs.small/000" "$input_dir/songs.min/"
-        exit 0
-    fi
-    data_url=https://os.unil.cloud.switch.ch/fma/fma_small.zip
-    zip_dst=$input_dir/fma_small.zip
-    out_dir=$input_dir
-    wget --no-check-certificate $data_url -O $zip_dst || {
+    data_url="${URL}/llm/playlist_min.tar.gz"
+    wget --no-check-certificate $data_url -O $input_dir/playlist_min.tar.gz || {
         echo "Failed to download $data_url"
         exit 1
     }
-    unzip -qq $zip_dst -d $out_dir || {
-        echo "Failed to unzip $zip_dst"
+    tar -xzf "$input_dir/playlist_min.tar.gz" -C "$input_dir" || {
+        echo "Failed to extract $input_dir/playlist_min.tar.gz"
         exit 1
     }
-    rm "$zip_dst"
-    mv "$out_dir" "$input_dir/songs.min/"
-    # take out problematic files
-    cd "$input_dir/songs.min/" || exit 1
-    mkdir -p "$input_dir/keep"
-    mv $input_dir/songs.min/000 "$input_dir/keep/"
-    rm -rf songs.min
-    mv "$input_dir/keep/" "$input_dir/songs.min/"
+    rm "$input_dir/playlist_min.tar.gz"
+    mv "$input_dir/playlist_min" "$input_dir/songs.min"
     exit 0
 else
     if [[ -d "$input_dir/songs.full" ]]; then
         echo "Data already downloaded and extracted."
         exit 0
     fi
-
     echo "Downloading full dataset."
-    data_url=https://os.unil.cloud.switch.ch/fma/fma_medium.zip
-    zip_dst="$input_dir/fma_medium.zip"
-    out_dir="$input_dir"
-    wget --no-check-certificate $data_url -O $zip_dst
-    unzip -qq $zip_dst -d $out_dir
-    rm "$zip_dst"
-    mv "$out_dir" "$input_dir/songs.full/"
+    data_url="${URL}/llm/playlist_full.tar.gz"
+    wget --no-check-certificate $data_url -O "$input_dir"/playlist_full.tar.gz || {
+        echo "Failed to download $data_url"
+        exit 1
+    }
+    tar -xzf "$input_dir/playlist_full.tar.gz" -C "$input_dir" || {
+        echo "Failed to extract $input_dir/playlist_full.tar.gz"
+        exit 1
+    }
+    rm "$input_dir/playlist_full.tar.gz"
+    mv "$input_dir/playlist_full" "$input_dir/songs.full"
 fi

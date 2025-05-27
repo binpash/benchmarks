@@ -38,7 +38,7 @@ def walk_files(root: pathlib.Path):
     yield from (p for p in root.rglob("*") if p.is_file())
 
 def emit_records(bench_root: pathlib.Path, out_file: pathlib.Path) -> None:
-    seen: dict[tuple[str, str], int] = {}
+    skip_path = bench_root / "git-workflow" / "inputs" / "chromium"
 
     for bench in BENCHMARKS:
         inputs_dir = bench_root / bench / "inputs"
@@ -46,18 +46,20 @@ def emit_records(bench_root: pathlib.Path, out_file: pathlib.Path) -> None:
             sys.stderr.write(f"Skipped “{bench}” (no inputs/ directory)\n")
             continue
 
-        for file in walk_files(inputs_dir):
-            rel_path = file.relative_to(inputs_dir).as_posix()
-            seen[(bench, rel_path)] = du_size(str(file))
+        with out_file.open("a", encoding="utf-8") as fh:
+            for file in walk_files(inputs_dir):
+                # Skip files under git-workflow/inputs/chromium/
+                if file.is_relative_to(skip_path):
+                    continue
 
-    with out_file.open("w", encoding="utf-8") as fh:
-        for bench, rel_path in sorted(seen):
-            record = {
-                "size_bytes": seen[(bench, rel_path)],
-                "category": bench,
-                "path": rel_path,
-            }
-            fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+                rel_path = file.relative_to(inputs_dir).as_posix()
+                size = du_size(str(file))
+                record = {
+                    "size_bytes": size,
+                    "category": bench,
+                    "path": rel_path,
+                }
+                fh.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
 def parse_args() -> argparse.Namespace:
@@ -82,8 +84,21 @@ def main() -> None:
     args = parse_args()
 
     bench_root = git_root()
+    output_path = pathlib.Path(args.output).resolve()
 
-    emit_records(bench_root, pathlib.Path(args.output).resolve())
+    emit_records(bench_root, output_path)
+
+    try:
+        tmp_path = output_path.parent / "tmp_size_inputs.jsonl"
+        subprocess.run(
+            ["sort", "-u", str(output_path)],
+            stdout=tmp_path.open("w", encoding="utf-8"),
+            check=True,
+        )
+        tmp_path.replace(output_path)
+        print(f"Deduplicated output written to {output_path}")
+    except Exception as e:
+        sys.stderr.write(f"Deduplication failed: {e}\n")
 
 
 if __name__ == "__main__":

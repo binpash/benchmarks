@@ -2,11 +2,45 @@
 
 output_file="benchmark_results.csv"
 
-benchmarks=(
+default_benchmarks=(
+  "aurpkg"
+  "bio"  
   "covid-mts"
+  "dpt"
+  "file-enc"
+  "git-workflow"
+  "llm"
+  "log-analysis"
+  "makeself"
+  "max-temp"
+  "media-conv"
+  "nlp"
+  "oneliners"
+  "prog-inf"
+  "riker"
+  "sklearn"
+  "teraseq"
+  "tuft-weather"
+  "unix50"
+  "vps-audit"
+  "web-index"
 )
 
-# Error handler
+benchmarks=()
+args=()
+
+for arg in "$@"; do
+    if [[ "$arg" == --* ]]; then
+        args+=("$arg")
+    else
+        benchmarks+=("$arg")
+    fi
+done
+
+if [ ${#benchmarks[@]} -eq 0 ]; then
+    benchmarks=("${default_benchmarks[@]}")
+fi
+
 error() {
     echo "Error: $1" >&2
     exit 1
@@ -17,6 +51,7 @@ echo "Benchmark,Sys Calls,File Descriptors" > "$output_file"
 for benchmark in "${benchmarks[@]}"; do
     echo "Running benchmark: $benchmark"
 
+    mkdir -p "/tmp/${benchmark}"
     strace_output="/tmp/${benchmark}_strace.txt"
     lsof_output="/tmp/${benchmark}_lsof.txt"
 
@@ -25,7 +60,7 @@ for benchmark in "${benchmarks[@]}"; do
         continue
     fi
 
-    setsid ./execute.sh "$@" &
+    setsid ./execute.sh "${args[@]}" &
     pid=$!
 
     pgid=$(ps -o pgid= -p "$pid" | tr -d ' ')
@@ -40,7 +75,7 @@ for benchmark in "${benchmarks[@]}"; do
 
     wait "$pid"
 
-    strace -c -f -o "$strace_output" ./execute.sh "$@" || {
+    strace -c -f -o "$strace_output" ./execute.sh "${args[@]}" || {
         echo "$benchmark,FAIL: strace failed,0" >> "../$output_file"
         cd - > /dev/null || exit
         continue

@@ -29,7 +29,7 @@ g config user.name "A U Thor"
 g stash
 gco main
 g branch -D bench_branch 2>/dev/null || true
-gco -b bench_branch
+gco -b bench_branch 644ae58
 grs
 gcl
 

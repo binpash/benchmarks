@@ -27,5 +27,5 @@ All outputs are deterministic across runs.
 Correctness is validated by comparing each generated output file against a reference stored in the hashes/ directory.
 
 ### References
-- “Digital Pyramids Text Project,” 2025. [https://example.org/dpt](http://dpt.cs.brown.edu/)
+- “Digital Pyramids Text Project,” 2025. [http://dpt.cs.brown.edu/](http://dpt.cs.brown.edu/)
 - [https://arxiv.org/abs/2304.02643](https://arxiv.org/abs/2304.02643)

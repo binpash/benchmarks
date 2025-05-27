@@ -8,7 +8,7 @@ cd "$TOP" || exit 1
 mkdir -p "${IN}"
 
 if [ ! -f "${IN}/packages" ]; then
-  wget "$URL"/packages --no-check-certificate -O "${IN}/packages"
+  wget "$URL"/aurpkg/packages --no-check-certificate -O "${IN}/packages"
 fi
 
 for arg in "$@"; do

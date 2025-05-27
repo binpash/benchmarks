@@ -33,17 +33,14 @@ fi
 
 if [[ "$size" == "small" ]]; then
     if [ ! -e ./pg-small ]; then
-        mkdir pg-small
-        cd pg-small || exit 1
-        book_count=3000
-
-        head -n $book_count ../book_links.txt | while IFS= read -r line
-        do
-            full_url="${URL}/gutenberg/${line}"
-            echo "Downloading $full_url"
-            wget --no-check-certificate -q "$full_url"
-        done
-        cd ..
+        data_url="${URL}/nlp/pg-small.tar.gz"
+        wget --no-check-certificate -O pg-small.tar.gz "$data_url"
+        if [ ! -f pg-small.tar.gz ]; then
+            echo "Failed to download pg-small.tar.gz"
+            exit 1
+        fi
+        tar -xzf pg-small.tar.gz
+        rm pg-small.tar.gz
     fi
     exit 0
 elif [[ "$size" == "min" ]]; then
@@ -65,15 +62,13 @@ elif [[ "$size" == "min" ]]; then
 fi
 
 if [ ! -e ./pg ]; then
-    mkdir pg
-    cd pg || exit 1
-
-    while IFS= read -r line
-    do
-        full_url="${URL}/gutenberg/${line}"
-        echo "Downloading $full_url"
-        wget --no-check-certificate -q "$full_url"
-    done < ../book_links.txt
-
-    cd ..
+    data_url="${URL}/nlp/pg.tar.gz"
+    wget --no-check-certificate -O pg.tar.gz "$data_url"
+    if [ ! -f pg-small.tar.gz ]; then
+        echo "Failed to download pg.tar.gz"
+        exit 1
+    fi
+    tar -xzf pg.tar.gz
+    rm pg.tar.gz
+    exit 0
 fi

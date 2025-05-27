@@ -43,12 +43,18 @@ if [[ ! -d "$RESOURCES_DIR/articles$suffix" ]]; then
 			mv $RESOURCES_DIR/articles1g $RESOURCES_DIR/articles$suffix
 		else
 			# full dataset
-			echo "Downloading the full dataset."
-			wget --no-check-certificate -O $RESOURCES_DIR/wikipedia$suffix.tar.gz "${URL}/wikipedia/wikipedia10g.tar.gz"
-			wget --no-check-certificate -O $RESOURCES_DIR/index$suffix.txt "${URL}/wikipedia/index10g.txt"
-			echo "Extracting the full dataset."
-			tar -xf $RESOURCES_DIR/wikipedia$suffix.tar.gz -C $RESOURCES_DIR
-			mv $RESOURCES_DIR/articles10g $RESOURCES_DIR/articles$suffix
+			# echo "Downloading the full dataset."
+			# wget --no-check-certificate -O $RESOURCES_DIR/wikipedia$suffix.tar.gz "${URL}/wikipedia/wikipedia10g.tar.gz"
+			# wget --no-check-certificate -O $RESOURCES_DIR/index$suffix.txt "${URL}/wikipedia/index10g.txt"
+			# echo "Extracting the full dataset."
+			# tar -xf $RESOURCES_DIR/wikipedia$suffix.tar.gz -C $RESOURCES_DIR
+			# mv $RESOURCES_DIR/articles10g $RESOURCES_DIR/articles$suffix
+
+			echo "Downloading the full dataset. Caution!! Extracted size >200GB"
+			wget -O $RESOURCES_DIR/wikipedia.tar.gz https://atlas-group.cs.brown.edu/data/wikipedia/input/articles.tar.gz --no-check-certificate
+			wget -O $RESOURCES_DIR/index.txt https://atlas-group.cs.brown.edu/data/wikipedia/input/index.txt --no-check-certificate
+			tar -xf $RESOURCES_DIR/wikipedia.tar.gz -C $RESOURCES_DIR
+			mv $RESOURCES_DIR/articles $RESOURCES_DIR/articles$suffix
 		fi
 	else
 		echo "Extracting dataset."

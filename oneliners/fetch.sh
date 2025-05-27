@@ -15,6 +15,7 @@ for arg in "$@"; do
     esac
 done
 
+mkdir -p "$input_dir/comm_$size"
 
 if [ ! -f $input_dir/1M.txt ]; then
     wget --no-check-certificate "$URL"/dummy/1M.txt
@@ -56,6 +57,7 @@ else
 fi
 
 ../scripts/gen_ips.py "$N" >logs-popcount-org_$size.txt
+../scripts/gen_comm.py "$N" "comm_$size"
 
 if [[ "$size" == "small" ]]; then
     if [ ! -f ./10M.txt ]; then

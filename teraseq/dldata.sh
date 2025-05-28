@@ -96,7 +96,7 @@ for rep in 1 2 3; do
   file="HeLa.rep${rep}.hg19.ctss_chr.bed.gz"
   if [[ ! -s fantom5/$file ]]; then
     wget -O fantom5/$file \
-      "$base_url/data/epitheloid-carcinoma-cell-line:a-HelaS3-ENCODE-biol_rep${rep}.CNhs1232${4+rep}.1081${5+rep}-111B${4+rep}.hg19.ctss.bed.gz"
+      "$base_url/data/epitheloid-carcinoma-cell-line--HelaS3-ENCODE-biol_rep${rep}.CNhs1232${4+rep}.1081${5+rep}-111B${4+rep}.hg19.ctss.bed.gz"
   fi
 done
 wget -O hg19ToHg38.over.chain.gz "$base_url/data/hg19ToHg38.over.chain.gz"

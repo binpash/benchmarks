@@ -55,6 +55,7 @@ if [[ ! -d "$RESOURCES_DIR/articles$suffix" ]]; then
 			wget -O $RESOURCES_DIR/index.txt https://atlas-group.cs.brown.edu/data/wikipedia/input/index.txt --no-check-certificate
 			tar -xf $RESOURCES_DIR/wikipedia.tar.gz -C $RESOURCES_DIR
 			mv $RESOURCES_DIR/articles $RESOURCES_DIR/articles$suffix
+			rm $RESOURCES_DIR/wikipedia.tar.gz
 		fi
 	else
 		echo "Extracting dataset."

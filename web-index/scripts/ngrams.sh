@@ -16,6 +16,7 @@ mkfifo {1,2,3}grams
 extract_text="$SCRIPT_DIR/extract_text.sh"
 bigrams_aux="$SCRIPT_DIR/bigrams_aux.sh"
 trigrams_aux="$SCRIPT_DIR/trigrams_aux.sh"
+max_c="30" # maximum character length for n-grams
 
 echo "Processing text from $INPUT_FILE"
 cat "$INPUT_FILE" |
@@ -23,6 +24,7 @@ cat "$INPUT_FILE" |
   $extract_text |
   tr -cs A-Za-z '\n' |
   tr A-Z a-z |
+  cut -c 1-"$max_c" |
   grep -vwFf "$WEB_INDEX_DIR/stopwords.txt" |
   "$SCRIPT_DIR/stem-words.js" |
   tee 3grams 2grams 1grams > /dev/stderr &

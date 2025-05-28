@@ -16,7 +16,7 @@ mkfifo {1,2,3}grams
 extract_text="$SCRIPT_DIR/extract_text.sh"
 bigrams_aux="$SCRIPT_DIR/bigrams_aux.sh"
 trigrams_aux="$SCRIPT_DIR/trigrams_aux.sh"
-max_c="30" # maximum character length for n-grams
+max_c="100" # maximum character length for n-grams
 
 echo "Processing text from $INPUT_FILE"
 cat "$INPUT_FILE" |

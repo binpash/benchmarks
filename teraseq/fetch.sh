@@ -107,7 +107,7 @@ mkdir -p "$DATA_DIR/$assembly/genome"
 cd "$DATA_DIR/$assembly/" || exit 1
 
 [ ! -f genome/genome.fa ] && \
-    wget -qO- $base_url/data/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz |
+    wget -O- $base_url/data/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz |
     gunzip -c |
     clean-genome-headers --fasta - > genome/genome.fa
 
@@ -117,7 +117,7 @@ cut -f1-2 genome/genome.fa.fai > chrom.sizes
 
 # Download Ensembl annotation
 [ ! -f ensembl_genes.gtf ] && \
-    wget -qO- $base_url/data/Homo_sapiens.GRCh38.91.gtf.gz |
+    wget -O- $base_url/data/Homo_sapiens.GRCh38.91.gtf.gz |
     gunzip -c > ensembl_genes.gtf
 ln -sf ensembl_genes.gtf Homo_sapiens.GRCh38.91.gtf
 
@@ -171,12 +171,12 @@ mkdir -p "$DATA_DIR/$assembly/genome"
 cd "$DATA_DIR/$assembly/" || exit 1
 
 [ ! -f genome/genome.fa ] && \
-    wget -qO- $base_url/data/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz |
+    wget -O- $base_url/data/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz |
     gunzip -c |
     clean-genome-headers --fasta - > genome/genome.fa
 
 [ ! -f ensembl_genes.gtf ] && \
-    wget -qO- $base_url/data/Mus_musculus.GRCm38.97.gtf.gz |
+    wget -O- $base_url/data/Mus_musculus.GRCm38.97.gtf.gz |
     gunzip -c > ensembl_genes.gtf
 ln -fs ensembl_genes.gtf Mus_musculus.GRCm38.97.gtf
 

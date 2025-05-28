@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
+set -x
 #
 # download_data.sh
 #   - Create directories

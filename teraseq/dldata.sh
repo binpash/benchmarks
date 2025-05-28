@@ -54,7 +54,7 @@ echo ">>> DOWNLOADING SILVA rRNA DATABASE <<<"
 mkdir -p "$DATA_DIR/silva" && cd "$DATA_DIR/silva"
 for db in SILVA_132_LSURef_tax_silva_trunc.fasta.gz SILVA_132_SSURef_Nr99_tax_silva_trunc.fasta.gz; do
   if [[ ! -s "$db" ]]; then
-    wget -q "$base_url/data/$db"
+    wget "$base_url/data/$db"
   else
     echo "  $db exists"
   fi
@@ -66,7 +66,7 @@ for asm in hg38/mm10; do
   mkdir -p "$target/genome"
   cd "$target"
   if [[ ! -s genome/genome.fa ]]; then
-    wget -qO- "$base_url/data/$( [ "$asm" == "hg38" ] \
+    wget -O- "$base_url/data/$( [ "$asm" == "hg38" ] \
         && echo Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz \
         || echo Mus_musculus.GRCm38.dna.primary_assembly.fa.gz)" \
       | gunzip -c \
@@ -75,7 +75,7 @@ for asm in hg38/mm10; do
   fi
 
   if [[ ! -s ensembl_genes.gtf ]]; then
-    wget -qO- "$base_url/data/$( [ "$asm" == "hg38" ] \
+    wget -O- "$base_url/data/$( [ "$asm" == "hg38" ] \
         && echo Homo_sapiens.GRCh38.91.gtf.gz \
         || echo Mus_musculus.GRCm38.97.gtf.gz)" \
       | gunzip -c \
@@ -87,7 +87,7 @@ echo ">>> DOWNLOADING PolyASite, CAGE, NET-CAGE, UCSC→Ensembl mappings <<<"
 cd "$DATA_DIR" || exit 1
 # PolyASite v2.0
 mkdir -p "$DATA_DIR/polyasite-2.0"
-wget -q -O polyasite-2.0/atlas.clusters.hg38.2-0.bed.gz \
+wget -O polyasite-2.0/atlas.clusters.hg38.2-0.bed.gz \
      "$base_url/data/atlas.clusters.hg38.2-0.bed.gz"
 
 # FANTOM5 HeLa CAGE
@@ -95,11 +95,11 @@ mkdir -p "$DATA_DIR/fantom5"
 for rep in 1 2 3; do
   file="HeLa.rep${rep}.hg19.ctss_chr.bed.gz"
   if [[ ! -s fantom5/$file ]]; then
-    wget -qO fantom5/$file \
+    wget -O fantom5/$file \
       "$base_url/data/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep${rep}.CNhs1232${4+rep}.1081${5+rep}-111B${4+rep}.hg19.ctss.bed.gz"
   fi
 done
-wget -q -O hg19ToHg38.over.chain.gz "$base_url/data/hg19ToHg38.over.chain.gz"
+wget -O hg19ToHg38.over.chain.gz "$base_url/data/hg19ToHg38.over.chain.gz"
 
 # NET-CAGE
 mkdir -p "$DATA_DIR/NET-CAGE"
@@ -112,19 +112,19 @@ for f in \
   Rep2-HeLaS3-NETCAGE-2M_GCT; do
   gz="$f.ctss.bed.gz"
   if [[ ! -s NET-CAGE/$gz ]]; then
-    wget -qO NET-CAGE/$gz "$base_url/data/NET-CAGE/$gz"
+    wget -O NET-CAGE/$gz "$base_url/data/NET-CAGE/$gz"
   fi
 done
 
 # UCSC2ensembl mapping & ENCODE cCREs
-wget -qO "$DATA_DIR/UCSC2ensembl.txt" "$base_url/data/UCSC2ensembl.txt"
+wget -O "$DATA_DIR/UCSC2ensembl.txt" "$base_url/data/UCSC2ensembl.txt"
 mkdir -p "$DATA_DIR/meth"
-wget -qO "$DATA_DIR/meth/encodeCcreHela.bed" "$base_url/data/meth/encodeCcreHela.bed"
+wget -O "$DATA_DIR/meth/encodeCcreHela.bed" "$base_url/data/meth/encodeCcreHela.bed"
 
 echo ">>> DOWNLOADING SIRV E2 SPIKE-INS <<<"
 mkdir -p "$DATA_DIR/spikein/sirv" && cd "$DATA_DIR/spikein/sirv"
 if [[ ! -f SIRV_Set1_Sequences_170612a.tar ]]; then
-  wget -q "$URL/teraseq/TERA-Seq_manuscript/data/SIRV_Set1_Sequences_170612a.tar"
+  wget "$URL/teraseq/TERA-Seq_manuscript/data/SIRV_Set1_Sequences_170612a.tar"
   tar -xf SIRV_Set1_Sequences_170612a.tar
 fi
 

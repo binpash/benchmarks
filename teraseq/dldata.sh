@@ -84,6 +84,7 @@ for asm in hg38/mm10; do
 done
 
 echo ">>> DOWNLOADING PolyASite, CAGE, NET-CAGE, UCSC→Ensembl mappings <<<"
+cd "$DATA_DIR" || exit 1
 # PolyASite v2.0
 mkdir -p "$DATA_DIR/polyasite-2.0"
 wget -q -O polyasite-2.0/atlas.clusters.hg38.2-0.bed.gz \

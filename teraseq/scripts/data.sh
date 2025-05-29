@@ -4,6 +4,12 @@ set -e
 
 TOP="$(git rev-parse --show-toplevel)"
 
+echo ">>> SETUP DATA <<<"
+#
+# Prepare references and annotations
+#
+source "$TOP/teraseq/scripts/PARAMS.sh"
+
 echo ">>> MAKE HG38 REFERENCES <<<"
 
 assembly="hg38"

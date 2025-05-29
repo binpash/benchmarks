@@ -3,7 +3,13 @@
 # Run visualization of Cutadapt adapter trimming
 #
 
-source ../PARAMS.sh
+TOP=$(git rev-parse --show-toplevel)
+
+outdir="$TOP/teraseq/outputs"
+scripts="$TOP/teraseq/scripts"
+mkdir -p "$outdir"/fastq
+
+. "$scripts/PARAMS.sh"
 
 adapter_orig="AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT" # original, full-length REL5.long
 ad_name="REL5.long" # adapter name
@@ -11,14 +17,12 @@ ad_name="REL5.long" # adapter name
 threads=8
 assembly="hg38"
 
-RES_DIR="results"
+RES_DIR="$outdir/adapter/results"
 mkdir -p $RES_DIR
 
 ####################################################################################################
 
 echo ">>> TRIM ADAPTER - TRANSCRIPTS <<<"
-
-source $INSTALL/cutadapt-2.5/venv/bin/activate
 
 max=${#adapter_orig} # get max length of the adapter if we need to
 
@@ -100,19 +104,9 @@ done > $RES_DIR/cmds.txt
 cat $RES_DIR/cmds.txt | parallel -j $threads --load 95% --noswap '{}'
 rm $RES_DIR/cmds.txt
 
-deactivate
-
 echo ">>> VISUALIZE TRIMMING - TRANSCRIPTS <<<"
 
-if [ -z ${CONDA_PREFIX} ]; then
-    echo "Variable \$CONDA_PREFIX is not set. Please make sure you specified if in PARAMS.sh."
-    exit
-fi
-
-source $CONDA_PREFIX/bin/activate # Source Conda base
-conda activate teraseq
-
-./src/R/cutadapt-transcripts.R "$RES_DIR/transcripts/${ad_name}/logfiles" \
+cutadapt-transcripts.R "$RES_DIR/transcripts/${ad_name}/logfiles" \
     "$RES_DIR/transcripts/${ad_name}/cutadapt-heatmap.png"
 
 echo ">>> VISUALIZE TRIMMING - LIBRARIES <<<"
@@ -122,14 +116,14 @@ for i in ${samples[@]}; do
     sdir=$RES_DIR/$i
     mkdir -p $sdir
 
-    ./src/R/cutadapt-libraries.R "$sdir/cutadapt/logfiles" \
+    cutadapt-libraries.R "$sdir/cutadapt/logfiles" \
         "$sdir/cutadapt/cutadapt-heatmap.png" \
         "$RES_DIR/transcripts/${ad_name}/cutadapt-heatmap.tsv"
 done
 
 echo ">>> VISUALIZE TRIMMED LENGTHS <<<"
 
-./src/R/trimming.R "data/trimming.tsv" "$RES_DIR/trimming.pdf"
+trimming.R "$DATA_DIR/adapter/trimming.tsv" "$RES_DIR/trimming.pdf"
 
 echo ">>> TEST CUTADAPT SENSITIVITY <<<"
 
@@ -161,10 +155,6 @@ for i in "${samples[@]}"; do
     picard SamToFastq INPUT=$sdir/tss-close-reads.wo_softclip.w_rel5.bam FASTQ=$sdir/tss-close-reads.wo_softclip.w_rel5.fastq \
         INCLUDE_NON_PRIMARY_ALIGNMENTS=false VALIDATION_STRINGENCY=LENIENT
 
-    conda deactivate
-
-    source $INSTALL/cutadapt-2.5/venv/bin/activate
-
     cat $sdir/tss-close-reads.wo_softclip.w_rel5.fastq \
         | python3 src/Python/cutadapt-sensitivity-sam-at-tss.py \
             --bam $sdir/tss-close-reads.wo_softclip.bam \
@@ -172,10 +162,6 @@ for i in "${samples[@]}"; do
             --fastq - \
             -o $sdir/sensitivity-tss.pdf \
             > $sdir/sensitivity-tss.tab
-
-    deactivate
-
-    conda activate teraseq
 done
 wait
 

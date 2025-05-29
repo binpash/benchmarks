@@ -16,7 +16,8 @@ export SIZE="$size" # for PARAMS.sh
 
 SAMPLE_DIR="$TOP/teraseq/inputs/$size"
 URL='https://atlas.cs.brown.edu/data'
-samples="hsa.dRNASeq.HeLa.polyA.1 hsa.dRNASeq.HeLa.polyA.REL5.1 hsa.dRNASeq.HeLa.polyA.PNK.REL5.1"
+samples="hsa.dRNASeq.HeLa.polyA.1 hsa.dRNASeq.HeLa.polyA.REL5.1 hsa.dRNASeq.HeLa.polyA.PNK.REL5.1 \
+hsa.dRNASeq.HeLa.polyA.CIP.decap.REL5.long.1 hsa.dRNASeq.HeLa.polyA.decap.REL5.long.1 hsa.dRNASeq.HeLa.polyA.REL5.long.1 hsa.dRNASeq.HeLa.polyA.REL5OH.long.1"
 
 base_url="$URL/teraseq/$size"
 
@@ -181,5 +182,10 @@ echo ">>> MAKE MM10 REFERENCES <<<"
 assembly="mm10"
 
 cd "$DATA_DIR/$assembly/" || exit 1
+
+echo ">>> GET TRIMMING FOR ADAPTERS <<<"
+
+mkdir -p "$DATA_DIR/adapter"
+wget "$URL/teraseq/TERA-Seq_manuscript/adapter/data/trimming.tsv" -O "$DATA_DIR/adapter/trimming.tsv"
 
 echo ">>> ALL DONE <<<"

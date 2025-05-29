@@ -1,11 +1,17 @@
 #!/bin/bash
+set -x
+set -e
 #
 # Run 5TERA preprocessing, alignment, and postprocessing
 #
 
-# TODO: Do this
+TOP=$(git rev-parse --show-toplevel)
 
-source ../PARAMS.sh
+outdir="$TOP/teraseq/outputs"
+scripts="$TOP/teraseq/scripts"
+mkdir -p "$outdir"/fastq
+
+. "$scripts/PARAMS.sh"
 
 threads=6
 assembly="hg38"
@@ -19,64 +25,30 @@ samples=(
     "hsa.dRNASeq.HeLa.polyA.REL5OH.long.1"
 )
 
-echo ">>> MAKE DIRECTORY STRUCTURE <<<"
-
-for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
-    echo " Working for" $i
-
-    mkdir -p $sdir/logfiles
-    mkdir $sdir/align
-    mkdir $sdir/db
-done
-
-echo ">>> CHECK FASTQ <<<"
-
-for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
-    echo " Working for" $i
-
-    if [ -f "$sdir/fastq/reads.1.fastq.gz" ]; then
-        echo "$sdir/fastq/reads.1.fastq.gz is present, continue."
-    else
-        echo "$sdir/fastq/reads.1.fastq.gz does not exist, trying to download."
-        download=$(cat README.md | grep download | grep $i | cut -d '|' -f 6 | cut -d '(' -f2  | sed 's/)//' | sed 's#https://##')
-        mkdir $sdir/fastq
-        curl $download > $sdir/fastq/reads.1.fastq.gz
-    fi
-done
-
 echo ">>> SANITIZE FASTQ HEADERS <<<"
 
-source $INSTALL/perl-virtualenv/teraseq/bin/activate
-
 for i in "${samples[@]}"; do
     sdir=$SAMPLE_DIR/$i
+    sdiro="$outdir/$i"
     echo " Working for" $i
+
+    mkdir -p "$sdiro"/fastq
+    mkdir -p "$sdiro"/align
+    mkdir -p "$sdiro"/db
+    mkdir -p "$sdiro"/logfiles
+    mkdir -p "$sdiro"/fast5
 
     zcat $sdir/fastq/reads.1.fastq.gz \
     | fastq-sanitize-header --input - --delim : --keep 0 \
     | gzip \
-    > $sdir/fastq/reads.1.sanitize.fastq.gz &
+    > $sdiro/fastq/reads.1.sanitize.fastq.gz &
 done
 wait
 
-deactivate
-
 echo ">>> REMOVE REL5 ADAPTOR <<<"
 
-if [ -z ${CONDA_PREFIX} ]; then
-    echo "Variable \$CONDA_PREFIX is not set. Please make sure you specified if in PARAMS.sh."
-    exit
-fi
-
-source $CONDA_PREFIX/bin/activate # Source Conda base
-conda activate teraseq
-
-source $INSTALL/cutadapt-2.5/venv/bin/activate
-
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     cutadapt \
@@ -90,8 +62,6 @@ for i in "${samples[@]}"; do
         &> $sdir/logfiles/cutadapt.rel5.log &
 done
 wait
-
-deactivate
 
 echo ">>> MERGE READS WITH AND WITHOUT REL5 ADAPTOR <<<"
 
@@ -112,7 +82,7 @@ wait
 echo ">>> ALIGN READS TO RIBOSOMAL (ALL ENSEMBL + SILVA-HUMAN) <<<"
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     minimap2 \
@@ -149,7 +119,7 @@ wait
 echo ">>> EXTRACT NON-RIBOSOMAL READS <<<"
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     seqkit grep -nvf $sdir/align/reads.1.sanitize.toRibosomal.sorted.reads.txt \
@@ -161,7 +131,7 @@ wait
 echo ">>> ALIGN READS TO TRANSCRIPTOME (WITH SECONDARY) <<<"
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     minimap2 \
@@ -189,7 +159,7 @@ wait
 echo ">>> ALIGN READS TO GENOME (WITH SECONDARY) <<<"
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     minimap2 \
@@ -214,7 +184,7 @@ wait
 echo ">>> INDEX ALIGNMENTS <<<"
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     samtools index \
@@ -226,19 +196,14 @@ for i in "${samples[@]}"; do
     wait
 done
 
-CONDA_PATH=$CONDA_PREFIX # Temporary store path to the Conda environment
-conda deactivate
-
 echo ">>> SAM TO SQLITE (TRANSCRIPTOME) <<<"
 
-source $INSTALL/perl-virtualenv/teraseq/bin/activate
-
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     cat $sdir/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam \
-    | $CONDA_PATH/bin/samtools view -h -F 4 -F 16 -F 2048 - \
+    | samtools view -h -F 4 -F 16 -F 2048 - \
     | sam_to_sqlite \
         --database $sdir/db/sqlite.db \
         --table transcr \
@@ -250,7 +215,7 @@ wait
 echo ">>> ANNOTATE WITH GENIC ELEMENTS (TRANSCRIPTOME) <<<"
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     clipseqtools-preprocess annotate_with_file \
@@ -262,7 +227,7 @@ done
 wait
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     clipseqtools-preprocess annotate_with_file \
@@ -274,7 +239,7 @@ done
 wait
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     clipseqtools-preprocess annotate_with_file \
@@ -286,7 +251,7 @@ done
 wait
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     clipseqtools-preprocess annotate_with_file \
@@ -298,7 +263,7 @@ done
 wait
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     clipseqtools-preprocess annotate_with_file \
@@ -312,11 +277,11 @@ wait
 echo ">>> SAM TO SQLITE (GENOME) <<<"
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     cat $sdir/align/reads.1.sanitize.toGenome.sorted.bam \
-    | $CONDA_PATH/bin/samtools view -h -F 4 -F 2048 - \
+    | samtools view -h -F 4 -F 2048 - \
     | sam_to_sqlite \
         --database $sdir/db/sqlite.db \
         --table genome \
@@ -328,7 +293,7 @@ wait
 echo ">>> ANNOTATE WITH GENIC ELEMENTS (GENOME) <<<"
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     clipseqtools-preprocess annotate_with_genic_elements \
@@ -338,11 +303,7 @@ for i in "${samples[@]}"; do
 done
 wait
 
-deactivate
-
 echo ">>> ANNOTATE WITH REL5 <<<"
-
-conda activate teraseq
 
 for i in "${samples[@]}"; do
     sdir=$SAMPLE_DIR/$i
@@ -372,7 +333,7 @@ done
 echo ">>> NANOPOLISH POLYA <<<"
 
 for i in "${samples[@]}"; do
-    sdir=$SAMPLE_DIR/$i
+    sdir=$outdir/$i
     echo " Working for" $i
 
     if [ -d "$sdir/fast5" ]; then

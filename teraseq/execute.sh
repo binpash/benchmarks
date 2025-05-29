@@ -19,12 +19,17 @@ cd "$SUITE_DIR" || exit 1
 KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="teraseq"
 
+# Note: The 'data.sh' script must be run first
 script_names="data
 run_dRNASeq
 run_5TERA"
 
+if [[ "$size" == "min" ]]; then
+    script_names="data"
+fi
+
 if [[ "$size" == "small" ]]; then
-    script_names="run_5TERA-short"
+    script_names="data run_dRNASeq"
 fi
 
 while IFS= read -r script; do

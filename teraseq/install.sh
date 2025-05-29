@@ -158,7 +158,8 @@ Rscript -e 'install.packages(c(
     "stringr",    
     "optparse",   
     "longitudinal", 
-    "fdrtool"     
+    "fdrtool",
+    "ggplot2"
   ), repos="https://cloud.r-project.org")'
 Rscript -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/GeneCycle/GeneCycle_1.1.5.tar.gz", repos=NULL, type="source")'
 

@@ -35,6 +35,7 @@ apt-get update && sudo apt-get install -y --no-install-recommends \
     g++ \
     gffread \
     gmap \
+    parallel \
  && rm -rf /var/lib/apt/lists/*
 
 sudo wget -qO /usr/local/bin/liftOver http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver

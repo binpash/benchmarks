@@ -65,7 +65,7 @@ cat ensembl_genes.gtf |
     clean-gtf-lines-total --gtf - > genes-total.gtf
 
 # Extract the genic elements (utr5, cds, utr3) from GFF and write them as BED.
-gff-to-genic-elements-bed --input genes.gtf > genic_elements.bed
+gff-to-genic-elements-bed --input genes.gtf > genic_elements.bed || true
 
 # Create separate files for each genic element.
 grep -P ":utr5\t" genic_elements.bed > genic_elements.utr5.bed

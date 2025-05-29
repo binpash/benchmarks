@@ -21,7 +21,7 @@ export BENCHMARK_CATEGORY="teraseq"
 
 script_names="data
 run_dRNASeq
-run_5TERA-short"
+run_5TERA"
 
 if [[ "$size" == "small" ]]; then
     script_names="run_5TERA-short"

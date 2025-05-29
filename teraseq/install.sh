@@ -160,7 +160,8 @@ Rscript -e 'install.packages(c(
     "optparse",   
     "longitudinal", 
     "fdrtool",
-    "ggplot2"
+    "ggplot2",
+    "reshape2"
   ), repos="https://cloud.r-project.org")'
 Rscript -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/GeneCycle/GeneCycle_1.1.5.tar.gz", repos=NULL, type="source")'
 

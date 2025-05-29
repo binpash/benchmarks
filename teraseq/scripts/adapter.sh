@@ -128,43 +128,6 @@ trimming.R "$DATA_DIR/adapter/trimming.tsv" "$RES_DIR/trimming.pdf"
 echo ">>> TEST CUTADAPT SENSITIVITY <<<"
 
 mkdir tmp
-
-for i in "${samples[@]}"; do
-    echo " Working for" $i
-    sdir=$RES_DIR/$i
-    mkdir -p $sdir
-
-    # get primary mappings which are close to the start of the transcripts (<=40)
-    samtools view -H $SAMPLE_DIR/$i/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam > $sdir/tss-close-reads.sam
-    samtools view -F 4 -F 256 -F 2048 $SAMPLE_DIR/$i/align/reads.1.sanitize.noribo.toTranscriptome.sorted.bam | \
-    awk 'BEGIN {FS="\t";OFS="\t"} { if ($4 <= 40) { print $0} }' >> $sdir/tss-close-reads.sam
-
-    samtools view -bh $sdir/tss-close-reads.sam > $sdir/tss-close-reads.bam && rm $sdir/tss-close-reads.sam
-
-    # Remove softclip
-    java -jar $CONDA_PREFIX/share/jvarkit/remove-softlip.jar --samoutputformat BAM $sdir/tss-close-reads.bam \
-        > $sdir/tss-close-reads.wo_softclip.bam && rm $sdir/tss-close-reads.bam
-    samtools index $sdir/tss-close-reads.wo_softclip.bam
-
-    # get only reads w rel5
-    picard FilterSamReads INPUT=$sdir/tss-close-reads.wo_softclip.bam FILTER=includeReadList \
-        READ_LIST_FILE=$SAMPLE_DIR/$i/fastq/reads.1.sanitize.w_rel5.names.txt \
-        OUTPUT=$sdir/tss-close-reads.wo_softclip.w_rel5.bam VALIDATION_STRINGENCY=LENIENT
-
-    # Make new fastq from the trimmed reads
-    picard SamToFastq INPUT=$sdir/tss-close-reads.wo_softclip.w_rel5.bam FASTQ=$sdir/tss-close-reads.wo_softclip.w_rel5.fastq \
-        INCLUDE_NON_PRIMARY_ALIGNMENTS=false VALIDATION_STRINGENCY=LENIENT
-
-    cat $sdir/tss-close-reads.wo_softclip.w_rel5.fastq \
-        | python3 src/Python/cutadapt-sensitivity-sam-at-tss.py \
-            --bam $sdir/tss-close-reads.wo_softclip.bam \
-            --fasta $DATA_DIR/$assembly/transcripts.fa \
-            --fastq - \
-            -o $sdir/sensitivity-tss.pdf \
-            > $sdir/sensitivity-tss.tab
-done
-wait
-
 rmdir tmp
 
 echo ">>> ALL DONE <<<"

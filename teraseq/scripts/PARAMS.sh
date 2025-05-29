@@ -11,7 +11,7 @@ CUR_DIR=$(pwd) # Current directory; useful for analyses
 DIR="$( cd "$TERASEQ_ROOT" && pwd )"
 INSTALL="$DIR/tools"
 SAMPLE_DIR="$DIR/inputs/$SIZE"
-DATA_DIR="$DIR/inputs/$SIZE/data"
+DATA_DIR="$DIR/outputs/$SIZE/data"
 RES_DIR="results"
 
 # Define common database filters

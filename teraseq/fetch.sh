@@ -19,7 +19,8 @@ URL='https://atlas.cs.brown.edu/data'
 samples="hsa.dRNASeq.HeLa.polyA.1 hsa.dRNASeq.HeLa.polyA.REL5.1 hsa.dRNASeq.HeLa.polyA.PNK.REL5.1 \
 hsa.dRNASeq.HeLa.polyA.CIP.decap.REL5.long.1 hsa.dRNASeq.HeLa.polyA.decap.REL5.long.1 hsa.dRNASeq.HeLa.polyA.REL5.long.1 hsa.dRNASeq.HeLa.polyA.REL5OH.long.1"
 
-base_url="$URL/teraseq/$size"
+# base_url="$URL/teraseq/$size"
+base_url="$URL/teraseq/full"
 
 echo ">>> MAKE DIRECTORY STRUCTURE <<<"
 

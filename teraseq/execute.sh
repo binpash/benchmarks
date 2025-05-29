@@ -8,7 +8,8 @@ for arg in "$@"; do
     esac
 done
 
-export SIZE="$size" # for PARAMS.sh
+# export SIZE="$size" # for PARAMS.sh
+export SIZE="full" # for PARAMS.sh
 
 SUITE_DIR="""$(realpath "$(dirname "$0")")"
 export SUITE_DIR

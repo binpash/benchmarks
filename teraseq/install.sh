@@ -101,15 +101,15 @@ if ! command -v STAR >/dev/null 2>&1; then
   rm -rf "$tmpdir"
 fi
 
-# 4. Install Jvarkit
-if [ ! -f /usr/local/bin/jvarkit.jar ]; then
-    git clone https://github.com/lindenb/jvarkit.git /tmp/jvarkit \
-    && cd /tmp/jvarkit \
-    && git checkout 014d3e9 \
-    && ./gradlew biostar84452 \
-    && cp dist/biostar84452.jar /usr/local/bin/jvarkit.jar \
-    && cd / && rm -rf /tmp/jvarkit;
-fi
+# # 4. Install Jvarkit
+# if [ ! -f /usr/local/bin/jvarkit.jar ]; then
+#     git clone https://github.com/lindenb/jvarkit.git /tmp/jvarkit \
+#     && cd /tmp/jvarkit \
+#     && git checkout 014d3e9 \
+#     && ./gradlew biostar84452 \
+#     && cp dist/biostar84452.jar /usr/local/bin/jvarkit.jar \
+#     && cd / && rm -rf /tmp/jvarkit;
+# fi
 
 # 5. Install Nanopolish
 if [ ! -f /usr/local/bin/nanopolish ]; then

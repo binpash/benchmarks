@@ -134,9 +134,9 @@ echo ">>> GET CAGE SIGNALS <<<"
 # Get FANTOM5 HeLa only
 if [ ! -d fantom5 ]; then
     mkdir fantom5
-    wget $base_url/data/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep1.CNhs12325.10815-111B5.hg19.ctss.bed.gz -O fantom5/HeLa.rep1.hg19.ctss_chr.bed.gz
-    wget $base_url/data/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep2.CNhs12326.10816-111B6.hg19.ctss.bed.gz -O fantom5/HeLa.rep2.hg19.ctss_chr.bed.gz
-    wget $base_url/data/epitheloid%2520carcinoma%2520cell%2520line%253a%2520HelaS3%2520ENCODE%252c%2520biol_rep3.CNhs12327.10817-111B7.hg19.ctss.bed.gz -O fantom5/HeLa.rep3.hg19.ctss_chr.bed.gz
+    wget $base_url/data/epitheloid-carcinoma-cell-line--HelaS3-ENCODE-biol_rep1.CNhs12325.10815-111B5.hg19.ctss.bed.gz -O fantom5/HeLa.rep1.hg19.ctss_chr.bed.gz
+    wget $base_url/data/epitheloid-carcinoma-cell-line--HelaS3-ENCODE-biol_rep2.CNhs12326.10816-111B6.hg19.ctss.bed.gz -O fantom5/HeLa.rep2.hg19.ctss_chr.bed.gz
+    wget $base_url/data/epitheloid-carcinoma-cell-line--HelaS3-ENCODE-biol_rep3.CNhs12327.10817-111B7.hg19.ctss.bed.gz -O fantom5/HeLa.rep3.hg19.ctss_chr.bed.gz
 fi
 
 ## Download required files for liftover from hg19 to hg38

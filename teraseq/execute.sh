@@ -19,7 +19,8 @@ cd "$SUITE_DIR" || exit 1
 KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="teraseq"
 
-script_names="run_dRNASeq
+script_names="data
+run_dRNASeq
 run_5TERA-short"
 
 if [[ "$size" == "small" ]]; then

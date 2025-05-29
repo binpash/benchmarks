@@ -21,8 +21,7 @@ echo " >>> GET SILVA rRNA DATABASE <<<"
 cd silva/ || exit 1
 
 # Merge all ribosomal sequences together eliminating duplicates
-[ ! -f ribosomal.fa ] && \
-    zcat \
+zcat \
     SILVA_132_LSURef_tax_silva_trunc.fasta.gz \
     SILVA_132_SSURef_Nr99_tax_silva_trunc.fasta.gz \
     | fasta-rm-dup-seqs \
@@ -31,8 +30,7 @@ cd silva/ || exit 1
     > ribosomal.fa
 
 # Create simple BED file where stop position corresponds to sequence length.
-[ ! -f ribosomal.bed ] && \
-    fasta-sanitize-header \
+fasta-sanitize-header \
     --input ribosomal.fa \
     --delim : \
     --keep 0 \
@@ -52,7 +50,7 @@ echo ">>> GET GENOME AND REFERENCES <<<"
 cd "$DATA_DIR/$assembly/" || exit 1
 
 # Get chromosome sizes
-[ ! -f genome/genome.fa.fai ] && samtools faidx genome/genome.fa
+samtools faidx genome/genome.fa
 cut -f1-2 genome/genome.fa.fai > chrom.sizes
 
 echo ">>> CLEAN ANNOTATION <<<"

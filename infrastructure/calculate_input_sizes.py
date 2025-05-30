@@ -74,17 +74,20 @@ def parse_args() -> argparse.Namespace:
     p.add_argument(
         "-o",
         "--output",
-        default="infrastructure/data/size_inputs.jsonl",
-        help="Output JSONL file (default: infrastructure/data/size_inputs.jsonl)",
+        help="Output JSONL file (default: infrastructure/data/size_inputs.jsonl under repo root)",
     )
     return p.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-
     bench_root = git_root()
-    output_path = pathlib.Path(args.output).resolve()
+
+    output_path = (
+        pathlib.Path(args.output).resolve()
+        if args.output
+        else bench_root / "infrastructure" / "data" / "size_inputs.jsonl"
+    )
 
     emit_records(bench_root, output_path)
 

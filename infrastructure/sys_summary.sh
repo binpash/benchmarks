@@ -1,5 +1,8 @@
 #!/bin/bash
 
+SAMPLING_INT=1
+CSV_HEADER="Benchmark,Sys Calls,FD_Snapshot,Unique_FD,Peak_FD"
+
 output_file="benchmark_results.csv"
 
 default_benchmarks=(
@@ -37,60 +40,63 @@ for arg in "$@"; do
     fi
 done
 
-if [ ${#benchmarks[@]} -eq 0 ]; then
-    benchmarks=("${default_benchmarks[@]}")
-fi
+[[ ${#benchmarks[@]} -eq 0 ]] && benchmarks=("${default_benchmarks[@]}")
 
-error() {
-    echo "Error: $1" >&2
-    exit 1
-}
-
-echo "Benchmark,Sys Calls,File Descriptors" > "$output_file"
+echo "$CSV_HEADER" > "$output_file"
 
 for benchmark in "${benchmarks[@]}"; do
     echo "Running benchmark: $benchmark"
 
     mkdir -p "/tmp/${benchmark}"
-    strace_output="/tmp/${benchmark}_strace.txt"
-    lsof_output="/tmp/${benchmark}_lsof.txt"
+    strace_out="/tmp/${benchmark}_strace.txt"
+    snap_out="/tmp/${benchmark}_lsof_snapshot.txt"
+    stream_out="/tmp/${benchmark}_lsof_stream.txt"
 
     if ! cd "./$benchmark"; then
-        echo "$benchmark,FAIL: directory not found,0" >> "../$output_file"
+        echo "$benchmark,FAIL: directory not found" >> "../$output_file"
         continue
     fi
+
+    ./install.sh || { echo "$benchmark,FAIL: install.sh" >> "../$output_file"; cd - >/dev/null; continue; }
+    ./fetch.sh "${args[@]}" || { echo "$benchmark,FAIL: fetch.sh" >> "../$output_file"; cd - >/dev/null; continue; }
 
     setsid ./execute.sh "${args[@]}" &
     pid=$!
-
-    pgid=$(ps -o pgid= -p "$pid" | tr -d ' ')
     sleep 1
+    pgid=$(ps -o pgid= -p "$pid" | tr -d ' ')
 
-    if [[ -n "$pgid" ]]; then
-        lsof -g "$pgid" > "$lsof_output" || echo "Warning: lsof failed"
-    else
-        echo "Warning: Failed to get PGID for $pid"
-        > "$lsof_output"
-    fi
+    [[ -z $pgid ]] && { echo "$benchmark,FAIL: no PGID" >> "../$output_file"; cd - >/dev/null; continue; }
+
+    lsof -n -P -w -g "$pgid" -r${SAMPLING_INT} > "$stream_out" &
+    sampler_pid=$!
+
+    lsof -n -P -w -g "$pgid" > "$snap_out" || echo "Warning: lsof snapshot failed"
 
     wait "$pid"
+    kill "$sampler_pid" 2>/dev/null
 
-    strace -c -f -o "$strace_output" ./execute.sh "${args[@]}" || {
-        echo "$benchmark,FAIL: strace failed,0" >> "../$output_file"
-        cd - > /dev/null || exit
-        continue
-    }
+    strace -c -f -o "$strace_out" ./execute.sh "${args[@]}" || {
+        echo "$benchmark,FAIL: strace" >> "../$output_file"; cd - >/dev/null; continue; }
 
-    total_syscalls=$(awk '/^100.00/ {print $4}' "$strace_output")
-    total_syscalls=${total_syscalls:-0}
+    syscalls=$(awk '/^100\.00/ {print $4}' "$strace_out")
 
-    fd_count=$(wc -l < "$lsof_output")
-    fd_count=${fd_count:-0}
+    FD_Snapshot=$(awk 'NR>1' "$snap_out" | wc -l)
+    Unique_FD=$(awk 'NR>1 {print $4":"$10}' "$snap_out" | sort -u | wc -l)
 
-    echo "$benchmark,$total_syscalls,$fd_count" >> "../$output_file"
+    if [[ -s "$stream_out" ]]; then
+        Peak_FD=$(awk '
+            NF && $1!="COMMAND" {seen[$4":"$10]++}
+            /^====/             {print length(seen); delete seen}
+        ' "$stream_out" | awk 'max<$1{max=$1} END{print max}')
+    else
+        Peak_FD=0
+    fi
 
-    rm -f "$strace_output" "$lsof_output"
-    cd - > /dev/null || exit
+    echo "${benchmark%,/},${syscalls:-0},${FD_Snapshot:-0},${Unique_FD:-0},${Peak_FD:-0}" \
+     >> "../$output_file"
+
+    rm -f "$strace_out" "$snap_out" "$stream_out"
+    cd - >/dev/null
 done
 
 echo "Benchmark results saved to $output_file."

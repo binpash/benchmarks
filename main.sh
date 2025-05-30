@@ -186,6 +186,8 @@ main() {
         if ((i == 1)) || [[ "$BENCHMARK" == "riker" ]]; then
             ./fetch.sh "${args[@]}" ||
                 error "Failed to fetch inputs for $BENCHMARK"
+            python3 $REPO_TOP/infrastructure/calculate_input_sizes.py ||
+                error "Failed to calculate input sizes"
         fi
 
         # Delete outputs before each run

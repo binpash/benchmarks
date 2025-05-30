@@ -24,6 +24,16 @@ def get_input_sizes_df(df):
     if df.empty or df.columns.empty:
         return None 
     sizes_df = pd.read_json(input_size_path, lines=True)
+    dupes = (
+        sizes_df
+        .groupby(['category', 'path'], as_index=False)
+        .size()
+        .query('size > 1') 
+    ) # in case something went wrong with the input sizes file, we can still plot the rest of the data
+
+    if not dupes.empty:
+        print("Duplicate (category, path) pairs in size_inputs.jsonl:", file=stderr)
+        print(dupes.to_string(index=False), file=stderr)
     def find_input_size(row):
         total = 0
         for file in row['all_input_files']:
@@ -56,6 +66,7 @@ def get_input_sizes_df(df):
                 print('could not find input size for', file, row['script'], file=stderr)
                 continue
             size, = relevant['size_bytes']
+            size = relevant['size_bytes'].iloc[0]
             total += size
         return total
     df['input_size'] = df.apply(find_input_size, axis=1)
@@ -203,6 +214,8 @@ def read_data():
                                       'wall_time': 'sum',
                                       'children_num_fds': 'sum'}).reset_index()
 
+    df = df.sort_values("benchmark")
+    bench_df = bench_df.sort_values("benchmark")
     return df, bench_df
 
 def main(output_dir=None, text_mode=False):

@@ -7,5 +7,5 @@
 # Commands that will be useful: tr, iconv, grep
 
 # __start_solution__
-tr -cs A-Za-z '\n' | tr '[:upper:]' '[:lower:]' | iconv -c -t ascii//TRANSLIT | grep -vwFf d/stopwords.txt || true
+tr -cs A-Za-z '\n' | tr '[:upper:]' '[:lower:]' | iconv -c -t ascii//TRANSLIT | grep -vwFf ${IN}/stopwords.txt || true
 # __end_solution__

@@ -19,6 +19,9 @@
     "llm": {
         "scripts": ["llm/scripts/*.sh"]
     },
+    "ml": {
+        "scripts": ["ml/scripts/*.sh"]
+    },
     "max-temp": {
         "scripts": ["max-temp/scripts/*.sh"]
     },

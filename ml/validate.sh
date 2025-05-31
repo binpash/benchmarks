@@ -1,20 +1,25 @@
 #!/bin/bash
 
 REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/dpt"
+eval_dir="${REPO_TOP}/ml"
 outputs_dir="${eval_dir}/outputs"
 hashes_dir="${eval_dir}/hashes"
-mkdir -p "$hashes_dir"
+# shell script to run verify.py
+parsed_args=()
 
 suffix=".full"
 
-generate=false
+size="full"
 for arg in "$@"; do
-    case $arg in
+    case "$arg" in
         --small)
+            parsed_args+=("$arg")
+            size="small"
             suffix=".small"
             ;;
         --min)
+            parsed_args+=("$arg")
+            size="min"
             suffix=".min"
             ;;
         --generate)
@@ -22,14 +27,20 @@ for arg in "$@"; do
             ;;
     esac
 done
+TMP="$eval_dir/inputs/input_$size"
+export TMP
+OUT="$eval_dir/outputs/out_$size"
+export OUT
+
+# run the Python script
+python3 validate.py "${parsed_args[@]}"
+echo "sklearn $?"
 
 # reference
 if $generate; then
     python3 clean_output.py "$outputs_dir/seq_output$suffix.txt" "$outputs_dir/seq_output$suffix-cleaned.txt"
     seq_hash=$(shasum -a 256 "$outputs_dir/seq_output$suffix-cleaned.txt" | awk '{ print $1 }')
-#    par_hash=$(shasum -a 256 "$outputs_dir/par_output$suffix-cleaned.txt" | awk '{ print $1 }')
     echo "$seq_hash" > "$hashes_dir/seq_output$suffix.txt"
-#    echo "$par_hash" > "$hashes_dir/par_output$suffix.txt"
     exit 0
 fi
 

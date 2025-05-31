@@ -1,10 +1,8 @@
 #!/bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/dpt"
-sudo apt update
+sudo apt-get update
 
-sudo apt install -y --no-install-recommends \
+sudo apt-get install -y --no-install-recommends \
     wget \
     unzip \
     git \
@@ -20,9 +18,13 @@ sudo apt install -y --no-install-recommends \
     python3-venv
 
 pip install --break-system-packages --upgrade pip
-
 pip install --break-system-packages \
-    numpy \
+    joblib==1.4.2 \
+    numpy==1.26.4 \
+    scikit-learn==1.5.0 \
+    scipy==1.13.1 \
+    threadpoolctl==3.5.0 \
+    imbalanced-learn==0.13.0 \
     torch \
     torchvision \
     Pillow \

@@ -8,7 +8,7 @@ for arg in "$@"; do
     esac
 done
 
-rm -rf ./result
+rm -rf ./outputs
 
 if [ "$force" = true ]; then
     rm -rf ./tmp

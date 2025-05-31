@@ -3,7 +3,11 @@
         "scripts": ["analytics/scripts/*.sh"]
     },
     "bio": {
-	    "scripts": ["bio/scripts/bam-isolate.sh", "bio/scripts/run_dRNASeq.sh"]
+	    "scripts": ["bio/scripts/bam-isolate.sh", 
+            "bio/scripts/run_dRNASeq.sh", 
+            "bio/scripts/run_5TERA.sh",
+            "bio/scripts/data.sh",
+            "bio/scripts/adapter.sh"]
     },
     "ci-cd": {
         "scripts": ["ci-cd/makeself/*.sh",
@@ -22,41 +26,19 @@
     "ml": {
         "scripts": ["ml/scripts/*.sh"]
     },
-    "max-temp": {
-        "scripts": ["max-temp/scripts/*.sh"]
-    },
-    "media-conv": {
-        "scripts": ["media-conv/scripts/*.sh"]
-    },
     "nlp": {
         "scripts": ["nlp/scripts/*.sh"]
     },
     "oneliners": {
         "scripts": ["oneliners/scripts/*.sh"]
     },
-    "unix50": {
-        "scripts": ["unix50/scripts/*.sh"]
+    "unixfun": {
+        "scripts": ["unixfun/scripts/*.sh"]
     },
-    "web-index": {
-        "scripts": ["web-index/scripts/*.sh"]
+    "web-search.new": {
+        "scripts": ["web-search.new/scripts/*.sh"]
     },
-    "makeself": {
-        "scripts": ["makeself/makeself/*.sh",
-		    "makeself/makeself/test/*/*.sh"]
-    },
-    "vps-audit": {
-        "scripts": ["vps-audit/scripts/*.sh"]
-    },
-    "dpt": {
-	    "scripts": ["dpt/scripts/dpt_seq.sh"]
-    },
-    "git-workflow": {
-	    "scripts": ["git-workflow/scripts/git-workflow.sh"]
-    },
-    "tuft-weather": {
-	    "scripts": ["tuft-weather/scripts/tuft-weather.sh"]
-    },
-    "teraseq": {
-	    "scripts": ["teraseq/scripts/*.sh"]
+    "repl": {
+        "scripts": ["repl/scripts/*.sh"]
     }
 }

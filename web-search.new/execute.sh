@@ -10,10 +10,10 @@ export BENCHMARK_CATEGORY="web-index"
 mkdir -p ./tmp
 export TMPDIR=$PWD/tmp
 
-IN="$TOP/web-search/inputs"
-OUT="$TOP/web-search/outputs"
-export IN=${IN}
-export OUT=${OUT}
+in="$TOP/web-search.new/inputs"
+out="$TOP/web-search.new/outputs"
+export IN=${in}
+export OUT=${out}
 
 size="full"
 for arg in "$@"; do
@@ -26,7 +26,9 @@ for arg in "$@"; do
     fi
 done
 
-mkdir -p "$OUTPUTS"
+mkdir -p "$in"
+mkdir -p "$out"
+
 
 if [ $size = "min" ]; then
     echo https://cs.brown.edu/courses/csci1380/sandbox/1 >${OUT}/urls.txt

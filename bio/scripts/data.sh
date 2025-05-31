@@ -8,7 +8,7 @@ echo ">>> SETUP DATA <<<"
 #
 # Prepare references and annotations
 #
-source "$TOP/teraseq/scripts/PARAMS.sh"
+source "$TOP/bio/scripts/PARAMS.sh"
 
 echo ">>> MAKE HG38 REFERENCES <<<"
 

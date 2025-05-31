@@ -5,8 +5,8 @@
 
 TOP=$(git rev-parse --show-toplevel)
 
-outdir="$TOP/teraseq/outputs"
-scripts="$TOP/teraseq/scripts"
+outdir="$TOP/bio/outputs/teraseq"
+scripts="$TOP/bio/scripts"
 mkdir -p "$outdir"/fastq
 
 . "$scripts/PARAMS.sh"

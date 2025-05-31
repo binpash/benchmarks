@@ -5,7 +5,7 @@
 #
 
 TOP=$(git rev-parse --show-toplevel)
-TERASEQ_ROOT="$TOP/teraseq"
+TERASEQ_ROOT="$TOP/bio"
 
 CUR_DIR=$(pwd) # Current directory; useful for analyses
 DIR="$( cd "$TERASEQ_ROOT" && pwd )"
@@ -31,7 +31,7 @@ UTR3="(utr3 IS NOT NULL)"
 FEWMAPS="(number_of_mappings < 10)"
 
 # Add utils directory to the path
-export PATH="$DIR/tools/utils:${PATH}"
+export PATH="$DIR/utils:${PATH}"
 
 # common default assembly and number of threads
 assembly="hg38"

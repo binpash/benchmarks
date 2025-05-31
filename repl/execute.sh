@@ -10,7 +10,7 @@ scripts_dir="${eval_dir}/scripts"
 main_script_1="${scripts_dir}/vps-audit.sh"
 main_script_2="${scripts_dir}/vps-audit-negate.sh"
 
-export BENCHMARK_CATEGORY=repl
+export BENCHMARK_CATEGORY="repl"
 
 BENCHMARK_SCRIPT="$(realpath "$main_script_1")"
 export BENCHMARK_SCRIPT

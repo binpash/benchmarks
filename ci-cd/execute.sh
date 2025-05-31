@@ -5,7 +5,7 @@ BASE_DIR="$(dirname "$(readlink -f "$0")")"
 TESTS_DIR="${BASE_DIR}/makeself/test"
 LOGFILE="${BASE_DIR}/run_results.log"
 KOALA_SHELL="${KOALA_SHELL:-bash}"
-export BENCHMARK_CATEGORY="makeself"
+export BENCHMARK_CATEGORY="ci-cd"
 
 echo "Starting test execution..." > "${LOGFILE}"
 
@@ -30,7 +30,6 @@ REPO_TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${REPO_TOP}/ci-cd/riker"
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
-export BENCHMARK_CATEGORY="riker"
 
 small_benchmark=(
     "xz-clang"

@@ -16,6 +16,7 @@ for arg in "$@"; do
 done
 export LC_ALL=C
 
+export BENCHMARK_CATEGORY="llm"
 img_input_dir="$input_dir/jpg$suffix"
 img_outputs_dir="$outputs_dir/jpg$suffix"
 mkdir -p "$img_outputs_dir"

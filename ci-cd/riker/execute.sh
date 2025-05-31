@@ -1,19 +1,13 @@
 #!/bin/bash
 
 REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/riker"
+eval_dir="${REPO_TOP}/ci-cd/riker"
 scripts_dir="${eval_dir}/scripts"
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="riker"
 
 small_benchmark=(
-    "lua"
-    "memcached"
-    "redis"
-    "sqlite"
-    "vim"
-    "xz"
     "xz-clang"
 )
 
@@ -21,10 +15,6 @@ small_benchmark=(
 run_small=false
 
 for arg in "$@"; do
-    if [ "$arg" = "--small" ]; then
-        run_small=true
-        break
-    fi
     if [ "$arg" = "--min" ]; then
         run_small=true
         break

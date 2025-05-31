@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPO_TOP="$(git rev-parse --show-toplevel)"
-scripts_dir="${REPO_TOP}/riker/scripts"
+scripts_dir="${REPO_TOP}/ci-cd/riker/scripts"
 
 tz="America/New_York"
 echo "$tz" | sudo tee /etc/timezone > /dev/null

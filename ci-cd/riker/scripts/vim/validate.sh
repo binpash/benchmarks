@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/riker"
+eval_dir="${REPO_TOP}/ci-cd/riker"
 input_dir="${eval_dir}/inputs"
 
 # Call compiled binary to write an empty file with a randomly chosen path.

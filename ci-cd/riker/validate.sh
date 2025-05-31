@@ -1,16 +1,10 @@
 #!/bin/bash
 
 REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/riker"
+eval_dir="${REPO_TOP}/ci-cd/riker"
 scripts_dir="${eval_dir}/scripts"
 
 small_benchmark=(
-    "lua"
-    "memcached"
-    "redis"
-    "sqlite"
-    "vim"
-    "xz"
     "xz-clang"
 )
 

@@ -7,6 +7,6 @@ for arg in "$@"; do
 done
 
 REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/riker"
+eval_dir="${REPO_TOP}/ci-cd/riker"
 input_dir="${eval_dir}/inputs/scripts/sqlite"
 rm -rf "$input_dir"

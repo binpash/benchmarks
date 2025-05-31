@@ -1,11 +1,7 @@
 #!/bin/bash
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="$REPO_TOP/llm/scripts/image_annotation"
-input_dir="$eval_dir/inputs"
-outputs_dir="$eval_dir/outputs"
 
-IN=${1:-"$input_dir"}
-OUT=${2:-"$outputs_dir"}
+IN=$1
+OUT=$2
 mkdir -p "$OUT"
 
 find "$IN" -type f -iname "*.jpg" | while IFS= read -r img; do

@@ -1,11 +1,18 @@
 #!/bin/bash
-
-REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/llm"
-scripts_dir="${eval_dir}/scripts"
-
-for bench in "$scripts_dir"/*; do
-    "$bench/clean.sh" "$@"
+for arg in "$@"; do
+    case "$arg" in
+        "-f") force=true ;;
+    esac
 done
 
-rm -rf "$eval_dir/ollama_serve.log"
+REPO_TOP=$(git rev-parse --show-toplevel)
+eval_dir="$REPO_TOP/llm"
+input_dir="$REPO_TOP/llm/inputs"
+outputs_dir="$eval_dir/outputs"
+
+rm -rf "$outputs_dir"
+rm -f "$eval_dir/ollama_serve.log"
+if [ "$force" = true ]; then
+    rm -rf "$input_dir"
+fi
+

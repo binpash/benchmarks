@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/log-analysis"
+eval_dir="${REPO_TOP}/analytics"
 hashes_dir="${eval_dir}/hashes"
 outputs_dir="${eval_dir}/outputs"
 mkdir -p "${outputs_dir}"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/log-analysis"
+eval_dir="${REPO_TOP}/analytics"
 input_dir="${eval_dir}/inputs"
 scripts_dir="${eval_dir}/scripts"
 outputs_dir="${eval_dir}/outputs"
@@ -25,7 +25,7 @@ port_scan_input=$input_dir/port_scan_$size/all_logs.jsonl
 rt_inputs_dir=$input_dir/ray_tracing_$size
 rt_outputs_dir=$outputs_dir/ray_tracing_$size
 
-export BENCHMARK_CATEGORY="log-analysis"
+export BENCHMARK_CATEGORY="analytics"
 KOALA_SHELL=${KOALA_SHELL:-bash}
 
 echo "nginx"

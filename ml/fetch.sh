@@ -2,6 +2,7 @@
 
 REPO_TOP=$(git rev-parse --show-toplevel)
 eval_dir="${REPO_TOP}/ml"
+input_dir="${eval_dir}/inputs"
 parsed_args=()
 size="full"
 for arg in "$@"; do

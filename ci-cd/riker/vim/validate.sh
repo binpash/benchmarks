@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPO_TOP="$(git rev-parse --show-toplevel)"
-input_dir="${REPO_TOP}/ci-cd/inputs"
+TOP="$(git rev-parse --show-toplevel)"
+input_dir="${TOP}/ci-cd/inputs"
 
 # Call compiled binary to write an empty file with a randomly chosen path.
 # Must use -u /dev/null to specify a blank config because there might not be a ~/.vimrc, which vim would complain about.

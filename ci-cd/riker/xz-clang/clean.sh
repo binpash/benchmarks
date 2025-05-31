@@ -6,7 +6,7 @@ for arg in "$@"; do
     esac
 done
 
-REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/ci-cd/riker"
-input_dir="${REPO_TOP}/ci-cd/inputs/scripts/xz-clang"
+TOP="$(git rev-parse --show-toplevel)"
+eval_dir="${TOP}/ci-cd/riker"
+input_dir="${TOP}/ci-cd/inputs/scripts/xz-clang"
 rm -rf "$input_dir/dev"

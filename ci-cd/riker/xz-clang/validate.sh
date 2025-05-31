@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPO_TOP="$(git rev-parse --show-toplevel)"
-input_dir="${REPO_TOP}/ci-cd/inputs"
+TOP="$(git rev-parse --show-toplevel)"
+input_dir="${TOP}/ci-cd/inputs"
 
 xz_bin="$input_dir/scripts/xz-clang/dev/xz"
 

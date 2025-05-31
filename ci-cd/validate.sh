@@ -1,19 +1,7 @@
 #!/bin/bash
 
-REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/ci-cd"
-
-# for bench in "$eval_dir"/*; do
-#     if [ ! -d "$bench" ]; then
-#         continue
-#     fi
-#     "$bench/validate.sh" "$@"
-# done
-
-
-
-REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/ci-cd/riker"
+TOP="$(git rev-parse --show-toplevel)"
+eval_dir="${TOP}/ci-cd"
 
 small_benchmark=(
     "xz-clang"
@@ -22,10 +10,6 @@ small_benchmark=(
 run_small=false
 
 for arg in "$@"; do
-    if [ "$arg" = "--small" ]; then
-        run_small=true
-        break
-    fi
     if [ "$arg" = "--min" ]; then
         run_small=true
         break
@@ -34,7 +18,7 @@ done
 
 if [ "$run_small" = true ]; then
     for bench in "${small_benchmark[@]}"; do
-        script_path="$eval_dir/$bench/validate.sh"
+        script_path="$eval_dir/riker/$bench/validate.sh"
         if [ -x "$script_path" ]; then
             "$script_path" "$@"
         else
@@ -42,9 +26,16 @@ if [ "$run_small" = true ]; then
             exit 1
         fi
     done
-    exit 0
+else
+    for bench in "$eval_dir"/riker/*; do
+        "$bench/validate.sh" "$@"
+    done
 fi
 
-for bench in "$eval_dir"/*; do
-    "$bench/validate.sh" "$@"
-done
+status=0
+if grep -q "FAIL" "${eval_dir}/run_results.log" 2>/dev/null; then
+    status=1
+    echo makeself $status
+    exit $status
+fi
+echo makeself $status

@@ -10,8 +10,8 @@ for pkg in $pkgs; do
     fi
 done
 
-REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/ci-cd/riker"
+TOP="$(git rev-parse --show-toplevel)"
+eval_dir="${TOP}/ci-cd/riker"
 
 small_benchmark=(
     "xz-clang"

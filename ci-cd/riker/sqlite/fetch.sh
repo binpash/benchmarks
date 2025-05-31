@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPO_TOP="$(git rev-parse --show-toplevel)"
-input_dir="${REPO_TOP}/ci-cd/inputs/scripts/sqlite"
+TOP="$(git rev-parse --show-toplevel)"
+input_dir="${TOP}/ci-cd/inputs/scripts/sqlite"
 
 mkdir -p "$input_dir/dev"
 

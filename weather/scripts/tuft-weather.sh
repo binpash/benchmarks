@@ -1,8 +1,8 @@
 #!/bin/bash
 
 input="$1"
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="$REPO_TOP/tuft-weather"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="$TOP/weather"
 scripts_dir="$eval_dir/scripts"
 
 awk -F '\t' '{print $6}' "$input" | sort -u |

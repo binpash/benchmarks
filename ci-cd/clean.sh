@@ -1,12 +1,22 @@
-#!/bin/bash
+#! /bin/bash
 
-REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/ci-cd"
+# BASE_DIR="$(dirname "$(readlink -f "$0")")"
+# TEST_DIR="${BASE_DIR}/makeself/test"
+# find "${TEST_DIR}" -type f -name "*.log" -exec rm -f {} +
 
-for bench in "$eval_dir"/*; do
-    if [ ! -d "$bench" ]; then
-        continue
-    fi
-    "$bench/clean.sh" "$@"
-done
+# if [[ -f run_results.log ]]; then
+#     rm run_results.log
+# fi
+
+# if [[ -f verify_results.log ]]; then
+#     rm verify_results.log
+# fi
+
+# REPO_TOP="$(git rev-parse --show-toplevel)"
+# eval_dir="${REPO_TOP}/ci-cd/riker"
+# scripts_dir="${eval_dir}/scripts"
+
+# for bench in "$scripts_dir"/*; do
+#     "$bench/clean.sh" "$@"
+# done
 

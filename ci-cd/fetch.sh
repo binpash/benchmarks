@@ -1,12 +1,40 @@
+#! /bin/bash
+
 #!/bin/bash
 
 REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/ci-cd"
+eval_dir="${REPO_TOP}/ci-cd/riker"
 
-for bench in "$eval_dir"/*; do
-    if [ ! -d "$bench" ]; then
-        continue
+small_benchmark=(
+    "xz-clang"
+)
+
+run_small=false
+
+for arg in "$@"; do
+    if [ "$arg" = "--small" ]; then
+        run_small=true
+        break
     fi
-    "$bench/fetch.sh" "$@"
+    if [ "$arg" = "--min" ]; then
+        run_small=true
+        break
+    fi
 done
 
+if [ "$run_small" = true ]; then
+    for bench in "${small_benchmark[@]}"; do
+        script_path="$eval_dir/$bench/fetch.sh"
+        if [ -x "$script_path" ]; then
+            "$script_path" "$@"
+        else
+            echo "Error: $script_path not found or not executable."
+            exit 1
+        fi
+    done
+    exit 0
+fi
+
+for bench in "$eval_dir"/*; do
+    "$bench/fetch.sh" "$@"
+done

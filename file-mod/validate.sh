@@ -4,8 +4,8 @@ cd "$(realpath "$(dirname "$0")")" || exit 1
 
 outputs_dir="outputs"
 hashes_dir="hashes"
-REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/file-mod"
+TOP="$(git rev-parse --show-toplevel)"
+eval_dir="${TOP}/file-mod"
 suffix=".full"
 
 mkdir -p "$hashes_dir"

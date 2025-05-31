@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/covid"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="${TOP}/covid"
 outputs_dir="${eval_dir}/outputs"
 hashes_dir="${eval_dir}/hashes"
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/llm"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="${TOP}/llm"
 
 sudo apt-get update
 

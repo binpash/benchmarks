@@ -1,8 +1,8 @@
 #!/bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
+TOP=$(git rev-parse --show-toplevel)
 
-eval_dir="$REPO_TOP/llm"
+eval_dir="$TOP/llm"
 input_dir="$eval_dir/inputs"
 
 mkdir -p "$input_dir"

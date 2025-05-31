@@ -11,8 +11,8 @@ alias gcl='git clean -fd'
 alias gci='git commit'
 alias gaa='git add -A'
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-EVAL_DIR="${REPO_TOP}/git-workflow"
+TOP=$(git rev-parse --show-toplevel)
+EVAL_DIR="${TOP}/git-workflow"
 REPO_PATH="${EVAL_DIR}/inputs/chromium"
 COMMITS_DIR="${EVAL_DIR}/inputs/commits"
 NUM_COMMITS="${1:-20}"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/ml"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="${TOP}/ml"
 scripts_dir="${eval_dir}/scripts"
 
 KOALA_SHELL=${KOALA_SHELL:-bash}

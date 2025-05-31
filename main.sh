@@ -148,8 +148,8 @@ main() {
     time_values=()
     stats_files=()
 
-    REPO_TOP=$(git rev-parse --show-toplevel)
-    [[ -z "$REPO_TOP" ]] && error "Failed to determine repository top"
+    TOP=$(git rev-parse --show-toplevel)
+    [[ -z "$TOP" ]] && error "Failed to determine repository top"
     
     if ! $run_locally; then
         DOCKER_IMAGE=${KOALA_DOCKER_IMAGE:-ghcr.io/binpash/benchmarks:latest}
@@ -163,9 +163,9 @@ main() {
                 -w "/benchmarks" \
                 ./main.sh "$BENCHMARK" ${args[*]} ${main_args[*]} --bare
         else
-            echo "Mounting $REPO_TOP to /benchmarks in the container"
+            echo "Mounting $TOP to /benchmarks in the container"
             $KOALA_CONTAINER_CMD run --rm \
-                -v "$REPO_TOP":/benchmarks \
+                -v "$TOP":/benchmarks \
                 -w "/benchmarks" \
                 -e KOALA_SHELL="$KOALA_SHELL" \
                 "$DOCKER_IMAGE" \
@@ -186,7 +186,7 @@ main() {
         if ((i == 1)) || [[ "$BENCHMARK" == "riker" ]]; then
             ./fetch.sh "${args[@]}" ||
                 error "Failed to fetch inputs for $BENCHMARK"
-            python3 $REPO_TOP/infrastructure/calculate_input_sizes.py ||
+            python3 $TOP/infrastructure/calculate_input_sizes.py ||
                 error "Failed to calculate input sizes"
         fi
 
@@ -204,30 +204,30 @@ main() {
                 exit 1
             fi
 
-            mkdir -p "$REPO_TOP/infrastructure/target/process-logs"
-            mkdir -p "$REPO_TOP/infrastructure/target/backup-process-logs"
-            find "$REPO_TOP/infrastructure/target/process-logs" -type f \
-                -exec mv {} "$REPO_TOP/infrastructure/target/backup-process-logs/" \; || true
-            rm -f "$REPO_TOP"/infrastructure/target/process-logs/*
-            rm -f "$REPO_TOP"/infrastructure/target/dynamic_analysis.jsonl
+            mkdir -p "$TOP/infrastructure/target/process-logs"
+            mkdir -p "$TOP/infrastructure/target/backup-process-logs"
+            find "$TOP/infrastructure/target/process-logs" -type f \
+                -exec mv {} "$TOP/infrastructure/target/backup-process-logs/" \; || true
+            rm -f "$TOP"/infrastructure/target/process-logs/*
+            rm -f "$TOP"/infrastructure/target/dynamic_analysis.jsonl
 
-            cd "$REPO_TOP" || exit 1
-            python3 "$REPO_TOP/infrastructure/run_dynamic.py" "$BENCHMARK" "${args[@]}" || error "Failed to run $BENCHMARK"
+            cd "$TOP" || exit 1
+            python3 "$TOP/infrastructure/run_dynamic.py" "$BENCHMARK" "${args[@]}" || error "Failed to run $BENCHMARK"
 
-            cd "$REPO_TOP/infrastructure" || exit 1
+            cd "$TOP/infrastructure" || exit 1
             make target/dynamic_analysis.jsonl
-            python3 viz/dynamic.py "$REPO_TOP/$BENCHMARK" # --text
-            if [[ -f "$REPO_TOP/$BENCHMARK/benchmark_stats.txt" ]]; then
-                cat "$REPO_TOP/$BENCHMARK/benchmark_stats.txt"
-                mv -f "$REPO_TOP/$BENCHMARK/benchmark_stats.txt" \
-                "$REPO_TOP/$BENCHMARK/${stats_prefix}.txt" || error "Failed to move benchmark stats"
+            python3 viz/dynamic.py "$TOP/$BENCHMARK" # --text
+            if [[ -f "$TOP/$BENCHMARK/benchmark_stats.txt" ]]; then
+                cat "$TOP/$BENCHMARK/benchmark_stats.txt"
+                mv -f "$TOP/$BENCHMARK/benchmark_stats.txt" \
+                "$TOP/$BENCHMARK/${stats_prefix}.txt" || error "Failed to move benchmark stats"
             else
                 error "Failed to generate benchmark stats"
             fi
 
-            find "$REPO_TOP/infrastructure/target/backup-process-logs" -type f \
-                -exec mv {} "$REPO_TOP/infrastructure/target/process-logs/" \; || true
-            cd "$REPO_TOP/$BENCHMARK" || exit 1
+            find "$TOP/infrastructure/target/backup-process-logs" -type f \
+                -exec mv {} "$TOP/infrastructure/target/process-logs/" \; || true
+            cd "$TOP/$BENCHMARK" || exit 1
 
         elif $measure_time; then
 
@@ -282,10 +282,10 @@ main() {
         fi
 
         if [[ $measure_resources == true ]]; then
-            src_stats="$REPO_TOP/$BENCHMARK/${stats_prefix}.txt"
+            src_stats="$TOP/$BENCHMARK/${stats_prefix}.txt"
 
             if [[ -f $src_stats ]]; then
-                dst_stats="$REPO_TOP/$BENCHMARK/${stats_prefix}_run${i}.txt"
+                dst_stats="$TOP/$BENCHMARK/${stats_prefix}_run${i}.txt"
                 cp -f -- "$src_stats" "$dst_stats"
                 stats_files+=("$dst_stats") # remember it for later aggregation
             else
@@ -295,10 +295,10 @@ main() {
     done
 
     if [[ $measure_resources == true && ${#stats_files[@]} -gt 1 ]]; then
-        agg_script="$REPO_TOP/infrastructure/aggregate_stats.py"
+        agg_script="$TOP/infrastructure/aggregate_stats.py"
         if [[ -f $agg_script ]]; then
             python3 "$agg_script" "${stats_files[@]}" \
-                >"$REPO_TOP/$BENCHMARK/${stats_prefix}_aggregated.txt" ||
+                >"$TOP/$BENCHMARK/${stats_prefix}_aggregated.txt" ||
                 echo "Aggregation failed" >&2
             echo "Wrote aggregated stats to ${stats_prefix}_aggregated.txt"
         else

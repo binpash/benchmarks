@@ -1,10 +1,10 @@
 #!/bin/bash
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="$REPO_TOP/llm"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="$TOP/llm"
 scripts_dir="$eval_dir/scripts"
-input_dir="$REPO_TOP/llm/inputs"
+input_dir="$TOP/llm/inputs"
 outputs_dir="$eval_dir/outputs"
 
 suffix=""

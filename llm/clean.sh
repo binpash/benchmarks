@@ -5,9 +5,9 @@ for arg in "$@"; do
     esac
 done
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="$REPO_TOP/llm"
-input_dir="$REPO_TOP/llm/inputs"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="$TOP/llm"
+input_dir="$TOP/llm/inputs"
 outputs_dir="$eval_dir/outputs"
 
 rm -rf "$outputs_dir"

@@ -4,8 +4,8 @@ SUITE_DIR="$(realpath "$(dirname "$0")")"
 export SUITE_DIR
 cd "$SUITE_DIR" || exit 1
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/oneliners"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="${TOP}/oneliners"
 scripts_dir="${eval_dir}/scripts"
 input_dir="${eval_dir}/inputs"
 outputs_dir="${eval_dir}/outputs"

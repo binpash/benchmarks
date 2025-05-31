@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/ml"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="${TOP}/ml"
 outputs_dir="${eval_dir}/outputs"
 hashes_dir="${eval_dir}/hashes"
 # shell script to run verify.py

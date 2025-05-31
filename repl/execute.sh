@@ -4,8 +4,8 @@
 export PATH="$PATH:/sbin:/usr/sbin"
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/repl"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="${TOP}/repl"
 scripts_dir="${eval_dir}/scripts"
 main_script_1="${scripts_dir}/vps-audit.sh"
 main_script_2="${scripts_dir}/vps-audit-negate.sh"

@@ -22,8 +22,8 @@ sudo apt-get install -y --no-install-recommends \
 GO_VERSION=1.24.2
 echo "Installing Go $GO_VERSION"
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="$REPO_TOP/analytics"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="$TOP/analytics"
 go_install_dir="${eval_dir}/go_install"
 
 mkdir -p "$go_install_dir"

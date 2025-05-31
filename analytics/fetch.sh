@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/analytics"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="${TOP}/analytics"
 input_dir="${eval_dir}/inputs"
 URL=https://atlas.cs.brown.edu/data
 mkdir -p "$input_dir"

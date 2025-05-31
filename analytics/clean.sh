@@ -6,13 +6,13 @@ for arg in "$@"; do
     esac
 done
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-input_dir="${REPO_TOP}/analytics/inputs"
-outputs_dir="${REPO_TOP}/analytics/outputs"
+TOP=$(git rev-parse --show-toplevel)
+input_dir="${TOP}/analytics/inputs"
+outputs_dir="${TOP}/analytics/outputs"
 
 rm -rf "$outputs_dir"
 
 if [ "$force" = true ]; then
     rm -rf "$input_dir"
-    rm -rf "${REPO_TOP}/analytics/go_install"
+    rm -rf "${TOP}/analytics/go_install"
 fi

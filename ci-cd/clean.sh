@@ -14,9 +14,8 @@ fi
 
 TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${TOP}/ci-cd/riker"
-scripts_dir="${eval_dir}/scripts"
 
-for bench in "$scripts_dir"/*; do
+for bench in "$eval_dir"/*; do
     "$bench/clean.sh" "$@"
 done
 

@@ -31,22 +31,22 @@ eval_dir="${TOP}/ci-cd/riker"
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
 
-small_benchmark=(
+min_benchmark=(
     "xz-clang"
 )
 
 
-run_small=false
+run_min=false
 
 for arg in "$@"; do
     if [ "$arg" = "--min" ]; then
-        run_small=true
+        run_min=true
         break
     fi
 done
 
-if [ "$run_small" = true ]; then
-    for bench in "${small_benchmark[@]}"; do
+if [ "$run_min" = true ]; then
+    for bench in "${min_benchmark[@]}"; do
         script_path="$eval_dir/$bench/execute.sh"
         if [ -x "$script_path" ]; then
             export BENCHMARK_SCRIPT="$script_path"

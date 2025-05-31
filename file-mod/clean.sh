@@ -6,8 +6,8 @@ for arg in "$@"; do
     esac
 done
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/file-enc"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="${TOP}/file-mod"
 outputs_dir="${eval_dir}/outputs"
 input_dir="${eval_dir}/inputs"
 

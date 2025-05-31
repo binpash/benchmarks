@@ -1,16 +1,12 @@
 #!/bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-URL='https://atlas.cs.brown.edu/data'
-input_dir="${REPO_TOP}/media-conv/inputs"
+TOP=$(git rev-parse --show-toplevel)
 
+input_dir="${TOP}/file-mod/inputs"
 mkdir -p "$input_dir"
 
-data_url=$URL/wav.zip
-zip_dst=$input_dir/wav.zip
-full_dir="$input_dir/wav_full"
-small_dir="$input_dir/wav_small"
-min_dir="$input_dir/wav_min"
+URL="https://atlas.cs.brown.edu/data"
+ZIP_DST="$input_dir/pcaps.zip"
 
 size=full
 for arg in "$@"; do
@@ -20,6 +16,37 @@ for arg in "$@"; do
     esac
 done
 
+if [ -d "$input_dir/pcaps_$size" ]; then
+    echo "Directory $input_dir/pcaps_$size already exists. Skipping download."
+else
+    if [ "$size" = "min" ]; then
+        mkdir -p "$input_dir/pcaps_$size"
+        cp min_inputs/*.pcapng "$input_dir/pcaps_$size/"
+    fi
+
+    if [ "$size" = "small" ]; then
+        wget --no-check-certificate $URL/pcaps.zip -O "$input_dir/pcaps_$size.zip"
+        unzip "$input_dir/pcaps_$size.zip" -d "$input_dir"
+        mv "$input_dir/pcaps/" "$input_dir/pcaps_$size/"
+        rm "$input_dir/pcaps_$size.zip"
+    fi
+    if [ "$size" = "full" ]; then
+        wget --no-check-certificate $URL/pcaps.zip -O "$input_dir/pcaps.zip"
+        unzip "$input_dir/pcaps.zip" -d "$input_dir"
+        mv "$input_dir/pcaps/" "$input_dir/pcaps_$size/"
+        rm "$input_dir/pcaps.zip"
+
+        wget --no-check-certificate "$URL"/pcaps_large.zip -O "$ZIP_DST"
+        unzip "$ZIP_DST" -d "$input_dir/pcaps_$size"
+        rm "$ZIP_DST"
+    fi 
+fi
+
+data_url=$URL/wav.zip
+zip_dst=$input_dir/wav.zip
+full_dir="$input_dir/wav_full"
+small_dir="$input_dir/wav_small"
+min_dir="$input_dir/wav_min"
 if [[ ! -d "$full_dir" ]] || [[ -d "$full_dir" && -z "$(ls -A "$full_dir")" ]]; then
     wget --no-check-certificate "$data_url" -O "$zip_dst"
     unzip "$zip_dst" -d "$input_dir"
@@ -65,9 +92,9 @@ elif [[ "$size" == "min" ]]; then
         echo "Data already downloaded and extracted."
         exit 0
     fi
-    min_inputs="${REPO_TOP}/media-conv/min_inputs/"
+    min_inputs="${TOP}/file-mod/min_inputs"
     mkdir -p "$input_dir"
-    cp -r "$min_inputs"/* "$input_dir/"
+    cp -r "$min_inputs"/jpg_min "$input_dir/"
     exit 0
 fi
 

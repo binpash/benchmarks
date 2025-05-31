@@ -11,4 +11,5 @@ sudo apt-get install -y \
   gawk \
   sed \
   git \
-  openssl
+  openssl \
+  curl wget unzip gzip coreutils ffmpeg unrtf imagemagick zstd git xz-utils

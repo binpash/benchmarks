@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/media-conv"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="${TOP}/file-mod"
 input_dir="${eval_dir}/inputs"
 outputs_dir="${eval_dir}/outputs"
 scripts_dir="${eval_dir}/scripts"
@@ -11,23 +11,48 @@ img_convert_input="$input_dir/jpg_full/jpg"
 to_mp3_input="$input_dir/wav_full"
 suffix=".full"
 
+size="full"
+input_pcaps="$input_dir/pcaps"
 for arg in "$@"; do
-    if [ "$arg" = "--min" ]; then
-        img_convert_input="$input_dir/jpg_min/jpg"
-        to_mp3_input="$input_dir/wav_min"
-        suffix=".min"
-        break
-    elif [ "$arg" = "--small" ]; then
-        img_convert_input="$input_dir/jpg_small/jpg"
-        to_mp3_input="$input_dir/wav_small"
-        suffix=".small"
-        break
-    fi
+    case "$arg" in
+        --small)
+            img_convert_input="$input_dir/jpg_small/jpg"
+            to_mp3_input="$input_dir/wav_small"
+            suffix=".small"
+            ;;
+        --min)
+            size="small"
+            img_convert_input="$input_dir/jpg_min/jpg"
+            to_mp3_input="$input_dir/wav_min"
+            suffix=".min"
+            size="min"
+            ;;
+    esac
 done
 
+input_pcaps="$input_dir/pcaps_$size"
+
+
 KOALA_SHELL=${KOALA_SHELL:-bash}
-export BENCHMARK_CATEGORY="media-conv"
- 
+
+BENCHMARK_CATEGORY="file-mod"
+export BENCHMARK_CATEGORY
+
+BENCHMARK_INPUT_FILE="$(realpath "$input_pcaps")"
+export BENCHMARK_INPUT_FILE
+
+echo "compress_files"
+BENCHMARK_SCRIPT="$(realpath "$scripts_dir/compress_files.sh")"
+export BENCHMARK_SCRIPT
+$KOALA_SHELL "$scripts_dir/compress_files.sh" "$input_pcaps" "$outputs_dir/compress_files$suffix"
+echo $?
+
+echo "encrypt_files"
+BENCHMARK_SCRIPT="$(realpath "$scripts_dir/encrypt_files.sh")"
+export BENCHMARK_SCRIPT
+$KOALA_SHELL "$scripts_dir/encrypt_files.sh" "$input_pcaps" "$outputs_dir/encrypt_files$suffix"
+echo $?
+
 echo "img_convert"
 BENCHMARK_INPUT_FILE="$(realpath "$img_convert_input")"
 export BENCHMARK_INPUT_FILE

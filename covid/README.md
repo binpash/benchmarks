@@ -1,4 +1,4 @@
-## covid-mts
+## covid
 
 This benchmark analyzes CSV logs of vehicle movement and produces multiple statistical summaries based on time, vehicle, and date fields.
 

@@ -7,7 +7,7 @@ for arg in "$@"; do
 done
 
 REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/covid-mts"
+eval_dir="${REPO_TOP}/covid"
 outputs_dir="${eval_dir}/outputs"
 input_dir="${eval_dir}/inputs"
 

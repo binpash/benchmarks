@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/covid-mts"
+eval_dir="${REPO_TOP}/covid"
 outputs_dir="${eval_dir}/outputs"
 hashes_dir="${eval_dir}/hashes"
 
@@ -33,4 +33,4 @@ fi
     cd "$outputs_dir" || exit 1
     md5sum --check --quiet --status "$hashes_dir/outputs$suffix.md5sum"
 )
-echo covid-mts$suffix $?
+echo covid$suffix $?

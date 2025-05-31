@@ -1,13 +1,14 @@
 #!/bin/bash
 
+cd "$(dirname "$0")" || exit 1
+
 for arg in "$@"; do
     case "$arg" in
         "-f") force=true ;;
     esac
 done
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/web-search"
+eval_dir="$PWD"
 outputs_dir="${eval_dir}/outputs"
 input_dir="${eval_dir}/inputs"
 

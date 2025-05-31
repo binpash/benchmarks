@@ -1,7 +1,8 @@
 #!/bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/git-workflow"
+cd "$(dirname "$0")" || exit 1
+
+eval_dir="$PWD"
 INPUT_DIR="${eval_dir}/inputs"
 CHROMIUM_DIR="${INPUT_DIR}/chromium"
 COMMITS_DIR="${INPUT_DIR}/commits"
@@ -14,3 +15,5 @@ if [ ! -d "$CHROMIUM_DIR/.git" ]; then
         exit 1
     }
 fi
+
+# No inputs required for the vps-audit scripts

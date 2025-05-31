@@ -37,3 +37,21 @@ if [ "$commit_count" -lt $check_commits ]; then
     exit 1
 fi
 echo git-workflow 0
+
+GENERATE=false
+
+for arg in "$@"; do
+    if [[ "$arg" == "--generate" ]]; then
+        GENERATE=true
+        break
+    fi
+done
+
+if [[ "$GENERATE" == true ]]; then
+    python3 utils/validate.py --generate
+    exit 0
+else
+    python3 utils/validate.py
+    echo "vps-audit $?"
+fi
+

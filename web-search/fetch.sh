@@ -1,12 +1,12 @@
 #!/bin/bash
 
 BENCH_TOP=${BENCH_TOP:-$(git rev-parse --show-toplevel)}
-RESOURCES_DIR=${RESOURCES_DIR:-$BENCH_TOP/web-index}/inputs
+RESOURCES_DIR=${RESOURCES_DIR:-$BENCH_TOP/web-search}/inputs
 URL="https://atlas.cs.brown.edu/data"
 
 mkdir -p $RESOURCES_DIR
 
-cp $BENCH_TOP/web-index/stopwords.txt $RESOURCES_DIR
+cp $BENCH_TOP/web-search/stopwords.txt $RESOURCES_DIR
 
 is_small=false
 is_min=false

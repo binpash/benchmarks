@@ -55,11 +55,11 @@ else
     suffix="_3G"
 fi
 
-echo "executing unix50 $(date)"
+echo "executing unixfun $(date)"
 
 mkdir -p "outputs"
 KOALA_SHELL=${KOALA_SHELL:-bash}
-export BENCHMARK_CATEGORY="unix50"
+export BENCHMARK_CATEGORY="unixfun"
 
 export LC_ALL=C
 

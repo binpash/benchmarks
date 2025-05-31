@@ -1,6 +1,6 @@
 #!/bin/bash
 PASH_TOP=${PASH_TOP:-$(git rev-parse --show-toplevel)}
-WIKI=${WIKI:-$PASH_TOP/web-index}
+WIKI=${WIKI:-$PASH_TOP/web-search}
 
 cat $WIKI/input/index.txt |
 sed "s#^#$WIKI#" |

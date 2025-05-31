@@ -1,6 +1,6 @@
-## web-index
+## web-search
 
-The `web-index` benchmark constructs a textual index of a Wikipedia article
+The `web-search` benchmark constructs a textual index of a Wikipedia article
 corpus, computing the most frequent **1-grams**, **2-grams**, and **3-grams**
 while excluding stopwords and applying stemming. It simulates large-scale
 search index construction.

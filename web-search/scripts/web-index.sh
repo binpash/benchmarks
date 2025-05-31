@@ -1,8 +1,8 @@
 #!/bin/bash
 PASH_TOP=${PASH_TOP:-$(git rev-parse --show-toplevel)}
-IN=${IN:-$PASH_TOP/web-index/input/index.txt}
-WEB_INDEX_DIR=${WEB_INDEX_DIR:-$PASH_TOP/web-index/input}
-WIKI=${WIKI:-$PASH_TOP/web-index/}
+IN=${IN:-$PASH_TOP/web-search/input/index.txt}
+WEB_INDEX_DIR=${WEB_INDEX_DIR:-$PASH_TOP/web-search/input}
+WIKI=${WIKI:-$PASH_TOP/web-search/}
 
 mkfifo {1,2,3}grams
 

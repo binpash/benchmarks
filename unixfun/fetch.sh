@@ -3,7 +3,7 @@
 TOP=$(git rev-parse --show-toplevel)
 URL="https://atlas.cs.brown.edu/data"
 
-input_dir="${TOP}/unix50/inputs"
+input_dir="${TOP}/unixfun/inputs"
 mkdir -p "$input_dir"
 cd "$input_dir" || exit 1
 

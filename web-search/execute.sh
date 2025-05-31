@@ -3,7 +3,7 @@
 cd "$(dirname "$0")" || exit 1
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
-export BENCHMARK_CATEGORY="web-index"
+export BENCHMARK_CATEGORY="web-search"
 
 # ensure a local ./tmp directory exists for sorting
 mkdir -p ./tmp
@@ -35,7 +35,7 @@ fi
 
 mkdir -p "$OUTPUT_BASE"
 
-echo "web-index"
+echo "web-search"
 BENCHMARK_SCRIPT="$(realpath "./scripts/ngrams.sh")"
 export BENCHMARK_SCRIPT
 

@@ -7,17 +7,17 @@ IN="inputs"
 IN_NAME="input.txt"
 size="large"
 mkdir -p "$IN"
-in_dir="$IN/full"
+in_dir="$IN/bio-full"
 for arg in "$@"; do
     case "$arg" in
         --small)
             IN_NAME="input_small.txt"
             size="medium"
-            in_dir="$IN/small"
+            in_dir="$IN/bio-small"
             ;;
         --min)
             IN_NAME="input_min.txt"
-            in_dir="$IN/min"
+            in_dir="$IN/bio-min"
             ;;
     esac
 done

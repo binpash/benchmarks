@@ -2,19 +2,19 @@
 
 # create bam files with regions
 ################### 1KG SAMPLES
-IN="inputs/full"
-IN_NAME="inputs/full/input.txt"
+IN="inputs/bio-full"
+IN_NAME="inputs/bio-full/input.txt"
 OUT="outputs"
 
 for arg in "$@"; do
     case "$arg" in
         --small)
-            IN_NAME="inputs/small/input_small.txt" 
-            IN="inputs/small"
+            IN_NAME="inputs/bio-small/input_small.txt" 
+            IN="inputs/bio-small"
             ;;
         --min)   
-            IN_NAME="inputs/min/input_min.txt" 
-            IN="inputs/min"
+            IN_NAME="inputs/bio-min/input_min.txt" 
+            IN="inputs/bio-min"
             ;;
     esac
 done
@@ -55,7 +55,8 @@ fi
 if [[ "$size" == "small" ]]; then
     teraseq_script_names="data run_dRNASeq"
 fi
-
+BENCHMARK_INPUT_FILE="$(realpath "inputs/full")"
+export BENCHMARK_INPUT_FILE
 while IFS= read -r script; do
     script_file="./scripts/$script.sh"
     BENCHMARK_SCRIPT="$(realpath "$script_file")"

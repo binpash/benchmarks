@@ -1,7 +1,6 @@
 #!/bin/bash
 
 REPO_TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${REPO_TOP}/ci-cd/riker"
 input_dir="${REPO_TOP}/ci-cd/inputs/scripts/memcached"
 
 mkdir -p "$input_dir/dev"

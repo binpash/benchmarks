@@ -1,18 +1,23 @@
 {
-    "aurpkg": {
-	    "scripts": ["aurpkg/scripts/pacaur.sh"]
+    "analytics": {
+        "scripts": ["analytics/scripts/*.sh"]
     },
     "bio": {
-	    "scripts": ["bio/scripts/bio.sh"]
+	    "scripts": ["bio/scripts/bam-isolate.sh", "bio/scripts/run_dRNASeq.sh"]
     },
-    "covid-mts": {
-        "scripts": ["covid-mts/scripts/*.sh"]
+    "ci-cd": {
+        "scripts": ["ci-cd/makeself/*.sh",
+		    "ci-cd/makeself/test/*/*.sh",
+            "ci-cd/riker/*/build.sh"]
     },
-    "file-enc": {
-        "scripts": ["file-enc/scripts/*.sh"]
+    "covid": {
+        "scripts": ["covid/scripts/*.sh"]
     },
-    "log-analysis": {
-        "scripts": ["log-analysis/scripts/*.sh"]
+    "file-mod": {
+        "scripts": ["file-mod/scripts/*.sh"]
+    },
+    "llm": {
+        "scripts": ["llm/scripts/*.sh"]
     },
     "max-temp": {
         "scripts": ["max-temp/scripts/*.sh"]
@@ -25,12 +30,6 @@
     },
     "oneliners": {
         "scripts": ["oneliners/scripts/*.sh"]
-    },
-    "sklearn": {
-        "scripts": ["sklearn/scripts/execute.sh"]
-    },
-    "riker": {
-        "scripts": ["riker/scripts/*/build.sh"]
     },
     "unix50": {
         "scripts": ["unix50/scripts/*.sh"]
@@ -50,9 +49,6 @@
     },
     "git-workflow": {
 	    "scripts": ["git-workflow/scripts/git-workflow.sh"]
-    },
-    "llm": {
-	    "scripts": ["llm/scripts/*/scripts/*.sh"]
     },
     "tuft-weather": {
 	    "scripts": ["tuft-weather/scripts/tuft-weather.sh"]

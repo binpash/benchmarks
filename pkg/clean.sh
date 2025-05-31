@@ -14,5 +14,5 @@ OUT="outputs"
 rm -rf "${OUT}"
 
 if [ "$force" = true ]; then
-    rm -rf "${IN}/packages"
+    rm -rf "${IN}"
 fi

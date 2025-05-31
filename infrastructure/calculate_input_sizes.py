@@ -13,7 +13,7 @@ import subprocess
 import sys
 from typing import Iterable, List
 
-BENCHMARKS: List[str] = ["analytics", "bio", "ci-cd", "covid", "file-mod", "llm", "ml", "nlp", "oneliners", "pkg", "repl", "unixfun", "weather", "web-search.new"]
+BENCHMARKS: List[str] = ["analytics", "bio", "ci-cd", "covid", "file-mod", "llm", "ml", "nlp", "oneliners", "pkg", "repl", "unixfun", "weather", "web-search", "web-search.new"]
 
 def git_root() -> pathlib.Path:
     try:
@@ -94,16 +94,18 @@ def main() -> None:
 
     try:
         jq_cmd = (
-            f"jq -c -n 'reduce inputs as $line ({{}}; "
-            f"if has($line.path) then . else .[$line.path] = $line end) "
+            f"jq -c -n 'def key($l): \"\\($l.path)|\\($l.category)\"; "
+            f"reduce inputs as $line ({{}}; "
+            f"if has(key($line)) then . else .[key($line)] = $line end) "
             f"| to_entries[] | .value' "
             f'"{output_path}" > "{tmp_path}"'
         )
         subprocess.run(jq_cmd, shell=True, check=True)
         tmp_path.replace(output_path)
-        print(f"Deduplicated (by path) output written to {output_path}")
+        print(f"Deduplicated (by path+category) output written to {output_path}")
     except Exception as e:
         sys.stderr.write(f"Deduplication with jq failed: {e}\n")
+
 
 if __name__ == "__main__":
     main()

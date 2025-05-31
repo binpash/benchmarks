@@ -47,11 +47,11 @@ def get_input_sizes_df(df):
             if relevant.empty:
                 if 'sort' in file_path: # one of them sort files
                     continue
-                if 'riker/input' in file_path: 
+                if 'ci-cd/input' in file_path: 
                     # these should all be in the file, 
                     # everything else is in an intermediate
                     continue 
-                if 'aurpkg/outputs' in file_path:
+                if 'pkg/outputs' in file_path:
                     # these are intemediate files
                     continue
                 if 'bio/outputs' in file_path:

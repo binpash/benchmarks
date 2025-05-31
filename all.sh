@@ -2,7 +2,7 @@
 
 cd "$(dirname "$0")" || exit 1
 
-benchmarks="analytics bio ci-cd covid file-mod llm ml nlp oneliners pkg repl unixfun weather web-search.new"
+benchmarks="analytics bio ci-cd covid file-mod llm ml nlp oneliners pkg repl unixfun weather web-search web-search.new"
 
 log() { echo -e "[*] $1"; }
 

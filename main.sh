@@ -183,7 +183,7 @@ main() {
                 error "Failed to download dependencies for $BENCHMARK"
         fi
         # Fetch inputs
-        if ((i == 1)) || [[ "$BENCHMARK" == "riker" ]]; then
+        if ((i == 1)) || [[ "$BENCHMARK" == "ci-cd" ]]; then
             ./fetch.sh "${args[@]}" ||
                 error "Failed to fetch inputs for $BENCHMARK"
             python3 $TOP/infrastructure/calculate_input_sizes.py ||
@@ -191,7 +191,7 @@ main() {
         fi
 
         # Delete outputs before each run
-        if [ "$BENCHMARK" != "riker" ]; then
+        if [ "$BENCHMARK" != "ci-cd" ]; then
             ./clean.sh "${args[@]}"
         fi
 

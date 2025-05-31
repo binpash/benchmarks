@@ -44,6 +44,9 @@
     "weather": {
         "scripts": ["weather/scripts/*.sh"]
     },
+    "web-search": {
+        "scripts": ["web-search/scripts/*.sh"]
+    },
     "web-search.new": {
         "scripts": ["web-search.new/scripts/*.sh",
                     "web-search.new/scripts/c/*.sh"]

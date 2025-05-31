@@ -35,11 +35,14 @@
     "unixfun": {
         "scripts": ["unixfun/scripts/*.sh"]
     },
+    "repl": {
+        "scripts": ["repl/scripts/*.sh"]
+    },
+    "weather": {
+        "scripts": ["weather/scripts/*.sh"]
+    },
     "web-search.new": {
         "scripts": ["web-search.new/scripts/*.sh",
                     "web-search.new/scripts/c/*.sh"]
-    },
-    "repl": {
-        "scripts": ["repl/scripts/*.sh"]
     }
 }

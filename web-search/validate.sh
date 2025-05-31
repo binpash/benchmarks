@@ -1,7 +1,7 @@
 #!/bin/bash
-REPO_TOP=$(git rev-parse --show-toplevel)
-eval_dir="${REPO_TOP}/web-search/outputs"
-hashes_dir="${REPO_TOP}/web-search/hashes"
+TOP=$(git rev-parse --show-toplevel)
+eval_dir="${TOP}/web-search/outputs"
+hashes_dir="${TOP}/web-search/hashes"
 
 # create hashes directory if it does not exist
 if [ ! -d "${hashes_dir}" ]; then

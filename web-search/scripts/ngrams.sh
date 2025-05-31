@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPO_TOP=$(git rev-parse --show-toplevel)
-export TEST_BASE=$REPO_TOP/web-search
+TOP=$(git rev-parse --show-toplevel)
+export TEST_BASE=$TOP/web-search
 export SCRIPT_DIR="$TEST_BASE"/scripts
 export WEB_INDEX_DIR="$TEST_BASE"/inputs
 

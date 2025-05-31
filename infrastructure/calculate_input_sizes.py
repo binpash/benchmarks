@@ -13,8 +13,7 @@ import subprocess
 import sys
 from typing import Iterable, List
 
-BENCHMARKS: List[str] = ["aurpkg", "bio", "covid-mts", "dpt", "file-enc", "git-workflow", "llm", "log-analysis", "max-temp", "media-conv", "nlp", "oneliners", "prog-inf", "sklearn", "teraseq", "tuft-weather", "unix50"]
-# riker is a special case
+BENCHMARKS: List[str] = ["analytics", "bio", "ci-cd", "covid", "file-mod", "llm", "ml", "nlp", "oneliners", "pkg", "repl", "unixfun", "weather", "web-search.new"]
 
 def git_root() -> pathlib.Path:
     try:

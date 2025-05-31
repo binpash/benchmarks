@@ -19,6 +19,7 @@ for arg in "$@"; do
             img_convert_input="$input_dir/jpg_small/jpg"
             to_mp3_input="$input_dir/wav_small"
             suffix=".small"
+            size="small"
             ;;
         --min)
             size="small"

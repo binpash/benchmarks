@@ -38,8 +38,8 @@ def walk_files(root: pathlib.Path):
     yield from (p for p in root.rglob("*") if p.is_file())
 
 def emit_records(bench_root: pathlib.Path, out_file: pathlib.Path) -> None:
-    skip_path = bench_root / "git-workflow" / "inputs" / "chromium"
-
+    skip_path = bench_root / "repl" / "inputs" / "chromium"
+    skip_path = bench_root / "ci-cd" / "inputs"
     for bench in BENCHMARKS:
         inputs_dir = bench_root / bench / "inputs"
         if not inputs_dir.is_dir():
@@ -91,18 +91,20 @@ def main() -> None:
 
     emit_records(bench_root, output_path)
 
-    try:
-        tmp_path = output_path.parent / "tmp_size_inputs.jsonl"
-        subprocess.run(
-            ["sort", "-u", str(output_path)],
-            stdout=tmp_path.open("w", encoding="utf-8"),
-            check=True,
-        )
-        tmp_path.replace(output_path)
-        print(f"Deduplicated output written to {output_path}")
-    except Exception as e:
-        sys.stderr.write(f"Deduplication failed: {e}\n")
+    tmp_path = output_path.parent / "tmp_size_inputs.jsonl"
 
+    try:
+        jq_cmd = (
+            f"jq -c -n 'reduce inputs as $line ({{}}; "
+            f"if has($line.path) then . else .[$line.path] = $line end) "
+            f"| to_entries[] | .value' "
+            f'"{output_path}" > "{tmp_path}"'
+        )
+        subprocess.run(jq_cmd, shell=True, check=True)
+        tmp_path.replace(output_path)
+        print(f"Deduplicated (by path) output written to {output_path}")
+    except Exception as e:
+        sys.stderr.write(f"Deduplication with jq failed: {e}\n")
 
 if __name__ == "__main__":
     main()

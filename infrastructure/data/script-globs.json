@@ -36,7 +36,8 @@
         "scripts": ["unixfun/scripts/*.sh"]
     },
     "web-search.new": {
-        "scripts": ["web-search.new/scripts/*.sh"]
+        "scripts": ["web-search.new/scripts/*.sh",
+                    "web-search.new/scripts/c/*.sh"]
     },
     "repl": {
         "scripts": ["repl/scripts/*.sh"]

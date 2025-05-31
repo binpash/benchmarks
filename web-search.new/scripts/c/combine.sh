@@ -19,4 +19,26 @@ trigram() {
 	rm "$1" "$2"
 }
 
-tee >(sort) >(bigram "$p1") >(trigram "$p2" "$p3") > /dev/null
+# tee >(sort) >(bigram "$p1") >(trigram "$p2" "$p3") > /dev/null
+
+psort=$(mktemp -u psort.XXXXXX)
+mkfifo "$psort"
+pbi=$(mktemp -u pbi.XXXXXX)
+mkfifo "$pbi"
+ptri=$(mktemp -u ptri.XXXXXX)
+mkfifo "$ptri"
+
+# launch the three consumers
+sort <"$psort" &
+pid_sort=$!
+bigram "$p1" <"$pbi" &
+pid_bi=$!
+trigram "$p2" "$p3" <"$ptri" &
+pid_tri=$!
+
+# duplicate the incoming stream to all three FIFOs
+tee "$psort" "$pbi" "$ptri" >/dev/null
+
+# wait
+wait "$pid_sort" "$pid_bi" "$pid_tri"
+rm -f "$psort" "$pbi" "$ptri" "$p1" "$p2" "$p3"

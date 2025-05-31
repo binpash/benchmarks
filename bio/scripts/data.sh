@@ -8,7 +8,7 @@ echo ">>> SETUP DATA <<<"
 #
 # Prepare references and annotations
 #
-source "$TOP/bio/scripts/PARAMS.sh"
+. "$TOP/bio/scripts/PARAMS.sh"
 
 echo ">>> MAKE HG38 REFERENCES <<<"
 
@@ -195,10 +195,15 @@ echo ">>> GET NET-CAGE SIGNALS <<<"
 
 # Convert to hg19 to hg38
 for gz in NET-CAGE/*.bed.gz; do
-  base=${gz%.bed.gz}
+    base=${gz%.bed.gz}
 
-  liftOver \
-    <(gunzip -c "$gz") \
+    fifo=$(mktemp -u)
+    mkfifo "$fifo"
+    ( gunzip -c "$gz" >"$fifo" ) &
+
+  #liftOver \
+   # <(gunzip -c "$gz") \ 
+    liftOver "$fifo" \
     hg19ToHg38.over.chain.gz \
     "${base}.hg38.ctss_chr.raw.bed" \
     "${base}.hg38.unmap.ctss_chr.bed"

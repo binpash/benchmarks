@@ -31,11 +31,15 @@ input="$DATA_DIR/$assembly/transcripts.fa"
 sdir="$RES_DIR/transcripts/${ad_name}"
 mkdir -p $sdir/logfiles
 
-for err in $(seq 15 35); do
-    for min in $(seq 10 $max); do
+#for err in $(seq 15 35); do
+err=15
+while [ "$err" -le 35 ]; do
+    min=10
+    while [ "$min" -le "$max" ]; do
         rnd=$RANDOM
         # Subset adapter to desired length from the 5p end
-        len=$[$max-$min] # We need to get part of the adapter from the right, not left like in REL
+        #len=$[$max-$min] # We need to get part of the adapter from the right, not left like in REL
+        len=$((max - min))
         adapter=${adapter_orig:$len:$max}
 
         echo "cutadapt \
@@ -46,7 +50,9 @@ for err in $(seq 15 35); do
             --output /dev/null \
             $input \
             &> $sdir/logfiles/cutadapt.l${min}.e${err}.log"
+        min=$((min + 1))
     done
+    err=$((err + 1))
 done > $RES_DIR/cmds.txt
 
 cat $RES_DIR/cmds.txt | parallel -j $threads --load 95% --noswap '{}'
@@ -54,9 +60,7 @@ rm $RES_DIR/cmds.txt
 
 echo ">>> TRIM ADAPTER - LIBRARIES <<<"
 
-samples=(
-    "hsa.dRNASeq.HeLa.polyA.CIP.decap.REL5.long.1"
-)
+samples="hsa.dRNASeq.HeLa.polyA.CIP.decap.REL5.long.1"
 
 max=${#adapter_orig} # get max length of the adapter if we need to
 
@@ -64,12 +68,14 @@ adapter=$adapter_orig
 
 adapter=X${adapter} # Add anchoring to the 5' end
 
-for sample in ${samples[@]}; do
+for sample in $samples; do
     sdir=$RES_DIR/$sample/cutadapt
     mkdir -p $sdir/logfiles
 
-    for err in $(seq 15 35); do
-        for min in $(seq 10 $max); do
+    err=15
+    while [ "$err" -le 35 ]; do
+        min=10
+        while [ "$min" -le "$max" ]; do
             # The original adapter
             rnd=$RANDOM
 
@@ -96,8 +102,12 @@ for sample in ${samples[@]}; do
                     --output /dev/null \
                     $SAMPLE_DIR/$sample/fastq/reads.1.fastq.gz \
                     &> $sdir/logfiles/cutadapt.shuf.l${min}.e${err}.${round}.log"
+                round=$((round + 1))
             done
+
+            min=$((min + 1))
         done
+        err=$((err + 1))
     done
 done > $RES_DIR/cmds.txt
 
@@ -111,7 +121,7 @@ cutadapt-transcripts.R "$RES_DIR/transcripts/${ad_name}/logfiles" \
 
 echo ">>> VISUALIZE TRIMMING - LIBRARIES <<<"
 
-for i in ${samples[@]}; do
+for i in $samples; do
     echo "Working for $i"
     sdir=$RES_DIR/$i
     mkdir -p $sdir

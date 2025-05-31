@@ -35,6 +35,9 @@
     "unixfun": {
         "scripts": ["unixfun/scripts/*.sh"]
     },
+    "pkg": {
+        "scripts": ["pkg/scripts/*.sh"]
+    },
     "repl": {
         "scripts": ["repl/scripts/*.sh"]
     },

@@ -18,26 +18,20 @@ jobs:
       fail-fast: false
       matrix:
         benchmark:
-          - aurpkg
+          - analytics
           - bio
-          - covid-mts
-          - file-enc
-          - log-analysis
-          - makeself
-          - max-temp
-          - media-conv
+          - ci-cd
+          - covid
+          - file-mod
+          - llm
+          - ml
           - nlp
           - oneliners
-          - riker
-          - sklearn
-          - unix50
-          - vps-audit
-          - web-index
-          - llm
-          - dpt
-          - tuft-weather
-          - teraseq
-          - prog-inf
+          - pkg
+          - repl
+          - unixfun
+          - weather
+          - web-search.new
 
     steps:
       - name: Checkout code

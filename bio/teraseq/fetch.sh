@@ -5,12 +5,12 @@ set -e
 TOP="$(git rev-parse --show-toplevel)"
 
 size=full
-for arg in "$@"; do
-    case "$arg" in
-    --small) size=full ;; # small uses a subset of full inputs
-    --min) size=min ;;
-    esac
-done
+# for arg in "$@"; do
+#     case "$arg" in
+#     --small) size=full ;; # small uses a subset of full inputs
+#     --min) size=min ;;
+#     esac
+# done
 
 export SIZE="$size" # for PARAMS.sh
 
@@ -19,8 +19,7 @@ URL='https://atlas.cs.brown.edu/data'
 samples="hsa.dRNASeq.HeLa.polyA.1 hsa.dRNASeq.HeLa.polyA.REL5.1 hsa.dRNASeq.HeLa.polyA.PNK.REL5.1 \
 hsa.dRNASeq.HeLa.polyA.CIP.decap.REL5.long.1 hsa.dRNASeq.HeLa.polyA.decap.REL5.long.1 hsa.dRNASeq.HeLa.polyA.REL5.long.1 hsa.dRNASeq.HeLa.polyA.REL5OH.long.1"
 
-# base_url="$URL/teraseq/$size"
-base_url="$URL/teraseq/full"
+base_url="$URL/teraseq/$size"
 
 echo ">>> MAKE DIRECTORY STRUCTURE <<<"
 

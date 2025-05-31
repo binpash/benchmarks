@@ -9,7 +9,7 @@ for arg in "$@"; do
 done
 
 # export SIZE="$size" # for PARAMS.sh
-export SIZE="full" # for PARAMS.sh
+export SIZE=full
 
 SUITE_DIR="""$(realpath "$(dirname "$0")")"
 export SUITE_DIR

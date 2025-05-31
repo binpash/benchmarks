@@ -2,7 +2,7 @@
 
 TOP="$(git rev-parse --show-toplevel)"
 eval_dir="${TOP}/ci-cd/riker"
-input_dir="${TOP}/ci-cd/inputs"
+input_dir="${TOP}/ci-cd"
 
 test_db="$eval_dir/sqlite/data/hello-riker.sqlite3"
 

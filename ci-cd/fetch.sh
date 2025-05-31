@@ -19,7 +19,7 @@ for arg in "$@"; do
 done
 
 if [ "$run_min" = true ]; then
-    for bench in "${small_benchmark[@]}"; do
+    for bench in "${min_benchmark[@]}"; do
         script_path="$eval_dir/$bench/fetch.sh"
         if [ -x "$script_path" ]; then
             "$script_path" "$@"

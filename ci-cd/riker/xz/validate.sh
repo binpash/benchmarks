@@ -1,7 +1,6 @@
 #!/bin/bash
 
 TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${TOP}/ci-cd/riker"
 input_dir="${TOP}/ci-cd/inputs"
 
 xz_bin="$input_dir/scripts/xz/dev/xz"

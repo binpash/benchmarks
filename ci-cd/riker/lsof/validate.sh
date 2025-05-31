@@ -1,8 +1,7 @@
 #!/bin/bash
 
 TOP="$(git rev-parse --show-toplevel)"
-eval_dir="${TOP}/ci-cd/riker"
-input_dir="${eval_dir}/inputs"
+input_dir="${TOP}/ci-cd/inputs"
 
 lsof_bin="$input_dir/scripts/lsof/dev/lsof"
 

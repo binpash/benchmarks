@@ -2,7 +2,7 @@
 
 TOP=$(git rev-parse --show-toplevel)
 
-eval_dir="$TOP/llm"
+eval_dir="$TOP/inference"
 input_dir="$eval_dir/inputs"
 
 mkdir -p "$input_dir"

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 eval_dir=$(realpath "$(dirname "$0")")
-cd "$script_dir" || exit 1
 
 export LC_ALL=C
 suffix=""

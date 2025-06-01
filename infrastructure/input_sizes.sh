@@ -34,6 +34,7 @@ CSV_OUT="$REPO_TOP/input_sizes.${SUFFIX}.csv"
 default_benchmarks=(
     "analytics"
     "bio"    
+    "ci-cd"
     "covid"
     "file-mod"
     "inference"

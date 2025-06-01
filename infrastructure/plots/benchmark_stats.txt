@@ -1,0 +1,184 @@
+Benchmark Statistics
+==================================================
+
+Benchmark: analytics
+--------------------------------------------------
+Total CPU time: 80.17 sec
+Total Wall time: 56.95 sec
+Total IO bytes: 24728482872.00
+Max Memory Usage: 10747904.00 bytes
+CPU time per input byte: 0.000000 sec/byte
+Memory per input byte: 0.011915 bytes/byte
+IO per input byte: 27.413724 bytes/byte
+Time in Shell: 0.00 sec
+Time in Commands: 80.17 sec
+==================================================
+
+Benchmark: bio
+--------------------------------------------------
+Total CPU time: 9235.06 sec
+Total Wall time: 3863.90 sec
+Total IO bytes: 479563912333.00
+Max Memory Usage: 21487616.00 bytes
+CPU time per input byte: 0.000001 sec/byte
+Memory per input byte: 0.001886 bytes/byte
+IO per input byte: 42.094150 bytes/byte
+Time in Shell: 0.04 sec
+Time in Commands: 9235.02 sec
+==================================================
+
+Benchmark: ci-cd
+--------------------------------------------------
+Total CPU time: 2.46 sec
+Total Wall time: 8.51 sec
+Total IO bytes: 90766575.00
+Max Memory Usage: 13971456.00 bytes
+CPU time per input byte: N/A (no input bytes recorded)
+Memory per input byte: N/A (no input bytes recorded)
+IO per input byte: N/A (no input bytes recorded)
+Time in Shell: 0.00 sec
+Time in Commands: 2.46 sec
+==================================================
+
+Benchmark: covid
+--------------------------------------------------
+Total CPU time: 69.64 sec
+Total Wall time: 47.45 sec
+Total IO bytes: 86502600877.00
+Max Memory Usage: 13877248.00 bytes
+CPU time per input byte: 0.000000 sec/byte
+Memory per input byte: 0.000773 bytes/byte
+IO per input byte: 4.819701 bytes/byte
+Time in Shell: 0.00 sec
+Time in Commands: 69.64 sec
+==================================================
+
+Benchmark: file-mod
+--------------------------------------------------
+Total CPU time: 235.44 sec
+Total Wall time: 86.58 sec
+Total IO bytes: 14881411070.00
+Max Memory Usage: 171749376.00 bytes
+CPU time per input byte: 0.000000 sec/byte
+Memory per input byte: 0.055182 bytes/byte
+IO per input byte: 4.781320 bytes/byte
+Time in Shell: 0.12 sec
+Time in Commands: 235.32 sec
+==================================================
+
+Benchmark: inference
+--------------------------------------------------
+Total CPU time: 1607.34 sec
+Total Wall time: 2416.92 sec
+Total IO bytes: 89892893869.00
+Max Memory Usage: 6819848192.00 bytes
+CPU time per input byte: 0.000000 sec/byte
+Memory per input byte: 0.883574 bytes/byte
+IO per input byte: 11.646445 bytes/byte
+Time in Shell: 0.02 sec
+Time in Commands: 1607.32 sec
+==================================================
+
+Benchmark: ml
+--------------------------------------------------
+Total CPU time: 1207.57 sec
+Total Wall time: 244.50 sec
+Total IO bytes: 44710239370.00
+Max Memory Usage: 8450228224.00 bytes
+CPU time per input byte: 0.000006 sec/byte
+Memory per input byte: 41.697115 bytes/byte
+IO per input byte: 220.619840 bytes/byte
+Time in Shell: 0.00 sec
+Time in Commands: 1207.57 sec
+==================================================
+
+Benchmark: nlp
+--------------------------------------------------
+Total CPU time: 880.03 sec
+Total Wall time: 665.16 sec
+Total IO bytes: 291953354136.00
+Max Memory Usage: 8986624.00 bytes
+CPU time per input byte: 0.000000 sec/byte
+Memory per input byte: 0.001064 bytes/byte
+IO per input byte: 34.557589 bytes/byte
+Time in Shell: 16.85 sec
+Time in Commands: 863.18 sec
+==================================================
+
+Benchmark: oneliners
+--------------------------------------------------
+Total CPU time: 15.10 sec
+Total Wall time: 14.12 sec
+Total IO bytes: 4050900557.00
+Max Memory Usage: 2007040.00 bytes
+CPU time per input byte: 0.000000 sec/byte
+Memory per input byte: 0.007607 bytes/byte
+IO per input byte: 15.353226 bytes/byte
+Time in Shell: 0.00 sec
+Time in Commands: 15.10 sec
+==================================================
+
+Benchmark: pkg
+--------------------------------------------------
+Total CPU time: 220.66 sec
+Total Wall time: 143.87 sec
+Total IO bytes: 16499191389.00
+Max Memory Usage: 7901184.00 bytes
+CPU time per input byte: 1.016866 sec/byte
+Memory per input byte: 36410.986175 bytes/byte
+IO per input byte: 76033140.041475 bytes/byte
+Time in Shell: 0.00 sec
+Time in Commands: 220.66 sec
+==================================================
+
+Benchmark: repl
+--------------------------------------------------
+Total CPU time: 33.38 sec
+Total Wall time: 21.24 sec
+Total IO bytes: 1434576762.00
+Max Memory Usage: 206487552.00 bytes
+CPU time per input byte: N/A (no input bytes recorded)
+Memory per input byte: N/A (no input bytes recorded)
+IO per input byte: N/A (no input bytes recorded)
+Time in Shell: 0.00 sec
+Time in Commands: 33.38 sec
+==================================================
+
+Benchmark: unixfun
+--------------------------------------------------
+Total CPU time: 5.57 sec
+Total Wall time: 5.61 sec
+Total IO bytes: 6130117268.00
+Max Memory Usage: 704512.00 bytes
+CPU time per input byte: 0.000000 sec/byte
+Memory per input byte: 0.000661 bytes/byte
+IO per input byte: 5.755132 bytes/byte
+Time in Shell: 0.00 sec
+Time in Commands: 5.57 sec
+==================================================
+
+Benchmark: weather
+--------------------------------------------------
+Total CPU time: 956.81 sec
+Total Wall time: 517.82 sec
+Total IO bytes: 41999623008.00
+Max Memory Usage: 98705408.00 bytes
+CPU time per input byte: 0.000001 sec/byte
+Memory per input byte: 0.105440 bytes/byte
+IO per input byte: 44.865372 bytes/byte
+Time in Shell: 0.25 sec
+Time in Commands: 956.56 sec
+==================================================
+
+Benchmark: web-search
+--------------------------------------------------
+Total CPU time: 1337.39 sec
+Total Wall time: 1511.28 sec
+Total IO bytes: 18344228780.00
+Max Memory Usage: 1417424896.00 bytes
+CPU time per input byte: 0.000564 sec/byte
+Memory per input byte: 598.240214 bytes/byte
+IO per input byte: 7742.389298 bytes/byte
+Time in Shell: 11.39 sec
+Time in Commands: 1326.00 sec
+==================================================

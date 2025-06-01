@@ -37,9 +37,9 @@ file-mod/scripts/encrypt_files.sh,file-mod
 file-mod/scripts/img_convert.sh,file-mod
 file-mod/scripts/thumbnail_generation.sh,file-mod
 file-mod/scripts/to_mp3.sh,file-mod
-llm/scripts/image-annotation.sh,llm
-llm/scripts/playlist-creation.sh,llm
-ml/scripts/dpt_seq.sh,ml
+inference/scripts/dpt_seq.sh,inference
+inference/scripts/image-annotation.sh,inference
+inference/scripts/playlist-creation.sh,inference
 ml/scripts/execute.sh,ml
 nlp/scripts/bigrams_appear_twice.sh,nlp
 nlp/scripts/bigrams.sh,nlp
@@ -127,3 +127,11 @@ web-search.new/scripts/crawl.sh,web-search.new
 web-search.new/scripts/engine.sh,web-search.new
 web-search.new/scripts/index.sh,web-search.new
 web-search.new/scripts/query.sh,web-search.new
+web-search/scripts/bigrams_aux.sh,web-search
+web-search/scripts/extract_text.sh,web-search
+web-search/scripts/ngrams.sh,web-search
+web-search/scripts/p1.sh,web-search
+web-search/scripts/p2.sh,web-search
+web-search/scripts/trigrams_aux.sh,web-search
+web-search/scripts/web-index-aux.sh,web-search
+web-search/scripts/web-index.sh,web-search

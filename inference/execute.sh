@@ -19,9 +19,8 @@ export BENCHMARK_CATEGORY="inference"
 
 
 echo "dpt"
-input_dir="${eval_dir}/inputs"
 outputs_dir="${eval_dir}/outputs"
-
+mkdir -p "$outputs_dir"
 img_input="${input_dir}/dpt$suffix"
 
 export BENCHMARK_INPUT_FILE="$img_input"

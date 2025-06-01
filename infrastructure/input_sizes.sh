@@ -50,10 +50,8 @@ default_benchmarks=(
 
 echo "benchmark,size_bytes" >"$CSV_OUT"
 
-if [[ "$KEEP" == true ]]; then
-    echo "Keeping existing inputs"
-else
-    echo "Purging inputs"
+
+echo "Purging inputs"
     for bench in "${default_benchmarks[@]}"; do
         dir="$REPO_TOP/$bench"
         if [[ -d "$dir/inputs" ]]; then
@@ -87,7 +85,12 @@ for bench in "${default_benchmarks[@]}"; do
     if [[ -d inputs ]]; then
         size_bytes=$(du -sb inputs | awk '{print $1}')
         echo "$bench,$size_bytes" >>"$CSV_OUT"
-        rm -rf inputs
+        if [[ "$KEEP" == true ]]; then
+            echo "Keeping inputs in $bench"
+        else
+            echo "Removing inputs in $bench"
+            rm -rf inputs
+        fi
     else
         echo "No inputs/ dir in $bench"
     fi

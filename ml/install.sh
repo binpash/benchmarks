@@ -24,10 +24,4 @@ pip install --break-system-packages \
     scikit-learn==1.5.0 \
     scipy==1.13.1 \
     threadpoolctl==3.5.0 \
-    imbalanced-learn==0.13.0 \
-    torch \
-    torchvision \
-    Pillow \
-    segment-anything \
-    tensorflow \
-    opencv-python
+    imbalanced-learn==0.13.0

@@ -11,7 +11,7 @@ default_benchmarks=(
   "ci-cd"
   "covid"
   "file-mod"
-  "llm"
+  "inference"
   "ml"
   "nlp"
   "oneliners"
@@ -19,6 +19,7 @@ default_benchmarks=(
   "repl"
   "unixfun"
   "weather"
+  "web-search"
   "web-search.new"
 )
 

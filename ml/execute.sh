@@ -23,7 +23,7 @@ for arg in "$@"; do
     esac
 done
 
-echo "sklearn"
+echo "ml"
 cd "$eval_dir" || exit 1 # scripts/execute.sh references PWD
  
 BENCHMARK_SCRIPT="$(realpath "$scripts_dir/execute.sh")"
@@ -38,24 +38,3 @@ export BENCHMARK_INPUT_FILE="$eval_dir/inputs/input_$size"
 $KOALA_SHELL "$scripts_dir/execute.sh" "${parsed_args[@]}"
 echo "$?"
 
-cd "$eval_dir" || exit 1
-
-echo "dpt"
-input_dir="${eval_dir}/inputs"
-outputs_dir="${eval_dir}/outputs"
-
-img_input="${input_dir}/images_full"
-suffix=".full"
-
-if [[ " $* " == *" --small "* ]]; then
-    img_input="${input_dir}/images_small"
-    suffix=".small"
-fi
-if [[ " $* " == *" --min "* ]]; then
-    img_input="${input_dir}/images_min"
-    suffix=".min"
-fi
-export BENCHMARK_INPUT_FILE="$img_input"
-export BENCHMARK_SCRIPT="$(realpath "$scripts_dir/dpt_seq.sh")"
-$KOALA_SHELL "$scripts_dir/dpt_seq.sh" "$img_input" "$outputs_dir/seq_output$suffix.txt"
-echo "$?"

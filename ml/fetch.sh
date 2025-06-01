@@ -19,11 +19,12 @@ for arg in "$@"; do
 done
 
 mkdir -p $eval_dir/outputs
-mkdir -p $eval_dir/inputs/input_"$size"
+mkdir -p $input_dir/input_"$size"
 
-export TMP="$eval_dir/inputs/input_$size"
+export TMP="$input_dir/input_$size"
+mkdir -p "$TMP"
 # Generating model & samples
-python3 $eval_dir/scripts/gen_model.py 100
+python3 $eval_dir/scripts/gen_model.py 1000
 python3 $eval_dir/scripts/gen_samples.py "${parsed_args[@]}"
 
 URL='https://atlas.cs.brown.edu/data'

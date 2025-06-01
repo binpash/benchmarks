@@ -1,1 +1,0 @@
-"$MISC_SCRIPT_DIR/sleep_and_cat.sh" 0 "$test_output_dir/in1" "$test_output_dir/out1"

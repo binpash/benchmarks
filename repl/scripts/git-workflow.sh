@@ -12,7 +12,7 @@ alias gci='git commit'
 alias gaa='git add -A'
 
 TOP=$(git rev-parse --show-toplevel)
-EVAL_DIR="${TOP}/git-workflow"
+EVAL_DIR="${TOP}/repl"
 REPO_PATH="${EVAL_DIR}/inputs/chromium"
 COMMITS_DIR="${EVAL_DIR}/inputs/commits"
 NUM_COMMITS="${1:-20}"

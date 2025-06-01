@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TOP=$(git rev-parse --show-toplevel)
-EVAL_DIR="${TOP}/git-workflow"
+EVAL_DIR="${TOP}/repl"
 REPO_PATH="${EVAL_DIR}/inputs/chromium"
 COMMITS_DIR="${EVAL_DIR}/inputs/commits"
 

@@ -36,7 +36,7 @@ if [[ "$size" == "min" ]]; then
         echo "Data already downloaded and extracted."
     else
         mkdir -p "$min_dir"
-        cp "${eval_dir}"/min_inputs/* "$min_dir/"
+        cp "${eval_dir}"/min_inputs/pl-06-P_F-A_N-1.png "$min_dir/"
     fi
 fi
 
@@ -103,7 +103,7 @@ elif [[ "$size" == "min" ]]; then
     if [[ -d "$input_dir/jpg.min" ]]; then
         echo "Image data already downloaded and extracted."
     else
-        min_inputs="$eval_dir/min_inputs/"
+        min_inputs="$eval_dir/min_inputs/jpg.min"
         out_dir="$input_dir/jpg.min/jpg"
         mkdir -p "$out_dir"
         cp -r "$min_inputs"/* "$out_dir/"

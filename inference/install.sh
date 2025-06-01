@@ -28,7 +28,8 @@ pip install --break-system-packages numpy \
     torchvision \
     Pillow \
     segment-anything \
-    tensorflow
+    tensorflow \
+    opencv-python
 
 # check if ollama is installed
 if ! command -v ollama &> /dev/null

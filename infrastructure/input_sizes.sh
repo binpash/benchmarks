@@ -7,9 +7,11 @@ SIZE_FLAG="--min"
 SUFFIX="min"
 
 KEEP=false
+CLEAN=false
 for arg in "$@"; do
     case "$arg" in
     -k | --keep) KEEP=true ;;
+    -c | --clean) CLEAN=true ;;
     --min)
         SIZE_FLAG="--min"
         SUFFIX="min"
@@ -33,6 +35,7 @@ CSV_OUT="$REPO_TOP/input_sizes.${SUFFIX}.csv"
 
 default_benchmarks=(
     "analytics"
+    "bio"
     "ci-cd"
     "covid"
     "file-mod"
@@ -49,15 +52,16 @@ default_benchmarks=(
 
 echo "benchmark,size_bytes" >"$CSV_OUT"
 
-
-echo "Purging inputs"
+if $CLEAN; then
+    echo "Cleaning up previous inputs"
     for bench in "${default_benchmarks[@]}"; do
         dir="$REPO_TOP/$bench"
         if [[ -d "$dir/inputs" ]]; then
-            echo "Purging inputs in $bench"
+            echo "Cleaning inputs in $bench"
             rm -rf "$dir/inputs"
         fi
     done
+fi
 
 for bench in "${default_benchmarks[@]}"; do
     dir="$REPO_TOP/$bench"

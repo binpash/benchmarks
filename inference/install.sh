@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TOP=$(git rev-parse --show-toplevel)
-eval_dir="${TOP}/llm"
+eval_dir="${TOP}/inference"
 
 sudo apt-get update
 

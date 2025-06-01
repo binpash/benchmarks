@@ -9,7 +9,7 @@ SUFFIX="min"
 KEEP=false
 for arg in "$@"; do
     case "$arg" in
-    -k) KEEP=true ;;
+    -k | --keep) KEEP=true ;;
     --min)
         SIZE_FLAG="--min"
         SUFFIX="min"
@@ -33,7 +33,6 @@ CSV_OUT="$REPO_TOP/input_sizes.${SUFFIX}.csv"
 
 default_benchmarks=(
     "analytics"
-    "bio"    
     "ci-cd"
     "covid"
     "file-mod"
@@ -59,7 +58,6 @@ echo "Purging inputs"
             rm -rf "$dir/inputs"
         fi
     done
-fi 
 
 for bench in "${default_benchmarks[@]}"; do
     dir="$REPO_TOP/$bench"

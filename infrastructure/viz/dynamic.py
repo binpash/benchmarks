@@ -163,8 +163,6 @@ dynamic_analysis_script_translations = {
     "riker/scripts/memcached/execute.sh": "riker/scripts/memcached/build.sh",
     "riker/scripts/sqlite/execute.sh": "riker/scripts/sqlite/build.sh",
     "riker/scripts/lsof/execute.sh": "riker/scripts/lsof/build.sh",
-    "llm/scripts/image-annotation/execute.sh": "llm/scripts/image-annotation/scripts/image-annotation.sh",
-    "llm/scripts/playlist-creation/execute.sh": "llm/scripts/playlist-creation/scripts/playlist-creation.sh"
 }
 
 def read_data():

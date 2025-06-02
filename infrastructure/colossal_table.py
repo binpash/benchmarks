@@ -253,28 +253,27 @@ def main():
         
 
     print("""
-          \\def\\idw{7em}
-\\begin{tabular}{@{\\extracolsep{5pt}}llrrlrrrrrrlrl@{}}
-\\toprule
-\\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c}{Surface} & \\multirow{2}{*}{Inputs}  & \\multicolumn{2}{c}{Syntax} & \\multicolumn{4}{c}{Dynamic} & \\multicolumn{2}{c}{System} & \\multirow{2}{*}{Source} \\\\
-    \\cline{2-4} \\cline{6-7} \\cline{8-11} \\cline{12-13}
-                                  & Dom     & \\#.sh     & LoC     &                               & \\#Cons       & \\#Cmd      & $t_{S}$  & $t_{C}$  & Mem   & I/O & \\#SC       & \\#FD        &   \\\\
-    \\midrule
-""")
+    \\begin{tabular}{@{}llrrllrrrrrrlrl@{}}
+    \\toprule
+    \\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c}{Surface} & \\multicolumn{2}{c}{Inputs} & \\multicolumn{2}{c}{Syntax} & \\multicolumn{4}{c}{Dynamic} & \\multicolumn{2}{c}{System} & \\multirow{2}{*}{Source} \\\\
+        \\cline{2-4} \\cline{5-6} \\cline{7-8} \\cline{9-12} \\cline{13-14}
+                                      & Dom     & \\#.sh     & LoC     & Small & Large & \\#Cons & \\#Cmd & $t_{S}$  & $t_{C}$  & Mem   & I/O & \\#SC & \\#FD &   \\\\
+        \\midrule
+    """)
     # generate a big latex table with the following columns:
     # benchmark, short_category, number of scripts, LOC, number of constructs, number of unique commands, input description, time in shell, time in commands, max memory, IO
     for _, row in big_bench.iterrows():
         numscripts_shown = 0
         numscripts = row['number_of_scripts']
-        print(f"\\bs{{{row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {make_input_description(row)}  & {row['constructs']} & {row['unique_cmds']} & {format_number(row['time_in_shell'])} & {format_number(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {prettify_big_count(row['sys_calls'])} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
+        print(f"\\bs{{{row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & \\xxx & {make_input_description(row)} & {row['constructs']} & {row['unique_cmds']} & {format_number(row['time_in_shell'])} & {format_number(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {prettify_big_count(row['sys_calls'])} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
         # now print the details of all scripts in the benchmark
         for _, row_script in big_script.iterrows():
             if row_script['benchmark'] == row['benchmark'] and any([fnmatch.fnmatch(row_script['script'], pattern) for pattern in scripts_to_include]):
                 # all columns except leave blank benchmark, category, number of scripts, input description
-                print(f"\\hspace{{0.5em}} \\ttt{{{script_name(row_script['script'].split('/')[-1])}}} & & & {row_script['loc']} & & {row_script['constructs']} & {row_script['unique_cmds']} & {row_script['time_in_shell']:.1f} & {row_script['time_in_commands']:.1f} & {prettify_bytes_number(row_script['max_unique_set_size'])} & {prettify_bytes_number(row_script['io_chars'])} & & & {script_citation(row_script['script'])} \\\\")
+                print(f"\\hspace{{0.5em}} \\ttt{{{script_name(row_script['script'].split('/')[-1])}}} & & & {row_script['loc']} & & & {row_script['constructs']} & {row_script['unique_cmds']} & {row_script['time_in_shell']:.1f} & {row_script['time_in_commands']:.1f} & {prettify_bytes_number(row_script['max_unique_set_size'])} & {prettify_bytes_number(row_script['io_chars'])} & & & {script_citation(row_script['script'])} \\\\")
                 numscripts_shown += 1
         if numscripts_shown < numscripts and numscripts > 1:
-            print(f"\\hspace{{0.5em}} \\ldots & & & & & & & & & & & & & {script_citation(row['benchmark'] + '...')} \\\\")
+            print(f"\\hspace{{0.5em}} \\ldots & & & & & & & & & & & & & & {script_citation(row['benchmark'] + '...')} \\\\")
 
     print("\\midrule")
     for aggregate in ['Min', 'Mean', 'Max']:
@@ -289,7 +288,7 @@ def main():
                 return round_whole(f"{value:.1f}") if isinstance(value, float) else f"{int(value)}"
             return value  # For non-numeric values
 
-        print(f"{{\\textbf{{\\centering {row['benchmark']}}}}} & & {format_value(row['number_of_scripts'])} & {format_value(row['loc'])} & {make_input_description(row):s} & {format_value(row['constructs'])} & {format_value(row['unique_cmds'])} & {format_value(row['time_in_shell'])} & {format_value(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {prettify_big_count(row['sys_calls'])} & {format_value(row['file_descriptors'])} & \\\\")
+        print(f"{{\\textbf{{\\centering {row['benchmark']}}}}} & & {format_value(row['number_of_scripts'])} & {format_value(row['loc'])} & \\xxx & \\xxx & {format_value(row['constructs'])} & {format_value(row['unique_cmds'])} & {format_value(row['time_in_shell'])} & {format_value(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {prettify_big_count(row['sys_calls'])} & {format_value(row['file_descriptors'])} & \\\\")
 
     print("""
     \\bottomrule

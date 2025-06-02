@@ -63,13 +63,19 @@ def get_input_sizes_df(df):
                 if 'tmp' in file_path:
                     # these are intermediate files
                     continue
+                if 'chromium' in file_path:
+                    # these are intermediate files
+                    continue
+                if 'outputs/thumbnail.small' in file_path:
+                    # these are intermediate files
+                    continue
                 print('could not find input size for', file, row['script'], file=stderr)
                 continue
             size, = relevant['size_bytes']
             size = relevant['size_bytes'].iloc[0]
             total += size
         return total
-    # df['input_size'] = df.apply(find_input_size, axis=1)
+    df['input_size'] = df.apply(find_input_size, axis=1)
     return df
 
 def get_map_df():
@@ -129,8 +135,8 @@ def plot_io(df,
 
 def plot_memory(df,
                 ax,
-                ticks=([0, 1000000, 10000000, 100000000, 1000000000], 
-                       ['0', '1MB', '10MB', '100MB', '1GB']),
+                ticks=([0, 1000000, 10000000, 100000000, 1000000000, 10000000000, 100000000000], 
+                       ['0', '1MB', '10MB', '100MB', '1GB', '10GB', '100GB']),
                 ylabel='Memory (high water, bytes)',
                 linthresh=1000000):
     sns.set(style="whitegrid")
@@ -151,7 +157,7 @@ def plot_time_vs_wall(df, ax):
     sns.barplot(x='benchmark', y='time_occupied', data=df, color='#44AA99', ax=ax, zorder=3)
     #ax.set_xticklabels(ax.get_xticklabels(), rotation=60, ha='right')
     ax.set_xlabel('')
-    ax.set_yticks(np.linspace(0, 6, 7))
+    ax.set_yticks(np.linspace(0, 7, 8))
     ax.set_ylabel('CPU time / wall time')
 
 dynamic_analysis_script_translations = {
@@ -163,7 +169,6 @@ dynamic_analysis_script_translations = {
     "riker/scripts/memcached/execute.sh": "riker/scripts/memcached/build.sh",
     "riker/scripts/sqlite/execute.sh": "riker/scripts/sqlite/build.sh",
     "riker/scripts/lsof/execute.sh": "riker/scripts/lsof/build.sh",
-    "web-search/scripts/ngrams.sh": "web-search/scripts/engine.sh",
 }
 
 def read_data():
@@ -171,9 +176,9 @@ def read_data():
     for col in list(df.columns[1:7]) + list(df.columns[9:10]):
         df[col] = df[col].astype(float)
 
-    # df = get_input_sizes_df(df)
-    # if df is None:
-    #     return None, None
+    df = get_input_sizes_df(df)
+    if df is None:
+        return None, None
 
     # translate any script names that need it
     # unfortunately this is a bit of a hack to cover up some inconsistency between what the dynamic analysis sees as the "main script" run by a benchmark, 
@@ -205,7 +210,7 @@ def read_data():
                                       'write_chars': 'sum', 
                                       'user_time_in_shell': 'sum', 
                                       'system_time_in_shell': 'sum', 
-                                      # 'input_size': 'sum',
+                                      'input_size': 'sum',
                                       'io_chars': 'sum',
                                       'time': 'sum',
                                       'time_in_shell': 'sum',
@@ -318,20 +323,20 @@ def main(output_dir=None, text_mode=False):
                          axes[3],
                          legend=(0.1, 0.65),
                          ylabel='CPU time per input byte',
-                         ticks=([0, 0.00000001, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01], 
-                                ['0', '10ns', '100ns',    '1us',    '10us', '100us',  '1ms', '10ms']),
+                         ticks=([0, 0.00000001, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001], 
+                                ['0', '10ns', '100ns',    '1us',    '10us', '100us',  '1ms']),
                                 linthresh=0.00000001)
     plot_io(df_rel_to_input, 
             axes[7],
             ylabel='IO per input byte',
-            ticks=([0,    1,   10,     100,    1000,  10000,  100000, 1000000], 
-                   ['0', '1B', '10B', '100B', '1KB', '10KB', '100KB', '1MB']),
+            ticks=([0,    1,   10,     100,    1000,  10000], 
+                   ['0', '1B', '10B', '100B', '1KB', '10KB']),
                    linthresh=1)
     plot_memory(df_rel_to_input, 
                 axes[5],
                 ylabel='Memory per input byte',
-                ticks=([0,   0.001,   0.01,     0.1,  1,    10,    100,   1000,  10000], 
-                       ['0', '0.001B', '0.01B', '0.1B', '1B', '10B', '100B', '1KB', '10KB']),
+                ticks=([0,   0.001,   0.01,     0.1,  1,    10,    100,   1000], 
+                       ['0', '0.001B', '0.01B', '0.1B', '1B', '10B', '100B', '1KB']),
                 linthresh=0.001)
     
     plt.setp(axes[6].get_xticklabels(), visible=True, rotation=60, ha='right')
@@ -348,12 +353,12 @@ def main(output_dir=None, text_mode=False):
         ax.set_xticklabels(benchmarks, rotation=60, ha='right')
 
     plt.tight_layout(rect=[0, 0.05, 1, 1]) 
-    for i in range(2, len(axes)):
-        # adjust the position of the axes down a little bit
-        pos = axes[i].get_position()
-        pos.y0 -= 0.05
-        pos.y1 -= 0.05
-        axes[i].set_position(pos)
+    # for i in range(2, len(axes)):
+    #     # adjust the position of the axes down a little bit
+    #     pos = axes[i].get_position()
+    #     pos.y0 -= 0.05
+    #     pos.y1 -= 0.05
+    #     axes[i].set_position(pos)
     if output_dir:
         plt.savefig(name('trellis'))
     else:

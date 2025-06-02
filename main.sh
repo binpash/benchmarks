@@ -264,7 +264,7 @@ main() {
         fi
 
         # Verify output
-        #./validate.sh "${args[@]}" >"$BENCHMARK.hash" || error "Failed to verify output for $BENCHMARK"
+        ./validate.sh "${args[@]}" >"$BENCHMARK.hash" || error "Failed to verify output for $BENCHMARK"
 
         # Cleanup outputs
         if [ "$keep_outputs" = false ] && [ "$i" -eq "$runs" ]; then

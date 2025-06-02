@@ -8,16 +8,14 @@ import json
 import math
 import sys
 from dataclasses import dataclass
-import os
+
 from project_root import get_project_root
-from pathlib import Path
 
 def correct_base(path):
     return Path(path).is_relative_to('/benchmarks')
 
 def rebase(path):
     return Path(path).relative_to('/benchmarks')
-
 
 def is_shell(pid, processes):
     a = next(iter(processes[pid].values()))
@@ -127,14 +125,14 @@ def get_desc(pid, processes):
     return next(p for p in processes[pid].values())
 
 def find_shell_process(pid, processes):
-    target = next(p for p in processes if get_desc(p, processes).cmdline[1].endswith('io_shell.py'))
-    all_children = [p for p in processes if get_desc(p, processes).parent == target]
-    if len(all_children) == 0:
+    children = [
+        p for p in processes
+        if get_desc(p, processes).parent == pid
+    ]
+    if len(children) != 1:
         return None
-    assert len(all_children) == 1, "one bash process" 
-    pid = all_children[0]
-    assert get_desc(pid, processes).cmdline[0].endswith('sh')
-    return pid
+    assert get_desc(children[0], processes).cmdline[0].endswith("sh")
+    return children[0]
 
 def print_statistics(pid, processes, parents, children, mortem):
     pid = find_shell_process(pid, processes)

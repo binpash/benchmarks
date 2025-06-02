@@ -14,6 +14,9 @@ data_path = root / 'infrastructure/target/dynamic_analysis.jsonl'
 input_size_path = root / 'infrastructure/data/size_inputs.jsonl'
 loc_data_path = root / 'infrastructure/target/lines_of_code.csv'
 syscall_data_path = root / 'infrastructure/data/no_of_syscalls.csv'
+input_size_full_path = root / 'infrastructure/data/input_sizes.full.csv'
+input_size_small_path = root / 'infrastructure/data/input_sizes.small.csv'
+EPSILON = 1e-3
 
 def read_sys_results():
     df = pd.read_csv(syscall_data_path)
@@ -74,23 +77,24 @@ benchmark_input_description = {
 }
 
 scripts_to_include = [
-    'covid-mts/scripts/1.sh',
-    'file-enc/scripts/encrypt_files.sh',
-    'log-analysis/scripts/nginx.sh',
-    'media-conv/scripts/img_convert.sh',
+    # bio is 2
+    # weather is 2
+    # ml is just 1
+    'analytics/scripts/nginx.sh',
+    'ci-cd/makeself/test/lsmtest/lsmtest.sh'
+    'ci-cd/riker/redis/build.sh',
+    'covid/scripts/1.sh',
+    'file-mod/scripts/encrypt_files.sh',
+    'file-mod/scripts/img_convert.sh',
     'nlp/scripts/bigrams.sh',
     'oneliners/scripts/spell.sh',
-    'oneliners/scripts/uniq-ips.sh',
     'oneliners/scripts/top-n.sh',
-    'unix50/scripts/1.sh',
-    'riker/scripts/redis/build.sh',
-    # max-temp is just 1
-    # sklearn is just 1
-    # aurpkg is just 1
-    # bio is just 1
-    'web-index/scripts/ngrams.sh',
-    'vps-audit/scripts/vps-audit.sh',
-    'makeself/makeself/test/lsmtest/lsmtest.sh'
+    'oneliners/scripts/uniq-ips.sh',
+    'pkg/scripts/pacaur.sh',
+    'pkg/scripts/proginf.sh',
+    'repl/scripts/vps-audit.sh',
+    'unixfun/scripts/1.sh',
+    'web-search/scripts/ngrams.sh',
 ]
 
 def script_name(script):
@@ -113,7 +117,7 @@ def count_unique_cmds(series):
     return len({node for node in series if 'command(' in node})
 
 def format_number(n):
-    if n == 0:
+    if float(n) - int(n) <= EPSILON:
         return '\\textasciitilde 0'
     return f"{n:.1f}"
 
@@ -165,13 +169,17 @@ def prettify_big_count(n):
         return f"{n/(10**9):.1f}g"
 
 def make_input_description(row):
-    if row['input_description']:
-        desc = prettify_bytes_number(row['input_size']) # + ' of ' + row['input_description']
-        # return f"\\multirow{{2}}{{*}}{{\\parbox{{\\idw}}{{{desc}}}}}"
-        return desc
+    # Outputs two columns!
+    full_data_sizes = pd.read_csv(input_size_full_path, index_col=0)
+    small_data_sizes = pd.read_csv(input_size_small_path, index_col=0)
+
+    if row['benchmark'] in full_data_sizes.index:
+        input_size_full = full_data_sizes.loc[row['benchmark'], 'size_bytes']
+        input_size_small = small_data_sizes.loc[row['benchmark'], 'size_bytes']
+        return f"{prettify_bytes_number(input_size_small)} & {prettify_bytes_number(input_size_full)}"
     else:
         # Center the N/A
-        return "\\multicolumn{1}{c}{N/A}"
+        return "\\multicolumn{2}{c}{N/A}"
 
 def main():
     syntax_script, syntax_bench = stx.read_data(True)
@@ -265,7 +273,7 @@ def main():
     for _, row in big_bench.iterrows():
         numscripts_shown = 0
         numscripts = row['number_of_scripts']
-        print(f"\\bs{{{row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & \\xxx & {make_input_description(row)} & {row['constructs']} & {row['unique_cmds']} & {format_number(row['time_in_shell'])} & {format_number(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {prettify_big_count(row['sys_calls'])} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
+        print(f"\\bs{{{row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {make_input_description(row)} & {row['constructs']} & {row['unique_cmds']} & {format_number(row['time_in_shell'])} & {format_number(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {prettify_big_count(row['sys_calls'])} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
         # now print the details of all scripts in the benchmark
         for _, row_script in big_script.iterrows():
             if row_script['benchmark'] == row['benchmark'] and any([fnmatch.fnmatch(row_script['script'], pattern) for pattern in scripts_to_include]):

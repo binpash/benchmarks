@@ -21,29 +21,20 @@ def read_sys_results():
     return df
 
 benchmark_category_style = {
-    'aurpkg': ('Continuous Integration', 'Automation Now', '\\cite{pacaur}'),
-    'bio': ('Data analysis', 'Biology', '\\cite{Cappellini2019,puritz2019bio594}'),
-    'covid-mts': ('Data analysis', 'Data extraction', '\\cite{covid-mts-source}'),
-    'file-enc': ('Automation Now', 'Cryptography', '\\cite{cito2020empirical}'),
-    'log-analysis': ('System admin.', 'Data analysis', '\\cite{spinellis2017extending, raghavan2020posh}'),
-    'makeself': ('Misc.', 'Compression', '\\cite{makeself}'),
-    'max-temp': ('Data analysis', 'Data extraction', '\\cite{hadoop-guide-2009}'),
-    'media-conv': ('Automation Now', 'Misc.', '\\cite{spinellis2017extending, raghavan2020posh}'),
+    'analytics': ('System admin.', 'Data analysis', '\\cite{spinellis2017extending,raghavan2020posh,drake2014command}'),
+    'bio': ('Data analysis', 'Biology', '\\cite{Cappellini2019,puritz2019bio594,ibrahim2021tera}'),
+    'ci-cd': ('Continuous Integration', 'Build scripts', '\\cite{riker2022,makself}'),
+    'covid': ('Data analysis', 'Data extraction', '\\cite{covid-mts-source}'),
+    'file-mod': ('Automation Now', 'Misc.', '\\cite{cito2020empirical,spinellis2017extending,raghavan2020posh}'),
+    'inference': ('Machine learning', 'Data analysis', '\\cite{pagedout2025issue6,tunney2023bash}'),
+    'ml': ('Machine learning', 'Data analysis', '\\cite{scikit-learn}'),
     'nlp': ('Machine learning', 'Text processing', '\\cite{unix-for-poets-church}'),
     'oneliners': ('Automation Now', 'Text processing', ''),
-    'riker': ('Continuous Integration', 'Build scripts', '\\cite{riker2022}'),
-    'sklearn': ('Machine learning', 'Data analysis', '\\cite{scikit-learn}'),
-    'unix50': ('Misc.', 'Text processing', '\\cite{bhandari2020solutions}'),
-    'vps-audit': ('System admin', 'Data extraction', '\\cite{vpsaudit}'),
-    'web-index': ('Misc.', 'Text processing', '\\cite{pash2021}'),
-    'infrastructure/standards/100-files': ('XXX', 'XXX', 'XXX'),
-    'infrastructure/standards/read-write': ('XXX', 'XXX', 'XXX'),
-    'infrastructure/standards/shell-memory': ('XXX', 'XXX', 'XXX'),
-    'infrastructure/standards/sleep': ('XXX', 'XXX', 'XXX'),
-    'infrastructure/standards/time-in-shell-subprocess': ('XXX', 'XXX', 'XXX'),
-    'infrastructure/standards/user-time': ('XXX', 'XXX', 'XXX'),
-    'infrastructure/standards/user-time-in-shell': ('XXX', 'XXX', 'XXX'),
-    'infrastructure/standards/write-only': ('XXX', 'XXX', 'XXX'),
+    'pkg': ('Continuous Integration', 'Automation Now', '\\cite{pacaur,vasilakis2021preventing}'),
+    'repl': ('System admin.', 'Misc.', '\\cite{raghavan2020posh,vpsaudit}'),
+    'unixfun': ('Misc.', 'Text processing', '\\cite{bhandari2020solutions}'),
+    'weather': ('Data analysis', 'Data extraction', '\\cite{hadoop-guide-2009}'),
+    'web-search': ('Misc.', 'Text processing', '\\cite{pash2021}'),
 }
 
 script_to_citation = {
@@ -66,31 +57,20 @@ def citation(benchmark):
     return ''
 
 benchmark_input_description = {
-    'aurpkg': 'package urls',
+    'analytics': 'log files',
     'bio': '\\xxx',
-    'covid-mts': 'transit data',
-    'file-enc': '\\xxx',
-    'log-analysis': 'log files',
-    'max-temp': 'temperature data',
-    'media-conv': 'media files',
+    'ci-cd': 'application sources',
+    'covid': 'transit data',
+    'file-mod': 'media files',
+    'inference': '\\xxx',
+    'ml': '\\xxx',
     'nlp': 'books',
     'oneliners': '\\xxx',
-    'riker': 'application sources',
-    'sklearn': '\\xxx',
-    'unix50': 'challenge inputs',
-    'web-index': 'root webpages',
-    'bio': '\\xxx',
-    'vps-audit': None,
-    'makeself': None,
-    'aurpkg': '\\xxx',
-    'infrastructure/standards/100-files': '\\xxx',
-    'infrastructure/standards/read-write': '\\xxx',
-    'infrastructure/standards/shell-memory': '\\xxx',
-    'infrastructure/standards/sleep': '\\xxx',
-    'infrastructure/standards/time-in-shell-subprocess': '\\xxx',
-    'infrastructure/standards/user-time': '\\xxx',
-    'infrastructure/standards/user-time-in-shell': '\\xxx',
-    'infrastructure/standards/write-only': '\\xxx',
+    'pkg': 'packages',
+    'repl': None,
+    'unixfun': 'challenge inputs',
+    'weather': 'temperature data',
+    'web-search': 'root webpages',
 }
 
 scripts_to_include = [
@@ -173,6 +153,8 @@ def prettify_bytes_number(n):
     return f"{value:.{decimals}f}\\textcolor{{{color}}}{{{unit}}}"
 
 def prettify_big_count(n):
+    if type(n) is not int:
+        return n
     if n < 1000:
         return str(n)
     elif n >= 1000 and n < 10**6:
@@ -314,10 +296,5 @@ def main():
   \\end{tabular}
 """)
     
-    print('time', file=sys.stderr)
-    print(agg_order, file=sys.stderr)
-    print([format_value(v) for v in big_bench['time'].agg(agg_order).values], file=sys.stderr)
-    
-
 if __name__ == '__main__':
     main()

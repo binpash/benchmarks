@@ -163,6 +163,7 @@ dynamic_analysis_script_translations = {
     "riker/scripts/memcached/execute.sh": "riker/scripts/memcached/build.sh",
     "riker/scripts/sqlite/execute.sh": "riker/scripts/sqlite/build.sh",
     "riker/scripts/lsof/execute.sh": "riker/scripts/lsof/build.sh",
+    "web-search/scripts/ngrams.sh": "web-search/scripts/engine.sh",
 }
 
 def read_data():
@@ -170,9 +171,9 @@ def read_data():
     for col in list(df.columns[1:7]) + list(df.columns[9:10]):
         df[col] = df[col].astype(float)
 
-    df = get_input_sizes_df(df)
-    if df is None:
-        return None, None
+    # df = get_input_sizes_df(df)
+    # if df is None:
+    #     return None, None
 
     # translate any script names that need it
     # unfortunately this is a bit of a hack to cover up some inconsistency between what the dynamic analysis sees as the "main script" run by a benchmark, 

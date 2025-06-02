@@ -231,13 +231,13 @@ def main():
     
     all_scripts = set(syntax_script['script'].unique())
     
-    missing_in_dyn = all_scripts - set(dyn_script['script'].unique())
-    missing_in_loc_data = all_scripts - set(loc_data_script['script'].unique())
-    missing_in_cmds = all_scripts - set(syntax_script_all_cmds['script'].unique())
+    # missing_in_dyn = all_scripts - set(dyn_script['script'].unique())
+    # missing_in_loc_data = all_scripts - set(loc_data_script['script'].unique())
+    # missing_in_cmds = all_scripts - set(syntax_script_all_cmds['script'].unique())
     
-    print("Missing in dyn_script:", missing_in_dyn, file=sys.stderr)
-    print("Missing in loc_data_script:", missing_in_loc_data, file=sys.stderr)
-    print("Missing in syntax_script_all_cmds:", missing_in_cmds, file=sys.stderr)
+    # print("Missing in dyn_script:", missing_in_dyn, file=sys.stderr)
+    # print("Missing in loc_data_script:", missing_in_loc_data, file=sys.stderr)
+    # print("Missing in syntax_script_all_cmds:", missing_in_cmds, file=sys.stderr)
 
     dyn_bench['input_description'] = dyn_bench['benchmark'].apply(lambda x: benchmark_input_description[x])
 
@@ -260,8 +260,7 @@ def main():
     # embedding_df['embedding'] = embedding_df['embedding'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
     # # Embedding is a list of numbers, turn them into columns
     # embedding_df = pd.concat([embedding_df['benchmark'], embedding_df['embedding'].apply(pd.Series)], axis=1)
-    print(big_bench, file=sys.stderr)
-
+    
     # Calculate summary statistics
     agg_order = ['min', 'max', 'mean']
     summary_names = [s.capitalize() for s in agg_order]

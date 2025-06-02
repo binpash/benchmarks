@@ -20,9 +20,12 @@ for arg in "$@"; do
 done
 
 size=full
+subset=false
 for arg in "$@"; do
     case "$arg" in
-    --small) size=full ;; # small uses a subset of full inputs
+    --small) size=full # small uses a subset of full inputs
+    subset=true
+    ;;
     --min) size=min ;;
     esac
 done
@@ -52,8 +55,9 @@ if [[ "$size" == "min" ]]; then
     teraseq_script_names="data"
 fi
 
-if [[ "$size" == "small" ]]; then
-    teraseq_script_names="data run_dRNASeq"
+if [[ "$subset" == true ]]; then
+    teraseq_script_names="data
+    run_dRNASeq"
 fi
 BENCHMARK_INPUT_FILE="$(realpath "inputs/full")"
 export BENCHMARK_INPUT_FILE

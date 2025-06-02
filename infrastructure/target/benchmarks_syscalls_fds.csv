@@ -1,6 +1,6 @@
 Benchmark,Sys Calls,FD_Snapshot,Unique_FD,Peak_FD
 analytics,117322520,82,21,35
-bio,40730417,73,47,58
+bio,40730417,73,47,58 ##full
 ci-cd,3460149,38,15,31
 covid,14345907,94,27,37
 file-mod,1472282,37,15,228

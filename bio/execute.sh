@@ -56,8 +56,8 @@ if [[ "$size" == "min" ]]; then
 fi
 
 if [[ "$subset" == true ]]; then
-    teraseq_script_names="data
-    run_dRNASeq"
+teraseq_script_names="data
+run_dRNASeq"
 fi
 BENCHMARK_INPUT_FILE="$(realpath "inputs/full")"
 export BENCHMARK_INPUT_FILE

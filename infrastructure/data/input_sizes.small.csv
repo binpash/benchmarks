@@ -1,0 +1,15 @@
+benchmark,size_bytes
+analytics,2085353975
+bio,26139801659
+ci-cd,1143061692
+covid,3589546394
+file-mod,4672639533
+inference,3809534484
+ml,5060595712
+nlp,1122864925
+oneliners,211781960
+pkg,1651250810
+unixfun,628049973
+weather,936129696
+web-search,1015325187
+web-search.new,11161

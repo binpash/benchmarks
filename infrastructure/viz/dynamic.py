@@ -69,7 +69,7 @@ def get_input_sizes_df(df):
             size = relevant['size_bytes'].iloc[0]
             total += size
         return total
-    df['input_size'] = df.apply(find_input_size, axis=1)
+    # df['input_size'] = df.apply(find_input_size, axis=1)
     return df
 
 def get_map_df():
@@ -204,7 +204,7 @@ def read_data():
                                       'write_chars': 'sum', 
                                       'user_time_in_shell': 'sum', 
                                       'system_time_in_shell': 'sum', 
-                                      'input_size': 'sum',
+                                      # 'input_size': 'sum',
                                       'io_chars': 'sum',
                                       'time': 'sum',
                                       'time_in_shell': 'sum',

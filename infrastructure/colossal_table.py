@@ -210,7 +210,7 @@ def main():
     syntax_script, syntax_bench = stx.read_data(True)
 
     syntax_script_all_cmds, syntax_bench_all_cmds = stx.read_data(False)
-    dyn_script,    dyn_bench = dyn.read_data()
+    dyn_script, dyn_bench = dyn.read_data()
     loc_data_script, loc_data_bench = read_loc_data()
     sys_results = read_sys_results()
 
@@ -229,15 +229,15 @@ def main():
     syntax_script['constructs'] = syntax_script['nodes'].apply(count_constructs)
     syntax_bench['constructs'] = syntax_bench['nodes'].apply(count_constructs)
     
-    # all_scripts = set(syntax_script['script'].unique())
+    all_scripts = set(syntax_script['script'].unique())
     
-    # missing_in_dyn = all_scripts - set(dyn_script['script'].unique())
-    # missing_in_loc_data = all_scripts - set(loc_data_script['script'].unique())
-    # missing_in_cmds = all_scripts - set(syntax_script_all_cmds['script'].unique())
+    missing_in_dyn = all_scripts - set(dyn_script['script'].unique())
+    missing_in_loc_data = all_scripts - set(loc_data_script['script'].unique())
+    missing_in_cmds = all_scripts - set(syntax_script_all_cmds['script'].unique())
     
-    # print("Missing in dyn_script:", missing_in_dyn)
-    # print("Missing in loc_data_script:", missing_in_loc_data)
-    # print("Missing in syntax_script_all_cmds:", missing_in_cmds)
+    print("Missing in dyn_script:", missing_in_dyn, file=sys.stderr)
+    print("Missing in loc_data_script:", missing_in_loc_data, file=sys.stderr)
+    print("Missing in syntax_script_all_cmds:", missing_in_cmds, file=sys.stderr)
 
     dyn_bench['input_description'] = dyn_bench['benchmark'].apply(lambda x: benchmark_input_description[x])
 
@@ -256,10 +256,11 @@ def main():
         .merge(loc_data_script, on='script')\
         .merge(syntax_script_all_cmds[['script', 'unique_cmds']], on='script')
 
-    embedding_df = pd.read_csv(root / 'infrastructure/data/embeddings.csv')
-    embedding_df['embedding'] = embedding_df['embedding'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
-    # Embedding is a list of numbers, turn them into columns
-    embedding_df = pd.concat([embedding_df['benchmark'], embedding_df['embedding'].apply(pd.Series)], axis=1)
+    # embedding_df = pd.read_csv(root / 'infrastructure/data/embeddings.csv')
+    # embedding_df['embedding'] = embedding_df['embedding'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+    # # Embedding is a list of numbers, turn them into columns
+    # embedding_df = pd.concat([embedding_df['benchmark'], embedding_df['embedding'].apply(pd.Series)], axis=1)
+    print(big_bench, file=sys.stderr)
 
     # Calculate summary statistics
     agg_order = ['min', 'max', 'mean']
@@ -284,12 +285,8 @@ def main():
     summary_stats['io_chars'] = big_bench['io_chars'].agg(agg_order).values
     summary_stats['number_of_scripts'] = big_bench['number_of_scripts'].agg(agg_order).values
     # Ignore rows that have no input_description
-    summary_stats['input_size'] = big_bench[big_bench['input_description'].notnull()]['input_size'].agg(agg_order).values
+    # summary_stats['input_size'] = big_bench[big_bench['input_description'].notnull()]['input_size'].agg(agg_order).values
     summary_stats['input_description'] = '\\xxx' # Have something so that N/A doesn't show up
-
-    # Append summary rows to big_bench
-    # big_bench = pd.concat([big_bench, summary_stats], ignore_index=True)
-        
 
     print("""
     \\begin{tabular}{@{}llrrllrrrrrrlrl@{}}

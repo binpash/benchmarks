@@ -21,17 +21,17 @@ def read_sys_results():
     return df
 
 benchmark_category_style = {
-    'analytics': ('System admin.', 'Data analysis', '\\cite{spinellis2017extending,raghavan2020posh,drake2014command}'),
+    'analytics': ('System admin.', 'Data analysis', '\\cite{dgsh:ieee:2017,posh:atc:2020,drake2014command}'),
     'bio': ('Data analysis', 'Biology', '\\cite{Cappellini2019,puritz2019bio594,ibrahim2021tera}'),
     'ci-cd': ('Continuous Integration', 'Build scripts', '\\cite{riker2022,makself}'),
     'covid': ('Data analysis', 'Data extraction', '\\cite{covid-mts-source}'),
-    'file-mod': ('Automation Now', 'Misc.', '\\cite{cito2020empirical,spinellis2017extending,raghavan2020posh}'),
+    'file-mod': ('Automation Now', 'Misc.', '\\cite{cito2020empirical,dgsh:ieee:2017,posh:atc:2020}'),
     'inference': ('Machine learning', 'Data analysis', '\\cite{pagedout2025issue6,tunney2023bash}'),
     'ml': ('Machine learning', 'Data analysis', '\\cite{scikit-learn}'),
     'nlp': ('Machine learning', 'Text processing', '\\cite{unix-for-poets-church}'),
     'oneliners': ('Automation Now', 'Text processing', ''),
     'pkg': ('Continuous Integration', 'Automation Now', '\\cite{pacaur,vasilakis2021preventing}'),
-    'repl': ('System admin.', 'Misc.', '\\cite{raghavan2020posh,vpsaudit}'),
+    'repl': ('System admin.', 'Misc.', '\\cite{posh:atc:2020,vpsaudit}'),
     'unixfun': ('Misc.', 'Text processing', '\\cite{bhandari2020solutions}'),
     'weather': ('Data analysis', 'Data extraction', '\\cite{hadoop-guide-2009}'),
     'web-search': ('Misc.', 'Text processing', '\\cite{pash2021}'),

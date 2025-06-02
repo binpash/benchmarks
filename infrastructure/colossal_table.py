@@ -16,7 +16,7 @@ loc_data_path = root / 'infrastructure/target/lines_of_code.csv'
 syscall_data_path = root / 'infrastructure/data/no_of_syscalls.csv'
 input_size_full_path = root / 'infrastructure/data/input_sizes.full.csv'
 input_size_small_path = root / 'infrastructure/data/input_sizes.small.csv'
-EPSILON = 1e-3
+EPSILON = 1e-9
 
 def read_sys_results():
     df = pd.read_csv(syscall_data_path)
@@ -26,7 +26,7 @@ def read_sys_results():
 benchmark_category_style = {
     'analytics': ('System admin.', 'Data analysis', '\\cite{dgsh:ieee:2017,posh:atc:2020,drake2014command}'),
     'bio': ('Data analysis', 'Biology', '\\cite{Cappellini2019,puritz2019bio594,ibrahim2021tera}'),
-    'ci-cd': ('Continuous Integration', 'Build scripts', '\\cite{riker2022,makself}'),
+    'ci-cd': ('Continuous Integration', 'Build scripts', '\\cite{riker2022,makeself}'),
     'covid': ('Data analysis', 'Data extraction', '\\cite{covid-mts-source}'),
     'file-mod': ('Automation Now', 'Misc.', '\\cite{cito2020empirical,dgsh:ieee:2017,posh:atc:2020}'),
     'inference': ('Machine learning', 'Data analysis', '\\cite{pagedout2025issue6,tunney2023bash}'),
@@ -76,11 +76,23 @@ benchmark_input_description = {
     'web-search': 'root webpages',
 }
 
+def roundk(n):
+    if n % 1000 == 0:
+        return n // 1000
+    return round(n/1000, 1) if n >= 1000 else n
+
+benchmark_input_override = {
+    'ci-cd': { 'small': None, 'full': None },
+    'pkg': { 'small': f'{100 + 10}pkgs', 'full': f'{roundk(1768 + 195)}k pkgs' },
+    'repl': { 'small': None, 'full': None },
+    'nlp': { 'small': f'{roundk(3000)}k bks', 'full': f'{roundk(115916)}k bks' },
+}
+
 scripts_to_include = [
-    # bio is 2
-    # weather is 2
     # ml is just 1
     'analytics/scripts/nginx.sh',
+    'bio/scripts/bio.sh',
+    'bio/scripts/run_dRNASeq.sh',
     'ci-cd/makeself/test/lsmtest/lsmtest.sh'
     'ci-cd/riker/redis/build.sh',
     'covid/scripts/1.sh',
@@ -94,6 +106,8 @@ scripts_to_include = [
     'pkg/scripts/proginf.sh',
     'repl/scripts/vps-audit.sh',
     'unixfun/scripts/1.sh',
+    'weather/scripts/temp-analytics.sh',
+    'weather/scripts/tuft-weather.sh',
     'web-search/scripts/ngrams.sh',
 ]
 
@@ -116,10 +130,17 @@ def script_citation(script):
 def count_unique_cmds(series):
     return len({node for node in series if 'command(' in node})
 
-def format_number(n):
-    if float(n) - int(n) <= EPSILON:
-        return '\\textasciitilde 0'
-    return f"{n:.1f}"
+def format_time(n):
+    if n < EPSILON:
+        return r'\textasciitilde 0'
+    elif n < 1e-6:
+        return f"{int(n * 1e9)}\\text{{ns}}"
+    elif n < 1e-3:
+        return f"{int(n * 1e6)}\\text{{µs}}"
+    elif n < 1:
+        return f"{int(n * 1e3)}\\text{{ms}}"
+    else:
+        return f"{int(n)}\\text{{s}}"
 
 def count_constructs(series):
     return len(set(series))
@@ -170,12 +191,16 @@ def prettify_big_count(n):
 
 def make_input_description(row):
     # Outputs two columns!
-    full_data_sizes = pd.read_csv(input_size_full_path, index_col=0)
-    small_data_sizes = pd.read_csv(input_size_small_path, index_col=0)
 
-    if row['benchmark'] in full_data_sizes.index:
-        input_size_full = full_data_sizes.loc[row['benchmark'], 'size_bytes']
-        input_size_small = small_data_sizes.loc[row['benchmark'], 'size_bytes']
+    if row['benchmark'] in benchmark_input_override:
+        override = benchmark_input_override[row['benchmark']]
+        if override['small'] is None and override['full'] is None:
+            return "\\multicolumn{2}{c}{N/A}"
+        return f"{override['small']} & {override['full']}"
+
+    if row['input_size_full'] is not None and row['input_size_small'] is not None:
+        input_size_full = row['input_size_full']
+        input_size_small = row['input_size_small']
         return f"{prettify_bytes_number(input_size_small)} & {prettify_bytes_number(input_size_full)}"
     else:
         # Center the N/A
@@ -220,6 +245,12 @@ def main():
         .merge(loc_data_bench, on='benchmark')\
         .merge(syntax_bench_all_cmds[['benchmark', 'unique_cmds']], on='benchmark')\
         .merge(sys_results, on='benchmark')
+
+    full_data_sizes = pd.read_csv(input_size_full_path, index_col=0)
+    small_data_sizes = pd.read_csv(input_size_small_path, index_col=0)
+
+    big_bench['input_size_full'] = big_bench['benchmark'].apply(lambda x: full_data_sizes.loc[x, 'size_bytes'] if x in full_data_sizes.index else None)
+    big_bench['input_size_small'] = big_bench['benchmark'].apply(lambda x: small_data_sizes.loc[x, 'size_bytes'] if x in small_data_sizes.index else None)
     
     big_script = syntax_script.merge(dyn_script, on='script')\
         .merge(loc_data_script, on='script')\
@@ -233,7 +264,7 @@ def main():
     # Calculate summary statistics
     agg_order = ['min', 'max', 'mean']
     summary_names = [s.capitalize() for s in agg_order]
-    summary_stats = big_bench[['loc', 'constructs', 'unique_cmds', 'number_of_scripts']].agg(agg_order).reset_index()
+    summary_stats = big_bench[['loc', 'constructs', 'unique_cmds', 'number_of_scripts', 'input_size_full', 'input_size_small']].agg(agg_order).reset_index()
     summary_stats.rename(columns={
         'index': 'benchmark',
         'loc': 'loc',
@@ -265,7 +296,7 @@ def main():
     \\toprule
     \\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c}{Surface} & \\multicolumn{2}{c}{Inputs} & \\multicolumn{2}{c}{Syntax} & \\multicolumn{4}{c}{Dynamic} & \\multicolumn{2}{c}{System} & \\multirow{2}{*}{Source} \\\\
         \\cline{2-4} \\cline{5-6} \\cline{7-8} \\cline{9-12} \\cline{13-14}
-                                      & Dom     & \\#.sh     & LoC     & Small & Large & \\#Cons & \\#Cmd & $t_{S}$  & $t_{C}$  & Mem   & I/O & \\#SC & \\#FD &   \\\\
+                                      & \multicolumn{1}{c}{$\mathcal{D}$}  & \\#.sh     & LoC     & Small & Large & \\#Cons & \\#Cmd & $t_{S}$  & $t_{C}$  & Mem   & I/O & \\#SC & \\#FD &   \\\\
         \\midrule
     """)
     # generate a big latex table with the following columns:
@@ -273,12 +304,12 @@ def main():
     for _, row in big_bench.iterrows():
         numscripts_shown = 0
         numscripts = row['number_of_scripts']
-        print(f"\\bs{{{row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {make_input_description(row)} & {row['constructs']} & {row['unique_cmds']} & {format_number(row['time_in_shell'])} & {format_number(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {prettify_big_count(row['sys_calls'])} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
+        print(f"\\bs{{{row['benchmark']}}} & {short_category(row['benchmark'])} & {row['number_of_scripts']} & {row['loc']} & {make_input_description(row)} & {row['constructs']} & {row['unique_cmds']} & {format_time(row['time_in_shell'])} & {format_time(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {prettify_big_count(row['sys_calls'])} & {row['file_descriptors']} & {citation(row['benchmark'])} \\\\")
         # now print the details of all scripts in the benchmark
         for _, row_script in big_script.iterrows():
             if row_script['benchmark'] == row['benchmark'] and any([fnmatch.fnmatch(row_script['script'], pattern) for pattern in scripts_to_include]):
                 # all columns except leave blank benchmark, category, number of scripts, input description
-                print(f"\\hspace{{0.5em}} \\ttt{{{script_name(row_script['script'].split('/')[-1])}}} & & & {row_script['loc']} & & & {row_script['constructs']} & {row_script['unique_cmds']} & {row_script['time_in_shell']:.1f} & {row_script['time_in_commands']:.1f} & {prettify_bytes_number(row_script['max_unique_set_size'])} & {prettify_bytes_number(row_script['io_chars'])} & & & {script_citation(row_script['script'])} \\\\")
+                print(f"\\hspace{{0.5em}} \\ttt{{{script_name(row_script['script'].split('/')[-1])}}} & & & {row_script['loc']} & & & {row_script['constructs']} & {row_script['unique_cmds']} & {format_time(row_script['time_in_shell'])} & {format_time(row_script['time_in_commands'])} & {prettify_bytes_number(row_script['max_unique_set_size'])} & {prettify_bytes_number(row_script['io_chars'])} & & & {script_citation(row_script['script'])} \\\\")
                 numscripts_shown += 1
         if numscripts_shown < numscripts and numscripts > 1:
             print(f"\\hspace{{0.5em}} \\ldots & & & & & & & & & & & & & & {script_citation(row['benchmark'] + '...')} \\\\")
@@ -296,7 +327,7 @@ def main():
                 return round_whole(f"{value:.1f}") if isinstance(value, float) else f"{int(value)}"
             return value  # For non-numeric values
 
-        print(f"{{\\textbf{{\\centering {row['benchmark']}}}}} & & {format_value(row['number_of_scripts'])} & {format_value(row['loc'])} & \\xxx & \\xxx & {format_value(row['constructs'])} & {format_value(row['unique_cmds'])} & {format_value(row['time_in_shell'])} & {format_value(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {prettify_big_count(row['sys_calls'])} & {format_value(row['file_descriptors'])} & \\\\")
+        print(f"{{\\textbf{{\\centering {row['benchmark']}}}}} & & {format_value(row['number_of_scripts'])} & {format_value(row['loc'])} & {prettify_bytes_number(row['input_size_small'])} & {prettify_bytes_number(row['input_size_full'])} & {format_value(row['constructs'])} & {format_value(row['unique_cmds'])} & {format_value(row['time_in_shell'])} & {format_value(row['time_in_commands'])} & {prettify_bytes_number(row['max_unique_set_size'])} & {prettify_bytes_number(row['io_chars'])} & {prettify_big_count(row['sys_calls'])} & {format_value(row['file_descriptors'])} & \\\\")
 
     print("""
     \\bottomrule

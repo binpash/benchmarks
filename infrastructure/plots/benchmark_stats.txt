@@ -21,23 +21,23 @@ Total Wall time: 3036.80 sec
 Total IO bytes: 360279268503.00
 Max Memory Usage: 26927284224.00 bytes
 CPU time per input byte: 0.000000 sec/byte
-Memory per input byte: 1.034027 bytes/byte
-IO per input byte: 13.834980 bytes/byte
+Memory per input byte: 0.760329 bytes/byte
+IO per input byte: 10.172984 bytes/byte
 Time in Shell: 51.98 sec
 Time in Commands: 6544.77 sec
 ==================================================
 
 Benchmark: ci-cd
 --------------------------------------------------
-Total CPU time: 2.43 sec
-Total Wall time: 8.51 sec
-Total IO bytes: 89818337.00
-Max Memory Usage: 6393856.00 bytes
+Total CPU time: 128.97 sec
+Total Wall time: 124.13 sec
+Total IO bytes: 2526618047.00
+Max Memory Usage: 483815424.00 bytes
 CPU time per input byte: N/A (no input bytes recorded)
 Memory per input byte: N/A (no input bytes recorded)
 IO per input byte: N/A (no input bytes recorded)
-Time in Shell: 0.01 sec
-Time in Commands: 2.42 sec
+Time in Shell: 0.03 sec
+Time in Commands: 128.94 sec
 ==================================================
 
 Benchmark: covid
@@ -137,9 +137,9 @@ Total CPU time: 24.52 sec
 Total Wall time: 21.33 sec
 Total IO bytes: 1295410840.00
 Max Memory Usage: 206548992.00 bytes
-CPU time per input byte: N/A (no input bytes recorded)
-Memory per input byte: N/A (no input bytes recorded)
-IO per input byte: N/A (no input bytes recorded)
+CPU time per input byte: 0.000000 sec/byte
+Memory per input byte: 0.153487 bytes/byte
+IO per input byte: 0.962619 bytes/byte
 Time in Shell: 0.00 sec
 Time in Commands: 24.52 sec
 ==================================================

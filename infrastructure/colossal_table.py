@@ -13,14 +13,14 @@ root = get_project_root()
 data_path = root / 'infrastructure/target/dynamic_analysis.jsonl'
 input_size_path = root / 'infrastructure/data/size_inputs.jsonl'
 loc_data_path = root / 'infrastructure/target/lines_of_code.csv'
-syscall_data_path = root / 'infrastructure/data/no_of_syscalls.csv'
+syscall_data_path = root / 'infrastructure/target/benchmarks_syscalls_fds.csv'
 input_size_full_path = root / 'infrastructure/data/input_sizes.full.csv'
 input_size_small_path = root / 'infrastructure/data/input_sizes.small.csv'
 EPSILON = 1e-9
 
 def read_sys_results():
     df = pd.read_csv(syscall_data_path)
-    df.rename(columns={'Benchmark-(small)': 'benchmark', 'System Calls': 'sys_calls'}, inplace=True)
+    df.rename(columns={'Benchmark': 'benchmark', 'Sys Calls': 'sys_calls'}, inplace=True)
     return df
 
 benchmark_category_style = {
@@ -28,16 +28,16 @@ benchmark_category_style = {
     'bio': ('Data analysis', 'Biology', '\\cite{Cappellini2019,puritz2019bio594,ibrahim2021tera}'),
     'ci-cd': ('Continuous Integration', 'Build scripts', '\\cite{riker2022,makeself}'),
     'covid': ('Data analysis', 'Data extraction', '\\cite{covid-mts-source}'),
-    'file-mod': ('Automation Now', 'Misc.', '\\cite{cito2020empirical,dgsh:ieee:2017,posh:atc:2020}'),
-    'inference': ('Machine learning', 'Data analysis', '\\cite{pagedout2025issue6,tunney2023bash}'),
+    'file-mod': ('Automation Now', 'Misc. Idk', '\\cite{cito2020empirical,dgsh:ieee:2017,posh:atc:2020}'),
+    'inference': ('Machine learning', 'Data analysis', '\\cite{lamprou2025foundation,tunney2023bash}'),
     'ml': ('Machine learning', 'Data analysis', '\\cite{scikit-learn}'),
     'nlp': ('Machine learning', 'Text processing', '\\cite{unix-for-poets-church}'),
     'oneliners': ('Automation Now', 'Text processing', ''),
     'pkg': ('Continuous Integration', 'Automation Now', '\\cite{pacaur,vasilakis2021preventing}'),
     'repl': ('System admin.', 'Misc.', '\\cite{posh:atc:2020,vpsaudit}'),
-    'unixfun': ('Misc.', 'Text processing', '\\cite{bhandari2020solutions}'),
+    'unixfun': ('Misc. Idk', 'Text processing', '\\cite{bhandari2020solutions}'),
     'weather': ('Data analysis', 'Data extraction', '\\cite{hadoop-guide-2009}'),
-    'web-search': ('Misc.', 'Text processing', '\\cite{pash2021}'),
+    'web-search': ('Misc. Idk', 'Text processing', '\\cite{pash2021}'),
 }
 
 script_to_citation = {
@@ -106,8 +106,9 @@ scripts_to_include = [
     'pkg/scripts/proginf.sh',
     'repl/scripts/vps-audit.sh',
     'unixfun/scripts/1.sh',
-    'weather/scripts/temp-analytics.sh',
-    'weather/scripts/tuft-weather.sh',
+    'unixfun/scripts/2.sh',
+    # 'weather/scripts/temp-analytics.sh',
+    # 'weather/scripts/tuft-weather.sh',
     'web-search/scripts/ngrams.sh',
 ]
 
@@ -178,8 +179,6 @@ def prettify_bytes_number(n):
     return f"{value:.{decimals}f}\\textcolor{{{color}}}{{{unit}}}"
 
 def prettify_big_count(n):
-    if type(n) is not int:
-        return n
     if n < 1000:
         return str(n)
     elif n >= 1000 and n < 10**6:
@@ -273,6 +272,8 @@ def main():
         'number_of_scripts': 'number_of_scripts'
     }, inplace=True)
 
+    print(big_bench['sys_calls'], file=sys.stderr)
+
     # Add placeholder values for non-numeric columns
     summary_stats['benchmark'] = summary_names
     summary_stats['sys_calls'] = big_bench['sys_calls'].agg(agg_order).values if big_bench['sys_calls'].dtype == 'int64' else '\\xxx'
@@ -287,12 +288,15 @@ def main():
     # summary_stats['input_size'] = big_bench[big_bench['input_description'].notnull()]['input_size'].agg(agg_order).values
     summary_stats['input_description'] = '\\xxx' # Have something so that N/A doesn't show up
 
+    # print sum of number_of_scripts on stderr
+    print(f"Total number of scripts: {big_bench['number_of_scripts'].sum()}", file=sys.stderr)
+
     print("""
     \\begin{tabular}{@{}llrrllrrrrrrlrl@{}}
     \\toprule
     \\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c}{Surface} & \\multicolumn{2}{c}{Inputs} & \\multicolumn{2}{c}{Syntax} & \\multicolumn{4}{c}{Dynamic} & \\multicolumn{2}{c}{System} & \\multirow{2}{*}{Source} \\\\
         \\cline{2-4} \\cline{5-6} \\cline{7-8} \\cline{9-12} \\cline{13-14}
-                                      & \multicolumn{1}{c}{$\mathcal{D}$}  & \\#.sh     & LoC     & Small & Large & \\#Cons & \\#Cmd & $t_{S}$  & $t_{C}$  & Mem   & I/O & \\#SC & \\#FD &   \\\\
+                                      & \multicolumn{1}{c}{\\Dom}  & \\#.sh     & LoC     & Small & Large & \\#Cons & \\#Cmd & $t_{S}$  & $t_{C}$  & Mem   & I/O & \\#SC & \\#FD &   \\\\
         \\midrule
     """)
     # generate a big latex table with the following columns:

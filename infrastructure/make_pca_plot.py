@@ -12,6 +12,8 @@ import viz.dynamic as dyn
 root = get_project_root()
 loc_data_path = root / 'infrastructure/target/lines_of_code.csv'
 data_path = root / 'infrastructure/target/dynamic_analysis.jsonl'
+syscall_data_path = root / 'infrastructure/target/benchmarks_syscalls_fds.csv'
+
 OUTPUT = sys.argv[1] if len(sys.argv) > 1 else None
 
 # make OUTPUT absolute path
@@ -21,10 +23,10 @@ else:
     OUTPUT = Path(__file__).parent / 'pca-row-plot.pdf'
 
 def read_sys_results():
-    syscall_data_path = root / 'infrastructure/data/no_of_syscalls.csv'
     df = pd.read_csv(syscall_data_path)
-    df.rename(columns={'Benchmark-(small)': 'benchmark', 'System Calls': 'sys_calls'}, inplace=True)
+    df.rename(columns={'Benchmark': 'benchmark', 'Sys Calls': 'sys_calls'}, inplace=True)
     return df
+
 
 def count_constructs(series):
     return len(set(series))

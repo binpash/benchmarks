@@ -79,20 +79,25 @@ benchmark_input_description = {
 def roundk(n):
     if n % 1000 == 0:
         return n // 1000
-    return round(n/1000, 1) if n >= 1000 else n
+    return round(n/1000, 1)
+
+def roundm(n):
+    if n % 1000000 == 0:
+        return n // 1000000
+    return round(n/1000000, 1)
 
 benchmark_input_override = {
     'ci-cd': { 'small': None, 'full': None },
-    'pkg': { 'small': f'{100 + 10}pkgs', 'full': f'{roundk(1768 + 195)}k pkgs' },
+    'pkg': { 'small': f'{roundk(100 + 10)}k pkgs', 'full': f'{roundk(1768 + 195)}k pkgs' },
     'repl': { 'small': None, 'full': None },
-    'nlp': { 'small': f'{roundk(3000)}k bks', 'full': f'{roundk(115916)}k bks' },
+    'nlp': { 'small': f'{roundk(3000)}k bks', 'full': f'{roundm(115916)}m bks' },
 }
 
 scripts_to_include = [
     # ml is just 1
     'analytics/scripts/nginx.sh',
     'bio/scripts/bio.sh',
-    'bio/scripts/run_dRNASeq.sh',
+    'bio/scripts/data.sh',
     'ci-cd/makeself/test/lsmtest/lsmtest.sh'
     'ci-cd/riker/redis/build.sh',
     'covid/scripts/1.sh',
@@ -104,7 +109,7 @@ scripts_to_include = [
     'oneliners/scripts/uniq-ips.sh',
     'pkg/scripts/pacaur.sh',
     'pkg/scripts/proginf.sh',
-    'repl/scripts/vps-audit.sh',
+    # 'repl/scripts/vps-audit.sh',
     'unixfun/scripts/1.sh',
     'unixfun/scripts/2.sh',
     # 'weather/scripts/temp-analytics.sh',
@@ -261,7 +266,7 @@ def main():
     # embedding_df = pd.concat([embedding_df['benchmark'], embedding_df['embedding'].apply(pd.Series)], axis=1)
     
     # Calculate summary statistics
-    agg_order = ['min', 'max', 'mean']
+    agg_order = ['min', 'max', 'mean', 'median']
     summary_names = [s.capitalize() for s in agg_order]
     summary_stats = big_bench[['loc', 'constructs', 'unique_cmds', 'number_of_scripts', 'input_size_full', 'input_size_small']].agg(agg_order).reset_index()
     summary_stats.rename(columns={
@@ -292,7 +297,7 @@ def main():
     print(f"Total number of scripts: {big_bench['number_of_scripts'].sum()}", file=sys.stderr)
 
     print("""
-    \\begin{tabular}{@{}llrrllrrrrrrlrl@{}}
+    \\begin{tabular}{@{}llrrrrrrrrrrrrl@{}}
     \\toprule
     \\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c}{Surface} & \\multicolumn{2}{c}{Inputs} & \\multicolumn{2}{c}{Syntax} & \\multicolumn{4}{c}{Dynamic} & \\multicolumn{2}{c}{System} & \\multirow{2}{*}{Source} \\\\
         \\cline{2-4} \\cline{5-6} \\cline{7-8} \\cline{9-12} \\cline{13-14}
@@ -315,7 +320,7 @@ def main():
             print(f"\\hspace{{0.5em}} \\ldots & & & & & & & & & & & & & & {script_citation(row['benchmark'] + '...')} \\\\")
 
     print("\\midrule")
-    for aggregate in ['Min', 'Mean', 'Max']:
+    for aggregate in ['Min', 'Mean', 'Median', 'Max']:
         row = summary_stats[summary_stats['benchmark'] == aggregate].iloc[0]
        
         def format_value(value):

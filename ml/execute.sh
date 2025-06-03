@@ -13,11 +13,9 @@ size="full"
 for arg in "$@"; do
     case "$arg" in
         --small)
-            parsed_args+=("$arg")
             size="small"
             ;;
         --min)
-            parsed_args+=("$arg")
             size="min"
             ;;
     esac
@@ -35,6 +33,6 @@ OUT="$eval_dir/outputs/out_$size"
 export OUT
 mkdir -p "$OUT"
 export BENCHMARK_INPUT_FILE="$eval_dir/inputs/input_$size"
-$KOALA_SHELL "$scripts_dir/execute.sh" "${parsed_args[@]}"
+$KOALA_SHELL "$scripts_dir/execute.sh"
 echo "$?"
 

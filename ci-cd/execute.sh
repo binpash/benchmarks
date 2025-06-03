@@ -50,7 +50,7 @@ if [ "$run_min" = true ]; then
         script_path="$eval_dir/$bench/execute.sh"
         if [ -x "$script_path" ]; then
             export BENCHMARK_SCRIPT="$script_path"
-            $KOALA_SHELL $script_path "$@"
+            $KOALA_SHELL $script_path
         else
             echo "Error: $script_path not found or not executable."
             exit 1
@@ -61,5 +61,5 @@ fi
 
 for bench in "$eval_dir"/*; do
     export BENCHMARK_SCRIPT="$bench/execute.sh"
-    $KOALA_SHELL "$bench/execute.sh" "$@"
+    $KOALA_SHELL "$bench/execute.sh"
 done

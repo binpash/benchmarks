@@ -161,14 +161,14 @@ def plot_time_vs_wall(df, ax):
     ax.set_ylabel('CPU time / wall time')
 
 dynamic_analysis_script_translations = {
-    "riker/scripts/vim/execute.sh": "riker/scripts/vim/build.sh",
-    "riker/scripts/xz/execute.sh": "riker/scripts/xz/build.sh",
-    "riker/scripts/redis/execute.sh": "riker/scripts/redis/build.sh",
-    "riker/scripts/xz-clang/execute.sh": "riker/scripts/xz-clang/build.sh",
-    "riker/scripts/lua/execute.sh": "riker/scripts/lua/build.sh",
-    "riker/scripts/memcached/execute.sh": "riker/scripts/memcached/build.sh",
-    "riker/scripts/sqlite/execute.sh": "riker/scripts/sqlite/build.sh",
-    "riker/scripts/lsof/execute.sh": "riker/scripts/lsof/build.sh",
+    "ci-cd/riker/vim/execute.sh": "ci-cd/riker/vim/build.sh",
+    "ci-cd/riker/xz/execute.sh": "ci-cd/riker/xz/build.sh",
+    "ci-cd/riker/redis/execute.sh": "ci-cd/riker/redis/build.sh",
+    "ci-cd/riker/xz-clang/execute.sh": "ci-cd/riker/xz-clang/build.sh",
+    "ci-cd/riker/lua/execute.sh": "ci-cd/riker/lua/build.sh",
+    "ci-cd/riker/memcached/execute.sh": "ci-cd/riker/memcached/build.sh",
+    "ci-cd/riker/sqlite/execute.sh": "ci-cd/riker/sqlite/build.sh",
+    "ci-cd/riker/lsof/execute.sh": "ci-cd/riker/lsof/build.sh",
 }
 
 def read_data():

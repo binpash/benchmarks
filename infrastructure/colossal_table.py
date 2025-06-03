@@ -90,7 +90,7 @@ benchmark_input_override = {
     'ci-cd': { 'small': None, 'full': None },
     'pkg': { 'small': f'{roundk(100 + 10)}k pkgs', 'full': f'{roundk(1768 + 195)}k pkgs' },
     'repl': { 'small': None, 'full': None },
-    'nlp': { 'small': f'{roundk(3000)}k bks', 'full': f'{roundm(115916)}m bks' },
+    'nlp': { 'small': f'{roundk(3000)}k bks', 'full': f'{roundk(115916)}k bks' },
 }
 
 scripts_to_include = [
@@ -301,7 +301,7 @@ def main():
     \\toprule
     \\multirow{2}{*}{Benchmark/Script} & \\multicolumn{3}{c}{Surface} & \\multicolumn{2}{c}{Inputs} & \\multicolumn{2}{c}{Syntax} & \\multicolumn{4}{c}{Dynamic} & \\multicolumn{2}{c}{System} & \\multirow{2}{*}{Source} \\\\
         \\cline{2-4} \\cline{5-6} \\cline{7-8} \\cline{9-12} \\cline{13-14}
-                                      & \multicolumn{1}{c}{\\Dom}  & \\#.sh     & LoC     & Small & Large & \\#Cons & \\#Cmd & $t_{S}$  & $t_{C}$  & Mem   & I/O & \\#SC & \\#FD &   \\\\
+                                      & \multicolumn{1}{c}{\\Dom}  & \\#.sh     & LoC     & Small & Full & \\#Cons & \\#Cmd & $t_{S}$  & $t_{C}$  & Mem   & I/O & \\#SC & \\#FD &   \\\\
         \\midrule
     """)
     # generate a big latex table with the following columns:

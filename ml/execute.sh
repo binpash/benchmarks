@@ -8,7 +8,6 @@ KOALA_SHELL=${KOALA_SHELL:-bash}
 export BENCHMARK_CATEGORY="ml"
 export LC_ALL=C
 
-parsed_args=()
 size="full"
 for arg in "$@"; do
     case "$arg" in

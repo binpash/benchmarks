@@ -1,0 +1,7 @@
+Total number of distinct commands: 248
+type
+coreutil                54
+other                  134
+shell builtin           21
+standard linux tool     39
+Name: command, dtype: int64

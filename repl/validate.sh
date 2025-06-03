@@ -48,10 +48,10 @@ for arg in "$@"; do
 done
 
 if [[ "$GENERATE" == true ]]; then
-    python3 utils/validate.py --generate
+    python3 $EVAL_DIR/utils/validate.py --generate
     exit 0
 else
-    python3 utils/validate.py
+    python3 $EVAL_DIR/utils/validate.py
     echo "vps-audit $?"
 fi
 

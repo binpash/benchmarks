@@ -38,5 +38,5 @@ for arg in "$@"; do
         --small) NUM_COMMITS=6 ;;
     esac
 done
-$KOALA_SHELL "$git_script" "$NUM_COMMITS" "$@"
+$KOALA_SHELL "$git_script" "$NUM_COMMITS"
 echo $?

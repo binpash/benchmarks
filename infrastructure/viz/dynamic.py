@@ -45,31 +45,28 @@ def get_input_sizes_df(df):
             file_rest = str(Path(*file.parts[1:]))
             relevant = sizes_df[(sizes_df['path'] == file_rest) & (sizes_df['category'] == row['category'])]
             if relevant.empty:
-                if 'sort' in file_path: # one of them sort files
+                if 'sort' in str(file_path): # one of them sort files
                     continue
-                if 'ci-cd/input' in file_path: 
+                if 'ci-cd/input' in str(file_path): 
                     # these should all be in the file, 
                     # everything else is in an intermediate
                     continue 
-                if 'pkg/outputs' in file_path:
+                if 'pkg/outputs' in str(file_path):
                     # these are intemediate files
                     continue
-                if 'bio/outputs' in file_path:
+                if 'bio/outputs' in str(file_path):
                     # these are intemediate files
                     continue
-                if 'test_result' in file_path:
+                if 'test_result' in str(file_path):
                     # these are final files
                     continue
-                if 'tmp' in file_path:
+                if 'outputs/thumbnail.small' in str(file_path):
                     # these are intermediate files
                     continue
-                if 'chromium' in file_path:
+                if 'repl/inputs/chromium' in str(file_path):
                     # these are intermediate files
                     continue
-                if 'outputs/thumbnail.small' in file_path:
-                    # these are intermediate files
-                    continue
-                print('could not find input size for', file, row['script'], file=stderr)
+                #print('could not find input size for', file, row['script'], file=stderr)
                 continue
             size, = relevant['size_bytes']
             size = relevant['size_bytes'].iloc[0]
@@ -112,8 +109,10 @@ def plot_benchmark_times(df,
     ax.set_yticklabels(ticks[1])
     ax.set_ylabel(ylabel)
     ax.set_ybound(lower=0)
-    if legend:
-        ax.legend(loc=('best' if legend == True else legend))
+    if legend is True:
+        ax.legend(loc='upper left')
+    elif isinstance(legend, tuple):
+        ax.legend(loc='upper left')
     else:
         ax.legend().set_visible(False)
 
@@ -321,7 +320,7 @@ def main(output_dir=None, text_mode=False):
 
     plot_benchmark_times(df_rel_to_input, 
                          axes[3],
-                         legend=(0.1, 0.65),
+                         legend=True,
                          ylabel='CPU time per input byte',
                          ticks=([0, 0.00000001, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001], 
                                 ['0', '10ns', '100ns',    '1us',    '10us', '100us',  '1ms']),
@@ -353,6 +352,7 @@ def main(output_dir=None, text_mode=False):
         ax.set_xticklabels(benchmarks, rotation=60, ha='right')
 
     plt.tight_layout(rect=[0, 0.05, 1, 1]) 
+    fig.align_ylabels(axes)
     # for i in range(2, len(axes)):
     #     # adjust the position of the axes down a little bit
     #     pos = axes[i].get_position()

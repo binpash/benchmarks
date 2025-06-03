@@ -137,9 +137,9 @@ Total CPU time: 24.52 sec
 Total Wall time: 21.33 sec
 Total IO bytes: 1295410840.00
 Max Memory Usage: 206548992.00 bytes
-CPU time per input byte: 0.000000 sec/byte
-Memory per input byte: 0.153487 bytes/byte
-IO per input byte: 0.962619 bytes/byte
+CPU time per input byte: N/A (no input bytes recorded)
+Memory per input byte: N/A (no input bytes recorded)
+IO per input byte: N/A (no input bytes recorded)
 Time in Shell: 0.00 sec
 Time in Commands: 24.52 sec
 ==================================================

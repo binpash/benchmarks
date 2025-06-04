@@ -88,7 +88,7 @@ def roundm(n):
 
 benchmark_input_override = {
     'ci-cd': { 'small': None, 'full': None },
-    'pkg': { 'small': f'{roundk(100 + 10)}k pkgs', 'full': f'{roundk(1768 + 195)}k pkgs' },
+    'pkg': { 'small': f'{(100 + 10)} pkgs', 'full': f'{roundk(1768 + 195)}k pkgs' },
     'repl': { 'small': None, 'full': None },
     'nlp': { 'small': f'{roundk(3000)}k bks', 'full': f'{roundk(115916)}k bks' },
 }

@@ -42,10 +42,13 @@
         "scripts": ["weather/scripts/*.sh"]
     },
     "web-search": {
-        "scripts": ["web-search/scripts/crawl.sh",
-         "web-search/scripts/engine.sh",
-         "web-search/scripts/index.sh",
-         "web-search/scripts/query.sh",
-         "web-search/scripts/c/*.sh"]
+        "scripts": ["web-search/scripts/*.sh"]
+    },
+    "web-search.new": {
+        "scripts": ["web-search.new/scripts/crawl.sh",
+         "web-search.new/scripts/engine.sh",
+         "web-search.new/scripts/index.sh",
+         "web-search.new/scripts/query.sh",
+         "web-search.new/scripts/c/*.sh"]
     }
 }

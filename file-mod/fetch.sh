@@ -106,5 +106,5 @@ data_url=${URL}/full/jpg.zip
 zip_dst="$input_dir/jpg_full.zip"
 out_dir="$input_dir/jpg_full"
 wget --no-check-certificate $data_url -O $zip_dst
-unzip $zip_dst -d $out_dir
+unzip -o $zip_dst -d $out_dir
 rm "$zip_dst"

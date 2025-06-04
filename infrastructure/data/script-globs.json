@@ -3,14 +3,11 @@
         "scripts": ["analytics/scripts/*.sh"]
     },
     "bio": {
-	    "scripts": ["bio/scripts/bam-isolate.sh", 
-            "bio/scripts/run_dRNASeq.sh", 
-            "bio/scripts/run_5TERA.sh",
-            "bio/scripts/data.sh",
-            "bio/scripts/adapter.sh"]
+	    "scripts": ["bio/scripts/*.sh"]
     },
     "ci-cd": {
-        "scripts": ["ci-cd/makeself/*.sh",
+        "scripts": ["ci-cd/makeself/makeself.sh",
+            "ci-cd/makeself/makeself-header.sh",
 		    "ci-cd/makeself/test/*/*.sh",
             "ci-cd/riker/*/build.sh"]
     },
@@ -45,6 +42,10 @@
         "scripts": ["weather/scripts/*.sh"]
     },
     "web-search": {
-        "scripts": ["web-search/scripts/*.sh"]
+        "scripts": ["web-search/scripts/crawl.sh",
+         "web-search/scripts/engine.sh",
+         "web-search/scripts/index.sh",
+         "web-search/scripts/query.sh",
+         "web-search/scripts/c/*.sh"]
     }
 }

@@ -1,3 +1,4 @@
+Total 'echo' occurrences across all benchmarks: 441
 Total number of distinct commands: 248
 type
 coreutil                54

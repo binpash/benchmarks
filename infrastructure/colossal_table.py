@@ -34,7 +34,7 @@ benchmark_category_style = {
     'nlp': ('Machine learning', 'Text processing', '\\cite{unix-for-poets-church}'),
     'oneliners': ('Automation Now', 'Text processing', ''),
     'pkg': ('Continuous Integration', 'Automation Now', '\\cite{pacaur,vasilakis2021preventing}'),
-    'repl': ('System admin.', 'Misc.', '\\cite{posh:atc:2020,vpsaudit}'),
+    'repl': ('System admin.', 'Misc. Idk', '\\cite{posh:atc:2020,vpsaudit}'),
     'unixfun': ('Misc. Idk', 'Text processing', '\\cite{bhandari2020solutions}'),
     'weather': ('Data analysis', 'Data extraction', '\\cite{hadoop-guide-2009}'),
     'web-search': ('Misc. Idk', 'Text processing', '\\cite{pash2021}'),

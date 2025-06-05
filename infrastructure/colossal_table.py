@@ -31,7 +31,7 @@ benchmark_category_style = {
     'file-mod': ('Automation Now', 'Misc. Idk', '\\cite{cito2020empirical,dgsh:ieee:2017,posh:atc:2020}'),
     'inference': ('Machine learning', 'Data analysis', '\\cite{lamprou2025foundation,tunney2023bash}'),
     'ml': ('Machine learning', 'Data analysis', '\\cite{scikit-learn}'),
-    'nlp': ('Machine learning', 'Text processing', '\\cite{unix-for-poets-church}'),
+    'nlp': ('Text processing', 'Machine learning', '\\cite{unix-for-poets-church}'),
     'oneliners': ('Automation Now', 'Text processing', ''),
     'pkg': ('Continuous Integration', 'Automation Now', '\\cite{pacaur,vasilakis2021preventing}'),
     'repl': ('System admin.', 'Misc. Idk', '\\cite{posh:atc:2020,vpsaudit}'),

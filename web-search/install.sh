@@ -5,7 +5,7 @@ pkgs="p7zip-full curl wget unzip npm"
 sudo apt-get update
 for pkg in $pkgs; do
   if ! dpkg -s "$pkg" > /dev/null 2>&1 ; then
-    sudo apt-get install -y "$pkg"
+    sudo apt-get install -y --no-install-recommends "$pkg"
   fi
 done
 
@@ -21,7 +21,7 @@ fi
 # Install Node.js (18.x) and npm via NodeSource
 if ! command -v node > /dev/null 2>&1 ; then
   curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-  sudo apt-get install -y nodejs
+  sudo apt-get install -y --no-install-recommends nodejs
 fi
 
 # Verify node and npm installation
@@ -37,7 +37,7 @@ fi
 if ! dpkg -s nodejs > /dev/null 2>&1 ; then
     # node version 18+ does not need external npm
     curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-    sudo apt-get install -y nodejs
+    sudo apt-get install -y --no-install-recommends nodejs
 fi
 
 cd "$(dirname "$0")/scripts" || exit 1

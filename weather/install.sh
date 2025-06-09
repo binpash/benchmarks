@@ -6,7 +6,7 @@ pkgs="curl wget unzip coreutils gzip gawk sed findutils git python3 python3-pip 
 
 for pkg in $pkgs; do
     if ! dpkg -l | grep -q "$pkg"; then
-        sudo apt-get install -y "$pkg"
+        sudo apt-get install -y --no-install-recommends "$pkg"
     fi
 done
 

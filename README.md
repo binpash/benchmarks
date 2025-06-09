@@ -133,8 +133,8 @@ $ docker build -t koala .
 # Run the container
 $ docker run -it koala
 
-# For development, mount the benchmarks directory
-$ docker run -it -v "$(pwd):/benchmarks" koala
+# For development, mount the koala directory
+$ sudo docker run -it --rm --cap-add=SYS_PTRACE --cap-add=NET_RAW --cap-add=NET_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined -v "$(pwd):/koala" ghcr.io/binpash/benchmarks:latest bash
 ```
 
 ### Usage

@@ -39,7 +39,6 @@ sudo apt-get install -y --no-install-recommends  gpg \
 wget -qO - 'https://proget.makedeb.org/debian-feeds/makedeb.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/makedeb-archive-keyring.gpg > /dev/null
 echo 'deb [signed-by=/usr/share/keyrings/makedeb-archive-keyring.gpg arch=all] https://proget.makedeb.org/ makedeb main' | sudo tee /etc/apt/sources.list.d/makedeb.list > /dev/null
 
-sudo apt-get update
 sudo apt-get install -y --no-install-recommends makedeb
 
 TOP=$(git rev-parse --show-toplevel)
@@ -63,7 +62,7 @@ fi
 # Install Node.js (18.x) and npm via NodeSource
 if ! command -v node > /dev/null 2>&1 ; then
   curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-  sudo apt-get install -y nodejs
+  sudo apt-get install -y --no-install-recommends nodejs
 fi
 
-apt install -y default-jdk
+sudo apt-get install -y --no-install-recommends  default-jdk

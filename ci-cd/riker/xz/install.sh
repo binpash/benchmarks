@@ -1,4 +1,5 @@
 #!/bin/bash
 
-sudo apt install -y gcc
+sudo apt-get update
+sudo apt-get install -y --no-install-recommends gcc
 

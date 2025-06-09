@@ -1,6 +1,7 @@
 #!/bin/bash
 
-sudo apt-get install -y git \
+sudo apt-get update
+sudo apt-get install -y --no-install-recommends git \
     gcc \
     make \
     libncurses-dev \

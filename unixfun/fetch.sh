@@ -19,25 +19,27 @@ done
 
 for input in "${inputs[@]}"
 do
-    if [ ! -f "${input}.txt" ]; then
-        wget --no-check-certificate "${URL}/unix50/${input}.txt" || exit 1
-    fi
-
-    # Skip the 1M file if the --min flag is present
     if [ "$size" = "min" ]; then
-        continue
+        if [ ! -f "${input}.txt" ]; then
+            wget --no-check-certificate "${URL}/unix50/${input}.txt" || exit 1
+        else 
+            continue
+        fi
     fi
 
-    if [ ! -f "${input}_30M.txt" ]; then
-        wget --no-check-certificate "${URL}/unix50/small/${input}_30M.txt" || exit 1
-    fi
-
-    # Skip the 3G file if the --small flag is present
     if [ "$size" = "small" ]; then
-        continue
+        if [ ! -f "${input}_30M.txt" ]; then
+            wget --no-check-certificate "${URL}/unix50/small/${input}_30M.txt" || exit 1
+        else 
+            continue
+        fi
     fi
 
-    if [ ! -f "${input}_3G.txt" ]; then
-        wget --no-check-certificate "${URL}/unix50/large/${input}_3G.txt" || exit 1
+    if [ "$size" = "full" ]; then 
+        if [ ! -f "${input}_3G.txt" ]; then
+            wget --no-check-certificate "${URL}/unix50/large/${input}_3G.txt" || exit 1
+        else
+            continue
+        fi
     fi
 done

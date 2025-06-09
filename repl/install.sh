@@ -6,6 +6,6 @@ pkgs="bash curl grep gawk iptables ufw procps net-tools fail2ban iproute2 git pa
 
 for pkg in $pkgs; do
     if ! dpkg -l | grep -q "^ii  $pkg "; then
-        sudo apt-get install -y "$pkg"
+        sudo apt-get install -y --no-install-recommends "$pkg"
     fi
 done

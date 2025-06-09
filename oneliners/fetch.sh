@@ -39,14 +39,6 @@ if [ ! -f $input_dir/all_cmdsx100.txt ]; then
     done
 fi
 
-if [ ! -d ./chessdata_min ]; then
-    archive="chessdata_min.tar.gz"
-    wget --no-check-certificate "$URL/oneliners/$archive" -O "$archive"
-    mkdir -p "chessdata_min"
-    tar -xzf "$archive" -C "chessdata_min"
-    rm "$archive"
-fi
-
 # For uniq-ips
 if [ "$size" = "small" ]; then
     N=400000 # 400K
@@ -81,9 +73,16 @@ if [[ "$size" == "small" ]]; then
         tar -xzf "$archive" -C "chessdata_small"
         rm "$archive"
     fi
-
+    rm 1M.txt
     exit 0
 elif [[ "$size" == "min" ]]; then
+    if [ ! -d ./chessdata_min ]; then
+        archive="chessdata_min.tar.gz"
+        wget --no-check-certificate "$URL/oneliners/$archive" -O "$archive"
+        mkdir -p "chessdata_min"
+        tar -xzf "$archive" -C "chessdata_min"
+        rm "$archive"
+    fi
     exit 0
 fi
 
@@ -109,3 +108,4 @@ if [ ! -d ./chessdata ]; then
     tar -xzf "$archive" -C "chessdata"
     rm "$archive"
 fi
+rm 1M.txt

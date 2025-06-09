@@ -11,8 +11,8 @@ ZIP_DST="$input_dir/pcaps.zip"
 size=full
 for arg in "$@"; do
     case "$arg" in
-        --small) size=small ;;
-        --min)   size=min ;;
+    --small) size=small ;;
+    --min) size=min ;;
     esac
 done
 
@@ -39,7 +39,7 @@ else
         wget --no-check-certificate "$URL"/pcaps_large.zip -O "$ZIP_DST"
         unzip "$ZIP_DST" -d "$input_dir/pcaps_$size"
         rm "$ZIP_DST"
-    fi 
+    fi
 fi
 
 data_url=$URL/wav.zip
@@ -51,20 +51,28 @@ if [[ ! -d "$full_dir" ]] || [[ -d "$full_dir" && -z "$(ls -A "$full_dir")" ]]; 
     wget --no-check-certificate "$data_url" -O "$zip_dst"
     unzip "$zip_dst" -d "$input_dir"
     rm -rf "$full_dir" "$small_dir" "$min_dir"
-    mkdir -p "$full_dir" "$small_dir" "$min_dir"
 
     # copy `.wav`s to their final destinations.
     # Make sure we have the correct number of inputs
     # with numbered backups (do not overwrite inputs).
-    for i in {1..120}; do
-        cp --backup=numbered "$input_dir"/wav/* "--target-directory=$full_dir"
-    done
-    for i in {1..10}; do
-        cp --backup=numbered "$input_dir"/wav/* "--target-directory=$small_dir"
-    done
-    for i in {1..2}; do
-        cp --backup=numbered "$input_dir"/wav/* "--target-directory=$min_dir"
-    done
+    if [[ "$size" == "full" ]]; then
+        mkdir -p "$full_dir"
+        for i in {1..120}; do
+            cp --backup=numbered "$input_dir"/wav/* "--target-directory=$full_dir"
+        done
+    fi
+    if [[ "$size" == "small" ]]; then
+        mkdir -p "$small_dir"
+        for i in {1..10}; do
+            cp --backup=numbered "$input_dir"/wav/* "--target-directory=$small_dir"
+        done
+    fi
+    if [[ "$size" == "min" ]]; then
+        mkdir -p "$min_dir"
+        for i in {1..2}; do
+            cp --backup=numbered "$input_dir"/wav/* "--target-directory=$min_dir"
+        done
+    fi
     rm -r "$zip_dst" "$input_dir/wav"
 fi
 

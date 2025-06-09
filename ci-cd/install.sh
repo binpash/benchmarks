@@ -6,7 +6,7 @@ pkgs="binutils git build-essential coreutils wget unzip make pbzip2 binutils bzi
 
 for pkg in $pkgs; do
     if ! dpkg -s "$pkg" &> /dev/null; then
-        sudo apt-get install -y "$pkg"
+        sudo apt-get install -y --no-install-recommends "$pkg"
     fi
 done
 

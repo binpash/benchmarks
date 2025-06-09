@@ -5,7 +5,7 @@ pkgs="build-essential libncurses5-dev libncursesw5-dev libbz2-dev liblzma-dev li
 
 for pkg in $pkgs; do
     if ! dpkg -s $pkg; then
-        sudo apt-get install -y $pkg
+        sudo apt-get install -y --no-install-recommends $pkg
     fi
 done
 
@@ -16,7 +16,7 @@ benchmark_dir="${TOP}/bio"
 # install.sh: Installs system-wide dependencies for the TERA-Seq pipeline
 
 # 1. Install OS packages
-apt-get update && sudo apt-get install -y --no-install-recommends \
+sudo apt-get install -y --no-install-recommends \
     build-essential \
     git \
     wget \

@@ -64,7 +64,7 @@ fi
 if [ ! -e ./pg ]; then
     data_url="${URL}/nlp/pg.tar.gz"
     wget --no-check-certificate -O pg.tar.gz "$data_url"
-    if [ ! -f pg-small.tar.gz ]; then
+    if [ ! -f pg.tar.gz ]; then
         echo "Failed to download pg.tar.gz"
         exit 1
     fi

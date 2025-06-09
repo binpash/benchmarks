@@ -23,7 +23,7 @@ jobs:
           - ci-cd
           - covid
           - file-mod
-          - llm
+          - inference
           - ml
           - nlp
           - oneliners

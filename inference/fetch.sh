@@ -52,14 +52,16 @@ if [[ "$size" == "small" ]]; then
     fi
 fi
 
-if [ -d "$full_dir" ]; then
-    echo "Data already downloaded and extracted."
-else
-    mkdir -p "$full_dir"
-    wget --no-check-certificate "${URL}/pl-01-PFW-20250401T083800Z-001.zip" -O "${input_dir}/full.zip"
-    unzip -q "${input_dir}/full.zip" -d "${input_dir}/tmp_full"
-    mv "${input_dir}/tmp_full"/*/* "$full_dir"
-    rm -r "${input_dir}/tmp_full" "${input_dir}/full.zip"
+if [[ "$size" == "full" ]]; then
+    if [ -d "$full_dir" ]; then
+        echo "Data already downloaded and extracted."
+    else
+        mkdir -p "$full_dir"
+        wget --no-check-certificate "${URL}/pl-01-PFW-20250401T083800Z-001.zip" -O "${input_dir}/full.zip"
+        unzip -q "${input_dir}/full.zip" -d "${input_dir}/tmp_full"
+        mv "${input_dir}/tmp_full"/*/* "$full_dir"
+        rm -r "${input_dir}/tmp_full" "${input_dir}/full.zip"
+    fi
 fi
 
 URL="https://atlas-group.cs.brown.edu/data"

@@ -4,7 +4,7 @@ IN=$1
 OUT=$2
 mkdir -p "$OUT"
 
-ollama serve > ollama_serve.log 2>&1 &
+ollama serve > /dev/null 2>&1 &
 ollama pull gemma3
 find "$IN" -type f -iname "*.jpg" | while IFS= read -r img; do
     title=$(llm -m gemma3 \

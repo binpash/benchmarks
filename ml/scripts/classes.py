@@ -7,8 +7,7 @@ import pickle
 
 model_file, y_file = sys.argv[1:]
 
-with open(y_file, 'rb') as file:
-    y = pickle.load(file)
+y = np.load(y_file)
 
 try:
     # Can probably optimize, only opening the file once

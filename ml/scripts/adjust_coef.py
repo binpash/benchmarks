@@ -14,9 +14,8 @@ model_file, X_file, multi_class, n_classes, destination = sys.argv[1:6]
 
 n_classes = int(n_classes)
 
-with open(X_file, 'rb') as file:
-    X = pickle.load(file)
-    n_features = X.shape[1]
+X = np.load(X_file)
+n_features = X.shape[1]
 
 with open(model_file, 'rb') as file:
     model = pickle.load(file)

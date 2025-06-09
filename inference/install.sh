@@ -1,11 +1,8 @@
 #!/bin/bash
 
-TOP=$(git rev-parse --show-toplevel)
-eval_dir="${TOP}/inference"
-
 sudo apt-get update
 
-sudo apt-get install -y \
+sudo apt-get install -y --no-install-recommends \
     python3 \
     python3-pip \
     python3-venv \
@@ -39,7 +36,7 @@ then
 else
     echo "Ollama is already installed."
 fi
-ollama serve > ollama_serve.log 2>&1 &
+ollama serve > /dev/null 2>&1 &
 sleep 5
 ollama pull gemma3
 

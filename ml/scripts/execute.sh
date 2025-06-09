@@ -6,8 +6,8 @@ TMP=${TMP:-$PWD/inputs/inputs_small}
 SCRIPTS=${SCRIPTS:-$PWD/scripts}
 # Ideally, we'll move on to piping rather than writing to a file
 MODEL=$TMP/model.obj
-X=$TMP/X_train.obj
-y=$TMP/y_train.obj
+X=$TMP/X_train.npy
+y=$TMP/y_train.npy
 CLASSES=$OUT/classes.obj
 DUAL=false # should be converted to bool inside script
 MAX_SQ_SUM=$OUT/max_squared_sum.obj

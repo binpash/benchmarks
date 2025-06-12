@@ -37,7 +37,7 @@ benchmark_category_style = {
     'repl': ('System admin.', 'Misc. Idk', '\\cite{posh:atc:2020,vpsaudit}'),
     'unixfun': ('Misc. Idk', 'Text processing', '\\cite{bhandari2020solutions}'),
     'weather': ('Data analysis', 'Data extraction', '\\cite{hadoop-guide-2009}'),
-    'web-search': ('Misc. Idk', 'Text processing', '\\cite{pash2021}'),
+    'web-search': ('Misc. Idk', 'Text processing', '\\cite{csci1380}'),
 }
 
 script_to_citation = {

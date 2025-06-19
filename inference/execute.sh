@@ -7,7 +7,7 @@ scripts_dir="$eval_dir/scripts"
 input_dir="$eval_dir/inputs"
 outputs_dir="$eval_dir/outputs"
 
-suffix=""
+suffix=".full"
 for arg in "$@"; do
     case "$arg" in
         --small) suffix=".small" ;;

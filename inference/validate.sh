@@ -3,7 +3,7 @@
 eval_dir=$(realpath "$(dirname "$0")")
 
 export LC_ALL=C
-suffix=""
+suffix=".full"
 generate=false
 for arg in "$@"; do
     case "$arg" in

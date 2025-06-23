@@ -43,6 +43,23 @@ def perform_pca_and_plot(dataframe1, dataframe2, path='pca.pdf'):
             data=principal_components, 
             columns=['PC1', 'PC2', 'PC3', 'PC4']
         )
+
+        # Print explained variance for each component
+        print("\nExplained variance ratio:")
+        for i, var_ratio in enumerate(pca.explained_variance_ratio_, start=1):
+            print(f"PC{i}: {var_ratio:.2%}")
+
+        # Print the component loadings
+        print("\nPrincipal component loadings (contribution of each original feature):")
+        loading_df = pd.DataFrame(
+            pca.components_,
+            columns=numeric_cols,
+            index=[f'PC{i}' for i in range(1, 5)]
+        )
+        with pd.option_context('display.max_columns', None):
+            print(loading_df)
+            exit()
+
         return pca_df, benchmark_names
 
     # Perform PCA on both dataframes

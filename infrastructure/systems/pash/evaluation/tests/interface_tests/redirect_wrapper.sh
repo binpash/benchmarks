@@ -1,1 +1,0 @@
-exec $1 redirect.sh 9>&1

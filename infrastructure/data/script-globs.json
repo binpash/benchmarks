@@ -1,18 +1,27 @@
 {
-    "covid-mts": {
-        "scripts": ["covid-mts/scripts/*.sh"]
+    "analytics": {
+        "scripts": ["analytics/scripts/*.sh"]
     },
-    "file-enc": {
-        "scripts": ["file-enc/scripts/*.sh"]
+    "bio": {
+	    "scripts": ["bio/scripts/*.sh"]
     },
-    "log-analysis": {
-        "scripts": ["log-analysis/scripts/*.sh"]
+    "ci-cd": {
+        "scripts": ["ci-cd/makeself/makeself.sh",
+            "ci-cd/makeself/makeself-header.sh",
+		    "ci-cd/makeself/test/*/*.sh",
+            "ci-cd/riker/*/build.sh"]
     },
-    "max-temp": {
-        "scripts": ["max-temp/scripts/*.sh"]
+    "covid": {
+        "scripts": ["covid/scripts/*.sh"]
     },
-    "media-conv": {
-        "scripts": ["media-conv/scripts/*.sh"]
+    "file-mod": {
+        "scripts": ["file-mod/scripts/*.sh"]
+    },
+    "inference": {
+        "scripts": ["inference/scripts/*.sh"]
+    },
+    "ml": {
+        "scripts": ["ml/scripts/*.sh"]
     },
     "nlp": {
         "scripts": ["nlp/scripts/*.sh"]
@@ -20,29 +29,26 @@
     "oneliners": {
         "scripts": ["oneliners/scripts/*.sh"]
     },
-    "sklearn": {
-        "scripts": ["sklearn/scripts/execute.sh"]
+    "unixfun": {
+        "scripts": ["unixfun/scripts/*.sh"]
     },
-    "riker": {
-        "scripts": ["riker/scripts/*/build.sh"]
+    "pkg": {
+        "scripts": ["pkg/scripts/*.sh"]
     },
-    "unix50": {
-        "scripts": ["unix50/scripts/*.sh"]
+    "repl": {
+        "scripts": ["repl/scripts/*.sh"]
     },
-    "web-index": {
-        "scripts": ["web-index/scripts/*.sh"]
+    "weather": {
+        "scripts": ["weather/scripts/*.sh"]
     },
-    "makeself": {
-        "scripts": ["makeself/makeself/*.sh",
-		    "makeself/makeself/test/*/*.sh"]
+    "web-search": {
+        "scripts": ["web-search/scripts/*.sh"]
     },
-    "vps-audit": {
-        "scripts": ["vps-audit/scripts/*.sh"]
-    },
-    "bio": {
-	    "scripts": ["bio/scripts/bio.sh"]
-    },
-    "aurpkg": {
-	    "scripts": ["aurpkg/scripts/pacaur.sh"]
+    "web-search.new": {
+        "scripts": ["web-search.new/scripts/crawl.sh",
+         "web-search.new/scripts/engine.sh",
+         "web-search.new/scripts/index.sh",
+         "web-search.new/scripts/query.sh",
+         "web-search.new/scripts/c/*.sh"]
     }
 }

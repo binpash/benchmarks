@@ -1,4 +1,0 @@
-a ()
-{
-    echo world
-}

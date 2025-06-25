@@ -1,0 +1,49 @@
+Numeric columns selected for PCA: Index(['constructs', 'user_time', 'system_time', 'max_unique_set_size',
+       'read_chars', 'write_chars', 'user_time_in_shell',
+       'system_time_in_shell', 'io_chars', 'time', 'time_in_shell',
+       'time_in_commands', 'wall_time', 'children_num_fds', 'loc',
+       'number_of_scripts', 'unique_cmds', 'sys_calls', 'FD_Snapshot',
+       'Unique_FD', 'Peak_FD'],
+      dtype='object')
+
+Explained variance ratio:
+PC1: 44.90%
+PC2: 18.55%
+PC3: 13.62%
+PC4: 8.46%
+
+Principal component loadings (contribution of each original feature):
+     constructs  user_time  system_time  max_unique_set_size  read_chars  \
+PC1    0.092744   0.315454     0.076627             0.299340    0.299592
+PC2    0.132240   0.011456    -0.287026            -0.058767    0.002246
+PC3   -0.376983  -0.087386     0.015734            -0.144891    0.187681
+PC4    0.132670  -0.111637     0.024244            -0.098664    0.116587
+
+     write_chars  user_time_in_shell  system_time_in_shell  io_chars  \
+PC1     0.281602            0.298503              0.153506  0.296964
+PC2     0.147418            0.080922              0.160477  0.069185
+PC3     0.222610           -0.094305              0.386891  0.207324
+PC4    -0.025557           -0.194701              0.158958  0.053290
+
+         time  time_in_shell  time_in_commands  wall_time  children_num_fds  \
+PC1  0.315826       0.308107          0.315708   0.295907         -0.069156
+PC2 -0.010803       0.118149         -0.011832  -0.112135          0.389960
+PC3 -0.084649       0.029484         -0.085517  -0.108658          0.018169
+PC4 -0.107821      -0.125498         -0.107618   0.175550          0.356519
+
+          loc  number_of_scripts  unique_cmds  sys_calls  FD_Snapshot  \
+PC1  0.035047          -0.060328     0.063022   0.078572     0.093966
+PC2  0.365968           0.316974     0.335262   0.040464    -0.252400
+PC3 -0.323988           0.167659    -0.375210   0.434689     0.061342
+PC4  0.186551           0.305618     0.184216   0.184750     0.455999
+
+     Unique_FD   Peak_FD
+PC1   0.122154  0.032327
+PC2  -0.318365 -0.381255
+PC3  -0.152475 -0.159232
+PC4   0.438968  0.292527
+
+PC1 Execution Time + I/O Load | time, user_time, io_chars, read_chars, write_chars
+PC2 Script/Command Complexity vs. System Load | loc, unique_cmds, Peak_FD, system_time
+PC3 Short + Syscall-heavy vs. Long scripts | sys_calls, constructs, loc
+PC4 FD and Subprocess Management | FD_Snapshot, Unique_FD, Peak_FD, number_of_scripts

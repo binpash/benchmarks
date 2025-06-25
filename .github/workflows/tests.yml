@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - future
   pull_request:
 
 env:
@@ -17,21 +18,20 @@ jobs:
       fail-fast: false
       matrix:
         benchmark:
-          - aurpkg
+          - analytics
           - bio
-          - covid-mts
-          - file-enc
-          - log-analysis
-          - makeself
-          - max-temp
-          - media-conv
+          - ci-cd
+          - covid
+          - file-mod
+          - inference
+          - ml
           - nlp
           - oneliners
-          - riker
-          - sklearn
-          - unix50
-          - vps-audit
-          - web-index
+          - pkg
+          - repl
+          - unixfun
+          - weather
+          - web-search.new
 
     steps:
       - name: Checkout code
@@ -46,9 +46,9 @@ jobs:
 
       - name: Pull benchmarks image
         run: |
-          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest # TODO: Use ref_name instead of latest
           docker tag \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }} \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
             benchmark-env
 
       - name: Set execute permissions for main.sh

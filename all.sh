@@ -2,7 +2,7 @@
 
 cd "$(dirname "$0")" || exit 1
 
-benchmarks="oneliners bio vps-audit file-enc log-analysis web-index media-conv covid-mts sklearn nlp aurpkg unix50 makeself riker max-temp"
+benchmarks="analytics bio ci-cd covid file-mod inference ml nlp oneliners pkg repl unixfun weather web-search web-search.new"
 
 log() { echo -e "[*] $1"; }
 

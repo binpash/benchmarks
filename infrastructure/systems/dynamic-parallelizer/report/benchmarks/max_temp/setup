@@ -1,5 +1,0 @@
-#!/bin/bash
-
-base=$(dirname "${BASH_SOURCE[0]}")
-cd $base
-docker build . -t hs/max_temp

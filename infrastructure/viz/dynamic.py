@@ -24,6 +24,16 @@ def get_input_sizes_df(df):
     if df.empty or df.columns.empty:
         return None 
     sizes_df = pd.read_json(input_size_path, lines=True)
+    dupes = (
+        sizes_df
+        .groupby(['category', 'path'], as_index=False)
+        .size()
+        .query('size > 1') 
+    ) # in case something went wrong with the input sizes file, we can still plot the rest of the data
+
+    if not dupes.empty:
+        print("Duplicate (category, path) pairs in size_inputs.jsonl:", file=stderr)
+        print(dupes.to_string(index=False), file=stderr)
     def find_input_size(row):
         total = 0
         for file in row['all_input_files']:
@@ -35,27 +45,31 @@ def get_input_sizes_df(df):
             file_rest = str(Path(*file.parts[1:]))
             relevant = sizes_df[(sizes_df['path'] == file_rest) & (sizes_df['category'] == row['category'])]
             if relevant.empty:
-                if 'sort' in file_path: # one of them sort files
+                if 'sort' in str(file_path): # one of them sort files
                     continue
-                if 'riker/input' in file_path: 
+                if 'ci-cd/input' in str(file_path): 
                     # these should all be in the file, 
                     # everything else is in an intermediate
                     continue 
-                if 'aurpkg/outputs' in file_path:
+                if 'pkg/outputs' in str(file_path):
                     # these are intemediate files
                     continue
-                if 'bio/outputs' in file_path:
+                if 'bio/outputs' in str(file_path):
                     # these are intemediate files
                     continue
-                if 'test_result' in file_path:
+                if 'test_result' in str(file_path):
                     # these are final files
                     continue
-                if 'tmp' in file_path:
+                if 'outputs/thumbnail.small' in str(file_path):
                     # these are intermediate files
                     continue
-                print('could not find input size for', file, row['script'], file=stderr)
+                if 'repl/inputs/chromium' in str(file_path):
+                    # these are intermediate files
+                    continue
+                #print('could not find input size for', file, row['script'], file=stderr)
                 continue
             size, = relevant['size_bytes']
+            size = relevant['size_bytes'].iloc[0]
             total += size
         return total
     df['input_size'] = df.apply(find_input_size, axis=1)
@@ -95,8 +109,10 @@ def plot_benchmark_times(df,
     ax.set_yticklabels(ticks[1])
     ax.set_ylabel(ylabel)
     ax.set_ybound(lower=0)
-    if legend:
-        ax.legend(loc=('best' if legend == True else legend))
+    if legend is True:
+        ax.legend(loc='upper left')
+    elif isinstance(legend, tuple):
+        ax.legend(loc='upper left')
     else:
         ax.legend().set_visible(False)
 
@@ -118,8 +134,8 @@ def plot_io(df,
 
 def plot_memory(df,
                 ax,
-                ticks=([0, 1000000, 10000000, 100000000, 1000000000], 
-                       ['0', '1MB', '10MB', '100MB', '1GB']),
+                ticks=([0, 1000000, 10000000, 100000000, 1000000000, 10000000000, 100000000000], 
+                       ['0', '1MB', '10MB', '100MB', '1GB', '10GB', '100GB']),
                 ylabel='Memory (high water, bytes)',
                 linthresh=1000000):
     sns.set(style="whitegrid")
@@ -140,17 +156,18 @@ def plot_time_vs_wall(df, ax):
     sns.barplot(x='benchmark', y='time_occupied', data=df, color='#44AA99', ax=ax, zorder=3)
     #ax.set_xticklabels(ax.get_xticklabels(), rotation=60, ha='right')
     ax.set_xlabel('')
-    ax.set_yticks(np.linspace(0, 6, 7))
+    ax.set_yticks(np.linspace(0, 7, 8))
     ax.set_ylabel('CPU time / wall time')
 
 dynamic_analysis_script_translations = {
-    "riker/scripts/vim/execute.sh": "riker/scripts/vim/build.sh",
-    "riker/scripts/xz/execute.sh": "riker/scripts/xz/build.sh",
-    "riker/scripts/redis/execute.sh": "riker/scripts/redis/build.sh",
-    "riker/scripts/xz-clang/execute.sh": "riker/scripts/xz-clang/build.sh",
-    "riker/scripts/lua/execute.sh": "riker/scripts/lua/build.sh",
-    "riker/scripts/memcached/execute.sh": "riker/scripts/memcached/build.sh",
-    "riker/scripts/sqlite/execute.sh": "riker/scripts/sqlite/build.sh"
+    "ci-cd/riker/vim/execute.sh": "ci-cd/riker/vim/build.sh",
+    "ci-cd/riker/xz/execute.sh": "ci-cd/riker/xz/build.sh",
+    "ci-cd/riker/redis/execute.sh": "ci-cd/riker/redis/build.sh",
+    "ci-cd/riker/xz-clang/execute.sh": "ci-cd/riker/xz-clang/build.sh",
+    "ci-cd/riker/lua/execute.sh": "ci-cd/riker/lua/build.sh",
+    "ci-cd/riker/memcached/execute.sh": "ci-cd/riker/memcached/build.sh",
+    "ci-cd/riker/sqlite/execute.sh": "ci-cd/riker/sqlite/build.sh",
+    "ci-cd/riker/lsof/execute.sh": "ci-cd/riker/lsof/build.sh",
 }
 
 def read_data():
@@ -200,6 +217,8 @@ def read_data():
                                       'wall_time': 'sum',
                                       'children_num_fds': 'sum'}).reset_index()
 
+    df = df.sort_values("benchmark")
+    bench_df = bench_df.sort_values("benchmark")
     return df, bench_df
 
 def main(output_dir=None, text_mode=False):
@@ -301,22 +320,22 @@ def main(output_dir=None, text_mode=False):
 
     plot_benchmark_times(df_rel_to_input, 
                          axes[3],
-                         legend=(0.1, 0.65),
+                         legend=True,
                          ylabel='CPU time per input byte',
-                         ticks=([0, 0.00000001, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001, 0.01], 
-                                ['0', '10ns', '100ns',    '1us',    '10us', '100us',  '1ms', '10ms']),
+                         ticks=([0, 0.00000001, 0.0000001, 0.000001, 0.00001, 0.0001, 0.001], 
+                                ['0', '10ns', '100ns',    '1us',    '10us', '100us',  '1ms']),
                                 linthresh=0.00000001)
     plot_io(df_rel_to_input, 
             axes[7],
             ylabel='IO per input byte',
-            ticks=([0,    1,   10,     100,    1000,  10000,  100000, 1000000], 
-                   ['0', '1B', '10B', '100B', '1KB', '10KB', '100KB', '1MB']),
+            ticks=([0,    1,   10,     100,    1000,  10000], 
+                   ['0', '1B', '10B', '100B', '1KB', '10KB']),
                    linthresh=1)
     plot_memory(df_rel_to_input, 
                 axes[5],
                 ylabel='Memory per input byte',
-                ticks=([0,   0.001,   0.01,     0.1,  1,    10,    100,   1000,  10000], 
-                       ['0', '0.001B', '0.01B', '0.1B', '1B', '10B', '100B', '1KB', '10KB']),
+                ticks=([0,   0.001,   0.01,     0.1,  1,    10,    100,   1000], 
+                       ['0', '0.001B', '0.01B', '0.1B', '1B', '10B', '100B', '1KB']),
                 linthresh=0.001)
     
     plt.setp(axes[6].get_xticklabels(), visible=True, rotation=60, ha='right')
@@ -327,13 +346,19 @@ def main(output_dir=None, text_mode=False):
         "font.family": "serif",
         "font.serif": ["Times New Roman"],  # Replace with your LaTeX font if different
     })
-    plt.tight_layout()
-    for i in range(2, len(axes)):
-        # adjust the position of the axes down a little bit
-        pos = axes[i].get_position()
-        pos.y0 -= 0.05
-        pos.y1 -= 0.05
-        axes[i].set_position(pos)
+    benchmarks = df["benchmark"].unique()
+    for ax in axes:
+        ax.set_xticks(range(len(benchmarks)))
+        ax.set_xticklabels(benchmarks, rotation=60, ha='right')
+
+    plt.tight_layout(rect=[0, 0.05, 1, 1]) 
+    fig.align_ylabels(axes)
+    # for i in range(2, len(axes)):
+    #     # adjust the position of the axes down a little bit
+    #     pos = axes[i].get_position()
+    #     pos.y0 -= 0.05
+    #     pos.y1 -= 0.05
+    #     axes[i].set_position(pos)
     if output_dir:
         plt.savefig(name('trellis'))
     else:

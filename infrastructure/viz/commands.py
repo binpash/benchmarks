@@ -14,7 +14,7 @@ coreutil_cmds = 'chcon chgrp chown chmod cp dd df dir dircolors install ln ls mk
 shell_builtins = ['read', 'exit', 'cd', 'export', 'wait', '[[', '.',
                   'set', 'unset', 'exec', 'trap', 'return', 'eval', 'source', 'shift',
                   'pushd', 'popd', 'dirs', 'umask', 'type', 'command', 'enable',
-                  'break', 'continue', 'local', 'declare', 'export', 'readonly',]
+                  'break', 'continue', 'declare', 'export', 'readonly',]
 standard_linux_tools = [
     'egrep', 'hostname', 'libtool', 'tcpdump', 'openssl', 'rev', 'ar', 'xargs', 
     'ffmpeg', 'gzip', 'grep', 'iconv', 'git', 'gcc', 'sed', 'col', 'convert', 

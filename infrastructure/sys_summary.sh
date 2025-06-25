@@ -1,74 +1,96 @@
 #!/bin/bash
 
+SAMPLING_INT=1
+CSV_HEADER="Benchmark,Sys Calls,FD_Snapshot,Unique_FD,Peak_FD"
+
 output_file="benchmark_results.csv"
 
-benchmarks=(
-  "aurpkg"
-  "bio"
-  "covid-mts"
-  "file-enc"
-  "log-analysis"
-  "makeself"
-  "max-temp"
-  "media-conv"
+default_benchmarks=(
+  "analytics"
+  "bio"  
+  "ci-cd"
+  "covid"
+  "file-mod"
+  "inference"
+  "ml"
   "nlp"
   "oneliners"
-  "riker"
-  "sklearn"
-  "unix50"
-  "vps-audit"
-  "web-index"
+  "pkg"
+  "repl"
+  "unixfun"
+  "weather"
+  "web-search"
+  "web-search.new"
 )
 
-# Error handler
-error() {
-    echo "Error: $1" >&2
-    exit 1
-}
+benchmarks=()
+args=()
 
-echo "Benchmark,Sys Calls,File Descriptors" > "$output_file"
+for arg in "$@"; do
+    if [[ "$arg" == --* ]]; then
+        args+=("$arg")
+    else
+        benchmarks+=("$arg")
+    fi
+done
+
+[[ ${#benchmarks[@]} -eq 0 ]] && benchmarks=("${default_benchmarks[@]}")
+
+echo "$CSV_HEADER" > "$output_file"
 
 for benchmark in "${benchmarks[@]}"; do
     echo "Running benchmark: $benchmark"
 
-    strace_output="/tmp/${benchmark}_strace.txt"
-    lsof_output="/tmp/${benchmark}_lsof.txt"
+    mkdir -p "/tmp/${benchmark}"
+    strace_out="/tmp/${benchmark}_strace.txt"
+    snap_out="/tmp/${benchmark}_lsof_snapshot.txt"
+    stream_out="/tmp/${benchmark}_lsof_stream.txt"
 
     if ! cd "./$benchmark"; then
-        echo "$benchmark [fail]: Directory not found" >> "$output_file"
+        echo "$benchmark,FAIL: directory not found" >> "../$output_file"
         continue
     fi
 
-    strace -c -o "$strace_output" ./execute.sh --small || {
-        echo "$benchmark [fail]: strace failed" >> "$output_file"
-        cd - > /dev/null
-        continue
-    }
+    ./install.sh || { echo "$benchmark,FAIL: install.sh" >> "../$output_file"; cd - >/dev/null; continue; }
+    ./fetch.sh "${args[@]}" || { echo "$benchmark,FAIL: fetch.sh" >> "../$output_file"; cd - >/dev/null; continue; }
 
-    ./execute.sh --small &
+    setsid ./execute.sh "${args[@]}" &
     pid=$!
-
     sleep 1
+    pgid=$(ps -o pgid= -p "$pid" | tr -d ' ')
 
-    if [[ -d /proc/$pid ]]; then
-        lsof -p "$pid" > "$lsof_output"
-    else
-        echo "Warning: Process $pid ended before lsof could capture file descriptors."
-        > "$lsof_output"
-    fi
+    [[ -z $pgid ]] && { echo "$benchmark,FAIL: no PGID" >> "../$output_file"; cd - >/dev/null; continue; }
+
+    lsof -n -P -w -g "$pgid" -r${SAMPLING_INT} > "$stream_out" &
+    sampler_pid=$!
+
+    lsof -n -P -w -g "$pgid" > "$snap_out" || echo "Warning: lsof snapshot failed"
 
     wait "$pid"
+    kill "$sampler_pid" 2>/dev/null
 
-    total_syscalls=$(awk '/^100.00/ {print $4}' "$strace_output")
-    total_syscalls=${total_syscalls:-0}
+    strace -c -f -o "$strace_out" ./execute.sh "${args[@]}" || {
+        echo "$benchmark,FAIL: strace" >> "../$output_file"; cd - >/dev/null; continue; }
 
-    fd_count=$(wc -l < "$lsof_output")
-    fd_count=${fd_count:-0}
+    syscalls=$(awk '/^100\.00/ {print $4}' "$strace_out")
 
-    echo "$benchmark,$total_syscalls,$fd_count" >> "../$output_file"
+    FD_Snapshot=$(awk 'NR>1' "$snap_out" | wc -l)
+    Unique_FD=$(awk 'NR>1 {print $4":"$10}' "$snap_out" | sort -u | wc -l)
 
-    rm -f "$strace_output" "$lsof_output"
-    cd - > /dev/null
+    if [[ -s "$stream_out" ]]; then
+        Peak_FD=$(awk '
+            NF && $1!="COMMAND" {seen[$4":"$10]++}
+            /^====/             {print length(seen); delete seen}
+        ' "$stream_out" | awk 'max<$1{max=$1} END{print max}')
+    else
+        Peak_FD=0
+    fi
+
+    echo "${benchmark%,/},${syscalls:-0},${FD_Snapshot:-0},${Unique_FD:-0},${Peak_FD:-0}" \
+     >> "../$output_file"
+
+    rm -f "$strace_out" "$snap_out" "$stream_out"
+    cd - >/dev/null
 done
 
 echo "Benchmark results saved to $output_file."

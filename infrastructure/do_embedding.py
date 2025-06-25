@@ -43,9 +43,16 @@ def read_json_and_generate_embeddings(json_file):
                     combined_script += f.read() + "\n"  # Append content
 
         print(len(combined_script))
+        # Sample lines from script if it's too long
+        if len(combined_script) > 10000:
+            lines = combined_script.split('\n')
+            sampled_lines = lines[:500]
+            combined_script = "\n".join(sampled_lines)
+            print("Truncated: ", len(combined_script))
+
         # Generate embedding using OpenAI's API
         try:
-            response = client.embeddings.create(model="text-embedding-ada-002",  # Use a suitable model for embedding
+            response = client.embeddings.create(model="text-embedding-3-large",  # Use a suitable model for embedding
             input=combined_script)
             embedding = response.data[0].embedding
         except Exception as e:

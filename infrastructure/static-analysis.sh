@@ -3,10 +3,10 @@
 set -e
 set -o pipefail
 
-REPO_TOP=$(git rev-parse --show-toplevel)
+TOP=$(git rev-parse --show-toplevel)
 OUTPUT_PATH="$1"
 shift
-pushd "$REPO_TOP"/infrastructure
+pushd "$TOP"/infrastructure
 
 sudo apt-get update && apt-get install -y \
     git \

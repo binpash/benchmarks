@@ -22,7 +22,7 @@ def get_data_json(
     p: psutil.Process, 
     log_current_time: str, 
     benchmark_experiment_start: str, 
-) -> str: 
+) -> dict: 
     parent_pid = p.ppid()
     mem = p.memory_full_info() # slow, we need uss
     return dict(

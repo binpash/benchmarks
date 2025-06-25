@@ -1,46 +1,46 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")" || exit 1
+TOP=$(git rev-parse --show-toplevel)
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
-export BENCHMARK_CATEGORY="web-search"
+export BENCHMARK_CATEGORY="web-search.new"
 
 # ensure a local ./tmp directory exists for sorting
 mkdir -p ./tmp
 export TMPDIR=$PWD/tmp
 
-INPUTS="$PWD/inputs"
-OUTPUT_BASE="$PWD/outputs/ngrams"
+in="$TOP/web-search.new/inputs"
+out="$TOP/web-search.new/outputs"
+export IN=${in}
+export OUT=${out}
 
-suffix=""
+size="full"
 for arg in "$@"; do
     if [ "$arg" = "--small" ]; then
-        suffix="_small"
+        size="small"
         break
     elif [ "$arg" = "--min" ]; then
-        suffix="_min"
+        size="min"
         break
     fi
 done
-INPUT_FILE="$INPUTS/index$suffix.txt"
 
-export INPUT_FILE
+mkdir -p "$in"
+mkdir -p "$out"
 
-input_path="inputs/articles$suffix"
 
-if [ ! -d "$input_path" ]; then
-	    echo "Error: Directory does not exist."
-      exit 1
+if [ $size = "min" ]; then
+    echo https://cs.brown.edu/courses/csci1380/sandbox/1 >${OUT}/urls.txt
+elif [ $size = "small" ]; then
+    echo https://cs.brown.edu/courses/csci1380/sandbox/2 >${OUT}/urls.txt
+else
+    echo https://cs.brown.edu/courses/csci1380/sandbox/3 >${OUT}/urls.txt
 fi
 
-mkdir -p "$OUTPUT_BASE"
-
-echo "web-search"
-BENCHMARK_SCRIPT="$(realpath "./scripts/ngrams.sh")"
+echo "web-index"
+BENCHMARK_SCRIPT="$(realpath "./scripts/engine.sh")"
 export BENCHMARK_SCRIPT
 
-BENCHMARK_INPUT_FILE="$(realpath "$INPUT_FILE")"
-export BENCHMARK_INPUT_FILE
-
-$KOALA_SHELL "./scripts/ngrams.sh" "$OUTPUT_BASE" "$input_path"
+$KOALA_SHELL "$BENCHMARK_SCRIPT"
 echo $?

@@ -32,7 +32,6 @@ if [[ "$IN_NAME" == "input_min.txt" ]]; then
         echo "Directory 'min_inputs' not found." >&2
         exit 1
     fi
-    exit 0
 fi
 
 if [[ ! -f "$IN_NAME" ]]; then

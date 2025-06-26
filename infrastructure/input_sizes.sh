@@ -36,7 +36,6 @@ CSV_OUT="$REPO_TOP/input_sizes.${SUFFIX}.csv"
 default_benchmarks=(
     "analytics"
     "bio"
-    "ci-cd"
     "covid"
     "file-mod"
     "inference"
@@ -77,7 +76,7 @@ for bench in "${default_benchmarks[@]}"; do
         echo "No fetch.sh in $bench. Skipping."
         continue
     fi
-    ./install.sh
+    # ./install.sh
     ./fetch.sh "$SIZE_FLAG" || {
         echo "Fetch failed in $bench"
         continue

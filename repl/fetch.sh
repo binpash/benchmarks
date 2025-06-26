@@ -17,6 +17,8 @@ if [ ! -d "$CHROMIUM_DIR/.git" ]; then
         echo "Failed to download or extract chromium data."
         exit 1
     fi
+    cd "$CHROMIUM_DIR" || exit 1
+    git config --global --add safe.directory $CHROMIUM_DIR
     echo "Chromium data downloaded and extracted to $CHROMIUM_DIR."
 else
     echo "Chromium data already exists in $CHROMIUM_DIR."

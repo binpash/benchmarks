@@ -31,7 +31,7 @@ jobs:
           - repl
           - unixfun
           - weather
-          - web-search.new
+          - web-search
 
     steps:
       - name: Checkout code

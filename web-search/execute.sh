@@ -4,14 +4,14 @@ cd "$(dirname "$0")" || exit 1
 TOP=$(git rev-parse --show-toplevel)
 
 KOALA_SHELL=${KOALA_SHELL:-bash}
-export BENCHMARK_CATEGORY="web-search.new"
+export BENCHMARK_CATEGORY="web-search"
 
 # ensure a local ./tmp directory exists for sorting
 mkdir -p ./tmp
 export TMPDIR=$PWD/tmp
 
-in="$TOP/web-search.new/inputs"
-out="$TOP/web-search.new/outputs"
+in="$TOP/web-search/inputs"
+out="$TOP/web-search/outputs"
 export IN=${in}
 export OUT=${out}
 

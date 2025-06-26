@@ -47,7 +47,6 @@ default_benchmarks=(
     "unixfun"
     "weather"
     "web-search"
-    "web-search.new"
 )
 
 echo "benchmark,size_bytes" >"$CSV_OUT"

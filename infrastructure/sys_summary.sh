@@ -20,7 +20,6 @@ default_benchmarks=(
   "unixfun"
   "weather"
   "web-search"
-  "web-search.new"
 )
 
 benchmarks=()

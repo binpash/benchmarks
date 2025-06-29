@@ -15,7 +15,7 @@ TOP=$(git rev-parse --show-toplevel)
 EVAL_DIR="${TOP}/repl"
 REPO_PATH="${EVAL_DIR}/inputs/chromium"
 COMMITS_DIR="${EVAL_DIR}/inputs/commits"
-NUM_COMMITS="${1:-20}"
+NUM_COMMITS=${NUM_COMMITS:-2}
 
 # override HOME variable
 export HOME="$COMMITS_DIR"

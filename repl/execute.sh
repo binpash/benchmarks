@@ -23,6 +23,7 @@ export BENCHMARK_SCRIPT
 ${KOALA_SHELL} "${main_script_2}"
 echo $?
 
+echo "Starting git workflow..."
 git_script="${scripts_dir}/git-workflow.sh"
 
 export BENCHMARK_SCRIPT="$git_script"

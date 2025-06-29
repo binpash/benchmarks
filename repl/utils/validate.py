@@ -5,13 +5,24 @@ import argparse
 import hashlib
 import os
 import sys
+import subprocess
+from pathlib import Path
 
-input_file = "vps-audit-report.txt"
-input_file_2 = "vps-audit-negate-report.txt"
-error_file = "vps-audit.err"
-output_file = "vps-audit-processed.txt"
-output_file_2 = "vps-audit-negate-processed.txt"
-hash_folder = "hash"
+def get_repo_top() -> Path:
+    script_dir = Path(__file__).resolve().parent
+    result = subprocess.run(
+        ["git", "-C", str(script_dir), "rev-parse", "--show-toplevel"],
+        capture_output=True, text=True, check=True
+    )
+    return Path(result.stdout.strip())
+
+path_prefix = get_repo_top() / "repl"
+
+input_file = path_prefix / "vps-audit-report.txt"
+input_file_2 = path_prefix / "vps-audit-negate-report.txt"
+output_file = path_prefix / "vps-audit-processed.txt"
+output_file_2 = path_prefix / "vps-audit-negate-processed.txt"
+hash_folder = path_prefix / "hash"
 
 ansi_escape = re.compile(r'\x1b\[[0-9;]*m')
 

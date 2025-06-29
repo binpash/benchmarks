@@ -24,7 +24,7 @@ if [ "$force" = true ]; then
     rm -rf "$input_dir"
 fi
 
-rm "${eval_dir}"/vps-audit-negate-report.txt
-rm "${eval_dir}"/vps-audit-negate-processed.txt
-rm "${eval_dir}"/vps-audit-report.txt
-rm "${eval_dir}"/vps-audit-processed.txt
+rm -f "${eval_dir}"/vps-audit-negate-report.txt
+rm -f "${eval_dir}"/vps-audit-negate-processed.txt
+rm -f "${eval_dir}"/vps-audit-report.txt
+rm -f "${eval_dir}"/vps-audit-processed.txt

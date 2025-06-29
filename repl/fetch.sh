@@ -1,10 +1,10 @@
 #!/bin/bash
 
-cd "$(dirname "$0")" || exit 1
-
 URL='https://atlas.cs.brown.edu/data/'
 
-eval_dir="$PWD"
+TOP=$(git rev-parse --show-toplevel)
+
+eval_dir="${TOP}/repl"
 INPUT_DIR="${eval_dir}/inputs"
 CHROMIUM_DIR="${INPUT_DIR}/chromium"
 COMMITS_DIR="${INPUT_DIR}/commits"

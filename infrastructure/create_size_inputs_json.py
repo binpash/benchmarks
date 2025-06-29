@@ -37,20 +37,18 @@ def walk_files(root: pathlib.Path):
     yield from (p for p in root.rglob("*") if p.is_file())
 
 def emit_records(bench_root: pathlib.Path, out_file: pathlib.Path) -> None:
-    skip_path = bench_root / "repl" / "inputs" / "chromium"
-    skip_path = bench_root / "ci-cd" / "inputs"
+    skip_paths = [bench_root / "repl" / "inputs", 
+                  bench_root / "ci-cd" / "inputs"]
     for bench in BENCHMARKS:
         inputs_dir = bench_root / bench / "inputs"
         if not inputs_dir.is_dir():
             sys.stderr.write(f"Skipped “{bench}” (no inputs/ directory)\n")
             continue
-
+        if inputs_dir in skip_paths:
+            sys.stderr.write(f"Skipped “{bench}” (inputs/ directory is in skip_paths)\n")
+            continue
         with out_file.open("a", encoding="utf-8") as fh:
             for file in walk_files(inputs_dir):
-                # Skip files under git-workflow/inputs/chromium/
-                if file.is_relative_to(skip_path):
-                    continue
-
                 rel_path = file.relative_to(inputs_dir).as_posix()
                 size = du_size(str(file))
                 record = {

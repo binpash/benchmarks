@@ -8,6 +8,18 @@ It combines a systematic collection of diverse shell programs collected from tas
 The suite has been evaluated as part of the [ATC'25 Artifact Evaluation process](https://www.usenix.org/conference/atc25/call-for-artifacts) and
 has received all three badges (*Available*, *Functional*, and *Reproduced*). That version (frozen in time), can be found at the [atc25-ae branch](https://github.com/kbensh/koala/tree/atc25-ae).
 
+If any aspect of the suite is useful, please use the following citation:
+```bibtex
+@inproceedings{koala2025atc,
+  title = {The Koala Benchmarks for the Shell: Characterization and Implications},
+  author = {Evangelos Lamprou and Ethan Williams and Georgios Kaoukis and Zhuoxuan Zhang
+        and Michael Greenberg and Konstantinos Kallas and Lukas Lazarek and Nikos Vasilakis},
+  booktitle = {Proceedings of the 2025 USENIX Annual Technical Conference (USENIX ATC '25)},
+  year = {2025},
+  address = {Santa Clara, CA},
+  publisher = {USENIX Association},
+}
+```
 
 ## Table of Contents
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

@@ -6,7 +6,7 @@ Koala is a benchmark suite aimed at the characterization of performance-oriented
 It combines a systematic collection of diverse shell programs collected from tasks found out in the wild, various real inputs to these programs.
 
 The suite has been evaluated as part of the [ATC'25 Artifact Evaluation process](https://www.usenix.org/conference/atc25/call-for-artifacts), 
-has received all three badges (*Available*, *Functional*, and *Reproduced*).
+has received all three badges (*Available*, *Functional*, and *Reproduced*), and can be found at the [atc25-ae branch](https://github.com/kbensh/koala/tree/atc25-ae).
 
 ## Benchmarks
 

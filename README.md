@@ -29,7 +29,7 @@ has received all three badges (*Available*, *Functional*, and *Reproduced*). Tha
     - [Static Characterization & Analysis](#static-characterization--analysis)
 - [Appendix I: Inputs](#appendix-i-inputs)
 - [Appendix II: Dependencies](#appendix-ii-dependencies)
-  - [License](#license)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

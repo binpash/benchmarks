@@ -25,14 +25,18 @@ RUN git config --global --add safe.directory /benchmarks
 
 RUN /benchmarks/setup.sh
 
+ARG BENCHMARK_INSTALLS="yes"
+
 # Run install.sh for each benchmark
-RUN set -eux; \
+RUN  if [ "$BENCHMARK_INSTALLS" = "yes" ]; then \
+    set -eux; \
     for bench in /benchmarks/*; do \
         if [ -f "$bench/install.sh" ]; then \
             echo "Running install.sh in $bench"; \
             chmod +x "$bench/install.sh"; \
             bash "$bench/install.sh"; \
         fi; \
-    done
+    done \
+    fi
 
 CMD ["bash"]

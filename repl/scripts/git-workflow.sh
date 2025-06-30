@@ -22,7 +22,7 @@ export HOME="$COMMITS_DIR"
 mkdir -p "$COMMITS_DIR"
 
 cd "$REPO_PATH" || exit 1
-
+git config --global --add safe.directory "$REPO_PATH"
 g config user.email "author@example.com"
 g config user.name "A U Thor"
 

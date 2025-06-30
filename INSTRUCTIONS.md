@@ -1,213 +1,241 @@
-# Overview
+## Instructions
 
-The paper makes the following claims on pg. 2 (Comments to AEC reviewers after `:`):
+The top-level `main.sh` script is a quick script for downloading dependencies and inputs, running, profiling, and verifying a _single Koala benchmark_.
 
-1. **A collection of benchmark programs**: these are POSIX shell programs that perform a variety of tasks.
+```bash
+./main.sh <BENCHMARK_NAME> [OPTIONS] [<args passed to execute.sh>]
+```
 
-2. **Permanent and scalable storage of varying inputs**: "permanent" means Zenodo; "scalable" means Brown university servers, which allows for faster download compared to Zenodo. There are three input sizes---`min` take about a few minutes, `small` take a few hours, and `full` take several days---but note _AEC reviewers are encouraged to only try the first two sizes_.
 
-3. **Tooling and automation for reuse**: additional scripts automating dependency setup, input validation, and correctness checking.
+Each benchmark directory contains:
 
-4. **Characterization and implications**: additional infrastructure performing static and dynamic program analysis of the benchmark programs.
+```
+benchmarks/<name>/
+├── scripts/        # Benchmark scripts (*.sh)
+├── install.sh      # Installs dependencies
+├── fetch.sh        # Fetches input data
+├── execute.sh      # Runs benchmark
+├── validate.sh     # Validates output via hashes
+└── clean.sh        # Cleans temporary files (input and output files)
+```
 
-This artifact targets the following badges:
-
-* [ ] [Artifact available](#artifact-available): Reviewers are expected to confirm that the benchmark programs, their inputs, and automation scripts are all publicly available (about 10 minutes).
-* [ ] [Artifact functional](#artifact-functional): Reviewers are expected to confirm sufficient documentation, key components as described in the paper, and execution with `min` inputs (about 20 minutes); execution with `small` inputs (3 hours) is encouraged only after completion of the full artifact evaluation.
-* [ ] [Results reproducible](#results-reproducible): Reviewers are expected to reproduce _key_ results of sections 3, 5, 6, and 7 of the paper (3 hours).
-
-# Artifact Available (10 minutes)
-
-Confirm that the benchmark programs, their inputs, and automation scripts are all publicly available:
-
-1. The benchmark code is permanently hosted at: [https://github.com/binpash/benchmarks](https://github.com/binpash/benchmarks)
-
-3. Data are available on _permanent_ (i.e., archival-level durable, but slow) and _scalable_ (i.e., fast, but not archival-level durable) storage:
-
-    * Permanent archival storage on Zenodo, split across multiple DOIs due to Zenodo's max 50GB limit (AEC Reviewers: _this is slow, do not try to download_—just confirm their existence): [code & software dependencies](https://zenodo.org/records/15377017), [`small` inputs](https://zenodo.org/records/15361083); `full` in 5 parts:
-   [1](https://zenodo.org/records/15367723),
-   [2](https://zenodo.org/records/15368074),
-   [3](https://zenodo.org/records/15368508),
-   [4](https://zenodo.org/records/15368510),
-   [5](https://zenodo.org/records/15368512).
-
-* Scalable storage on a Brown University cluster (additional clusters being set up at Stevens and UCLA), accessible via `https://atlas.cs.brown.edu/data` (see [the full table for _all_ inputs in **Appendix I: All Inputs** below](https://github.com/binpash/benchmarks/blob/main/INSTRUCTIONS.md#appendix-i-all-inputs).)
-
-3. Additional scripts are available in the [`infrastructure/`](https://github.com/binpash/benchmarks/tree/main/infrastructure) directory of the repository.
-
-> AEC Reviewers: From this point on, scripts use the Brown links, as Zenodo is significantly slower.
-
-# Artifact Functional (20 minutes, optionally 3 hours)
-
-Confirm sufficient documentation, key components as described in the paper, and execution with min inputs (about 20 minutes):
-
-* Documentation: The top-level [README](https://github.com/binpash/benchmarks) file and benchmark-specific documentation available within each benchmark directory,
-containing information about each computation, input data, and expected output:
-[aurpkg](https://github.com/binpash/benchmarks/tree/main/aurpkg),
-[bio](https://github.com/binpash/benchmarks/tree/main/bio),
-[covid-mts](https://github.com/binpash/benchmarks/tree/main/covid-mts),
-[file-enc](https://github.com/binpash/benchmarks/tree/main/file-enc),
-[log-analysis](https://github.com/binpash/benchmarks/tree/main/log-analysis),
-[makeself](https://github.com/binpash/benchmarks/tree/main/makeself),
-[max-temp](https://github.com/binpash/benchmarks/tree/main/max-temp),
-[media-conv](https://github.com/binpash/benchmarks/tree/main/media-conv),
-[nlp](https://github.com/binpash/benchmarks/tree/main/nlp),
-[oneliners](https://github.com/binpash/benchmarks/tree/main/oneliners),
-[riker](https://github.com/binpash/benchmarks/tree/main/riker),
-[sklearn](https://github.com/binpash/benchmarks/tree/main/sklearn),
-[unix50](https://github.com/binpash/benchmarks/tree/main/unix50),
-[vps-audit](https://github.com/binpash/benchmarks/tree/main/vps-audit),
-[web-index](https://github.com/binpash/benchmarks/tree/main/web-index).
-
-* Key components: 15 benchmarks (i.e.,
-[aurpkg](https://github.com/binpash/benchmarks/tree/main/aurpkg),
-[bio](https://github.com/binpash/benchmarks/tree/main/bio),
-[covid-mts](https://github.com/binpash/benchmarks/tree/main/covid-mts),
-[file-enc](https://github.com/binpash/benchmarks/tree/main/file-enc),
-[log-analysis](https://github.com/binpash/benchmarks/tree/main/log-analysis),
-[makeself](https://github.com/binpash/benchmarks/tree/main/makeself),
-[max-temp](https://github.com/binpash/benchmarks/tree/main/max-temp),
-[media-conv](https://github.com/binpash/benchmarks/tree/main/media-conv),
-[nlp](https://github.com/binpash/benchmarks/tree/main/nlp),
-[oneliners](https://github.com/binpash/benchmarks/tree/main/oneliners),
-[riker](https://github.com/binpash/benchmarks/tree/main/riker),
-[sklearn](https://github.com/binpash/benchmarks/tree/main/sklearn),
-[unix50](https://github.com/binpash/benchmarks/tree/main/unix50),
-[vps-audit](https://github.com/binpash/benchmarks/tree/main/vps-audit),
-[web-index](https://github.com/binpash/benchmarks/tree/main/web-index)) and several scripts in [`infrastructure/`](https://github.com/binpash/benchmarks/tree/main/infrastructure).
-
-* Exercisability: Instructions below set up an Debian-based container and run _all_ benchmarks on `min` inputs (`all.sh`) or run specific benchmarks.
-
-> At this point, **run `git clone https://github.com/binpash/benchmarks` and `cd benchmarks`.**
-
-**Quickstart: Running a single benchmark (e.g., `nlp`):** To quickly execute a specific benchmark such as `nlp`, invoke the top-level `main.sh` script—which will set up a Debian-based container image, install dependencies, download benchmark-specific `min` inputs, and execute the benchmark (2 minutes):
+To manually execute a single benchmark: 
 
 ```sh
-./main.sh nlp
+cd benchmarks/<name>
+
+./install.sh
+
+# This will place input data in the `benchmarks/<name>/inputs` folder
+./fetch.sh
+
+# This will run one by one all scripts inside `benchmarks/<name>/scripts/` folder
+# Any output files produced will be placed in the `benchmarks/<name>/outputs` folder
+./execute.sh
+
+# This will check the output files against the expected hashes, and print the results
+# For benchmarks that do not produce output files, specialized validation logic is used
+./validate.sh
+
+# This will remove all temporary files created by the benchmark
+# By default, it will remove both inputs and outputs, returning the benchmark folder in its original state
+./clean.sh
 ```
 
-The reason this is easier to evaluate in a container is that some scripts *assume* that some dependencies on the *host system* (e.g. `git`). The scripts also assume a docker executable in the PATH, which can be configured with the `KOALA_CONTAINER_CMD`.
+The harness which automates this process and collects/displays metrics is `main.sh`:
 
-**Complete run: Running all benchmarks:** To execute the full set of benchmarks, invoke the top-level `all.sh` script—which essentially runs the previous command in a loop (20 minutes):
+```
+benchmarks/main.sh              # Drives all benchmarks
+```
 
+Configuration options (via env or CLI):
+To control the shell interpreter used to run the benchmarks, you can set the
+`KOALA_SHELL` environment variable.
+
+### Environment & Setup Notes
+
+**Note:** The setup scripts in this suite are designed for _Debian-based systems_.
+Koala comes with a Docker image, highly recommended when working on non-Debian systems.
+
+To build and run the Docker image:
 ```sh
-./all.sh
+# Build the container
+$ docker build -t koala .
+
+# Run the container
+$ docker run -it koala
+
+# For development, mount the koala directory
+$ sudo docker run -it --rm --cap-add=SYS_PTRACE --cap-add=NET_RAW --cap-add=NET_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined -v "$(pwd):/koala" ghcr.io/binpash/benchmarks:latest bash
 ```
 
-> **Not recommended on the first run:**
-> 
-> Both scripts above take additional optional parameters: Using `--small` will execute the benchmark(s) with the `small` inputs (about 3 hours) and `--bare` will execute the benchmarks on the host system (which might not satisfy dependencies). To replace the shell interpreter, `set` the `KOALA_SHELL` variable — e.g., `KOALA_SHELL="bash --posix"`.
-
-
-# Results Reproducible (about 3 hours)
-
-The key results of the analysis are the following:
-
-1. Principal Component Analysis (§3, Fig. 2);
-2. Syntactic Characterization & Analysis (§5, Fig. 4 & 5);
-3. Dynamic Characterization & Analysis (§6, Fig. 6).
-
-Most of these results are easily reproducible by running specific scripts in the repo. A part of PCA depends on embeddings, whose calculation incurs some financial costs due to OpenAI—thuse we have cashed these embeddings in the repo. Although summarized earlier in the paper (§3), PCA depends on the results of the static and dynamic analyses, so we start with no. 2 and 3 before returning to no. 1.
-
-**Preparation:** The dynamic analysis requires running Koala in a pre-set container due to elevated privileges:
-
-```sh
-mkdir -p /tmp/plots
-sudo docker pull ghcr.io/binpash/benchmarks:latest
-sudo docker run -it --rm -v "/tmp/plots":/tmp/plots ghcr.io/binpash/benchmarks:latest bash
-./setup.sh # Inside the container
+### Configuration
+```
+Usage: ./main.sh BENCHMARK_NAME [--time|--resources|--bare|args...]
+  --min            Run the benchmark with minimal inputs (default)
+  --small          Run the benchmark with small inputs
+  --full          Run the benchmark with full inputs
+  --time, -t       Measure wall-clock time
+  --resources      Measure resource usage
+  --bare           Run locally without Docker
+  --runs, -n N     Number of runs (default: 1)
+  --clean, -c      Run the full cleanup script (both inputs and outputs)
+  --keep, -k       Keep outputs
+  --prune          Run the benchmark on a fresh container (will need to re-download everything on each run)
+  --help, -h       Show this help message
 ```
 
-**Static characterization:** To generate the static characterization, run the following commands:
+Flags, apart from those referring to input sizes, can be combined freely (e.g. `--resources --bare -n 5`).
 
-```sh
-./setup.sh # No need to rerun this if you are already in the same container
-./infrastructure/static-analysis.sh /tmp/plots
+### Files produced per run
+| File (per-run)                                | Contents / Purpose                                                                                 | Generated when …                                              |
+|-----------------------------------------------|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| `<benchmark>.out` / `<benchmark>.err`         | Stdout / stderr from `execute.sh`.                                                                 | **Always**                                                    |
+| `benchmark.hash`                              | Pass/fail hashes written by `validate.sh` – indicates whether the run was correct.                 | **Always**                                                    |
+| `logs/…` (folder)                             | Raw monitors: `*.pidstat`, `*.io`, `*.cpu`, `*.mem`, `*.time`, `*.val`.                            | Only with (**`--resources`** or **`--time`**) &&  **`--bare`**|
+| `<prefix>_stats_run<i>.txt`                   | Human-readable CPU/RAM/I/O summary for run *i*.                                                    | Only with **`--resources`**                                   |
+| `<benchmark>_time_run<i>.val`                 | Single wall-clock number (seconds) for run *i*.                                                    | Only with **`--time`**                                        |
+
+**Extra files produced when `-n <N>` > 1**
+| File (aggregated)                     | Description                                             | Requires flag |
+|---------------------------------------|---------------------------------------------------------|---------------|
+| `<prefix>_stats_aggregated.txt`       | Mean / min / max of every numeric resource metric.      | `--resources` |
+| `<benchmark>_times_aggregated.txt`    | Mean / min / max of wall-clock seconds.                 | `--time`      |
+
+### Usage examples
+
+1. Plain correctness run for the `unixfun` benchmark:
+```bash
+./main.sh unixfun
+```
+2. Run 10 times, record runtimes only:
+```bash
+./main.sh unixfun -n 10 --time
+```
+3. Heavy resource tracing inside Docker – 3 repetitions:
+```bash
+./main.sh unixfun -n 3 --resources
+```
+4. Lightweight local resource logging (no Docker):
+```bash
+./main.sh unixfun --resources --bare
+```
+5. Combine timing + resources, forward extra args to benchmark's infrastructure scripts:
+```bash
+./main.sh unixfun -n 5 --resources --time -- --small --fast
 ```
 
-This will place the heatmap plot showing the results of the static analysis in the `/tmp/plots` directory on the host system.
+### Dynamic Characterization & Analysis
+When running a benchmark with the `--resources` flag, existing process logs in `infrastructure/target/process-logs/` are automatically moved to `infrastructure/target/backup-process-logs/`.
+This ensures clean output when collecting new resource statistics. The new logs are then used to generate dynamic analysis visualizations.
 
-**Dynamic characterization:** To generate the dynamic characterization, run the following commands:
+#### Running the Dynamic Analysis Separately
+You can also run the dynamic analysis independently of the main harness. This is useful for manually generating plots and debugging, while only having to execute each benchmark and avoiding the full setup and cleanup process.
 
-> *Note*: This step will run the entire suite again, with tracing enabled (~3 hours).
+#### Step-by-step:
+1. **Install dependencies**:
+   ```bash
+   sudo apt-get install -y autoconf automake libtool build-essential cloc
+   pip install --break-system-packages -r "infrastructure/requirements.txt"
+    ```
 
-```sh
-./setup.sh # No need to rerun this if you are already in the same container
-./infrastructure/dynamic-analysis.sh --small
+2. **Run the analysis script manually**:
+    ```bash
+    ./infrastructure/run_dynamic.py benchmark_name
+    ```
+    This generates new process logs in:
+    ```bash
+    infrastructure/target/process-logs/
+    ```
+
+3. **(If using Docker)**:  
+   Copy the log files from the container to your host system in order to generate plots. The requirements will need to be installed in your host machine as well.  
+   If you'd prefer not to copy files, you can instead run the visualizer with the `--text` flag to produce textual output directly:
+
+   ```bash
+   infrastructure/viz/dynamic.py --text
+   ```
+
+4. **Navigate to the infrastructure directory**:
+    ```bash
+    cd infrastructure
+
+5. **Delete previous analysis output**:
+    ```bash
+    rm -f target/dynamic_analysis.csv
+    ```
+
+6. **Regenerate the analysis CSV**:
+    ```bash
+    make target/dynamic_analysis.csv
+    ```
+
+7. **Generate the visualizations**:
+    ```bash
+    python infrastructure/viz/dynamic.py /path/to/output
+    ```
+
+This produces benchmark-specific performance plots, showing shell vs command time,
+CPU usage, I/O throughput, and memory footprint, for all benchmarks that have logs present in `infrastructure/target/process-logs/`
+
+#### Anatomy of stats file
+```
+Benchmark Statistics
+==================================================
+Benchmark: bio
+--------------------------------------------------
+Total CPU time: 6.68 sec
+Total Wall time: 6.91 sec
+Total IO bytes: 1107624733.00
+Max Memory Usage: 17235968.00 bytes
+CPU time per input byte: 0.000000 sec/byte
+Memory per input byte: 0.071815 bytes/byte
+IO per input byte: 4.615032 bytes/byte
+Time in Shell: 0.00 sec
+Time in Commands: 6.68 sec
+==================================================
 ```
 
-**Principal component analysis:** Part of the PCA analysis involves sending the source code of the benchmarks to a remote embedding model using OpenAI's API; for convenience and cost concerns, we provide the results the embedding model in `infrastructure/data/embeddings.csv` (generatable by running `python3 infrastructure/do_embedding.py`).
+Per-input-byte numbers are computed automatically: if `BENCHMARK_INPUT_FILE` points to a file or a directory, the harness figures out its byte size.
+For more accurate analysis, please run inside a docker container.
 
-```sh
-./setup.sh # No need to rerun this if you are already in the same container
-./infrastructure/pc-analysis.sh /tmp/plots/pca.pdf
-```
+Local (`--bare`) and Docker-based stats share the exact same format, so they aggregate seamlessly.
 
-# Optional: Applying benchmarks to various systems (1–3 days)
+### Static Characterization & Analysis
 
-This section is about setting up and running other systems on the Koala benchmarks. Crucially:
+We use [`libdash`](https://github.com/binpash/libdash) to parse and analyze both the shell portion of each benchmark, and the portions of components called into by the shell and which often implement the kernel of a computation: for the shell portion, we count the total occurrences of every AST node; for the command portion, we analyze only AST nodes counting commands, built-ins, and functions—noting that the results are conservative, as they do not count dynamic commands.
 
-* The difficulty of evaluating prototype systems using Koala depends on these systems (i.e., not our contribution) as well as access to specific hardware (e.g., large multiprocessors).
-* The authors of these systems are free to make any modifications to the benchmarks, the inputs, or the scripts according to the contributions claimed by _their_ systems, not Koala.
+The analysis produces CSV summaries and heatmaps across the benchmark suite, highlighting the use of each shell construct.
 
-Therefore, this evaluation outside the scope of the Koala artifact evaluation.
+1. **Install dependencies**:
+   ```bash
+   sudo apt-get install -y autoconf automake libtool build-essential cloc
+   pip install --break-system-packages -r infrastructure/requirements.txt
+   ```
+   
+2. **Register the benchmark script**:  
+   Add the new benchmark’s script pattern to:
+   `infrastructure/data/script-globs.json`
+   > **Note:** Syntactic analysis only works for **POSIX-compliant** scripts.
 
-**Shark:** Running the [Shark](https://web.cs.umass.edu/publication/docs/2003/UM-CS-2003-009.pdf) portion of the evaluation requires cloning a Shark-specific fork of the Koala repository that has the [transformations described in the Shark paper](https://web.cs.umass.edu/publication/docs/2003/UM-CS-2003-009.pdf) applied to the benchmarks. The fork's [README](https://github.com/binpash/koala-shark) file includes a table outlining all the changes made. To clone it, first `cd` to a new directory and then run:
+3. **Remove previous analysis artifacts**:
+    ```bash
+    rm -f infrastructure/target/cyclomatic.csv
+    rm -f infrastructure/target/lines_of_code.csv
+    rm -f infrastructure/target/nodes_in_scripts.csv
+    rm -f infrastructure/target/scripts_to_benchmark.csv
+    ```
 
-```sh 
-git clone https://github.com/binpash/koala-shark
-cd koala-shark
-```
+4. **Navigate to the infrastructure directory**:
+    `cd infrastructure`
 
-To generate evaluation numbers for some or all of the modified benchmarks, invoke any of the `main.sh` and `all.sh` scripts with appropriate flags.
-For example, to measure execution time for the entire suite, with either `min` or `small` inputs:
+5. **Regenerate the syntactic analysis artifacts**:
+    `make`
 
-```sh
-./all.sh --time
-./all.sh --time --small
-``` 
+6. **Generate visualizations**:
+    ```
+    python infrastructure/viz/syntax.py output_dir
+    python infrastructure/viz/commands.py output_dir
+    ```
 
-**GNU `parallel`**: Running [GNU `parallel`](https://www.gnu.org/software/parallel/) portion of the evaluation requires cloning a `parallel`-specific fork of the Koala repository that has all the relevant GNU parallel modifications applied to the benchmarks. The [repository README](https://github.com/binpash/koala-parallel) includes a table outlining all changes made. To clone it, first `cd` to a new directory and then run:
-
-```sh 
-git clone https://github.com/binpash/koala-parallel
-cd koala-shark
-```
-
-As before, to generate evaluation numbers for some or all of the modified benchmarks, invoke any of the `main.sh` and `all.sh` scripts with appropriate flags.
-For example, to measure execution time for the entire suite, with either `min` or `small` inputs:
-
-```sh
-./all.sh --time
-./all.sh --time --small
-```
-
-**hS**: Running the Koala suite with [hS](https://sigops.org/s/conferences/hotos/2023/papers/liargkovas.pdf), requires cloning the hS out-of-order execution engine (specifically the `ae` branch and setting it up. The [`hs` repo](https://github.com/binpash/hs) is not public, but the forezn URL branch is named [`ae-atc`](https://github.com/binpash/hs/tree/ae) and will eventually be accessible there. If access is required, we can arrange for its authors to provide confidential access.
-
-# Contact
-
-For questions or bug reports, please contact `koala@brown.edu` or open an issue on GitHub.
-
-# Appendix I: All Inputs
-
-The table below contains all links to the inputs. AEC reviewers: Some of these inputs are extremely large and hosted on low-bandwidth permanent-storage services such as Zenodo. To confirm existence, simply click on the URL to to start a download and then stop downloading a few seconds later.
-
-| Benchmark     | Min                                                                                                 | Small                                                                                                            | Full                                                                                                                                  |
-|---------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| `aurpkg`        | [Github Repo](https://atlas.cs.brown.edu/data/packages)                                         | [Brown](https://atlas.cs.brown.edu/data/packages) [Zenodo](https://zenodo.org/records/15361083)                  | [Brown](https://atlas.cs.brown.edu/data/packages) [Zenodo](https://zenodo.org/records/15367723)                                       |
-| `bio`           | [Github Repo](https://github.com/binpash/benchmarks/tree/main/bio/min_inputs)                       | [Brown](https://atlas.cs.brown.edu/data/bio/small) [Zenodo](https://zenodo.org/records/15361083)                 | [Brown](https://atlas.cs.brown.edu/data/bio) [Zenodo](https://zenodo.org/records/15367723)                                       |
-| `covid-mts`     | [Github Repo](https://github.com/binpash/benchmarks/tree/main/covid-mts/min_inputs)                 | [Brown](https://atlas.cs.brown.edu/data/covid-mts/in_small.csv.gz) [Zenodo](https://zenodo.org/records/15361083) | [Brown](https://atlas.cs.brown.edu/data/covid-mts/in_full.csv.gz) [Zenodo](https://zenodo.org/records/15368074)                       |
-| `file-enc`      | [Github Repo](https://github.com/binpash/benchmarks/tree/main/file-enc/min_inputs)                  | [Brown](https://atlas.cs.brown.edu/data/pcaps.zip) [Zenodo](https://zenodo.org/records/15361083)                 | [Brown](https://atlas.cs.brown.edu/data/pcaps_large.zip) [Zenodo](https://zenodo.org/records/15368510)                                |
-| `log-analysis`  | [Github Repo](https://github.com/binpash/benchmarks/tree/main/log-analysis/min_inputs)              | [Brown](https://atlas.cs.brown.edu/data/pcaps.zip) [Zenodo](https://zenodo.org/records/15361083)                 | [Brown](https://atlas.cs.brown.edu/data/pcaps_large.zip) [Zenodo](https://zenodo.org/records/15368510)                                |
-| `makeself`      | No inputs                                                                                           | No inputs                                                                                                        | No inputs                                                                                                                             |
-| `max-temp`      | [Github Repo](https://github.com/binpash/benchmarks/tree/main/max-temp/min_inputs)                  | [Brown](https://atlas.cs.brown.edu/data/max-temp/noaa/) [Zenodo](https://zenodo.org/records/15361083)            | [Brown](https://atlas.cs.brown.edu/data/max-temp/noaa/) [Zenodo](https://zenodo.org/records/15368510)                                 |
-| `media-conv`    | [Github Repo](https://github.com/binpash/benchmarks/tree/main/media-conv/min_inputs/jpg_min/jpg)    | [Brown](https://atlas.cs.brown.edu/data/media-conv) [Zenodo](https://zenodo.org/records/15361083)         | [Brown](https://atlas.cs.brown.edu/data/media-conv) [Zenodo](https://zenodo.org/records/15368510)                              |
-| `nlp`           | [Brown](https://atlas.cs.brown.edu/data/gutenberg)                                                  | [Brown](https://atlas.cs.brown.edu/data/gutenberg/) [Zenodo](https://zenodo.org/records/15361083)                | [Brown](https://atlas.cs.brown.edu/data/gutenberg/) [Zenodo](https://zenodo.org/records/15368510)                                     |
-| `oneliners`     | [Brown](https://atlas.cs.brown.edu/data/dummy/)                                                     | [Brown](https://atlas.cs.brown.edu/data/dummy/) [Zenodo](https://zenodo.org/records/15361083)                    | [Brown](https://atlas.cs.brown.edu/data/dummy/) [Zenodo](https://zenodo.org/records/15368512)                                         |
-| `riker`         | [Github Repo](https://atlas.cs.brown.edu/data/riker)                                                | [Brown](https://atlas.cs.brown.edu/data/riker) [Zenodo](https://zenodo.org/records/15361083)                     | [Brown](https://atlas.cs.brown.edu/data/riker) [Zenodo](https://zenodo.org/records/15368512)                                          |
-| `sklearn`       | [Github Repo](https://github.com/binpash/benchmarks/tree/main/sklearn/inputs/covertype)             | [Brown](https://atlas.cs.brown.edu/data/sklearn/) [Zenodo](https://zenodo.org/records/15361083)                  | [Brown](https://atlas.cs.brown.edu/data/sklearn/) [Zenodo](https://zenodo.org/records/15368512)                                       |
-| `unix50`        | [Github Repo](https://atlas.cs.brown.edu/data/unix50)                                               | [Brown](https://atlas.cs.brown.edu/data/unix50/small) [Zenodo](https://zenodo.org/records/15361083)              | [Brown](https://atlas.cs.brown.edu/data/unix50/large) [Zenodo](https://zenodo.org/records/15368512)                                   |
-| `vps-audit`     | No inputs                                                                                           | No inputs                                                                                                        | No inputs                                                                                                                             |
-| `web-index`     | [Brown](https://atlas.cs.brown.edu/data/wikipedia/input_min)                                       | [Brown](https://atlas.cs.brown.edu/data/wikipedia/input_small) [Zenodo](https://zenodo.org/records/15361083)    | [Brown](https://atlas.cs.brown.edu/data/wikipedia/input) [Zenodo](https://zenodo.org/records/15368512)                               |
-
-
+These will produce plots summarizing shell syntax usage and external command invocation patterns for all registered benchmarks in the specified `output_dir`.

@@ -343,6 +343,11 @@ The analysis produces CSV summaries and heatmaps across the benchmark suite, hig
 
 These will produce plots summarizing shell syntax usage and external command invocation patterns for all registered benchmarks in the specified `output_dir`.
 
+## Contributing
+
+Contributions are always welcome! Further details on how to contribute to the Koala benchmark suite project,
+take a look at the [CONTRIBUTING](./CONTRIBUTING.md) file.
+
 # Appendix I: Inputs
 
 The table below contains all links to the inputs. Note: Some of these inputs are extremely large and hosted on low-bandwidth permanent-storage services such as Zenodo.

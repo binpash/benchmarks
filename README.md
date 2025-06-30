@@ -39,6 +39,7 @@ If any aspect of the suite is useful, please use the following citation:
       - [Step-by-step:](#step-by-step)
       - [Anatomy of stats file](#anatomy-of-stats-file)
     - [Static Characterization & Analysis](#static-characterization--analysis)
+  - [Contributing](#contributing)
 - [Appendix I: Inputs](#appendix-i-inputs)
 - [Appendix II: Dependencies](#appendix-ii-dependencies)
 - [License](#license)

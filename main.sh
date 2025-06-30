@@ -186,8 +186,10 @@ main() {
         if ((i == 1)) || [[ "$BENCHMARK" == "ci-cd" ]]; then
             ./fetch.sh "${args[@]}" ||
                 error "Failed to fetch inputs for $BENCHMARK"
-            python3 $TOP/infrastructure/create_size_inputs_json.py ||
-                error "Failed to calculate input sizes"
+            if [[ "$measure_resources" == true ]]; then
+                python3 $TOP/infrastructure/create_size_inputs_json.py ||
+                    error "Failed to calculate input sizes"
+            fi
         fi
 
         # Delete outputs before each run

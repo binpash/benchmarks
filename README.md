@@ -9,6 +9,14 @@ It combines a systematic collection of diverse shell programs collected from tas
 >
 > To evaluate key results in our ATC'25 paper titled _"The Koala Benchmarks for the Shell: Characterization and Implications"_, jump straight to [`INSTRUCTIONS/`](https://github.com/binpash/benchmarks/blob/main/INSTRUCTIONS.md).
 
+*Update*: The Koala benchmark suite received all [USENIX ATC Artifact Evaluation](https://www.usenix.org/conference/atc25/call-for-artifacts) badges:
+<div align="center">
+    <img src="https://secartifacts.github.io/images/usenixbadges-available.svg" alt="Available" width="150"/>
+    <img src="https://secartifacts.github.io/images/usenixbadges-functional.svg" alt="Functional" width="150"/>
+    <img src="https://secartifacts.github.io/images/usenixbadges-reproduced.svg" alt="Reproduced" width="150"/>
+</div>
+
+
 ## Benchmarks
 
 | Benchmark    | Description                                             |

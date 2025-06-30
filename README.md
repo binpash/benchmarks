@@ -5,29 +5,27 @@
 Koala is a benchmark suite aimed at the characterization of performance-oriented research targeting the POSIX shell (i.e. executable on Dash, Bash, Zsh, and many other environments).
 It combines a systematic collection of diverse shell programs collected from tasks found out in the wild, various real inputs to these programs.
 
-> **Artifact evaluation:**
->
-> To evaluate key results in our ATC'25 paper titled _"The Koala Benchmarks for the Shell: Characterization and Implications"_, jump straight to [`INSTRUCTIONS/`](https://github.com/binpash/benchmarks/blob/main/INSTRUCTIONS.md).
+The suite has been evaluated as part of the [ATC'25 Artifact Evaluation process](https://www.usenix.org/conference/atc25/call-for-artifacts), 
+has received all three badges (*Available*, *Functional*, and *Reproduced*).
 
 ## Benchmarks
 
-| Benchmark    | Description                                             |
-| ---------    | -----------                                             |
-| `aurpkg`       | AUR package builds.                                     |
-| `bio`          | Bioinformatics.                                         |
-| `covid-mts`    | COVID-19 multivariate time series.                      |
-| `file-enc`     | File encoding.                                          |
-| `log-analysis` | Log analysis.                                           |
-| `makeself`     | Make self-extractable archives on Unix.                 |
-| `max-temp`     | Maximum temperature.                                    |
-| `media-conv`   | Media conversion.                                       |
-| `nlp`          | Natural language processing.                            |
-| `oneliners`    | One-liners.                                             |
-| `riker`        | Incremental builds.                                     |
-| `sklearn`      | Machine learning.                                       |
-| `vps-audit`    | Audit a Linux machine.                                  |
-| `unix50`       | Unix 50.                                                |
-| `web-index`    | Web index.                                              |
+| Benchmark   | Description                                                                 |
+|-------------|-----------------------------------------------------------------------------|
+| `analytics`   | processes real-world network logs to extract and summarize key events.          |
+| `bio`         | performs genomic and transcriptomic analysis using population and RNA-seq data. |
+| `ci-cd`       | builds and tests open-source software projects.                             |
+| `covid`       | analyzes public transit activity during the covid-19 pandemic.              |
+| `file-mod`    | compresses, encrypts, and converts various file formats.                    |
+| `inference`   | runs media-related inference tasks using large foundation models.           |
+| `ml`          | implements a full machine learning pipeline using scikit-learn.             |
+| `nlp`         | processes books using shell-based nlp pipelines from unix for poets.        |
+| `oneliners`   | executes classic and modern one-liner shell pipelines.                      |
+| `pkg`         | builds aur packages and analyzes npm packages for permissions.              |
+| `repl`        | performs security auditing and git-based development workflow replay.       |
+| `unixfun`     | solves unix text-processing problems from the 50-year anniversary challenge.|
+| `weather`     | computes and visualizes historical weather statistics.                      |
+| `web-search`  | implements crawling, indexing, and querying of wikipedia data.              |
 
 ## Instructions
 
@@ -172,25 +170,25 @@ Flags, apart from those referring to input sizes, can be combined freely (e.g. `
 
 ### Usage examples
 
-1. Plain correctness run for the `unix50` benchmark:
+1. Plain correctness run for the `unixfun` benchmark:
 ```bash
-./main.sh unix50
+./main.sh unixfun
 ```
 2. Run 10 times, record runtimes only:
 ```bash
-./main.sh unix50 -n 10 --time
+./main.sh unixfun -n 10 --time
 ```
 3. Heavy resource tracing inside Docker – 3 repetitions:
 ```bash
-./main.sh unix50 -n 3 --resources
+./main.sh unixfun -n 3 --resources
 ```
 4. Lightweight local resource logging (no Docker):
 ```bash
-./main.sh unix50 --resources --bare
+./main.sh unixfun --resources --bare
 ```
 5. Combine timing + resources, forward extra args to benchmark's infrastructure scripts:
 ```bash
-./main.sh unix50 -n 5 --resources --time -- --small --fast
+./main.sh unixfun -n 5 --resources --time -- --small --fast
 ```
 
 ### Dynamic Characterization & Analysis
@@ -326,7 +324,7 @@ The table below contains all links to the inputs. Note: Some of these inputs are
 | `oneliners`     | [Brown](https://atlas.cs.brown.edu/data/dummy/)                                                       | [Brown](https://atlas.cs.brown.edu/data/dummy/) [Zenodo](https://zenodo.org/records/15361083)                     | [Brown](https://atlas.cs.brown.edu/data/dummy/) [Zenodo](https://zenodo.org/records/15368512)                                            |
 | `pkg`           | [Github Repo](https://atlas.cs.brown.edu/data/packages_min)                                           | [Brown](https://atlas.cs.brown.edu/data/packages) [Zenodo](https://zenodo.org/records/15361083)                   | [Brown](https://atlas.cs.brown.edu/data/packages) [Zenodo](https://zenodo.org/records/15367723)                                          |
 | `repl`          | No inputs                                                                                             | No inputs                                                                                                         | No inputs                                                                                                                                |
-| `unixfun`       | [Github Repo](https://atlas.cs.brown.edu/data/unix50)                                                 | [Brown](https://atlas.cs.brown.edu/data/unix50/small) [Zenodo](https://zenodo.org/records/15361083)               | [Brown](https://atlas.cs.brown.edu/data/unix50/large) [Zenodo](https://zenodo.org/records/15368512)                                      |
+| `unixfun`       | [Github Repo](https://atlas.cs.brown.edu/data/unixfun)                                                 | [Brown](https://atlas.cs.brown.edu/data/unixfun/small) [Zenodo](https://zenodo.org/records/15361083)               | [Brown](https://atlas.cs.brown.edu/data/unixfun/large) [Zenodo](https://zenodo.org/records/15368512)                                      |
 | `web-search`    | [Brown](https://atlas.cs.brown.edu/data/wikipedia_min.tar.gz)                                         | [Brown](https://atlas.cs.brown.edu/data/wikipedia_small.tar.gz) [Zenodo](https://zenodo.org/records/15361083)     | [Brown](https://atlas.cs.brown.edu/data/wikipedia.tar.gz) [Zenodo](https://zenodo.org/records/15368512)                                  |
 
 # Appendix II: Dependencies 

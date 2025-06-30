@@ -96,7 +96,7 @@ $ export KOALA_SHELL="./pa.sh --width 4"
 $ ./main.sh example-benchmark
 ```
 
-### Benchmark Structure
+## Using the Suite
 
 Each benchmark directory contains:
 
@@ -160,7 +160,7 @@ $ docker run -it koala
 $ sudo docker run -it --rm --cap-add=SYS_PTRACE --cap-add=NET_RAW --cap-add=NET_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined -v "$(pwd):/koala" ghcr.io/binpash/benchmarks:latest bash
 ```
 
-### Usage
+### Configuration
 ```
 Usage: ./main.sh BENCHMARK_NAME [--time|--resources|--bare|args...]
   --min            Run the benchmark with minimal inputs (default)

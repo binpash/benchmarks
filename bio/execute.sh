@@ -52,7 +52,7 @@ run_dRNASeq
 run_5TERA"
 
 if [[ "$size" == "min" ]]; then
-    teraseq_script_names="data"
+    teraseq_script_names=""
 fi
 
 if [[ "$subset" == true ]]; then

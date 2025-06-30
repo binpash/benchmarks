@@ -387,6 +387,6 @@ All inputs are permanently stored and available online.
 | `web-search`     | Packages   | p7zip-full, nodejs, npm, pandoc, natural                                                                                                                                                                                                                                                       |
 
 
-## License
+# License
 
 The Koala Benchmarks are licensed under the MIT License. See the LICENSE file for more information.

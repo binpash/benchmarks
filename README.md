@@ -5,8 +5,13 @@
 Koala is a benchmark suite aimed at the characterization of performance-oriented research targeting the POSIX shell (i.e. executable on Dash, Bash, Zsh, and many other environments).
 It combines a systematic collection of diverse shell programs collected from tasks found out in the wild, various real inputs to these programs.
 
-The suite has been evaluated as part of the [ATC'25 Artifact Evaluation process](https://www.usenix.org/conference/atc25/call-for-artifacts), 
-has received all three badges (*Available*, *Functional*, and *Reproduced*), and can be found at the [atc25-ae branch](https://github.com/kbensh/koala/tree/atc25-ae).
+The suite has been evaluated as part of the [ATC'25 Artifact Evaluation process](https://www.usenix.org/conference/atc25/call-for-artifacts) and
+has received all three badges (*Available*, *Functional*, and *Reproduced*). That version (frozen in time), can be found at the [atc25-ae branch](https://github.com/kbensh/koala/tree/atc25-ae).
+
+
+## Table of Contents
+<!-- START doctoc -->
+<!-- END doctoc -->
 
 ## Benchmarks
 
@@ -162,7 +167,7 @@ Flags, apart from those referring to input sizes, can be combined freely (e.g. `
 | `<prefix>_stats_run<i>.txt`                   | Human-readable CPU/RAM/I/O summary for run *i*.                                                    | Only with **`--resources`**                                   |
 | `<benchmark>_time_run<i>.val`                 | Single wall-clock number (seconds) for run *i*.                                                    | Only with **`--time`**                                        |
 
-### Extra files produced when **`-n <N>`** > 1
+**Extra files produced when `-n <N>` > 1**
 | File (aggregated)                     | Description                                             | Requires flag |
 |---------------------------------------|---------------------------------------------------------|---------------|
 | `<prefix>_stats_aggregated.txt`       | Mean / min / max of every numeric resource metric.      | `--resources` |
@@ -267,7 +272,7 @@ For more accurate analysis, please run inside a docker container.
 
 Local (`--bare`) and Docker-based stats share the exact same format, so they aggregate seamlessly.
 
-### Syntactic Characterization & Analysis
+### Static Characterization & Analysis
 
 We use [`libdash`](https://github.com/binpash/libdash) to parse and analyze both the shell portion of each benchmark, and the portions of components called into by the shell and which often implement the kernel of a computation: for the shell portion, we count the total occurrences of every AST node; for the command portion, we analyze only AST nodes counting commands, built-ins, and functions—noting that the results are conservative, as they do not count dynamic commands.
 

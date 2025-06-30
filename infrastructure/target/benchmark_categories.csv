@@ -1,0 +1,15 @@
+benchmark,first_class,secondary_class,loc
+analytics,SA,DA,53
+bio,DA,B,823
+ci-cd,CI,BS,2592
+covid,DA,DE,53
+file-mod,AN,MI,41
+inference,ML,DA,61
+ml,ML,DA,47
+nlp,TP,ML,303
+oneliners,AN,TP,119
+pkg,CI,AN,43
+repl,SA,MI,586
+unixfun,MI,TP,70
+weather,DA,DE,74
+web-search,MI,TP,34

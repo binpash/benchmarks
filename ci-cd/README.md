@@ -1,39 +1,59 @@
-## riker
+## ci-cd
 
-This benchmark suite builds and tests multiple real-world software systems from source (`vim`, `redis`, `sqlite`, `lua`, `memcached`, `xz`) using hand-crafted, dependency-aware scripts that simulate a full build pipeline.
-
-### Inputs
-
-Each subbenchmark clones a pinned version of the corresponding repository into `inputs/scripts/<project>/dev/`.
-
-### Validation
-
-Each benchmark validates its results using an associated `validate.sh` script. These usually check that:
-	- A specific binary was successfully built.
-	- The binary runs and produces the expected output.
-
-Example checks:
-	- `vim` opens a file and writes output.
-	- `redis-cli` returns a version string.
-
-## makeself
-
-This benchmark runs a suite of shell script tests to evaluate the behavior and correctness of self-extracting archive operations.
+This benchmark suite builds and tests multiple real-world software systems from
+source (`vim`, `redis`, `sqlite`, `lua`, `memcached`, `xz`) and evaluates
+the behavior and correctness of self-extracting archive utility `makeself`.
 
 ### Inputs
 
-- This benchmark has no external inputs.
+- Software Builds:
+  - Each subbenchmark clones a pinned version of the corresponding repository into:
+    ```
+    inputs/scripts/<project>/dev/
+    ```
+
+- Makeself:
+  - No external inputs are required. Test scripts are included under:
+    ```
+    makeself/test/
+    ```
 
 ### Running
 
-1. Each test script under `makeself/test/` is executed using the shell under test.
-2. Test output is written to `test_results.log` files inside the corresponding test directories.
-3. A summary of test pass/fail status is recorded in `run_results.log`.
+1. Build and Test Software:
+   - For each software project:
+     - Clone the repository.
+     - Execute the hand-crafted, dependency-aware build script to simulate a complete build pipeline.
+     - Run the associated `validate.sh` script to ensure correct build and behavior.
+
+2. Validate Makeself Archives:
+   - For each makeself test:
+     - Execute the test script under the shell under test.
+     - Write detailed output logs to:
+       ```
+       makeself/test/<test_name>/test_results.log
+       ```
+     - Collect a summary of test pass/fail status in:
+       ```
+       makeself/run_results.log
+       ```
 
 ### Validation
 
-Correctness is determined by checking for the presence of any failed tests in `run_results.log`.
+Validation is performed in two parts:
+
+- Software Builds:
+  - Each `validate.sh` script checks that:
+    - A specific binary was successfully built.
+    - The binary runs and produces the expected output.
+  - Example checks:
+    - `vim` opens a file and writes output.
+    - `redis-cli` returns a version string.
+
+- Makeself Archives:
+  - The benchmark verifies that all self-extracting archive tests pass by confirming no failures are recorded in `makeself/run_results.log`.
 
 ### References
 
-- https://makeself.io
+- [makeself.io](https://makeself.io)
+- [riker](https://github.com/curtsinger-lab/riker)

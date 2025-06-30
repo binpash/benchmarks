@@ -1,6 +1,7 @@
-## max-temp
+## weather
 
-This benchmark processes NOAA weather data to compute basic temperature statistics across multiple years.
+The `max-temp` part of the benchmark processes NOAA weather data to compute basic temperature statistics across multiple years.
+The `tuft-weather` part re-creates Edward Tuft's famous weather plot using the same, or similar, data.
 
 ### Inputs
 

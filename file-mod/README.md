@@ -1,6 +1,6 @@
 ## file-enc
 
-This benchmark compresses and encrypts a collection of input files using gzip and AES-256 encryption.
+This benchmark compresses, encrypts, and converts a collection of input files using gzip, AES-256 encryption, and ImageMagick.
 
 ### Inputs
 

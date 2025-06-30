@@ -1,4 +1,4 @@
-## log-analysis
+## analytics
 
 This benchmark analyzes web server logs and network capture files to extract information about client behavior, error patterns, and protocol-level content.
 

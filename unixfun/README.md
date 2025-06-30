@@ -1,4 +1,4 @@
-## unix50
+## unixfun
 
 This benchmark replicates the classic "Unix for Beginners" exercises and
 trivia-style queries, designed to test proficiency in Unix shell utilities by
@@ -21,7 +21,7 @@ Outputs are stored in `outputs/<script_number>.out`.
 
 ### Validation
 
-SHA-256 hashes of outputs are compared against known-good values in the `hashes/` directory for each input size (`min`, `small`, or `full`) to ensure correctness.
+SHA-256 hashes of outputs are compared against known-good values in the `hashes/` directory.
 
 ### References
 

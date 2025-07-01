@@ -1,15 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
-
-- [The Koala Benchmark Suite](#the-koala-benchmark-suite)
-  - [Benchmarks](#benchmarks)
-  - [Quick Setup](#quick-setup)
-  - [More info](#more-info)
-- [License](#license)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # The Koala Benchmark Suite
 [Benchmarks](#benchmarks) | [Quick Setup](#quick-setup) | [More Info](#more-info) | [License](#license)
 

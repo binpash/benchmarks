@@ -1,9 +1,10 @@
 #!/bin/bash
 # This is the main entry point of the search engine.
 cd "$(dirname "$0")" || exit 1
+sed -e 's|^\./||' "$INDEX_FILE" >"${OUT}/urls.txt"
 
-tail -f "${OUT}/urls.txt" | while read -r url; do
-  [ "$url" = stop ] && exit 0 # stop the engine if it sees the string "stop" 
+while read -r url; do
+  [ "$url" = stop ] && exit 0 # stop the engine if it sees the string "stop"
 
 
   echo "[engine] crawling $url">/dev/stderr
@@ -15,4 +16,4 @@ tail -f "${OUT}/urls.txt" | while read -r url; do
        "$(cat "${OUT}/urls.txt"    | wc -l)" ]; then
     break
   fi
-done
+done < "${OUT}/urls.txt"

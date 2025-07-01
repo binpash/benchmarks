@@ -9,10 +9,10 @@ echo "$1" >>${OUT}/visited.txt
 pipe=$(mktemp -u)
 mkfifo "$pipe"
 
-(c/getURLs.js "$1" | grep -vxf "$OUT/visited.txt" >>"$OUT/urls.txt") <"$pipe" & # background reader
+(c/getURLs.js "$WIKI/$1" | grep -vxf "$OUT/visited.txt" >>"$OUT/urls.txt") <"$pipe" & # background reader
 bg_pid=$!
 
-curl -skL "$1" |
+cat "$WIKI/$1" |
   tee "$pipe" |
   c/getText.js
 

@@ -28,6 +28,10 @@ mkfifo "$pbi"
 ptri=$(mktemp -u ptri.XXXXXX)
 mkfifo "$ptri"
 
+cleanup() {
+  rm -f "$p1" "$p2" "$p3" "$psort" "$pbi" "$ptri"
+}
+trap cleanup EXIT
 # launch the three consumers
 sort <"$psort" &
 pid_sort=$!
@@ -41,4 +45,3 @@ tee "$psort" "$pbi" "$ptri" >/dev/null
 
 # wait
 wait "$pid_sort" "$pid_bi" "$pid_tri"
-rm -f "$psort" "$pbi" "$ptri" "$p1" "$p2" "$p3"

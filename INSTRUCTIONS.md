@@ -1,3 +1,41 @@
+Quick jump: [Philosophy](#philosphy) | [Instructions](#instructions) | [Setup](#setup) | [Configuration](#configuration) | [Characterization](#characterization)
+
+## Philosophy
+
+To support the diverse landscape of shell programs and shell-related research, the Koala benchmark suite is designed with flexibility and simplicity in mind.
+
+Its infrastructure is deliberately minimal and easy to modify, making it adaptable to a wide variety of systems and use cases.
+As it cannot anticipate all potential applications, Koala encourages users to modify any part of the infrastructure to better suit their needs.
+
+For example, given the following (example) benchmark:
+
+```sh
+# example-benchmark/scripts/x.sh
+cat file.txt | grep "foo" | wc -l
+```
+
+Someone experimenting with GNU parallel might want to modify the script as follows:
+
+```sh
+# example-benchmark/scripts/x.sh
+cat file.txt | parallel --pipe grep "foo" | wc -l
+```
+
+Similalary, a research team developing a [distributed shell](https://www.usenix.org/conference/nsdi23/presentation/mustafa) can modify the script to:
+
+```sh
+# example-benchmark/scripts/x.sh
+hdfs dfs -cat file.txt | dsh --pipe grep "foo" | wc -l
+```
+
+For systems that act as a drop-in replacement for the shell can  use Koala's benchmarks by overriding the `$KOALA_SHELL` variable to point to their system.
+For example, to apply [the PaSh system](https://www.usenix.org/conference/osdi22/presentation/kallas) to the Koala benchmarks, one can do:
+
+```sh
+$ export KOALA_SHELL="./pa.sh --width 4"
+$ ./main.sh example-benchmark
+```
+
 ## Instructions
 
 The top-level `main.sh` script is a quick script for downloading dependencies and inputs, running, profiling, and verifying a _single Koala benchmark_.

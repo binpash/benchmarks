@@ -73,6 +73,7 @@ main() {
             [[ $# -eq 0 ]] && error "Missing value for -n/--runs"
             is_integer "$1" || error "Value for -n/--runs must be a positive integer"
             runs="$1"
+            main_args+=("-n" "$runs")
             shift
             ;;
         --clean | -c)
@@ -161,7 +162,7 @@ main() {
             $KOALA_CONTAINER_CMD run --rm \
                 "$DOCKER_IMAGE" \
                 -w "/benchmarks" \
-                ./main.sh "$BENCHMARK" ${args[*]} ${main_args[*]} --bare
+                bash -c "./setup.sh && ./main.sh \"$BENCHMARK\" ${args[*]} ${main_args[*]} --bare"
         else
             echo "Mounting $TOP to /benchmarks in the container"
             $KOALA_CONTAINER_CMD run --rm \
@@ -169,7 +170,7 @@ main() {
                 -w "/benchmarks" \
                 -e KOALA_SHELL="$KOALA_SHELL" \
                 "$DOCKER_IMAGE" \
-                ./main.sh "$BENCHMARK" ${args[*]} ${main_args[*]} --bare
+                bash -c "./setup.sh && ./main.sh \"$BENCHMARK\" ${args[*]} ${main_args[*]} --bare"
         fi
         exit $?
     fi

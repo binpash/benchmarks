@@ -1,4 +1,4 @@
-Quick jump: [Philosophy](#philosphy) | [Instructions](#instructions) | [Setup](#setup) | [Configuration](#configuration) | [Characterization](#characterization) | [Inputs]() | [Dependencies]()
+Quick jump: [Philosophy](#philosphy) | [Instructions](#instructions) | [Setup](#setup) | [Configuration](#configuration) | [Characterization](#characterization) | [Inputs](#inputs) | [Dependencies](#dependencies)
 
 ## Philosophy
 
@@ -278,7 +278,7 @@ The analysis produces CSV summaries and heatmaps across the benchmark suite, hig
 
 These will produce plots summarizing shell syntax usage and external command invocation patterns for all registered benchmarks in the specified `output_dir`.
 
-# Appendix I: Inputs
+# Inputs
 
 The table below contains all links to the inputs. Note: Some of these inputs are extremely large and hosted on low-bandwidth permanent-storage services such as Zenodo.
 
@@ -299,7 +299,7 @@ The table below contains all links to the inputs. Note: Some of these inputs are
 | `unixfun`       | [Github Repo](https://atlas.cs.brown.edu/data/unixfun)                                                 | [Brown](https://atlas.cs.brown.edu/data/unixfun/small) [Zenodo](https://zenodo.org/records/15361083)               | [Brown](https://atlas.cs.brown.edu/data/unixfun/large) [Zenodo](https://zenodo.org/records/15368512)                                      |
 | `web-search`    | [Brown](https://atlas.cs.brown.edu/data/wikipedia_min.tar.gz)                                         | [Brown](https://atlas.cs.brown.edu/data/wikipedia_small.tar.gz) [Zenodo](https://zenodo.org/records/15361083)     | [Brown](https://atlas.cs.brown.edu/data/wikipedia.tar.gz) [Zenodo](https://zenodo.org/records/15368512)                                  |
 
-# Appendix II: Dependencies 
+# Dependencies 
 
 Each benchmark includes dependencies across three categories: (1) software packages, (2) input datasets, and (3) miscellaneous dependencies (eg., endpoints, keys, etc.).
 All inputs are permanently stored and available online.

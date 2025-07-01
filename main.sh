@@ -278,8 +278,10 @@ main() {
 
             cd "$TOP/infrastructure" || exit 1
             make target/dynamic_analysis.jsonl
-            python3 viz/dynamic.py "$TOP/$BENCHMARK" # --text
+            python3 viz/dynamic.py "$TOP/$BENCHMARK" >/dev/null
             if [[ -f "$TOP/$BENCHMARK/benchmark_stats.txt" ]]; then
+                log 1 "Benchmark stats generated for $BENCHMARK"
+                log 1 "Stats saved to $TOP/$BENCHMARK/${stats_prefix}.txt"
                 cat "$TOP/$BENCHMARK/benchmark_stats.txt"
                 mv -f "$TOP/$BENCHMARK/benchmark_stats.txt" \
                 "$TOP/$BENCHMARK/${stats_prefix}.txt" || error "Failed to move benchmark stats"
@@ -287,6 +289,7 @@ main() {
                 error "Failed to generate benchmark stats"
             fi
 
+            log 2 "Moving backup-process logs back to $TOP/infrastructure/target/process-logs"
             find "$TOP/infrastructure/target/backup-process-logs" -type f \
                 -exec mv {} "$TOP/infrastructure/target/process-logs/" \; || true
             cd "$TOP/$BENCHMARK" || exit 1

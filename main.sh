@@ -177,15 +177,16 @@ main() {
 
     VENV_DIR="$TOP/venv"
     if [ ! -d "$VENV_DIR" ]; then
-        log 2 "Creating virtualenv at $VENV_DIR"
+        log 2 "Creating virtual environment at $VENV_DIR"
         python3 -m venv "$VENV_DIR"
     fi
-    log 2 "Activating virtualenv at $VENV_DIR"
+    log 2 "Activating virtual environment at $VENV_DIR"
     source "$VENV_DIR/bin/activate"
 
+    log 2 "All args: ${args[*]}"
+    log 2 "Main args: ${main_args[*]}"
+    
     if ! $run_locally; then
-        log 2 "All args: ${args[*]}"
-        log 2 "Main args: ${main_args[*]}"
         for var in $(compgen -v | grep '^KOALA_'); do
             log 2 "Env $var: ${!var}"
         done
@@ -201,12 +202,14 @@ main() {
             log 1 "Running with prune mode: starting clean container"
             log 2 "Docker run cmd (prune):"
             log 2 "  $KOALA_CONTAINER_CMD run --rm \\"
+            log 2 "    -e HOME=/benchmarks \\"
             log 2 "    $USER_FLAGS \\"
             log 2 "    $DOCKER_IMAGE \\"
             log 2 "    -w /benchmarks \\"
             log 2 "    bash -c \"git config --global --add safe.directory /benchmarks && ./setup.sh && ./main.sh \\\"$BENCHMARK\\\" ${args[*]} ${main_args[*]} --bare\""
 
             $KOALA_CONTAINER_CMD run --rm \
+                -e HOME=/benchmarks \
                 $USER_FLAGS \
                 "$DOCKER_IMAGE" \
                 -w "/benchmarks" \
@@ -215,6 +218,7 @@ main() {
             log 1 "Mounting $TOP to /benchmarks in the container"
             log 2 "Docker run cmd (mount):"
             log 2 "  $KOALA_CONTAINER_CMD run --rm \\"
+            log 2 "    -e HOME=/benchmarks \\"
             log 2 "    -v $TOP:/benchmarks \\"
             log 2 "    -w /benchmarks \\"
             log 2 "    -e KOALA_SHELL=$KOALA_SHELL \\"
@@ -223,6 +227,7 @@ main() {
             log 2 "    bash -c \"git config --global --add safe.directory /benchmarks && ./setup.sh && ./main.sh \\\"$BENCHMARK\\\" ${args[*]} ${main_args[*]} --bare\""
 
             $KOALA_CONTAINER_CMD run --rm \
+                -e HOME=/benchmarks \
                 -v "$TOP":/benchmarks \
                 -w "/benchmarks" \
                 -e KOALA_SHELL="$KOALA_SHELL" \
@@ -402,9 +407,36 @@ main() {
             (( verbosity > 0 )) && paste <(seq 1 ${#time_values[@]}) <(printf "%s\n" "${time_values[@]}") |
                 awk '{printf "  run %-3s : %.3f sec\n", $1, $2}'
         } >"$times_file"
-
+        log 1 "Runtime statistics:"
+        cat "$times_file"
         log 1 "Wrote aggregated runtimes to $times_file"
     fi
+
+    if [ "$run_cleanup" = true ]; then
+        log 1 "Cleaning up all files"
+
+        if [ "$measure_time" = true ]; then
+            log 2 "Removing time files"
+            for ((i = 1; i <= runs; i++)); do
+                rm -f "${BENCHMARK}_${shell_safe}_time_run${i}.txt"
+            done
+            rm -f "$times_file" || true
+        fi
+
+        if [ "$measure_resources" = true ]; then
+            log 2 "Removing resource stats files"
+            for stats_file in "${stats_files[@]}"; do
+                rm -f "$stats_file" || true
+            done
+            rm -f "$TOP/$BENCHMARK/${stats_prefix}.txt" || true
+            rm -f "$TOP/$BENCHMARK/${stats_prefix}_aggregated.txt" || true
+            rm -f "$TOP/$BENCHMARK/koala-dyn-trellis.pdf" || true
+        fi
+
+        log 2 "Removing $BENCHMARK.out, $BENCHMARK.err and $BENCHMARK.hash"
+        rm -f "$BENCHMARK.out" "$BENCHMARK.err" "$BENCHMARK.hash" || true
+    fi
+
     log 2 "Returning to original directory"
     cd - || exit 1
 

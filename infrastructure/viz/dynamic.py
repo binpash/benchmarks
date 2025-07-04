@@ -257,6 +257,9 @@ def main(output_dir=None, text_mode=False):
             f.write(f"Time in Commands: {bench_df['time_in_commands'].sum():.2f} sec\n")
             f.write("=" * 50 + "\n")
 
+    print(f"Benchmark stats written to {stats_filename}")
+
+
     def name(str):
         return os.path.join(output_dir, f"koala-dyn-{str}.pdf") if output_dir else None
     
